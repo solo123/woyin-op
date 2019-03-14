@@ -13,7 +13,7 @@ import styles from './ResetPaswrod.less';
 
 @connect(({ login, loading }) => ({
     login,
-    submitting: loading.effects['login/login'],
+    submitting: loading.effects['resPassword/resPassword'],
   }))
 class ResetPaswrod extends Component {
     state = {
@@ -31,6 +31,9 @@ class ResetPaswrod extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         // eslint-disable-next-line react/destructuring-assignment
+        const { dispatch } = this.props;
+        const { type } = this.state;
+        // eslint-disable-next-line react/destructuring-assignment
         this.props.form.validateFields((err, values) => {
           if (!err) {
             const {newPassword, newPasswordTwo, formEmail} = this.state;
@@ -42,8 +45,17 @@ class ResetPaswrod extends Component {
                     newPasswordTwo,
                     formEmail
                 })
+               
+            }else{
+              dispatch({
+                type: 'resPassword/resPassword',
+                payload: {
+                  ...values,
+                  type
+                }
+              })
+              console.log('Received values of form: ', values);
             }
-            console.log('Received values of form: ', values);
           }
         });
       }
@@ -112,7 +124,8 @@ class ResetPaswrod extends Component {
                 validateStatus={ruless[0].validateStatus=== 'error'? 'error' : ''}
                 help={ruless[0].validateStatus ==='error' ? ruless[0].message: ''}
               >
-                <Input.Password placeholder={placeholder} name={name} onChange={value => {this.handPassword(value)}} />
+                {getFieldDecorator(name)(
+                  <Input.Password placeholder={placeholder} name={name} onChange={value => {this.handPassword(value)}} />)}
               </Form.Item>
             )
         }

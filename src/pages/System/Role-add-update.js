@@ -1,5 +1,4 @@
-import { WhiteSpace, WingBlank } from 'antd-mobile';
-import { formatMessage, FormattedMessage } from 'umi/locale';
+import { formatMessage } from 'umi/locale';
 import React from 'react';
 import { 
     Modal,
@@ -27,6 +26,7 @@ class RoleAddOrUpdate extends React.Component {
       }
     };
   }
+
   showModal = e => {
     e.preventDefault();
     this.setState({
@@ -41,40 +41,41 @@ class RoleAddOrUpdate extends React.Component {
   }
 
   handleOk = e => {
+    e.preventDefault();
     this.setState({
       visible: false,
     });
   }
 
   onChange = (e) => {
-
+    e.preventDefault();
   }
 
   render() {
+    const {visible, formData, selectData} = this.state;
     const formRender = () => {
 
-        const inputItem = this.state.formData.map( ele => 
-            <div style={{ marginBottom: 16 }} key={ele.label}>
-                <Form.Item label={`${formatMessage({ id : ele.label})}`}>
-                    <Input   placeholder={`${formatMessage({ id : ele.placeholder})}`} />
-                </Form.Item>
-            </div>
+        const inputItem = formData.map( ele => 
+          <div style={{ marginBottom: 16 }} key={ele.label}>
+            <Form.Item label={`${formatMessage({ id : ele.label})}`}>
+              <Input placeholder={`${formatMessage({ id : ele.placeholder})}`} />
+            </Form.Item>
+          </div>
         )
-        
-        const selectItem = this.state.selectData.data.map( ele => 
-            <Option value={ele}  key>{formatMessage({id: ele})}</Option>
+        const selectItem = selectData.data.map( ele => 
+          <Option value={ele} key>{formatMessage({id: ele})}</Option>
         )
         return (
-            <Form layout="inline" onSubmit={this.handleSubmit} style={{textAlign: "center"}}>
-               {inputItem}
-               <div style={{ marginBottom: 16 }}>
-                    <Form.Item label={`${formatMessage({ id : this.state.selectData.labe})}`}>
-                        <Select defaultValue="lucy" style={{ width: 120 }}  onChange={this.onChange}>
-                            {selectItem}
-                        </Select>
-                    </Form.Item>
-                </div>
-            </Form>
+          <Form layout="inline" onSubmit={this.handleSubmit} style={{textAlign: "center"}}>
+            {inputItem}
+            <div style={{ marginBottom: 16 }}>
+              <Form.Item label={`${formatMessage({ id : selectData.labe})}`}>
+                <Select defaultValue="lucy" style={{ width: 120 }} onChange={this.onChange}>
+                  {selectItem}
+                </Select>
+              </Form.Item>
+            </div>
+          </Form>
       )
     }
     return (
@@ -84,11 +85,11 @@ class RoleAddOrUpdate extends React.Component {
           transparent
           style={{ top: 300 }}
           maskClosable={false}
-          visible={this.state.visible}
+          visible={visible}
           onCancel={this.onClose}
           onOk={this.handleOk}
         >
-            {formRender()}
+          {formRender()}
         </Modal>
       </div>
     );

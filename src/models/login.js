@@ -15,7 +15,6 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       // 调用api请求数据
-      console.log(payload);
       const response = yield call(fakeAccountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
