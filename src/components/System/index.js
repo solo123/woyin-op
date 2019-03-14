@@ -38,7 +38,10 @@ class System extends React.Component {
     );
   }
 }
-System.RoleAddOrUpdate = RoleAddOrUpdate
-export default System
+
+export {
+    System,
+    RoleAddOrUpdate
+}
    
 

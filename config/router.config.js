@@ -82,7 +82,7 @@ export default [
       {
         path: '/system',
         name: 'system',
-        icon: 'dashboard',
+        icon: 'deployment-unit',
           routes: [
             {
               path: '/system/role',
@@ -138,7 +138,7 @@ export default [
       {
         path: '/order',
         name: 'order',
-        icon: 'shop',
+        icon: 'file-text',
         routes: [
           {
             path: '/order/shoporder',
@@ -170,11 +170,62 @@ export default [
       {
         path: '/product',
         name: 'product',
-        icon: 'shop',
+        icon: 'inbox',
         routes: [
           {
             path: '/product/productinfo',
             name: 'productinfo',
+            component: './Exception/modelNo',
+          }
+        ]
+      },
+      {
+        path: '/transfer',
+        name: 'transfer',
+        icon: 'sync',
+        routes: [
+          {
+            path: '/transfer/transferaudit',
+            name: 'transferaudit',
+            component: './Exception/modelNo',
+          },
+          {
+            path: '/transfer/transferorderlist',
+            name: 'transferorderlist',
+            component:'./Exception/modelNo',
+          },
+          {
+            path: '/transfer/trandsfercredit',
+            name: 'trandsfercredit',
+            component: './Exception/modelNo',
+          }
+        ]
+      },
+      {
+        path: '/etag',
+        name: 'etag',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/etag/findetag',
+            name: 'findetag',
+            component: './Exception/modelNo',
+          }
+        ]
+      },
+      {
+        path: '/task',
+        name: 'task',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/task/tasklist',
+            name: 'tasklist',
+            component: './Exception/modelNo',
+          },
+          {
+            path: '/task/taskdiary',
+            name: 'taskdiary',
             component: './Exception/modelNo',
           }
         ]

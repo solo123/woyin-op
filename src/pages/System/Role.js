@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { 
@@ -15,30 +16,26 @@ import {
 } from 'antd';
 import styles from './Role.less'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import RoleAddOrUpdate from '@/components/System/Role-add-update';
 import RoleSet from '@/components/System/Role-set';
-
+import {RoleAddOrUpdate} from '@/components/System';
 
 const { Column } = Table;
 
 const data = [{
   key: '1',
   firstName: 'John',
-  lastName: 'Brown',
   age: 32,
   address: 'New York No. 1 Lake Park',
   tags: ['nice', 'developer'],
 }, {
   key: '2',
   firstName: 'Jim',
-  lastName: 'Green',
   age: 42,
   address: 'London No. 1 Lake Park',
   tags: ['loser'],
 }, {
   key: '3',
   firstName: 'Joe',
-  lastName: 'Black',
   age: 32,
   address: 'Sidney No. 1 Lake Park',
   tags: ['cool', 'teacher'],
@@ -49,6 +46,7 @@ class SearchList extends Component {
   componentDidMount() {
     // To disabled submit button at the beginning.
     component.RoleSet  = this.RoleSet;
+    component.RoleAddOrUpdate = this.RoleAddOrUpdate;
   }
 
   handleSubmit = value => {
@@ -62,9 +60,7 @@ class SearchList extends Component {
   handleRoleAddOrUpdate = (e) => {
     e.preventDefault();
     // eslint-disable-next-line react/no-string-refs ,no-shadow
-    
-    const {RoleAddOrUpdate } = this.refs;
-    RoleAddOrUpdate.showModal(e);
+    this.RoleAddOrUpdate.showModal(e);
   }
 
   handRoleSet = (texts, record) => {
@@ -125,7 +121,6 @@ class SearchList extends Component {
             <Button icon="redo">修改</Button>
           </div>
         </Card>
-         
         <Table 
           dataSource={data} 
           bordered
@@ -135,11 +130,6 @@ class SearchList extends Component {
             title="角色名称"
             dataIndex="firstName"
             key="firstName"
-          />
-          <Column
-            title="Last Name"
-            dataIndex="lastName"
-            key="lastName"
           />
           <Column
             title="角色编码"
@@ -173,8 +163,7 @@ class SearchList extends Component {
               )}
           />
         </Table>
-            
-        <RoleAddOrUpdate ref='RoleAddOrUpdate' />
+        <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
       </PageHeaderWrapper>
     );

@@ -33,6 +33,7 @@ export function authorityAccount() {
                 '/account/center',
                 '/account/settings',
                 '/account/admin',
+                '/account/settings/base',
                 '/system',
                 '/system/role',
                 '/system/user',
@@ -50,7 +51,16 @@ export function authorityAccount() {
                 '/order/shopcreateroll',
                 '/order/lotteryorder',
                 '/product',
-                '/product/productinfo'
+                '/product/productinfo',
+                '/transfer',
+                '/transfer/transferaudit',
+                '/transfer/transferorderlist',
+                '/transfer/trandsfercredit',
+                '/etag',
+                '/etag/findetag',
+                '/task',
+                '/task/tasklist',
+                '/task/taskdiary',
             ],
             module: []
         },
@@ -59,7 +69,7 @@ export function authorityAccount() {
 
 // 菜单权限处理
 export function menuAccount (path, parentAuthority) {
-    console.log(path);
+    // console.log(path);
     const authority = authorityAccount().admin;
     if (authority.path.indexOf(path) !== -1 || parentAuthority) {
         return  parentAuthority || 'admin';

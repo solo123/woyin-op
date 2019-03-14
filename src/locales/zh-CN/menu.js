@@ -59,9 +59,16 @@ export default {
   'menu.product': '产品管理',
   'menu.product.productinfo': '产品信息管理',
   'menu.transfer': '转让管理',
+  'menu.transfer.transferaudit': '转让审核（百事通接口付款）',
+  'menu.transfer.transferorderlist': '转赠订单列表',
+  'menu.transfer.trandsfercredit': '信用卡还款订单',
   'menu.etag': '电子卷管理',
+  'menu.etag.findetag': '查询电子卷列表',
   'menu.repayment': '还款管理',
   'menu.shop': '商城产品管理',
-  'menu.report': '报表管理'
+  'menu.report': '报表管理',
+  'menu.task': '任务调度管理',
+  'menu.task.tasklist': '任务调度信息列表',
+  'menu.task.taskdiary': '任务调度执行日记列表'
 
 };
