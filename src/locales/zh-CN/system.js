@@ -9,4 +9,6 @@ export default {
     'system.role-add-role': '添加角色',
     'system.role-option1': '正常',
     'system.role-option2': '禁用',
+    'system.role-set-cloum1': '菜单名称',
+    'system.role-set-cloum2': '菜单描述',
 }

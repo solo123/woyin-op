@@ -48,7 +48,7 @@ class RoleAddOrUpdate extends React.Component {
   }
 
   onChange = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
   }
 
   render() {
@@ -70,7 +70,7 @@ class RoleAddOrUpdate extends React.Component {
             {inputItem}
             <div style={{ marginBottom: 16 }}>
               <Form.Item label={`${formatMessage({ id : selectData.labe})}`}>
-                <Select defaultValue="lucy" style={{ width: 120 }} onChange={this.onChange}>
+                <Select defaultValue="正常" style={{ width: 120 }} onChange={this.onChange}>
                   {selectItem}
                 </Select>
               </Form.Item>

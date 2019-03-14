@@ -16,7 +16,7 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       // dashboard
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/account/settings' },
       {
         name: 'exception',
         icon: 'warning',
@@ -44,6 +44,12 @@ export default [
             hideInMenu: true,
             component: './Exception/TriggerException',
           },
+          {
+            path: '/exception/modelno',
+            name: 'trigger',
+            hideInMenu: true,
+            component: './Exception/modelNo',
+          },
         ],
       },
       {
@@ -68,14 +74,6 @@ export default [
                 path: '/account/settings/security',
                 component: './Account/Settings/SecurityView',
               },
-              {
-                path: '/account/settings/binding',
-                component: './Account/Settings/BindingView',
-              },
-              {
-                path: '/account/settings/notification',
-                component: './Account/Settings/NotificationView',
-              },
             ],
           }
         ],
@@ -94,7 +92,17 @@ export default [
             {
               path: '/system/user',
               name: 'user',
-              component: './System/User',
+              component: './Exception/modelNo',
+            },
+            {
+              path: 'system/menuseit',
+              name: 'menuSite',
+              component: './Exception/modelNo',
+            },
+            {
+              path: 'system/parameter',
+              name: 'parameter',
+              component: './Exception/modelNo',
             }
         ]
       },
@@ -102,31 +110,75 @@ export default [
       {
         path: '/merchant',
         name: 'merchant',
-        icon: 'dashboard',
-          routes: [
+        icon: 'shop',
+        routes: [
             {
               path: '/merchant/list',
               name: 'merchant-list',
-              component: './Merchant/List',
+              component: './Exception/modelNo',
             },
             {
               path: '/merchant/recharge',
               name: 'merchant-recharge',
-              component: './Merchant/Recharge',
+              component: './Exception/modelNo',
             },
             {
               path: '/merchant/info',
               name: 'merchant-info',
-              component: './Merchant/Info',
+              component: './Exception/modelNo',
             },
             {
               path: '/merchant/balance-info',
               name: 'merchant-balance-info',
-              component: './Merchant/BalanceInfo',
+              component: './Exception/modelNo',
             }
+      ]
+      },
+      // 订单管理
+      {
+        path: '/order',
+        name: 'order',
+        icon: 'shop',
+        routes: [
+          {
+            path: '/order/shoporder',
+            name: 'shoporder',
+            component: './Exception/modelNo',
+         },
+         {
+           path: '/order/findrefundorder',
+           name: 'findrefundorder',
+           component: './Exception/modelNo',
+         },
+         {
+           path: '/order/findbuyorder',
+           name: 'findbuyorder',
+           component: './Exception/modelNo',
+         },
+         {
+           path: '/order/shopcreateroll',
+           name: 'shopcreateroll',
+           component: './Exception/modelNo',
+         },
+         {
+          path: '/order/lotteryorder',
+          name: 'lotteryorder',
+          component: './Exception/modelNo',
+         }
         ]
       },
-          // 订单管理
+      {
+        path: '/product',
+        name: 'product',
+        icon: 'shop',
+        routes: [
+          {
+            path: '/product/productinfo',
+            name: 'productinfo',
+            component: './Exception/modelNo',
+          }
+        ]
+      },
           // 产品管理
           // 转让管理
           // 电子卷管理

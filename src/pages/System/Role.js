@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import router from 'umi/router';
 import { connect } from 'dva';
 import { 
   Table, 
@@ -14,11 +13,13 @@ import {
   Col,
   Card
 } from 'antd';
+import styles from './Role.less'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import RoleAddOrUpdate from './Role-add-update';
+import RoleAddOrUpdate from '@/components/System/Role-add-update';
+import RoleSet from '@/components/System/Role-set';
 
 
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 
 const data = [{
   key: '1',
@@ -42,26 +43,37 @@ const data = [{
   address: 'Sidney No. 1 Lake Park',
   tags: ['cool', 'teacher'],
 }];
-
+const component = {};
 @connect()
 class SearchList extends Component {
   componentDidMount() {
     // To disabled submit button at the beginning.
+    component.RoleSet  = this.RoleSet;
   }
 
   handleSubmit = value => {
-    // eslint-disable-next-line
     console.log(value);
   };
 
-  onChange(value) {
+  onChange = (value) => {
     console.log(value);
   }
 
   handleRoleAddOrUpdate = (e) => {
     e.preventDefault();
-    this.refs.RoleAddOrUpdate.showModal(e);
+    // eslint-disable-next-line react/no-string-refs ,no-shadow
+    
+    const {RoleAddOrUpdate } = this.refs;
+    RoleAddOrUpdate.showModal(e);
   }
+
+  handRoleSet = (texts, record) => {
+    console.log(component.RoleSet);
+    const {RoleSet} = component;
+    console.log(RoleSet)
+    RoleSet.onShow();
+  }
+
   render() {
 
     const { match, children, location } = this.props;
@@ -84,10 +96,10 @@ class SearchList extends Component {
     return (
       
       <PageHeaderWrapper>
-         <Card bordered={false}>
-        <Row>
-          <Col >
-            <Form layout="inline" onSubmit={this.handleSubmit}>
+        <Card bordered={false}>
+          <Row>
+            <Col>
+              <Form layout="inline" onSubmit={this.handleSubmit}>
                 <Form.Item
                   label="角色名称："
                 >
@@ -104,68 +116,66 @@ class SearchList extends Component {
                   <Cascader options={options} onChange={this.onChange} placeholder="请选择" />
                 </Form.Item>
                 <Button type="primary" icon="search">查找</Button>
-                <Button  style={{"marginLeft": '10px'}} icon="redo">重置</Button>
-            </Form>
-          </Col>
-        </Row>
-        <Row style={{marginLeft: "-24px", marginRight: "-24px"}}>
-          <Col span={2}>
-            <Button type="primary" icon="plus" onClick={ (e) => this.handleRoleAddOrUpdate(e)}>添加</Button>
-          </Col>
-          <Col span={2}>
+                <Button style={{"marginLeft": '10px'}} icon="redo">重置</Button>
+              </Form>
+            </Col>
+          </Row>
+          <div className={styles.addButton}>
+            <Button type="primary" icon="plus" onClick={(e) => this.handleRoleAddOrUpdate(e)}>添加</Button>
             <Button icon="redo">修改</Button>
-          </Col>
-        </Row>
+          </div>
         </Card>
          
         <Table 
           dataSource={data} 
           bordered
           rowSelection={rowSelection}
-          >
-            <Column
-              title="角色名称"
-              dataIndex="firstName"
-               key="firstName"
-            />
-            <Column
-              title="Last Name"
-              dataIndex="lastName"
-              key="lastName"
-            />
-            <Column
-              title="角色编码"
-              dataIndex="age"
-              key="age"
-            />
-            <Column
-              title="角色描述"
-              dataIndex="address"
-              key="address"
-            />
-            <Column
-              title="状态"
-              dataIndex="tags"
-              key="tags"
-              render={tags => (
-                <span>
-                  {tags.map(tag => <Tag color="blue" key={tag}>{tag}</Tag>)}
-                </span>
+        >
+          <Column
+            title="角色名称"
+            dataIndex="firstName"
+            key="firstName"
+          />
+          <Column
+            title="Last Name"
+            dataIndex="lastName"
+            key="lastName"
+          />
+          <Column
+            title="角色编码"
+            dataIndex="age"
+            key="age"
+          />
+          <Column
+            title="角色描述"
+            dataIndex="address"
+            key="address"
+          />
+          <Column
+            title="状态"
+            dataIndex="tags"
+            key="tags"
+            render={tags => (
+              <span>
+                {tags.map(tag => <Tag color="blue" key={tag}>{tag}</Tag>)}
+              </span>
               )}
-            />
-            <Column
-              title="操作"
-              key="action"
-              render={(text, record) => (
-                <span>
-                  <a href="javascript:;">成员</a>
-                  <Divider type="vertical" />
-                  <a href="javascript:;">权限</a>
-                </span>
+          />
+          <Column
+            title="操作"
+            key="action"
+            render={(texts, record) => (
+              <span>
+                <a href="javascript:;">成员</a>
+                <Divider type="vertical" />
+                <a href="javascript:;" onClick={()=> {this.handRoleSet(texts, record)}}>权限</a>
+              </span>
               )}
-            />
-          </Table>
-          <RoleAddOrUpdate  ref="RoleAddOrUpdate"/>
+          />
+        </Table>
+            
+        <RoleAddOrUpdate ref='RoleAddOrUpdate' />
+        <RoleSet ref={(c) => { this.RoleSet = c; }} />
       </PageHeaderWrapper>
     );
   }

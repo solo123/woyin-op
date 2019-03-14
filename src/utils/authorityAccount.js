@@ -8,10 +8,10 @@ export function authorityAccount() {
         // 角色：admin
         admin: {
             path: [
-                '/dashboard',
-                '/dashboard/analysis',
-                '/dashboard/monitor',
-                '/dashboard/workplace',
+                // '/dashboard',
+                // '/dashboard/analysis',
+                // '/dashboard/monitor',
+                // '/dashboard/workplace',
                 // '/form',
                 '/list',
                 '/list/table-list',
@@ -36,11 +36,21 @@ export function authorityAccount() {
                 '/system',
                 '/system/role',
                 '/system/user',
+                '/system/system/menuseit',
+                '/system/system/parameter',
                 '/merchant',
                 '/merchant/list',
                 '/merchant/recharge',
                 '/merchant/info',
                 '/merchant/balance-info',
+                '/order',
+                '/order/shoporder',
+                '/order/findrefundorder',
+                '/order/findbuyorder',
+                '/order/shopcreateroll',
+                '/order/lotteryorder',
+                '/product',
+                '/product/productinfo'
             ],
             module: []
         },
@@ -49,12 +59,12 @@ export function authorityAccount() {
 
 // 菜单权限处理
 export function menuAccount (path, parentAuthority) {
-    const authority = authorityAccount()['admin'];
+    console.log(path);
+    const authority = authorityAccount().admin;
     if (authority.path.indexOf(path) !== -1 || parentAuthority) {
         return  parentAuthority || 'admin';
-    }else{
-        return 'no-account';
     }
+    return 'no-account';
 }
 
 /**
