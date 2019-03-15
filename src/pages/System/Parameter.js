@@ -12,7 +12,7 @@ import RoleSet from '@/components/System/Role-set';
 import {RoleAddOrUpdate} from '@/components/System';
 import TabelList from '@/components/TableList/TableList';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import styles from './User.less';
+import styles from './Parameter.less';
 
 const component = {};
 let data = null;
@@ -20,39 +20,29 @@ let ColumnData = null;
 let formData = null;
 let buttonData = null;
 @connect()
-class SearchList extends Component {
+class Parameter extends Component {
   componentWillMount () {
     ColumnData = {data: 
       [
-        {title: '登录帐号', dataIndex: 'logo', key: 'logo'},
-        {title: '用户名称', dataIndex: 'name', key: 'name'},
-        {title: '描述', dataIndex: 'describe', key: 'describe'},
-        {title: '创建日期', dataIndex: 'createrdata', key: 'createrdata'},
-        {title: '状态', dataIndex: 'statue', key: 'statue'},
+        {title: '参数编号', dataIndex: 'paracode', key: 'paracode'},
+        {title: '私有参数编号', dataIndex: 'privacode', key: 'privacode'},
+        {title: '参数名', dataIndex: 'name', key: 'name'},
+        {title: '参数说明', dataIndex: 'describe', key: 'describe'},
+        {title: '参数值', dataIndex: 'value', key: 'value'},
      ],
-    dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '角色',onClick: this.handRoleSet}]
-    }};
+    dataEnd: {}
+  };
     data =  [
-      {key: '1', logo: 'John', name: '张三', describe: 'New York No. 1 Lake Park', createrdata: '2018-8-12', statue: '正常'}, 
-      {key: '2', logo: 'John2', name: '刘备', describe: 'New York No. 1 Lake Park', createrdata: '2018-8-13', statue: '正常'}, 
-      {key: '3', logo: 'John3', name: '痝', describe: 'New York No. 1 Lake Park', createrdata: '2018-8-14', statue: '正常'}, 
+      {key: '1', paracode: 'John', privacode: '张三', name: 'New York No. 1 Lake Park', describe: '2018-8-12', value: '正常'}, 
+      {key: '2', paracode: 'John2', privacode: '刘备', name: 'New York No. 1 Lake Park', describe: '2018-8-13', value: '正常'}, 
+      {key: '3', paracode: 'John3', privacode: '痝', name: 'New York No. 1 Lake Park', describe: '2018-8-14', value: '正常'}, 
     ];
-    const option = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
     formData = [
-      {type: 'InputIcon' ,label: '用户名称：', name: 'name', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '登录帐户：', name: 'code', ruless:[] , placeholder: '角色编码', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'statue', options: option}
+      {type: 'InputIcon' ,label: '参数名', name: 'name', ruless:[] , placeholder: '参数名', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '私有参数编号', name: 'code', ruless:[] , placeholder: '私有参数编号', typeIco: 'book'},
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '添加'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '重置密码'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
       {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '删除'},
     ]
    }
@@ -101,7 +91,6 @@ class SearchList extends Component {
         }
       })
     }
-
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
@@ -112,7 +101,7 @@ class SearchList extends Component {
           </Row>
           <Row>
             <Col>
-              <div className={styles.addButton}>
+              <div className={styles.addButtons}>
                 <HeadFootButton buttonData={buttonData} />
               </div>
             </Col>
@@ -125,5 +114,5 @@ class SearchList extends Component {
     );
   }
 }
-const SearchLists = Form.create({ name: 'SearchList' })(SearchList);
-export default SearchLists;
+const Parameters = Form.create({ name: 'SearchList' })(Parameter);
+export default Parameters;

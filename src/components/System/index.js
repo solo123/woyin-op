@@ -41,7 +41,7 @@ class System extends React.Component {
 
 export {
     System,
-    RoleAddOrUpdate
+    RoleAddOrUpdate,
 }
    
 

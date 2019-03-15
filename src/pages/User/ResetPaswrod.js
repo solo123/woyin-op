@@ -7,6 +7,7 @@ import {
     Button,
     Input,
   } from 'antd';
+import {LabelInput} from '@/components/FormTool';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import {formMessage} from '@/utils/utils';
 import styles from './ResetPaswrod.less';
@@ -20,8 +21,8 @@ class ResetPaswrod extends Component {
         newPassword: '',
         newPasswordTwo: '',
         formEmail: {
-            userName : {label: 'app.ResetPaswrod.name', name: 'userName',ruless: [{ required: true, message: '请输入用户名!' }] ,placeholder :'请输入用户名'},
-            email : {label: 'app.ResetPaswrod.emails', name: 'email',ruless: [{ required: true, message: '邮箱格式有误!', pattern: validateEmailReg}] ,placeholder :'请输入邮箱'},
+            userName : {label: formMessage('app.ResetPaswrod.name'), name: 'userName',ruless: [{ required: true, message: '请输入用户名!' }] ,placeholder :'请输入用户名'},
+            email : {label: formMessage('app.ResetPaswrod.emails'), name: 'email',ruless: [{ required: true, message: '邮箱格式有误!', pattern: validateEmailReg}] ,placeholder :'请输入邮箱'},
             validateCode: {label: 'app.ResetPaswrod.validateCode', name: 'validateCode',ruless: [{ required: true,message: '校验码错误!' }], placeholder: '请在邮箱查收校验码'},
             newPassword:  {label: 'app.ResetPaswrod.newsPassword', name: 'newPassword',ruless: [{ required: true, message: '两次密码不一致，请重新输入!' }] ,placeholder :'请输入新的密码'},
             newPasswordTwo:  {label: 'app.ResetPaswrod.newsPasswordTwo', name: 'newPasswordTwo',ruless: [{ required: true, message: '两次密码不一致，请重新输入!' }] ,placeholder :'请输入再次输入密码确认'},
@@ -107,16 +108,6 @@ class ResetPaswrod extends Component {
         // eslint-disable-next-line react/destructuring-assignment ,no-unused-vars
         const { getFieldDecorator } = this.props.form;
         const {formEmail} = this.state;
-        const inputItem = (label, name, ruless, placeholder) => {
-            return (
-              <Form.Item
-                label={label}
-              >
-                {getFieldDecorator(name, {rules: ruless})(
-                  <Input placeholder={placeholder} />)}
-              </Form.Item>
-            )
-        }
         const inputItemPassword = (label, name, ruless, placeholder) => {
             return (
               <Form.Item
@@ -129,10 +120,12 @@ class ResetPaswrod extends Component {
               </Form.Item>
             )
         }
+        
         return (
           <Form style={{textAlign: 'center'}} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} onSubmit={this.handleSubmit}>
-            {inputItem(formMessage(formEmail.userName.label), formEmail.userName.name, formEmail.userName.ruless, formEmail.userName.placeholder)}
-            {inputItem(formMessage(formEmail.email.label), formEmail.email.name, formEmail.email.ruless, formEmail.email.placeholder)}
+            {LabelInput(formEmail.userName, getFieldDecorator)}
+            {LabelInput(formEmail.email, getFieldDecorator)}
+            
             <Form.Item
               label={formMessage(formEmail.validateCode.label)}
             >

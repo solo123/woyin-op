@@ -2,172 +2,125 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { 
-  Table, 
-  Divider, 
-  Tag, 
-  Input,
-  Form, 
-  Icon,  
-  Button,
-  Cascader,
   Row, 
   Col,
-  Card
+  Card,
+  Form
 } from 'antd';
-import styles from './Role.less'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import RoleSet from '@/components/System/Role-set';
 import {RoleAddOrUpdate} from '@/components/System';
+import TabelList from '@/components/TableList/TableList';
+import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import styles from './Role.less';
 
-const { Column } = Table;
-
-const data = [{
-  key: '1',
-  firstName: 'John',
-  age: 32,
-  address: 'New York No. 1 Lake Park',
-  tags: ['nice', 'developer'],
-}, {
-  key: '2',
-  firstName: 'Jim',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-  tags: ['loser'],
-}, {
-  key: '3',
-  firstName: 'Joe',
-  age: 32,
-  address: 'Sidney No. 1 Lake Park',
-  tags: ['cool', 'teacher'],
-}];
 const component = {};
+let data = null;
+let ColumnData = null;
+let formData = null;
+let buttonData = null;
 @connect()
 class SearchList extends Component {
-  componentDidMount() {
-    // To disabled submit button at the beginning.
-    component.RoleSet  = this.RoleSet;
-    component.RoleAddOrUpdate = this.RoleAddOrUpdate;
-  }
-
-  handleSubmit = value => {
-    console.log(value);
-  };
-
-  onChange = (value) => {
-    console.log(value);
-  }
-
-  handleRoleAddOrUpdate = (e) => {
-    e.preventDefault();
-    // eslint-disable-next-line react/no-string-refs ,no-shadow
-    this.RoleAddOrUpdate.showModal(e);
-  }
-
-  handRoleSet = (texts, record) => {
-    console.log(component.RoleSet);
-    const {RoleSet} = component;
-    console.log(RoleSet)
-    RoleSet.onShow();
-  }
-
-  render() {
-
-    const { match, children, location } = this.props;
-    const options = [{
+  componentWillMount () {
+    ColumnData = {data: 
+      [
+        {title: '角色名称', dataIndex: 'firstName', key: 'firstName'},
+        {title: '角色编码', dataIndex: 'code', key: 'code'},
+        {title: '角色描述', dataIndex: 'describe', key: 'describe'},
+        {title: '状态', dataIndex: 'tags', key: 'tags'},
+     ],
+    dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '成员',onClick: this.handRoleSet},{label: '权限',onClick: this.handRoleSet}]
+    }};
+    data =  [
+      {key: '1', firstName: 'John', code: 32, describe: 'New York No. 1 Lake Park', tags: 'developer'}, 
+      {key: '2', firstName: 'Jim', code: 42, describe: 'London No. 1 Lake Park',tags: 'loser'}, 
+      {key: '3', firstName: 'Joe', code: 32, describe: 'Sidney No. 1 Lake Park', tags: 'teacher',}
+    ];
+    const option = [{
       value: '1',
       label: '正常',
     }, {
       value: '0',
       label: '禁用',
     }];
+    formData = [
+      {type: 'InputIcon' ,label: '角色名称', name: 'name', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '角色编码：', name: 'code', ruless:[] , placeholder: '角色编码', typeIco: 'book'},
+      {type: 'SelectCompone', label: '状态：', name: 'statue', options: option}
+    ];
+    buttonData = [
+      {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '添加'},
+      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
+    ]
+   }
+
+  componentDidMount() {
+    // To disabled submit button at the beginning.
+    component.RoleSet  = this.RoleSet;
+    component.RoleAddOrUpdate = this.RoleAddOrUpdate;
+  }
+
+  handRoleSet = (texts, record) => {
+    console.log(component.RoleSet);
+    const {RoleSet} = component;
+    RoleSet.onShow();
+  }
+
+  handAddRole = (e) => {
+    e.preventDefault();
+    // eslint-disable-next-line react/no-string-refs ,no-shadow
+    this.RoleAddOrUpdate.showModal(e);
+  }
+
+  handEdit = (e) => {
+    e.preventDefault();
+  }
+
+  render() {
+    // const { match, children, location } = this.props;
+    const { getFieldDecorator } = this.props.form;
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       },
       getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
+        disabled: record.name === 'Disabled User',
         name: record.name,
       }),
     };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      // eslint-disable-next-line react/destructuring-assignment
+      this.props.form.validateFields((err, values) => {
+        if(!err){
+          console.log('Received values of form: ', values);
+        }
+      })
+    }
+
     return (
-      
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row>
             <Col>
-              <Form layout="inline" onSubmit={this.handleSubmit}>
-                <Form.Item
-                  label="角色名称："
-                >
-                  <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="角色名称" />
-                </Form.Item>
-                <Form.Item
-                  label="角色编码："
-                >
-                  <Input prefix={<Icon type="book" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="角色编码" />
-                </Form.Item>
-                <Form.Item
-                  label="状态："
-                >
-                  <Cascader options={options} onChange={this.onChange} placeholder="请选择" />
-                </Form.Item>
-                <Button type="primary" icon="search">查找</Button>
-                <Button style={{"marginLeft": '10px'}} icon="redo">重置</Button>
-              </Form>
+              <HeadFormSearch formData={formData} handleSubmit={handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
-          <div className={styles.addButton}>
-            <Button type="primary" icon="plus" onClick={(e) => this.handleRoleAddOrUpdate(e)}>添加</Button>
-            <Button icon="redo">修改</Button>
-          </div>
+          <Row>
+            <Col>
+              <div className={styles.addButton}>
+                <HeadFootButton buttonData={buttonData} />
+              </div>
+            </Col>
+          </Row>
         </Card>
-        <Table 
-          dataSource={data} 
-          bordered
-          rowSelection={rowSelection}
-        >
-          <Column
-            title="角色名称"
-            dataIndex="firstName"
-            key="firstName"
-          />
-          <Column
-            title="角色编码"
-            dataIndex="age"
-            key="age"
-          />
-          <Column
-            title="角色描述"
-            dataIndex="address"
-            key="address"
-          />
-          <Column
-            title="状态"
-            dataIndex="tags"
-            key="tags"
-            render={tags => (
-              <span>
-                {tags.map(tag => <Tag color="blue" key={tag}>{tag}</Tag>)}
-              </span>
-              )}
-          />
-          <Column
-            title="操作"
-            key="action"
-            render={(texts, record) => (
-              <span>
-                <a href="javascript:;">成员</a>
-                <Divider type="vertical" />
-                <a href="javascript:;" onClick={()=> {this.handRoleSet(texts, record)}}>权限</a>
-              </span>
-              )}
-          />
-        </Table>
+        <TabelList data={data} ColumnData={ColumnData} rowSelection={rowSelection} />
         <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
       </PageHeaderWrapper>
     );
   }
 }
-
-export default SearchList;
+const SearchLists = Form.create({ name: 'SearchList' })(SearchList);
+export default SearchLists;

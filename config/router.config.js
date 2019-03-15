@@ -92,17 +92,17 @@ export default [
             {
               path: '/system/user',
               name: 'user',
-              component: './Exception/modelNo',
+              component: './System/User',
             },
             {
               path: 'system/menuseit',
               name: 'menuSite',
-              component: './Exception/modelNo',
+              component: './System/Menu',
             },
             {
               path: 'system/parameter',
               name: 'parameter',
-              component: './Exception/modelNo',
+              component: './System/Parameter',
             }
         ]
       },

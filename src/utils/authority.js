@@ -12,7 +12,7 @@ export function GetUrlRelativePath(authority)
     relUrl = relUrl.split("?")[0];
   }
   if (authority[0]==='guest' || !authority) {
-    if (relUrl !== '/user/login') window.location.href = '/user/login';
+    if (relUrl !== '/user/login' && relUrl!=='/user/ResetPaswrod') window.location.href = '/user/login';
     return false;
   }
   return true;

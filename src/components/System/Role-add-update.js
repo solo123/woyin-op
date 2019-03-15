@@ -63,7 +63,7 @@ class RoleAddOrUpdate extends React.Component {
           </div>
         )
         const selectItem = selectData.data.map( ele => 
-          <Option value={ele} key>{formatMessage({id: ele})}</Option>
+          <Option value={ele} key={ele}>{formatMessage({id: ele})}</Option>
         )
         return (
           <Form layout="inline" onSubmit={this.handleSubmit} style={{textAlign: "center"}}>
