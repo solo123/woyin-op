@@ -15,12 +15,19 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       // 调用api请求数据
-      const response = yield call(fakeAccountLogin, payload);
+      const formData = new FormData();
+      formData.append("userAccount", payload.userAccount);
+      formData.append("password", payload.password);
+      const response = yield call(fakeAccountLogin, formData);
+      if(response.status === 200){
+        response.status = 'ok';
+        response.currentAuthority = 'admin';
+      }
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
-      // Login successfully
+
       if (response.status === 'ok') {
         // 进行一次数据存入
         reloadAuthorized();

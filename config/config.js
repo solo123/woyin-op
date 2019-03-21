@@ -80,12 +80,19 @@ export default {
     bizcharts: 'BizCharts',
   },
   // proxy: {
-  //   '/server/api/': {
-  //     target: 'https://preview.pro.ant.design/',
-  //     changeOrigin: true,
-  //     pathRewrite: { '^/server': '' },
+  //    '/server/api/': {
+  //      target: 'http://47.112.107.56:9000/',
+  //      changeOrigin: true,
+  //     pathRewrite: { '^/server/api/': '' },
   //   },
   // },
+  proxy: {
+    '/server/api/': {
+      target: 'http://47.112.107.56:9000/',
+      changeOrigin: true,
+     pathRewrite: { '^/server/api/': '' },
+   },
+ },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

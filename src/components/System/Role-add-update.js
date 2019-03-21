@@ -1,29 +1,28 @@
 import { formatMessage } from 'umi/locale';
 import React from 'react';
 import { 
-    Modal,
-    Input,
-    Form, 
-    Select
+    Modal
   } from 'antd';
-
-const { Option} = Select;
+import AddInfo from '../FormAdd/AddInfo';
 
 class RoleAddOrUpdate extends React.Component {
   constructor(props) {
     super(props);
+    const option = [{
+      value: '1',
+      label: '正常',
+    }, {
+      value: '0',
+      label: '禁用',
+    }];
     this.state = {
       visible: false,
       formData: [
-          {label: 'system.role-name', name: 'name', placeholder: 'system.role-name-pl', value: ''},
-          {label: 'system.role-code', name: 'code', placeholder: 'system.role-code-pl', value: ''},
-          {label: 'system.role-describe', name: 'describe', placeholder: 'system.role-describe-pl', value: ''},
-      ],
-      selectData: {
-          labe: 'system.role-statue',
-          data: ['system.role-option1', 'system.role-option2'],
-          value: [1, 0]
-      }
+        {type: 'InputIcon' ,label: '角色名称', name: 'logo', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '角色编码', name: 'password', ruless:[] , placeholder: '角色编码', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '角色描述', name: 'logoname', ruless:[] , placeholder: '角色描述', typeIco: 'user'},
+        {type: 'SelectCompone', label: '状态：', name: 'statue', options: option}
+        ]
     };
   }
 
@@ -41,43 +40,13 @@ class RoleAddOrUpdate extends React.Component {
   }
 
   handleOk = e => {
-    e.preventDefault();
-    this.setState({
-      visible: false,
+    this.AddInfo.validateFields((err, values) => {
+      console.log(values);
     });
   }
 
-  onChange = (e) => {
-    // e.preventDefault();
-  }
-
   render() {
-    const {visible, formData, selectData} = this.state;
-    const formRender = () => {
-
-        const inputItem = formData.map( ele => 
-          <div style={{ marginBottom: 16 }} key={ele.label}>
-            <Form.Item label={`${formatMessage({ id : ele.label})}`}>
-              <Input placeholder={`${formatMessage({ id : ele.placeholder})}`} />
-            </Form.Item>
-          </div>
-        )
-        const selectItem = selectData.data.map( ele => 
-          <Option value={ele} key={ele}>{formatMessage({id: ele})}</Option>
-        )
-        return (
-          <Form layout="inline" onSubmit={this.handleSubmit} style={{textAlign: "center"}}>
-            {inputItem}
-            <div style={{ marginBottom: 16 }}>
-              <Form.Item label={`${formatMessage({ id : selectData.labe})}`}>
-                <Select defaultValue="正常" style={{ width: 120 }} onChange={this.onChange}>
-                  {selectItem}
-                </Select>
-              </Form.Item>
-            </div>
-          </Form>
-      )
-    }
+    const {visible, formData} = this.state;
     return (
       <div>
         <Modal
@@ -89,7 +58,7 @@ class RoleAddOrUpdate extends React.Component {
           onCancel={this.onClose}
           onOk={this.handleOk}
         >
-          {formRender()}
+          <AddInfo ref={(c) => { this.AddInfo = c; }} data={formData} />
         </Modal>
       </div>
     );

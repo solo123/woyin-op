@@ -9,9 +9,10 @@ import {
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import RoleSet from '@/components/System/Role-set';
-import {RoleAddOrUpdate} from '@/components/System';
 import TabelList from '@/components/TableList/TableList';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import UserAddUpdate from '@/components/System/User-add-update';
+import UserRole from '@/components/System/User-role';
 import styles from './User.less';
 
 const component = {};
@@ -30,7 +31,7 @@ class SearchList extends Component {
         {title: '创建日期', dataIndex: 'createrdata', key: 'createrdata'},
         {title: '状态', dataIndex: 'statue', key: 'statue'},
      ],
-    dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '角色',onClick: this.handRoleSet}]
+    dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '角色',onClick: this.handUserRole}]
     }};
     data =  [
       {key: '1', logo: 'John', name: '张三', describe: 'New York No. 1 Lake Park', createrdata: '2018-8-12', statue: '正常'}, 
@@ -50,7 +51,7 @@ class SearchList extends Component {
       {type: 'SelectCompone', label: '状态：', name: 'statue', options: option}
     ];
     buttonData = [
-      {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '添加'},
+      {type: 'primary', ico: 'plus', hangClick: this.handAddUser, labe: '添加'},
       {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '重置密码'},
       {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
       {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '删除'},
@@ -60,23 +61,32 @@ class SearchList extends Component {
   componentDidMount() {
     // To disabled submit button at the beginning.
     component.RoleSet  = this.RoleSet;
-    component.RoleAddOrUpdate = this.RoleAddOrUpdate;
+    component.UserAddUpdate = this.UserAddUpdate;
+    console.log(this.UserAddUpdate);
   }
 
-  handRoleSet = (texts, record) => {
-    console.log(component.RoleSet);
-    const {RoleSet} = component;
-    RoleSet.onShow();
+  handUserRole = (texts, record) => {
+    this.UserRole.onShow();
   }
 
-  handAddRole = (e) => {
+  handAddUser = (e) => {
     e.preventDefault();
     // eslint-disable-next-line react/no-string-refs ,no-shadow
-    this.RoleAddOrUpdate.showModal(e);
+    this.UserAddUpdate.showModal(e);
   }
 
   handEdit = (e) => {
     e.preventDefault();
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.form.validateFields((err, values) => {
+      if(!err){
+        console.log('Received values of form: ', values);
+      }
+    })
   }
 
   render() {
@@ -92,22 +102,12 @@ class SearchList extends Component {
       }),
     };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // eslint-disable-next-line react/destructuring-assignment
-      this.props.form.validateFields((err, values) => {
-        if(!err){
-          console.log('Received values of form: ', values);
-        }
-      })
-    }
-
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>
@@ -119,8 +119,9 @@ class SearchList extends Component {
           </Row>
         </Card>
         <TabelList data={data} ColumnData={ColumnData} rowSelection={rowSelection} />
-        <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
+        <UserAddUpdate ref={(c) => {this.UserAddUpdate = c}} />
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
+        <UserRole ref={(c) => { this.UserRole = c;}}  />
       </PageHeaderWrapper>
     );
   }

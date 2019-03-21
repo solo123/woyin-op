@@ -82,8 +82,8 @@ class LoginPage extends Component {
               !submitting &&
               this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
             <UserName
-              name="userName"
-              placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin or user`}
+              name="userAccount"
+              placeholder='请输入用户名:WDAccount1'
               rules={[
                 {
                   required: true,
@@ -93,7 +93,7 @@ class LoginPage extends Component {
             />
             <Password
               name="password"
-              placeholder={`${formatMessage({ id: 'app.login.password' })}: ant.design`}
+              placeholder='请输入密码:abcde'
               rules={[
                 {
                   required: true,

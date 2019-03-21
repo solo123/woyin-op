@@ -104,7 +104,7 @@ export async function queryProjectNotice() {
 // }
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+  return request('/server/api/merUser/login', {
     method: 'POST',
     body: params,
   });

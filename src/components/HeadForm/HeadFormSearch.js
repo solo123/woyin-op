@@ -6,7 +6,7 @@ import {
     Button 
 } from 'antd';
 
-import {InputIcon, SelectCompone} from '../FormTool';
+import {InputIcon, SelectCompone, SelectDateRang} from '../FormTool';
 
 class HeadForm extends React.Component {
   static propTypes = {
@@ -38,6 +38,12 @@ class HeadForm extends React.Component {
               return (
                 <React.Fragment key={value.label}>
                   {SelectCompone(value, getFieldDecorator)}
+                </React.Fragment>
+              )
+          case 'SelectDateRang':
+              return (
+                <React.Fragment key={value.label}>
+                  {SelectDateRang(value, getFieldDecorator)}
                 </React.Fragment>
               )
           default:

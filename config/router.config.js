@@ -115,17 +115,17 @@ export default [
             {
               path: '/merchant/list',
               name: 'merchant-list',
-              component: './Exception/modelNo',
+              component: './Merchant/list',
             },
             {
               path: '/merchant/recharge',
               name: 'merchant-recharge',
-              component: './Exception/modelNo',
+              component: './Merchant/Recharge',
             },
             {
               path: '/merchant/info',
               name: 'merchant-info',
-              component: './Exception/modelNo',
+              component: './Merchant/BalanceInfo',
             },
             {
               path: '/merchant/balance-info',
@@ -143,30 +143,31 @@ export default [
           {
             path: '/order/shoporder',
             name: 'shoporder',
-            component: './Exception/modelNo',
+            component: './Order/Shoporder',
          },
          {
            path: '/order/findrefundorder',
            name: 'findrefundorder',
-           component: './Exception/modelNo',
+           component: './Order/FindreFundorder',
          },
          {
            path: '/order/findbuyorder',
            name: 'findbuyorder',
-           component: './Exception/modelNo',
+           component: './Order/FindBuyOrder',
          },
          {
            path: '/order/shopcreateroll',
            name: 'shopcreateroll',
-           component: './Exception/modelNo',
+           component: './Order/ShopCreateroll',
          },
          {
           path: '/order/lotteryorder',
           name: 'lotteryorder',
-          component: './Exception/modelNo',
+          component: './Order/LotteryOrder',
          }
         ]
       },
+      // 产品管理
       {
         path: '/product',
         name: 'product',
@@ -175,10 +176,11 @@ export default [
           {
             path: '/product/productinfo',
             name: 'productinfo',
-            component: './Exception/modelNo',
+            component: './Product/ProductInfo',
           }
         ]
       },
+      // 转让管理
       {
         path: '/transfer',
         name: 'transfer',
@@ -187,20 +189,21 @@ export default [
           {
             path: '/transfer/transferaudit',
             name: 'transferaudit',
-            component: './Exception/modelNo',
+            component: './Transfer/Transferaudit',
           },
           {
             path: '/transfer/transferorderlist',
             name: 'transferorderlist',
-            component:'./Exception/modelNo',
+            component:'./Transfer/TransferOrderList',
           },
           {
             path: '/transfer/trandsfercredit',
             name: 'trandsfercredit',
-            component: './Exception/modelNo',
+            component: './Transfer/TrandsferCredit',
           }
         ]
       },
+      // 电子卷管理
       {
         path: '/etag',
         name: 'etag',
@@ -209,10 +212,11 @@ export default [
           {
             path: '/etag/findetag',
             name: 'findetag',
-            component: './Exception/modelNo',
+            component: './Etag/FindEtag',
           }
         ]
       },
+      // 任务调度管理
       {
         path: '/task',
         name: 'task',
@@ -221,7 +225,7 @@ export default [
           {
             path: '/task/tasklist',
             name: 'tasklist',
-            component: './Exception/modelNo',
+            component: './Task/TaskList',
           },
           {
             path: '/task/taskdiary',
@@ -230,13 +234,57 @@ export default [
           }
         ]
       },
-          // 产品管理
-          // 转让管理
-          // 电子卷管理
-          // 任务调度管理
-          // 还款管理
-          // 商城产品管理
-          // 报表管理
+      // 还款管理
+      {
+        path: '/repayment',
+        name: 'repayment',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/repayment/list',
+            name: 'list',
+            component: './Repayment/List',
+          }
+        ]
+      },
+      // 商城产品管理
+      {
+        path: '/shop',
+        name: 'shop',
+        icon: 'file-markdown',
+        routes: [
+          {
+            path: '/shop/jdshop',
+            name: 'jdshop',
+            component: './Exception/modelNo',
+          },
+          {
+            path: '/shop/jdshopsort',
+            name: 'jdshopsort',
+            component: './Exception/modelNo',
+          },
+        ]
+      },
+      // 报表管理
+      {
+        path: '/report',
+        name: 'report',
+        icon: 'bar-chart',
+        routes: [
+          {
+            path: '/report/reportlist',
+            name: 'reportlist',
+            component: './Exception/modelNo',
+          }
+        ]
+      },
+      // 产品管理
+      // 转让管理
+      // 电子卷管理
+      // 任务调度管理
+      // 还款管理
+      // 商城产品管理
+      // 报表管理
       {
         component: '404',
       },

@@ -53,7 +53,6 @@ class TabelList extends React.Component {
           )}
           />
         )
-
       }
       return (
         <Table 
@@ -61,6 +60,7 @@ class TabelList extends React.Component {
           bordered
           rowSelection={rowSelection}
           defaultExpandAllRows={ExpandAllRows || false}
+          scroll={ColumnData.data.length > 5 ? { x: 1500 } : {}}
         >
           {ColumnInit()}
           {ColumnEnd()}

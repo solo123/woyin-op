@@ -65,10 +65,16 @@ export default {
   'menu.etag': '电子卷管理',
   'menu.etag.findetag': '查询电子卷列表',
   'menu.repayment': '还款管理',
+  'menu.repayment.list': '还款管理',
   'menu.shop': '商城产品管理',
+  'menu.shop.jdshop': '京东商城产品查询',
+  'menu.shop.jdshopsort': '精选产品排序',
   'menu.report': '报表管理',
+  'menu.report.reportlist': '报表管理',
   'menu.task': '任务调度管理',
   'menu.task.tasklist': '任务调度信息列表',
-  'menu.task.taskdiary': '任务调度执行日记列表'
+  'menu.task.taskdiary': '任务调度执行日记列表',
+ 
+  
 
 };

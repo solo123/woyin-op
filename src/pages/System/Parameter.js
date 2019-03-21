@@ -8,13 +8,11 @@ import {
   Form
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import RoleSet from '@/components/System/Role-set';
-import {RoleAddOrUpdate} from '@/components/System';
 import TabelList from '@/components/TableList/TableList';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import ParameterAdd from '@/components/System/Parameter-add';
 import styles from './Parameter.less';
 
-const component = {};
 let data = null;
 let ColumnData = null;
 let formData = null;
@@ -42,31 +40,33 @@ class Parameter extends Component {
       {type: 'InputIcon' ,label: '私有参数编号', name: 'code', ruless:[] , placeholder: '私有参数编号', typeIco: 'book'},
     ];
     buttonData = [
-      {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '添加'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '删除'},
+      {type: 'primary', ico: 'plus', hangClick: this.handAdd, labe: '添加'},
+      {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除'},
     ]
    }
 
   componentDidMount() {
     // To disabled submit button at the beginning.
-    component.RoleSet  = this.RoleSet;
-    component.RoleAddOrUpdate = this.RoleAddOrUpdate;
   }
 
-  handRoleSet = (texts, record) => {
-    console.log(component.RoleSet);
-    const {RoleSet} = component;
-    RoleSet.onShow();
-  }
-
-  handAddRole = (e) => {
+  handAdd = (e) => {
     e.preventDefault();
     // eslint-disable-next-line react/no-string-refs ,no-shadow
-    this.RoleAddOrUpdate.showModal(e);
+    this.ParameterAdd.showModal(e);
   }
 
-  handEdit = (e) => {
+  handDele = (e) => {
     e.preventDefault();
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.form.validateFields((err, values) => {
+      if(!err){
+        console.log('Received values of form: ', values);
+      }
+    })
   }
 
   render() {
@@ -82,21 +82,12 @@ class Parameter extends Component {
       }),
     };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // eslint-disable-next-line react/destructuring-assignment
-      this.props.form.validateFields((err, values) => {
-        if(!err){
-          console.log('Received values of form: ', values);
-        }
-      })
-    }
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>
@@ -108,8 +99,7 @@ class Parameter extends Component {
           </Row>
         </Card>
         <TabelList data={data} ColumnData={ColumnData} rowSelection={rowSelection} />
-        <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
-        <RoleSet ref={(c) => { this.RoleSet = c; }} />
+        <ParameterAdd ref={(c) => {this.ParameterAdd = c}} />
       </PageHeaderWrapper>
     );
   }

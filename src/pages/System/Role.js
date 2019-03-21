@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import RoleSet from '@/components/System/Role-set';
-import {RoleAddOrUpdate} from '@/components/System';
+import {RoleAddOrUpdate, RoleUser} from '@/components/System';
 import TabelList from '@/components/TableList/TableList';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import styles from './Role.less';
@@ -29,7 +29,7 @@ class SearchList extends Component {
         {title: '角色描述', dataIndex: 'describe', key: 'describe'},
         {title: '状态', dataIndex: 'tags', key: 'tags'},
      ],
-    dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '成员',onClick: this.handRoleSet},{label: '权限',onClick: this.handRoleSet}]
+    dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '成员',onClick: this.handRoleUser},{label: '权限',onClick: this.handRoleSet}]
     }};
     data =  [
       {key: '1', firstName: 'John', code: 32, describe: 'New York No. 1 Lake Park', tags: 'developer'}, 
@@ -58,12 +58,15 @@ class SearchList extends Component {
     // To disabled submit button at the beginning.
     component.RoleSet  = this.RoleSet;
     component.RoleAddOrUpdate = this.RoleAddOrUpdate;
+    component.RoleUser = this.RoleUser;
   }
 
   handRoleSet = (texts, record) => {
-    console.log(component.RoleSet);
-    const {RoleSet} = component;
-    RoleSet.onShow();
+    this.RoleSet.onShow();
+  }
+
+  handRoleUser = () => {
+    this.RoleUser.onShow();
   }
 
   handAddRole = (e) => {
@@ -98,7 +101,7 @@ class SearchList extends Component {
         }
       })
     }
-
+ 
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
@@ -118,6 +121,7 @@ class SearchList extends Component {
         <TabelList data={data} ColumnData={ColumnData} rowSelection={rowSelection} />
         <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
+        <RoleUser ref={(c) => {this.RoleUser = c;}} />
       </PageHeaderWrapper>
     );
   }

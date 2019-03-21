@@ -11,7 +11,7 @@ export function GetUrlRelativePath(authority)
     // eslint-disable-next-line prefer-destructuring
     relUrl = relUrl.split("?")[0];
   }
-  if (authority[0]==='guest' || !authority) {
+  if (authority===null || authority[0]==='guest' || !authority) {
     if (relUrl !== '/user/login' && relUrl!=='/user/ResetPaswrod') window.location.href = '/user/login';
     return false;
   }
