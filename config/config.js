@@ -88,7 +88,7 @@ export default {
   // },
   proxy: {
     '/server/api/': {
-      target: 'http://47.112.107.56:9000/',
+      target: 'https://uatop.ewoyin.com/op/',
       changeOrigin: true,
      pathRewrite: { '^/server/api/': '' },
    },

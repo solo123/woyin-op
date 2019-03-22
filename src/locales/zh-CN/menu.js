@@ -46,6 +46,7 @@ export default {
   'menu.merchant': '商户管理',
   'menu.merchant.merchant-list': '查询商户列表',
   'menu.merchant.merchant-recharge': '商户直充（代商户加款）',
+  'menu.merchant.merchant-member-inter-apply': '商户会员充值积分审核',
   'menu.merchant.merchant-info': '查询商户旗下人员信息',
   'menu.merchant.merchant-balance-info': '查询成员凌晨余额信息',
   'menu.system.menuSite': '菜单管理',

@@ -8,14 +8,18 @@ import {
   Card,
   Form,
   Table,
-  Modal
+  Modal,
+  Divider
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {MerchantAddOrUpdate, MemberAllAdd} from '@/components/Merchant';
+import {MerchantAddOrUpdate, MemberUpload, InterUpload, MerchantInfo} from '@/components/Merchant';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import styles from './List.less'
 
-@connect()
+@connect(({ merchant, loading }) => ({
+  merchant,
+  submitting: loading.effects['merchant/setMerchant'],
+}))
 class List extends React.Component {
   constructor(props){
     super(props);
@@ -27,9 +31,9 @@ class List extends React.Component {
       label: '禁用',
     }];
     const formDatas = [
-      {type: 'InputIcon' ,label: '商户登录帐户', name: 'logo', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '商户名称', name: 'name', ruless:[] , placeholder: '角商户名称色编码', typeIco: 'book'},
-      {type: 'InputIcon' ,label: '手机号', name: 'phone', ruless:[] , placeholder: '手机号', typeIco: 'book'},
+      {type: 'InputIcon' ,label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '角商户名称色编码', typeIco: 'book'},
+      {type: 'InputIcon' ,label: '手机号', name: 'phoneNum', ruless:[] , placeholder: '手机号', typeIco: 'book'},
       {type: 'SelectCompone', label: '状态：', name: 'statue', options: option}
     ];
     const buttonDatas = [
@@ -47,17 +51,12 @@ class List extends React.Component {
         {title: '固定电话', dataIndex: 'telephone', key: 'telephone'},
         {title: '状态', dataIndex: 'statue', key: 'statue'},
         {title: '创建时间', dataIndex: 'creatertime', key: 'creatertime'},
-      
         {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
         {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
-        {title: '操作', dataIndex: 'action', key: 'action',  render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeAddUser(texts, record)}}>批量创建会员</a>)},
+        {title: '操作', dataIndex: 'action', key: 'action',  render: (texts, record) => (<span><a href="javascript:void(0)" onClick={()=> {this.onHangInter(texts, record)}}>会员充值积分</a></span>)},
      ],
-     data: [
-      {key: '1', logo: 'John2', name: '322', site: 'New York No. 1 Lake Park', linkman: 'developer', phone: '11888', telephone: '88-88', statue: '正常', creatertime: '2018-01-01', find: '详情', freezing:'2019-11-11', unfreezing: '2018-11-12'}, 
-      {key: '2', logo: 'John3', name: '321', site: 'New York No. 1 Lake Park', linkman: 'developer', phone: '11888', telephone: '88-88', statue: '正常', creatertime: '2018-01-01', find: '详情', freezing:'2019-11-11', unfreezing: '2018-11-12'}, 
-      {key: '3', logo: 'John4', name: '323', site: 'New York No. 1 Lake Park', linkman: 'developer', phone: '11888', telephone: '88-88', statue: '正常', creatertime: '2018-01-01', find: '详情', freezing:'2019-11-11', unfreezing: '2018-11-12'}, 
-     ]
+     data: []
     }
     this.state = {
       formData: formDatas,
@@ -67,11 +66,15 @@ class List extends React.Component {
     }
   }
   
-  componentWillMount () {
-
+  componentWillMount (){
+    const {dispatch} = this.props
+    dispatch({
+      type: 'merchant/getMerchantList',
+    })
   }
 
   onHangeDetails = (texts, record) => {
+    this.MerchantInfo.showModal();
     console.log(texts);
     console.log(record);
   }
@@ -79,11 +82,20 @@ class List extends React.Component {
   onHangeAddUser = (texts, record) => {
     console.log(texts);
     console.log(record);
-    this.MemberAllAdd.showModal();
+    this.MemberUpload.showModal();
+  }
+
+  onHangInter = (texts, record) => {
+    console.log(texts);
+    console.log(record);
+    this.InterUpload.showModal();
   }
 
   handAdd = (e) => {
-    this.MerchantAddOrUpdate.showModal(e);
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'merchant/opendMerchantAdd'
+    })
   }
 
   handEdit = (e) => {
@@ -105,18 +117,52 @@ class List extends React.Component {
     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
   }
 
+  // 查询条件表单提交
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if(!err){
-        console.log('Received values of form: ', values);
+        const {dispatch} = this.props;
+        dispatch({
+          type: 'merchant/getMerchantList',
+          payload:{
+            ...values
+          }
+        })
       }
     })
   }
 
+  // 获取商户列表，并且清洗数据
+  rinseData = (data) => {
+    // const data = list;
+    const {tableData} = this.state;
+    const merchantList = [];
+    for(let i = 0; i < data.length; i+=1){
+      const merch = {};
+      merch.key = i;
+      merch.logo =  data[i].MerchantInfo.accountId;
+      merch.name = data[i].MerchantInfo.merchantName;
+      merch.site =  data[i].MerchantInfo.merchantAddr;
+      merch.linkman =  data[i].MerchantInfo.contactMan;
+      merch.phone =  data[i].MerchantInfo.phoneNum;
+      merch.telephone =  data[i].MerchantInfo.telNum;
+      merch.statue =  data[i].MerchantInfo.state;
+      merch.creatertime =  data[i].MerchantInfo.createTime;
+      merch.find =  data[i].MerchantInfo.id;
+      merch.freezing =  data[i].MerchantInfo.frozenTime;
+      merch.unfreezing =  data[i].MerchantInfo.unFrozenTime;
+      merchantList.push(merch);
+    }
+    tableData.data = merchantList;
+    return tableData
+  }
+
   render () {
     const { getFieldDecorator } = this.props.form; 
-    const { formData, buttonData, tableData } = this.state;
+    const {list} = this.props.merchant;
+    const tableData = this.rinseData(list);
+    const { formData, buttonData } = this.state;
     const rowSelection = {
       type: 'radio',
       onChange: this.getCheckUser
@@ -142,9 +188,12 @@ class List extends React.Component {
           dataSource={tableData.data} 
           bordered
           rowSelection={rowSelection}
+          scroll={{ x: 1700 }}
         />
-        <MerchantAddOrUpdate ref={(c) => {this.MerchantAddOrUpdate = c;}} />
-        <MemberAllAdd ref={(c) => {this.MemberAllAdd = c}} />
+        <MerchantAddOrUpdate />
+        <MemberUpload ref={c => {this.MemberUpload = c}} />
+        <InterUpload ref={c => {this.InterUpload = c}} />
+        <MerchantInfo ref={c => {this.MerchantInfo = c}} />
       </PageHeaderWrapper>
     )
   }

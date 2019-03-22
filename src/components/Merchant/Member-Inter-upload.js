@@ -8,11 +8,10 @@ import {
     Button,
     Divider 
   } from 'antd';
-import styles from './Member-all-add.less'
 import reqwest from 'reqwest';
+import styles from './Member-upload.less'
 
-
-class MemberAllAdd extends React.Component {
+class InterUpload extends React.Component {
 
   constructor(props) {
     super(props);
@@ -89,7 +88,7 @@ class MemberAllAdd extends React.Component {
     };
     return (
       <Modal
-        title='批量创建会员'
+        title='会员充值积分'
         transparent
         style={{ top: 100 }}
         maskClosable={false}
@@ -121,4 +120,4 @@ class MemberAllAdd extends React.Component {
   }
 }
 
-export default MemberAllAdd;
+export default InterUpload;

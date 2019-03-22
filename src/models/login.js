@@ -27,7 +27,6 @@ export default {
         type: 'changeLoginStatus',
         payload: response,
       });
-
       if (response.status === 'ok') {
         // 进行一次数据存入
         reloadAuthorized();

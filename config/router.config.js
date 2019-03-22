@@ -123,6 +123,11 @@ export default [
               component: './Merchant/Recharge',
             },
             {
+              path: '/merchant/merchant-member-inter-apply',
+              name: 'merchant-member-inter-apply',
+              component: './Merchant/MemberInterApply',
+            },
+            {
               path: '/merchant/info',
               name: 'merchant-info',
               component: './Merchant/BalanceInfo',

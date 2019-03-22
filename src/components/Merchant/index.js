@@ -1,9 +1,13 @@
 import MerchantAddOrUpdate from './Merchant-Add-Or-Update';
-import MemberAllAdd from './Member-all-add';
+import MemberUpload from './Member-upload';
+import InterUpload from './Member-inter-upload';
+import MerchantInfo from './MerchantInfo';
 
 
 export {
     MerchantAddOrUpdate,
-    MemberAllAdd
+    MemberUpload,
+    InterUpload,
+    MerchantInfo
 }
 export default MerchantAddOrUpdate

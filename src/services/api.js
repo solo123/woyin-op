@@ -1,5 +1,8 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
+import {Dev} from '../defaultSettings';
+
+const serverApi = Dev ? '' : '/server/api';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -104,11 +107,30 @@ export async function queryProjectNotice() {
 // }
 
 export async function fakeAccountLogin(params) {
-  return request('/server/api/merUser/login', {
+  return request( `${serverApi}/admin_login`, {
     method: 'POST',
     body: params,
   });
 }
+
+// 根据条件获取到列表
+export async function getMerchantListApi (params) {
+  return request(`${serverApi}/admin/getAll?${stringify(params)}`);
+}
+
+// 增加商户信息
+export async function addMerchantApi (params) {
+  return request(`${serverApi}/admin/setMerchant`, {
+    method: 'POST',
+    body: params,
+  })
+}
+// export async function fakeAccountLogin(params) {
+//   return request(`${serverApi}/api/admin/login`, {
+//     method: 'POST',
+//     body: params,
+//   });
+// }
 
 export async function queryNotices(params = {}) {
   return request(`/api/notices?${stringify(params)}`);
