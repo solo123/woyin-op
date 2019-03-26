@@ -7,12 +7,12 @@ import {
 
 const  handChangs = (value) => (value);
 
-export const LabelInput = ({label, name, ruless, placeholder, handChang}, getFieldDecorator) => (
+export const LabelInput = ({label, name, ruless,disabled=true, placeholder, handChang}, getFieldDecorator) => (
   <Form.Item
     label={label}
   >
     {getFieldDecorator(name, {rules: ruless})(
-      <Input placeholder={placeholder} onChange={typeof(handChang) === 'function' ? handChang : handChangs} />
+      <Input placeholder={placeholder} disabled={disabled} onChange={typeof(handChang) === 'function' ? handChang : handChangs} />
     )}
   </Form.Item>
 )

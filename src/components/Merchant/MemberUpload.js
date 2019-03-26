@@ -3,15 +3,14 @@ import {
     Modal,
     Upload, 
     Icon, 
-    Tag,
     message,
     Button,
     Divider 
   } from 'antd';
 import reqwest from 'reqwest';
-import styles from './Member-upload.less'
+import styles from './MemberUpload.less'
 
-class InterUpload extends React.Component {
+class MemberAllAdd extends React.Component {
 
   constructor(props) {
     super(props);
@@ -88,7 +87,7 @@ class InterUpload extends React.Component {
     };
     return (
       <Modal
-        title='会员充值积分'
+        title='批量创建会员'
         transparent
         style={{ top: 100 }}
         maskClosable={false}
@@ -120,4 +119,4 @@ class InterUpload extends React.Component {
   }
 }
 
-export default InterUpload;
+export default MemberAllAdd;

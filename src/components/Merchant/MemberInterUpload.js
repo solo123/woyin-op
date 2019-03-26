@@ -3,15 +3,13 @@ import {
     Modal,
     Upload, 
     Icon, 
-    Tag,
     message,
     Button,
-    Divider 
   } from 'antd';
-import reqwest from 'reqwest';
-import styles from './Member-upload.less'
+import {uploadIntegralFile} from '@/services/api'
+import styles from './MemberInterUpload.less'
 
-class MemberAllAdd extends React.Component {
+class InterUpload extends React.Component {
 
   constructor(props) {
     super(props);
@@ -22,10 +20,11 @@ class MemberAllAdd extends React.Component {
     }
   }
 
-  showModal = () => {
+  showModal = (merchantId) => {
     // e.preventDefault();
     this.setState({
       visible: true,
+      merchantId
     });
   }
 
@@ -36,32 +35,24 @@ class MemberAllAdd extends React.Component {
   }
 
   handleUpload = () => {
-    const { fileList } = this.state;
+    const { fileList, merchantId } = this.state;
     const formData = new FormData();
-    fileList.forEach((file) => {
-      formData.append('files[]', file);
+    fileList.forEach(element => {
+      formData.append('file', element);
     });
- 
-    // You can use any AJAX library you like
-    reqwest({
-      url: '//jsonplaceholder.typicode.com/posts/',
-      method: 'post',
-      processData: false,
-      data: formData,
-      success: () => {
-        this.setState({
-          fileList: [],
-          uploading: false,
-        });
-        message.success('upload successfully.');
-      },
-      error: () => {
-        this.setState({
-          uploading: false,
-        });
-        message.error('upload failed.');
-      },
-    });
+    formData.append('merchantId', merchantId);
+    uploadIntegralFile(formData).then(res => {
+      if(res.status === 200){
+        message.info('积分上传成功');
+        this.onClose();
+      }else{
+        message.error('上传失败，请检查格式是否正确');
+      }
+      this.setState({
+        fileList: [],
+        uploading: false,
+      });
+    })
   }
 
 
@@ -88,7 +79,7 @@ class MemberAllAdd extends React.Component {
     };
     return (
       <Modal
-        title='批量创建会员'
+        title='会员充值积分'
         transparent
         style={{ top: 100 }}
         maskClosable={false}
@@ -96,8 +87,8 @@ class MemberAllAdd extends React.Component {
         onCancel={this.onClose}
         onOk={this.handleSubmit}
       >
-        <div className={styles.targ}><Icon type="snippets" />模板文件下载</div>
-        <Divider  />
+        {/* <div className={styles.targ}><Icon type="snippets" />模板文件下载</div>
+        <Divider  /> */}
         <div className={styles.hint}>
           <Upload {...props}>
             <Button>
@@ -120,4 +111,4 @@ class MemberAllAdd extends React.Component {
   }
 }
 
-export default MemberAllAdd;
+export default InterUpload;

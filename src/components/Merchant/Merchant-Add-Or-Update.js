@@ -71,7 +71,7 @@ class MerchantAddOrUpdate extends React.Component {
   render() {
     const {formData} = this.state;
     const { visibe } = this.props.merchant;
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div>
         <Modal

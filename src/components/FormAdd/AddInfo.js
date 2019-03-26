@@ -2,7 +2,7 @@ import React from 'react';
 import { 
     Form,
   } from 'antd';
-  import {InputIcon, SelectCompone} from '../FormTool';
+  import {InputIcon, SelectCompone, LabelInput} from '../FormTool';
 
 class AddInfo extends React.Component {
   constructor(props) {
@@ -21,6 +21,12 @@ class AddInfo extends React.Component {
     const {data} = this.props;
     const formInputRend = data.map( (value) => {
       switch (value.type){
+          case 'LabelInput':
+            return (
+              <React.Fragment key={value.label}>
+                {LabelInput(value, getFieldDecorator)}
+              </React.Fragment>
+            );
           case 'InputIcon':
             return (
               <React.Fragment key={value.label}>

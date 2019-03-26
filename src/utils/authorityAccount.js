@@ -52,9 +52,10 @@ export function authorityAccount() {
                 '/order/findbuyorder',
                 '/order/shopcreateroll',
                 '/order/lotteryorder',
-                 /*
+               
                 '/product',
                 '/product/productinfo',
+                  /*
                 '/transfer',
                 '/transfer/transferaudit',
                 '/transfer/transferorderlist',
