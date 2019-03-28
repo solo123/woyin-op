@@ -52,8 +52,8 @@ export function authorityAccount() {
                 // '/order/shopcreateroll',
                 // '/order/lotteryorder',
                 '/order/intersubmit',
-                '/product',
-                '/product/productinfo',
+                // '/product',
+                // '/product/productinfo',
                   /*
                 '/transfer',
                 '/transfer/transferaudit',
