@@ -23,9 +23,8 @@ class HeadForm extends React.Component {
   }
 
   render () {
-    const {formData, handleSubmit, getFieldDecorator} = this.props;
-    // eslint-disable-next-line react/destructuring-assignment
-
+    const {formData, handleSubmit, getFieldDecorator, form} = this.props;
+    const  handleReset = () => {form.resetFields(); }
     const formInputRend = formData.map( (value) => {
         switch (value.type){
           case 'InputIcon':
@@ -54,7 +53,7 @@ class HeadForm extends React.Component {
         <Form layout="inline" onSubmit={handleSubmit}>
           {formInputRend}
           <Button type="primary" icon="search" htmlType="submit">查找</Button>
-          <Button style={{"marginLeft": '10px'}} icon="redo">重置</Button>
+          <Button style={{"marginLeft": '10px'}} onClick={handleReset} icon="redo">重置</Button>
         </Form>
       )
     }

@@ -93,7 +93,7 @@ class BaseView extends Component {
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
-          <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
+          {/* <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
             <FormItem label={formatMessage({ id: 'app.settings.basic.email' })}>
               {getFieldDecorator('email', {
                 rules: [
@@ -185,11 +185,11 @@ class BaseView extends Component {
                 />
               </Button>
            </Authorized>
-          </Form>
+          </Form> */}
         </div>
-        <div className={styles.right}>
+        {/* <div className={styles.right}>
           <AvatarView avatar={this.getAvatarURL()} />
-        </div>
+        </div> */}
       </div>
     );
   }

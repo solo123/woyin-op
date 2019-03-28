@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
 import {
@@ -5,7 +6,8 @@ import {
   Col,
   Card,
   Form,
-  Table
+  Table,
+  Modal
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {MemberRecharges} from '@/components/Merchant';
@@ -43,19 +45,34 @@ class Recharge extends React.Component {
       formData: formDatas,
       buttonData,
       tableData,
-      cureeMerchId
+      cureeMerchId,
+      limit: 10,
+      count: 1,
+      params: {
+        userAccount: null,
+        merchantName: null,
+        count: null,
+        page: null,
+      },
     }
   }
   
   componentWillMount () {
-    this.geGetMerList();
+    const params = {
+      count: this.state.limit,
+      page:1
+    }
+    this.geGetMerList(params);
   }
 
 
   geGetMerList = (params) => {
     RechargeGetMerList(params).then(res => {
       if(res.status === 200) {
-        this.dataRinse(res.data);
+        this.dataRinse(res.data.data);
+        this.setState({
+          count: res.data.totalCount
+        })
       }
     })
   }
@@ -66,18 +83,23 @@ class Recharge extends React.Component {
     if(cureeMerchId){
       this.MemberRecharges.showModal(cureeMerchId);
     }else{
-      alert('请选择数据信息')
+      Modal.info({
+        title: '信息提醒',
+        content: '选选择要充值的商户！',
+      })
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.form.validateFields((err, values) => {
       if(!err){
+        this.setState({
+          params: values
+        })
         RechargeGetMerList(values).then(res => {
           if(res.status === 200){
-            this.dataRinse(res.data);
+            this.dataRinse(res.data.data);
           }
         })
       }
@@ -85,13 +107,15 @@ class Recharge extends React.Component {
   }
 
   onChangePage = (page, pageSize) => {
-    console.log(page, pageSize);
+    const {params} = this.state;
+    params.count = this.state.limit;
+    params.page = page;
+    this.geGetMerList(params);
   }
 
   hangelRowChange = (selectedRowKeys, selectedRows) => {
-    const cureeMerchId = selectedRows[0].key
     this.setState({
-      cureeMerchId
+      cureeMerchId: selectedRows[0].key
     })
   }
 
@@ -118,7 +142,7 @@ class Recharge extends React.Component {
 
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { formData, tableData, buttonData } = this.state;
+    const { formData, tableData, buttonData, limit, count } = this.state;
     const rowSelection = {
       type: 'radio',
       onChange: this.hangelRowChange
@@ -128,7 +152,7 @@ class Recharge extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>
@@ -145,10 +169,10 @@ class Recharge extends React.Component {
           bordered
           rowSelection={rowSelection}
           pagination={{
-            pageSize: 3,
+            pageSize: limit ,// 每页的条数
+            total: count,
             onChange: this.onChangePage
-           }
-          }
+           }}
         />
         <MemberRecharges ref={c => {this.MemberRecharges = c}} />
       </PageHeaderWrapper>

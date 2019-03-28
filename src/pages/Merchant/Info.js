@@ -1,50 +1,80 @@
 import React, { Component } from 'react';
-import router from 'umi/router';
 import { connect } from 'dva';
 import { 
-  Table, 
-  Divider, 
-  Tag, 
-  Input,
-  Form, 
-  Icon,  
-  Button,
-  Cascader,
+  Table,
   Row, 
   Col,
   Card
 } from 'antd';
+import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import {getMerchantListApi} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
-
-const { Column, ColumnGroup } = Table;
-
-const data = [{
-  key: '1',
-  firstName: 'John',
-  lastName: 'Brown',
-  age: 32,
-  address: 'New York No. 1 Lake Park',
-  tags: ['nice', 'developer'],
-}, {
-  key: '2',
-  firstName: 'Jim',
-  lastName: 'Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-  tags: ['loser'],
-}, {
-  key: '3',
-  firstName: 'Joe',
-  lastName: 'Black',
-  age: 32,
-  address: 'Sidney No. 1 Lake Park',
-  tags: ['cool', 'teacher'],
-}];
+import styles from './Info.less';
 
 @connect()
 class SearchList extends Component {
-  componentDidMount() {
+  constructor(props){
+    super(props);
+    const option = [{
+      value: '1',
+      label: '正常',
+    }, {
+      value: '0',
+      label: '禁用',
+    }];
+    const formDatas = [
+      {type: 'InputIcon' ,label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '角商户名称色编码', typeIco: 'book'},
+      {type: 'InputIcon' ,label: '用户手机号码', name: 'merchantName', ruless:[] , placeholder: '角商户名称色编码', typeIco: 'book'},
+      {type: 'InputIcon' ,label: '用户名称', name: 'merchantName', ruless:[] , placeholder: '角商户名称色编码', typeIco: 'book'},
+      // {type: 'InputIcon' ,label: '手机号', name: 'phoneNum', ruless:[] , placeholder: '手机号', typeIco: 'book'},
+      // {type: 'SelectCompone', label: '状态：', name: 'status', options: option}
+    ];
+    const buttonDatas = [
+      {type: 'primary', ico: 'plus', hangClick: this.handAdd, labe: '添加'},
+      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
+      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '冻结/解冻'},
+    ];
+    const tableData = {
+      columns: [
+        {title: '用户名', dataIndex: 'logo', key: 'logo'},
+        {title: '用户手机号码', dataIndex: 'name', key: 'name'},
+        {title: '用户昵称', dataIndex: 'site', key: 'site'},
+        {title: '用户备注', dataIndex: 'linkman', key: 'linkman'},
+        {title: '用户冻结时间', dataIndex: 'phone', key: 'phone'},
+        {title: '用户更新时间', dataIndex: 'telephone', key: 'telephone'},
+        {title: '状态', dataIndex: 'statue', key: 'statue'},
+        {title: '用户组创建时间', dataIndex: 'creatertime', key: 'creatertime'},
+    //     {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
+    //     {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
+    //     {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
+    //     {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right', 
+    //      render: (texts, record) => (
+    //        <span>
+    //          <a href="javascript:void(0)" onClick={()=> {this.onHangInter(texts, record)}}>上传会员积分</a> | 
+    //          <a href="javascript:void(0)" onClick={()=> {this.onHangApplayData(texts, record)}}>上传数据审核</a> | 
+    //          <a href="javascript:void(0)" onClick={()=> {this.onHangApplayInter(texts, record)}}>会员发分审核</a>
+    //        </span>)},
+      ],
+     data: []
+    }
+    this.state = {
+      formData: formDatas,
+      buttonData: buttonDatas,
+      tableData,
+      selectUserData: null,
+      limit: 10,
+      count: 0,
+      param: {
+        userAccount: '',
+        merchantName: '',
+        phoneNum: '',
+        status: '',
+      }
+    }
+  }
+
+  componentWillMount() {
     // To disabled submit button at the beginning.
   }
 
@@ -56,109 +86,45 @@ class SearchList extends Component {
   onChange(value) {
     console.log(value);
   }
-  render() {
 
-    const { match, children, location } = this.props;
-    const options = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
+  render() {
+    const { getFieldDecorator } = this.props.form; 
+    const {tableData} = this.state;
+    const { formData, buttonData, limit, count } = this.state;
     const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
-      }),
+      type: 'radio',
+      onChange: this.getCheckUser
     };
     return (
       
       <PageHeaderWrapper>
-         <Card bordered={false}>
-        <Row>
-          <Col >
-            <Form layout="inline" onSubmit={this.handleSubmit}>
-                <Form.Item
-                  label="角色名称："
-                >
-                  <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="角色名称" />
-                </Form.Item>
-                <Form.Item
-                  label="角色编码："
-                >
-                  <Input prefix={<Icon type="book" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="角色编码" />
-                </Form.Item>
-                <Form.Item
-                  label="状态："
-                >
-                  <Cascader options={options} onChange={this.onChange} placeholder="请选择" />
-                </Form.Item>
-                <Button type="primary" icon="search">查找</Button>
-                <Button  style={{"marginLeft": '10px'}} icon="redo">重置</Button>
-            </Form>
-          </Col>
-        </Row>
-        <Row style={{marginLeft: "-24px", marginRight: "-24px"}}>
-          <Col span={2}>
-            <Button type="primary" icon="plus">添加</Button>
-          </Col>
-          <Col span={2}>
-            <Button icon="redo">修改</Button>
-          </Col>
-        </Row>
+        <Card bordered={false}>
+          <Row>
+            <Col>
+              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className={styles.addButton}>
+                <HeadFootButton buttonData={buttonData} />
+              </div>
+            </Col>
+          </Row>
         </Card>
-         
-        <Table 
-          dataSource={data} 
+        <Table
+          columns={tableData.columns}
+          dataSource={tableData.data} 
           bordered
           rowSelection={rowSelection}
-          >
-            <Column
-              title="角色名称"
-              dataIndex="firstName"
-               key="firstName"
-            />
-            <Column
-              title="Last Name"
-              dataIndex="lastName"
-              key="lastName"
-            />
-            <Column
-              title="角色编码"
-              dataIndex="age"
-              key="age"
-            />
-            <Column
-              title="角色描述"
-              dataIndex="address"
-              key="address"
-            />
-            <Column
-              title="状态"
-              dataIndex="tags"
-              key="tags"
-              render={tags => (
-                <span>
-                  {tags.map(tag => <Tag color="blue" key={tag}>{tag}</Tag>)}
-                </span>
-              )}
-            />
-            <Column
-              title="操作"
-              key="action"
-              render={(text, record) => (
-                <span>
-                  <a href="javascript:;">成员</a>
-                  <Divider type="vertical" />
-                  <a href="javascript:;">权限</a>
-                </span>
-              )}
-            />
-          </Table>
+          scroll={{ x: 1600 }}
+          pagination={{
+            pageSize: limit ,// 每页的条数
+            total: count,
+            onChange: this.onChangePage
+           }}
+        />
+       
       </PageHeaderWrapper>
     );
   }

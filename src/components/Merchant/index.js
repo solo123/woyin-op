@@ -4,6 +4,7 @@ import InterUpload from './MemberInterUpload';
 import MerchantInfo from './MerchantInfo';
 import MemberApplayData from'./MemberApplayData';
 import MemberRecharges from './MemberRecharges';
+import MemberApplayInter from './MemberApplayInter';
 
 
 export {
@@ -12,6 +13,7 @@ export {
     InterUpload,
     MerchantInfo,
     MemberApplayData,
-    MemberRecharges
+    MemberRecharges,
+    MemberApplayInter
 }
 export default MerchantAddOrUpdate

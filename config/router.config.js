@@ -16,7 +16,7 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       // dashboard
-      { path: '/', redirect: '/account/settings' },
+      { path: '/', redirect: '/merchant/list' },
       {
         name: 'exception',
         icon: 'warning',
@@ -145,6 +145,11 @@ export default [
         name: 'order',
         icon: 'file-text',
         routes: [
+          {
+            path: '/order/intersubmit',
+            name: 'InterSubmit',
+            component: './Order/InterSubmit',
+         },
           {
             path: '/order/shoporder',
             name: 'shoporder',

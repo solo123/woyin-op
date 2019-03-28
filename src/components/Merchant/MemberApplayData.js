@@ -5,9 +5,10 @@ import {
     Row,
     Col,
     Button,
-    Tag
+    Tag,
+    message
   } from 'antd';
-  import {UploadInterView} from '@/services/api';
+  import {UploadInterView, SubmintExcekData, SubmintExceCancel} from '@/services/api';
   import styles from './MemberApplayData.less';
 
   class MemberApplayData extends React.Component{
@@ -16,7 +17,7 @@ import {
         super(props);
         const palyInfo = {
             columns:[
-                {title: '商户编号',key: 'userAccount',dataIndex: 'userAccount',width: 100}, 
+                {title: '商户编号',key: 'merchantId',dataIndex: 'merchantId',width: 100}, 
                 {title: '操作人编号',key: 'userId',dataIndex: 'userId'}, 
                 {title: '会员名称',key: 'memberName',dataIndex: 'memberName'},
                 {title: '手机号',key: 'mobile',dataIndex: 'mobile'}, 
@@ -34,17 +35,40 @@ import {
         };
         this.state={
             visible: false,
-            palyInfo
+            palyInfo,
+            merchantId: null,
+            limit: 8,
+            page: 1,
+            count: 1
         }
     }
 
     int = (memberInfo) => {
-        const {palyInfo} = this.state;
+        this.setState({
+            merchantId: memberInfo.key
+        })
+        const {limit, page} = this.state;
         const params = {
             merchantId: memberInfo.key,
-            limit: '',
-            page: '',
+            limit, 
+            page,
         }
+        this.getDataHttp(params);
+    }
+
+    onChangePage = (page) => {
+        const {limit, merchantId} = this.state;
+        const params = {
+            merchantId,
+            limit, 
+            page,
+        }
+        this.getDataHttp(params);
+    }
+
+    getDataHttp = (params) => {
+        const {palyInfo} = this.state;
+        palyInfo.data = [];
         UploadInterView(params).then(res => {
             if(res.status === 200){
                 res.data.result.forEach(item => {
@@ -64,7 +88,8 @@ import {
                     palyInfo.data.push(user);
                 });
                 this.setState({
-                    palyInfo
+                    palyInfo,
+                    count: res.data.count
                 })
             }
         })
@@ -72,7 +97,26 @@ import {
 
     // 确认数据正确
     onHangSubmit = (e) => {
-        
+        const {merchantId} = this.state;
+        const params = {merchantId};
+        SubmintExcekData(params).then(res => {
+            if(res.status === 200){
+                message.info('确认成功');
+                this.onClose();
+            }
+        })
+    }
+
+    // 数据错误不提交
+    onHangCancel = (e) => {
+        const {merchantId} = this.state;
+        const params = {merchantId};
+        SubmintExceCancel(params).then( res => {
+            if(res.status === 200){
+                message.info('取消成功');
+                this.onClose();
+            }
+        })
     }
 
     showModal = () => {
@@ -89,12 +133,12 @@ import {
     }
 
     render () {
-        const {visible, palyInfo} = this.state;
+        const {visible, palyInfo, count, limit} = this.state;
         return(
           <Modal
             title='上传数据待审核'
             transparent
-            width={1000}
+            width={1100}
             style={{ top: 100}}
             maskClosable={false}
             visible={visible}
@@ -104,6 +148,11 @@ import {
             <Table 
               columns={palyInfo.columns} 
               dataSource={palyInfo.data}
+              pagination={{
+                pageSize: limit ,// 每页的条数
+                total: count,
+                onChange: this.onChangePage
+               }}
             />
             <Row>
               <Col className={styles.buttonGroup}>

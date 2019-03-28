@@ -1,5 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import fetch from 'dva/fetch';
-import { notification } from 'antd';
+import { notification, Modal } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
@@ -127,13 +128,24 @@ export default function request(url, option) {
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }
-      return response.json();
+      return response.json().then(res => {
+        if (res.data === '请先登录'){
+          Modal.error({
+            title: '错误信息',
+            content: '登陆失效，请重新登陆！',
+            onOk() { 
+              window.g_app._store.dispatch({
+              type: 'login/logout',
+            });},
+          });
+        }
+        return  res
+      });
     })
     .catch(e => {
       const status = e.name;
       if (status === 401) {
         // @HACK
-        /* eslint-disable no-underscore-dangle */
         window.g_app._store.dispatch({
           type: 'login/logout',
         });

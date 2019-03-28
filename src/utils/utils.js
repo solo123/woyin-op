@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 import moment from 'moment';
 import React from 'react';
 import nzh from 'nzh/cn';
@@ -103,6 +104,43 @@ function getRenderArr(routes) {
     }
   }
   return renderArr;
+}
+
+export function add0(m){return m<10?'0'+m:m }
+// export  function format(shijianchuo)
+// {
+//   //  shijianchuo是整数，否则要parseInt转换
+//   const time = new Date(shijianchuo);
+//   const y = time.getFullYear();
+//   const m = time.getMonth()+1;
+//   const d = time.getDate();
+//   const h = time.getHours();
+//   const mm = time.getMinutes();
+//   const s = time.getSeconds();
+//   return y + '-' +add0(m) + '-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+// }
+
+export function change(t) {
+  if (t < 10) {
+      return "0" + t;
+  } else {
+      return t;
+  }
+}   
+
+export  function timeToYmdH(time){
+  let date = 0; 
+  if(time > 10000000000){
+      date = new Date(time);
+  }else{
+      date = new Date(1000*time);
+  }
+  const Y = `${date.getFullYear()  }-`;
+  const M = (date.getMonth() + 1 < 10 ? `0${  date.getMonth() + 1}` : date.getMonth() + 1) + '-';
+  const D = change(date.getDate());
+  const h = change(date.getHours());
+  const m = change(date.getMinutes());
+  return `${Y+M+D} ${h}:${m}` ;
 }
 
 /**
