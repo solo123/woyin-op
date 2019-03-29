@@ -116,6 +116,10 @@ const gerMerchantHuiInfo = async function gerMerchantHuiInfo (params) {
   return request(`${serverApi}/op/admin/users?${stringify(params)}`);
 }
 
+const GetOrderList = async function GetOrderList (params) {
+  return request(`${serverApi}/op/withdrawal/withdrawalList?${stringify(params)}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -135,4 +139,5 @@ export {
   withdrawList, // 获取提现审核列表
   withdrawApplay, // 提现审核
   gerMerchantHuiInfo, // 获取商户下会员信息
+  GetOrderList, // 获取订单列表
 }

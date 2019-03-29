@@ -10,7 +10,7 @@ import {
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
-import {findOrderInfo} from '@/services/api';
+import {GetOrderList} from '@/services/api';
 import styles from './Shoporder.less'
 
 @connect()
@@ -66,13 +66,13 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-    this.getData();
+   // this.getData();
   }
 
   
   getData = (param) => {
     const {tableData} = this.state;
-    findOrderInfo(param).then(res => {
+    GetOrderList(param).then(res => {
       if(res.status === 200){
        res.data.forEach(item => {
           const order = {};
