@@ -160,7 +160,7 @@ class List extends React.Component {
           bankCard: item.bankCard,
           bankCode: item.bankCode,
           bankName: item.bankName,
-          bankcardtype: item.bankcardtype,
+          bankcardtype: 1,// item.bankcardtype,
           cardHoldName: item.cardHoldName,
           amount: item.amount,
           orderId: item.key,
