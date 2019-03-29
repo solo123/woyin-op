@@ -15,7 +15,7 @@ export default ({label ,name, options, handChang},getFieldDecorator) => {
       label={label}
     >
       {getFieldDecorator(name)(
-        <Select style={{ width: '193px' }} onChange={typeof(handChang) === 'function' ? handChang : handChangs} placeholder="Select users"> 
+        <Select style={{ width: '193px' }} onChange={typeof(handChang) === 'function' ? handChang : handChangs} placeholder="请选择"> 
           {option}
         </Select>
       )}

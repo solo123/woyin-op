@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { 
   Table,
-  Row, 
+  Row,
   Col,
   Card,
-  Form
+  Form,
+  Tag
 } from 'antd';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {gerMerchantHuiInfo} from '@/services/api';
@@ -31,7 +32,14 @@ class BalanceInfo extends Component {
         {title: '用户备注', dataIndex: 'remark', key: 'remark'},
         {title: '用户冻结时间', dataIndex: 'freezeTime', key: 'freezeTime'},
         {title: '用户更新时间', dataIndex: 'updateTime', key: 'updateTime'},
-        {title: '状态', dataIndex: 'status', key: 'status'},
+        {title: '状态', dataIndex: 'status', key: 'status', render: status => {
+          switch(status){
+            case 0: return  <Tag color="green">未激活</Tag>
+            case 1: return  <Tag color="blue">正常</Tag>
+            case 2: return  <Tag color="red">冻结</Tag>
+            default: return  <Tag color="red">其他</Tag>
+          }
+        }},
         {title: '用户组创建时间', dataIndex: 'createTime', key: 'createTime'},
       ],
       data: []
@@ -44,47 +52,19 @@ class BalanceInfo extends Component {
         merchantName: '' ,
         userPhoneNo: '' ,
         userName: '' ,
-        count: '' ,
+        count: 10 ,
         page: 1,
-        limit: 10
+        totalCount: 10
       }
     }
   }
 
   componentWillMount() {
-    this.getData();
-   
-  }
-
-  getData = (params) => {
-    gerMerchantHuiInfo(params).then(res => {
-      if(res.status === 200){
-        const {tableData} = this.state;
-        tableData.data = [];
-        res.data.data.forEach(element => {
-          const d = {
-            key: element.userId,
-            userName: element.userName,
-            userPhoneNo: element.userPhoneNo,
-            nickName: element.nickName,
-            remark: element.remark,
-            freezeTime: element.freezeTime,
-            updateTime: element.updateTime,
-            status: element.status,
-            createTime: element.createTime,
-          }
-          tableData.data.push(d);
-        });
-        this.setState({
-          tableData
-        })
-      }
-    })
+    this.getData(this.state.params);
   }
 
   onChangePage = (page)=>{
     const {params} = this.state;
-    params.count = this.state.limit;
     params.page = page;
     this.getData(params);
   }
@@ -103,9 +83,37 @@ class BalanceInfo extends Component {
     })
   };
 
+  getData = (params) => {
+    gerMerchantHuiInfo(params).then(res => {
+      if(res.status === 200){
+        const {tableData, params} = this.state;
+        tableData.data = [];
+        res.data.data.forEach(element => {
+          const d = {
+            key: element.userId,
+            userName: element.userName,
+            userPhoneNo: element.userPhoneNo,
+            nickName: element.nickName,
+            remark: element.remark,
+            freezeTime: element.freezeTime,
+            updateTime: element.updateTime,
+            status: element.status,
+            createTime: element.createTime,
+          }
+          tableData.data.push(d);
+        });
+        params.totalCount = res.data.totalCount;
+        this.setState({
+          tableData,
+          params
+        })
+      }
+    })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form; 
-    const { formData, limit, count, tableData } = this.state;
+    const { formData, tableData, params } = this.state;
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
@@ -117,12 +125,12 @@ class BalanceInfo extends Component {
         </Card>
         <Table
           columns={tableData.columns}
-          dataSource={tableData.data} 
+          dataSource={tableData.data}
           bordered
           scroll={{ x: 1200 }}
           pagination={{
-            pageSize: limit ,
-            total: count,
+            pageSize: params.count,
+            total: params.totalCount,
             onChange: this.onChangePage
            }}
         />

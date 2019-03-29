@@ -9,8 +9,8 @@ import {
   Form,
   Table,
   Modal,
+  Tag
 } from 'antd'
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {
   MerchantAddOrUpdate, 
   MemberUpload, 
@@ -18,6 +18,7 @@ import {
   MerchantInfo, 
   MemberApplayInter,
   MemberApplayData} from '@/components/Merchant';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {getMerchantListApi} from '@/services/api';
 import styles from './List.less'
@@ -55,7 +56,11 @@ class List extends React.Component {
         {title: '联系人', dataIndex: 'linkman', key: 'linkman'},
         {title: '手机号', dataIndex: 'phone', key: 'phone'},
         {title: '固定电话', dataIndex: 'telephone', key: 'telephone'},
-        {title: '状态', dataIndex: 'statue', key: 'statue'},
+        {title: '状态', dataIndex: 'statue', key: 'statue', render: statue => (
+          <span>
+            <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '正常' : '异常'}</Tag>
+          </span>
+        )},
         {title: '创建时间', dataIndex: 'creatertime', key: 'creatertime'},
         {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
         {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
@@ -161,7 +166,7 @@ class List extends React.Component {
     })
   }
 
-  onChangePage = (page, pageSize)=>{
+  onChangePage = (page)=>{
     const {param} = this.state;
     param.count = this.state.limit;
     param.page = page;
@@ -183,7 +188,7 @@ class List extends React.Component {
           merch.linkman =  data[i].contactMan;
           merch.phone =  data[i].phoneNum;
           merch.telephone =  data[i].telNum;
-          merch.statue =  data[i].status===1 ? '正确' : '错误';
+          merch.statue =  data[i].status;
           merch.creatertime =  data[i].createTime;
           merch.find =  data[i].id;
           merch.freezing =  data[i].frozenTime;
@@ -230,9 +235,9 @@ class List extends React.Component {
           dataSource={tableData.data} 
           bordered
           rowSelection={rowSelection}
-          scroll={{ x: 1600 }}
+          scroll={{ x: 1700 }}
           pagination={{
-            pageSize: limit ,// 每页的条数
+            pageSize: limit ,
             total: count,
             onChange: this.onChangePage
            }}

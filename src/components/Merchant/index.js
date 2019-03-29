@@ -1,4 +1,4 @@
-import MerchantAddOrUpdate from './Merchant-Add-Or-Update';
+import MerchantAddOrUpdate from './MerchantAddOrUpdate';
 import MemberUpload from './MemberUpload';
 import InterUpload from './MemberInterUpload';
 import MerchantInfo from './MerchantInfo';

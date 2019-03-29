@@ -68,7 +68,8 @@
   "/icons/icon-512x512.png": "/icons/icon-512x512.png",
   "/index.html": "/index.html",
   "/manifest.json": "/manifest.json",
-  "/precache-manifest.e5452fd9bc90169237c76d95d6357cf1.js": "/precache-manifest.e5452fd9bc90169237c76d95d6357cf1.js",
+  "/precache-manifest.38927ed69742afcf07c0e0296a6a2031.js": "/precache-manifest.38927ed69742afcf07c0e0296a6a2031.js",
   "/pwacompat.min.js": "/pwacompat.min.js",
-  "/service-worker.js": "/service-worker.js"
+  "/service-worker.js": "/service-worker.js",
+  "/static/logo.png": "/static/logo.b02b1de2.png"
 }

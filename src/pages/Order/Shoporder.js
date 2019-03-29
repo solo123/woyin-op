@@ -68,12 +68,10 @@ class List extends React.Component {
   componentWillMount () {
    this.getData();
   }
-
   
   getData = (param) => {
     const {tableData} = this.state;
     GetOrderList(param).then(res => {
-      console.log(res);
       if(res.status === 200){
        res.data.withdrawal.forEach(item => {
           const order = {};
@@ -97,15 +95,10 @@ class List extends React.Component {
     })
   }
 
-  createMember = (texts, record) => {
-
-  }
-
   handEdit = (e) => {
     e.preventDefault();
   }
 
-  // 查询
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {

@@ -3,7 +3,8 @@ import {
     Modal,
     Row, 
     Col,
-    Table
+    Table,
+    Tag
   } from 'antd';
 import {getMerchantPlayApi, getMerchantAccApi} from '@/services/api';
 import styles from './MerchantInfo.less';
@@ -14,21 +15,31 @@ class MerchantInfo extends React.Component{
         const merchanLogo ={};
         const palyInfo = {};
         merchanLogo.columns = [
-            {title: '账户编号',key: 'name',}, 
-            {title: '对象编号',key: 'age',}, 
-            {title: '对象类型',key: 'address',}, 
-            {title: '账户积分',key: 'tags',}, 
-            {title: '可用积分',key: 'action',}, 
-            {title: '冻结积分',key: '',}, 
-            {title: '账户类型',key: '',}, 
-            {title: '状态',key: '',}];
+            {title: '账户编号',key: 'accountId',dataIndex:'accountId' }, 
+            {title: '对象编号',key: 'merchantId',dataIndex: 'merchantId' }, 
+            {title: '对象类型',key: 'status',dataIndex: 'status'}, 
+            {title: '账户积分',key: 'balance',dataIndex: 'balance'}, 
+            {title: '可用积分',key: 'userBalance',dataIndex: 'userBalance'}, 
+            {title: '冻结积分',key: 'freezeBalance',dataIndex: 'freezeBalance'}, 
+            // {title: '账户类型',key: '',}, 
+            {title: '状态',key: '',render: statue => (
+              <span>
+                <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '正常' : '异常'}</Tag>
+              </span>
+            )}
+          ];
         merchanLogo.data = []
         palyInfo.columns = [
           {title: '操作员登录账号',key: 'userAccount',dataIndex: 'userAccount',}, 
           {title: '操作员编号',key: 'userId',dataIndex: 'userId',}, 
           {title: '操作员名称',key: 'userName',dataIndex: 'userName',}, 
           {title: '创建时间	',key: 'createTime',dataIndex: 'createTime',}, 
-          {title: '状态',key: 'state',dataIndex: 'state',}];
+          {title: '状态',key: 'state',dataIndex: 'state',render: statue => (
+            <span>
+              <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '正常' : '异常'}</Tag>
+            </span>
+          )}
+        ];
         palyInfo.data = []
         const info = [
           [
@@ -68,18 +79,18 @@ class MerchantInfo extends React.Component{
         });
     }
 
-    int = (merchantInfo) => {
+    int = (MeInfo) => {
       const {info, palyInfo, merchanLogo} = this.state;
-      info[0][0].value = merchantInfo.key;
-      info[0][1].value = merchantInfo.name;
-      info[0][2].value = merchantInfo.state;
-      info[1][0].value = merchantInfo.linkman;
-      info[1][1].value = merchantInfo.creatertime;
-      info[1][2].value = merchantInfo.remark;
-      info[2][0].value = merchantInfo.site;
-      info[2][1].value = merchantInfo.phone;
-      info[2][2].value = merchantInfo.telephone;
-      getMerchantPlayApi(merchantInfo.key).then((res) => {
+      info[0][0].value = MeInfo.key;
+      info[0][1].value = MeInfo.name;
+      info[0][2].value = MeInfo.state;
+      info[1][0].value = MeInfo.linkman;
+      info[1][1].value = MeInfo.creatertime;
+      info[1][2].value = MeInfo.remark;
+      info[2][0].value = MeInfo.site;
+      info[2][1].value = MeInfo.phone;
+      info[2][2].value = MeInfo.telephone;
+      getMerchantPlayApi(MeInfo.key).then((res) => {
         if(res.status === 200){
           for(let i = 0; i<res.data.length; i+=1){
             const paly = {};
@@ -88,38 +99,40 @@ class MerchantInfo extends React.Component{
             paly.userId =  res.data[i].userId;
             paly.userName =  res.data[i].userName;
             paly.createTime =  res.data[i].createTime;
-            paly.state =  res.data[i].state === 1 ? '正常' : '禁止';
+            paly.state =  res.data[i].state;
             palyInfo.data.push(paly);
+            this.setState({
+              info,
+              palyInfo,
+            });
           }
         }
-       
-        getMerchantAccApi( merchantInfo.key ).then(ress => {
-          if(ress.status === 200){
-            for(let j = 0; j<res.data.length; j+=1){
-              const merchan = {};
-              merchan.merchantId = ress.data[j].merchantId
-              merchan.accountId = ress.data[j].accountId
-              merchan.balance = ress.data[j].balance
-              merchan.freezeBalance = ress.data[j].freezeBalance
-              merchan.status = ress.data[j].status === 1 ? '正常' : '禁止';
-              merchanLogo.data.push(merchan);
-            }
-          }
-          this.setState({
-            info,
-            palyInfo,
-            merchanLogo
-          });
-        })
       })
-     
+
+      getMerchantAccApi({merchantId: MeInfo.key} ).then(ress => {
+        if(ress.status === 200){
+          merchanLogo.data = [];
+          for(let j = 0; j<ress.data.length; j+=1){
+            const merchan = {};
+            merchan.key = ress.data[j].accountId;
+            merchan.merchantId = MeInfo.key;
+            merchan.accountId = ress.data[j].accountId;
+            merchan.balance = ress.data[j].balance;
+            merchan.userBalance = parseInt(ress.data[j].balance, 10) - parseInt(ress.data[j].freezeBalance, 10);
+            merchan.freezeBalance = ress.data[j].freezeBalance
+            merchan.status = ress.data[j].status;
+            merchanLogo.data.push(merchan);
+          }
+        }
+        this.setState({
+          info,
+          merchanLogo
+        });
+      })
     }
 
     render () {
         const {visible, merchanLogo, info, palyInfo} = this.state;
-        // console.log(palyInfo);
-        const a = [1,2,3,4,5,6,7,8,9]
-       // const s = a.map(va =>(<React.Fragment key={va}><Col span={2} className={styles.col}>{va}</Col></React.Fragment>) ) ;
         return (
           <Modal
             title='商户详情'
@@ -133,41 +146,19 @@ class MerchantInfo extends React.Component{
           >
             <div>
               <Row><Col> 商户个人信息：</Col></Row>
-              <Row className={styles.row}>
-                {
-                  info.map(item =>(
-                    <React.Fragment key={item}>
-                      <Col span={2} className={styles.col}>{item[0].label}</Col>
-                      <Col span={5} className={styles.col}>{item[0].value}</Col>
-                      <Col span={4} className={styles.col}>{item[1].label}</Col>
-                      <Col span={5} className={styles.col}>{item[1].value}</Col>
-                      <Col span={4} className={styles.col}>{item[2].label}</Col>
-                      <Col span={4} className={styles.col}>{item[2].value}</Col>
-                    </React.Fragment>
-                  ) )
-                }
-                <Col span={5} className={styles.col}>{info[0][0].value}</Col>
-                <Col span={4} className={styles.col}>{info[0][1].label}</Col>
-                <Col span={5} className={styles.col}>{info[0][1].value}</Col>
-                <Col span={4} className={styles.col}>{info[0][2].label}</Col>
-                <Col span={4} className={styles.col}>{info[0][2].value}</Col>
-              </Row>
-              <Row className={styles.row}>
-                <Col span={2} className={styles.col}>{info[1][0].label}</Col>
-                <Col span={5} className={styles.col}>{info[1][0].value}</Col>
-                <Col span={4} className={styles.col}>{info[1][1].label}</Col>
-                <Col span={5} className={styles.col}>{info[1][1].value}</Col>
-                <Col span={4} className={styles.col}>{info[1][2].label}</Col>
-                <Col span={4} className={styles.col}>{info[1][2].value}</Col>
-              </Row>
-              <Row className={styles.row}>
-                <Col span={2} className={styles.col}>{info[2][0].label}</Col>
-                <Col span={5} className={styles.col}>{info[2][0].value}</Col>
-                <Col span={4} className={styles.col}>{info[2][1].label}</Col>
-                <Col span={5} className={styles.col}>{info[2][1].value}</Col>
-                <Col span={4} className={styles.col}>{info[2][2].label}</Col>
-                <Col span={4} className={styles.col}>{info[2][2].value}</Col>
-              </Row>
+              {
+                info.map(item =>(
+                  <Row className={styles.row} key={item[0].value}>
+                    <Col span={2} className={styles.col}>{item[0].label}</Col>
+                    <Col span={5} className={styles.col}>{item[0].value}</Col>
+                    <Col span={4} className={styles.col}>{item[1].label}</Col>
+                    <Col span={5} className={styles.col}>{item[1].value}</Col>
+                    <Col span={4} className={styles.col}>{item[2].label}</Col>
+                    <Col span={4} className={styles.col}>{item[2].value}</Col>
+                  </Row>
+                  
+                ))
+              }
               <Row>
                 <Col>
                   商户操作员信息:
@@ -190,7 +181,6 @@ class MerchantInfo extends React.Component{
               </Row>
             </div>
           </Modal>
-
     )
     }
 }
