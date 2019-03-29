@@ -14,11 +14,11 @@ import {
   class MemberApplayData extends React.Component{
       
     constructor(props) {
-        super(props);
+        super(props);    
         const palyInfo = {
             columns:[
-                {title: '商户编号',key: 'merchantId',dataIndex: 'merchantId',width: 100}, 
-                {title: '操作人编号',key: 'userId',dataIndex: 'userId'}, 
+                {title: '商户编号',key: 'merchantId',dataIndex: 'merchantId', render:this.rowRander}, 
+                {title: '操作人编号',key: 'userId',dataIndex: 'userId', render: this.rowRander}, 
                 {title: '会员名称',key: 'memberName',dataIndex: 'memberName'},
                 {title: '手机号',key: 'mobile',dataIndex: 'mobile'}, 
                 {title: '金额',key: 'points',dataIndex: 'points'}, 
@@ -54,6 +54,24 @@ import {
             page,
         }
         this.getDataHttp(params);
+    }
+
+    rowRander = (value, row, index) => {
+        const {limit, count} = this.state;
+        const obj = {
+            children: value,
+            props: {},
+          };
+          const start = 0;
+          const end = limit;
+          if (index === start) {
+            obj.props.rowSpan = limit;
+          }
+          // These two are merged into above cell
+          if (index > start && index <=end) {
+            obj.props.rowSpan = 0;
+          }
+          return obj;
     }
 
     onChangePage = (page) => {
@@ -138,7 +156,7 @@ import {
           <Modal
             title='上传数据待审核'
             transparent
-            width={1100}
+            width={1500}
             style={{ top: 100}}
             maskClosable={false}
             visible={visible}
@@ -146,6 +164,7 @@ import {
             onOk={this.onClose}
           >
             <Table 
+              bordered
               columns={palyInfo.columns} 
               dataSource={palyInfo.data}
               pagination={{

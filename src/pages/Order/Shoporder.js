@@ -26,7 +26,7 @@ class List extends React.Component {
     }];
     const formDatas = [
       {type: 'InputIcon' ,label: '充值订单编号', name: 'orderId', ruless:[] , placeholder: '充值订单编号', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '充值对象登录号', name: 'userAccount', ruless:[] , placeholder: '充值对象登录号', typeIco: 'book'},
+      {type: 'InputIcon' ,label: '商户登录账号', name: 'userAccount', ruless:[] , placeholder: '充值对象登录号', typeIco: 'book'},
       {type: 'SelectCompone', label: '充值人员类型', name: 'roleType', options: option},
       {type: 'SelectCompone', label: '状态：', name: 'state', options: option},
       {type: 'InputIcon' ,label: '充值对象名称', name: 'merchantName', ruless:[] , placeholder: '充值对象名称', typeIco: 'user'},
@@ -34,8 +34,8 @@ class List extends React.Component {
       {type: 'SelectDateRang' ,label: '充值时间', name: 'rechargeTime', ruless:[] , placeholder: '充值时间', typeIco: 'book'},
     ];
     const buttonDatas = [
-      {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '充值审核'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'}
+      // {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '充值审核'},
+      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'}  
     ];
     const tableData = {columns: 
       [
@@ -66,15 +66,16 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-   // this.getData();
+   this.getData();
   }
 
   
   getData = (param) => {
     const {tableData} = this.state;
     GetOrderList(param).then(res => {
+      console.log(res);
       if(res.status === 200){
-       res.data.forEach(item => {
+       res.data.withdrawal.forEach(item => {
           const order = {};
           order.balance = item.balance;
           order.batchNum = item.batchNum;
