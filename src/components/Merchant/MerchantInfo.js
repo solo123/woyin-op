@@ -83,6 +83,7 @@ class MerchantInfo extends React.Component{
         if(res.status === 200){
           for(let i = 0; i<res.data.length; i+=1){
             const paly = {};
+            paly.key =  res.data[i].userId;
             paly.userAccount =  res.data[i].userAccount;
             paly.userId =  res.data[i].userId;
             paly.userName =  res.data[i].userName;
@@ -117,6 +118,8 @@ class MerchantInfo extends React.Component{
     render () {
         const {visible, merchanLogo, info, palyInfo} = this.state;
         // console.log(palyInfo);
+        const a = [1,2,3,4,5,6,7,8,9]
+       // const s = a.map(va =>(<React.Fragment key={va}><Col span={2} className={styles.col}>{va}</Col></React.Fragment>) ) ;
         return (
           <Modal
             title='商户详情'
@@ -131,7 +134,18 @@ class MerchantInfo extends React.Component{
             <div>
               <Row><Col> 商户个人信息：</Col></Row>
               <Row className={styles.row}>
-                <Col span={2} className={styles.col}>{info[0][0].label}</Col>
+                {
+                  info.map(item =>(
+                    <React.Fragment key={item}>
+                      <Col span={2} className={styles.col}>{item[0].label}</Col>
+                      <Col span={5} className={styles.col}>{item[0].value}</Col>
+                      <Col span={4} className={styles.col}>{item[1].label}</Col>
+                      <Col span={5} className={styles.col}>{item[1].value}</Col>
+                      <Col span={4} className={styles.col}>{item[2].label}</Col>
+                      <Col span={4} className={styles.col}>{item[2].value}</Col>
+                    </React.Fragment>
+                  ) )
+                }
                 <Col span={5} className={styles.col}>{info[0][0].value}</Col>
                 <Col span={4} className={styles.col}>{info[0][1].label}</Col>
                 <Col span={5} className={styles.col}>{info[0][1].value}</Col>
@@ -157,13 +171,21 @@ class MerchantInfo extends React.Component{
               <Row>
                 <Col>
                   商户操作员信息:
-                  <Table pagination={false} columns={palyInfo.columns} dataSource={palyInfo.data} />
+                  <Table 
+                    pagination={false} 
+                    columns={palyInfo.columns} 
+                    dataSource={palyInfo.data}
+                    scroll={{ y: 300 }}
+                  />
                 </Col>
               </Row>
               <Row>
                 <Col>
                   商户帐户信息：
-                  <Table columns={merchanLogo.columns} dataSource={merchanLogo.data} />
+                  <Table 
+                    columns={merchanLogo.columns} 
+                    dataSource={merchanLogo.data} 
+                  />
                 </Col>
               </Row>
             </div>

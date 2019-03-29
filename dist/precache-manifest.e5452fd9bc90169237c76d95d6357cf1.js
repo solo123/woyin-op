@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/p__Order__Shoporder.async.js"
   },
   {
-    "revision": "8d8577c98bb63f667ea3",
+    "revision": "867691500e90e70c0038",
     "url": "/vendors.chunk.css"
   },
   {
@@ -16,15 +16,15 @@ self.__precacheManifest = [
     "url": "/pwacompat.min.js"
   },
   {
-    "revision": "048d2541b5b66e460ad5",
+    "revision": "4f6008f84df59d6bab13",
     "url": "/umi.js"
   },
   {
-    "revision": "048d2541b5b66e460ad5",
+    "revision": "4f6008f84df59d6bab13",
     "url": "/umi.css"
   },
   {
-    "revision": "8d8577c98bb63f667ea3",
+    "revision": "867691500e90e70c0038",
     "url": "/vendors.async.js"
   },
   {
@@ -232,8 +232,8 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__Info.async.js"
   },
   {
-    "revision": "694c4300be571fdd4d8b6abbe14d2e3f",
-    "url": "/favicon.png"
+    "revision": "5661ce8e2472d2727e8fd0390b22ba37",
+    "url": "/icons/icon-512x512.png"
   },
   {
     "revision": "b1df02ad604cb144a100",
@@ -260,16 +260,16 @@ self.__precacheManifest = [
     "url": "/layouts__BasicLayout.async.js"
   },
   {
-    "revision": "5661ce8e2472d2727e8fd0390b22ba37",
-    "url": "/icons/icon-512x512.png"
-  },
-  {
     "revision": "c23aa881b8d0e959f6c0aeb5ae7e4baa",
     "url": "/icons/icon-192x192.png"
   },
   {
     "revision": "347329d0982682b42d40c8162817a940",
     "url": "/icons/icon-128x128.png"
+  },
+  {
+    "revision": "694c4300be571fdd4d8b6abbe14d2e3f",
+    "url": "/favicon.png"
   },
   {
     "revision": "8290b20d2102fde7f6d6",
