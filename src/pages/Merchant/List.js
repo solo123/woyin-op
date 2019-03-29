@@ -175,34 +175,40 @@ class List extends React.Component {
 
   getAllData = (params) => {
     getMerchantListApi(params).then(res=>{
-      if(res.status === 200){
-        const {data} = res.data;
-        const merchantList = [];
-        const {tableData} = this.state;
-        for(let i = 0; i < data.length; i+=1){
-          const merch = {};
-          merch.key = data[i].merchantId;
-          merch.logo =  data[i].accountId;
-          merch.name = data[i].merchantName;
-          merch.site =  data[i].merchantAddr;
-          merch.linkman =  data[i].contactMan;
-          merch.phone =  data[i].phoneNum;
-          merch.telephone =  data[i].telNum;
-          merch.statue =  data[i].status;
-          merch.creatertime =  data[i].createTime;
-          merch.find =  data[i].id;
-          merch.freezing =  data[i].frozenTime;
-          merch.unfreezing =  data[i].unFrozenTime;
-          merchantList.push(merch);
-        }
-        tableData.data = merchantList;
-        this.setState(
-          {
-            tableData,
-            count: res.data.totalCount
+      try {
+        if(res.status === 200){
+          const {data} = res.data;
+          const merchantList = [];
+          const {tableData} = this.state;
+          for(let i = 0; i < data.length; i+=1){
+            const merch = {};
+            merch.key = data[i].merchantId;
+            merch.logo =  data[i].accountId;
+            merch.name = data[i].merchantName;
+            merch.site =  data[i].merchantAddr;
+            merch.linkman =  data[i].contactMan;
+            merch.phone =  data[i].phoneNum;
+            merch.telephone =  data[i].telNum;
+            merch.statue =  data[i].status;
+            merch.creatertime =  data[i].createTime;
+            merch.find =  data[i].id;
+            merch.freezing =  data[i].frozenTime;
+            merch.unfreezing =  data[i].unFrozenTime;
+            merchantList.push(merch);
           }
-        );
+          tableData.data = merchantList;
+          this.setState(
+            {
+              tableData,
+              count: res.data.totalCount
+            }
+          );
+        }
+      } catch (error) {
+        console.error('网络接口异常');
       }
+
+
     });
   }
 

@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "67b19647337efae5db44",
+    "revision": "358fc38f0fbc41b42ea4",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
-    "revision": "b5335f748d4a12f82cc9",
+    "revision": "57f63487c43f0ccb0842",
     "url": "/vendors.chunk.css"
   },
   {
@@ -20,15 +20,15 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "e2e319f863910e6ace44",
+    "revision": "e5e9703542fb93fa9dea",
     "url": "/umi.js"
   },
   {
-    "revision": "e2e319f863910e6ace44",
+    "revision": "e5e9703542fb93fa9dea",
     "url": "/umi.css"
   },
   {
-    "revision": "b5335f748d4a12f82cc9",
+    "revision": "57f63487c43f0ccb0842",
     "url": "/vendors.async.js"
   },
   {
@@ -76,11 +76,11 @@ self.__precacheManifest = [
     "url": "/p__Exception__models__error.js.async.js"
   },
   {
-    "revision": "43def0bd97a0004bdd94",
+    "revision": "96e0fa9ef0d3cf91fb9c",
     "url": "/p__Merchant__BalanceInfo.chunk.css"
   },
   {
-    "revision": "43def0bd97a0004bdd94",
+    "revision": "96e0fa9ef0d3cf91fb9c",
     "url": "/p__Merchant__BalanceInfo.async.js"
   },
   {
@@ -88,19 +88,19 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberInterApply.async.js"
   },
   {
-    "revision": "5706d615afceafb001b5",
+    "revision": "5d78219df7cf9bdd7efa",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "5706d615afceafb001b5",
+    "revision": "5d78219df7cf9bdd7efa",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "006c6aaf3deade9744b6",
+    "revision": "39ceeec6753739591c8a",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "006c6aaf3deade9744b6",
+    "revision": "39ceeec6753739591c8a",
     "url": "/p__Merchant__list.async.js"
   },
   {
@@ -120,11 +120,11 @@ self.__precacheManifest = [
     "url": "/p__Order__FindreFundorder.async.js"
   },
   {
-    "revision": "b4d36c0f0939201c0558",
+    "revision": "3ba81bfb8c5dd8c242a6",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
-    "revision": "b4d36c0f0939201c0558",
+    "revision": "3ba81bfb8c5dd8c242a6",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
@@ -136,7 +136,7 @@ self.__precacheManifest = [
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "67b19647337efae5db44",
+    "revision": "358fc38f0fbc41b42ea4",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {

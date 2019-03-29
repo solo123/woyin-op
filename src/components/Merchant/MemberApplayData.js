@@ -8,7 +8,11 @@ import {
     Tag,
     message
   } from 'antd';
-  import {UploadInterView, SubmintExcekData, SubmintExceCancel} from '@/services/api';
+  import {
+      UploadInterView, 
+      SubmintExcekData, 
+      SubmintExceCancel,
+      UploadInterCheckRate} from '@/services/api';
   import styles from './MemberApplayData.less';
 
   class MemberApplayData extends React.Component{
@@ -18,7 +22,7 @@ import {
         const palyInfo = {
           columns:[
             {title: '商户编号',key: 'merchantId',dataIndex: 'merchantId', render:this.rowRander}, 
-            {title: '操作人编号',key: 'userId',dataIndex: 'userId', render: this.rowRander}, 
+            // {title: '操作人编号',key: 'userId',dataIndex: 'userId', render: this.rowRander}, 
             {title: '会员名称',key: 'memberName',dataIndex: 'memberName'},
             {title: '手机号',key: 'mobile',dataIndex: 'mobile'}, 
             {title: '金额',key: 'points',dataIndex: 'points'}, 
@@ -53,7 +57,7 @@ import {
           limit, 
           page,
         }
-        this.getDataHttp(params);
+        this.checkRate(memberInfo.key,params);
     }
 
     rowRander = (value, row, index) => {
@@ -81,7 +85,19 @@ import {
           limit, 
           page,
         }
-        this.getDataHttp(params);
+        this.checkRate( merchantId,params);
+    }
+
+    checkRate = (id, params) => {
+        UploadInterCheckRate({merchantId: id}).then(res => {
+            if(res.status === 200 && res.data.running===0){
+                this.getDataHttp(params);
+                this.setState({
+                    count:  res.data.count,
+                    sum: res.data.sum,
+                })
+            }
+        })
     }
 
     getDataHttp = (params) => {
@@ -89,7 +105,7 @@ import {
         palyInfo.data = [];
         UploadInterView(params).then(res => {
           if(res.status === 200){
-            res.data.result.forEach(item => {
+            res.data.forEach(item => {
               const user = {};
               user.createTime = item.createTime ;
               user.id = item.id ;
@@ -97,7 +113,7 @@ import {
               user.importStatus = item.importStatus;
               user.memberName = item.memberName ;
               user.memo = item.memo ;
-              user.merchantId = item.merchantId ;
+              user.merchantId = params.merchantId ;
               user.mobile = item.mobile ;
               user.points = item.points ;
               user.remark = item.remark ;
@@ -151,7 +167,7 @@ import {
     }
 
     render () {
-        const {visible, palyInfo, count, limit} = this.state;
+        const {visible, palyInfo, count, limit, sum} = this.state;
         return(
           <Modal
             title='上传数据待审核'
@@ -167,7 +183,7 @@ import {
               bordered
               columns={palyInfo.columns} 
               dataSource={palyInfo.data}
-              footer={() => '总分：100  总数据：18条'}
+              footer={() => '总分'+ sum+'总数据'+count+'条'}
               pagination={{
                 pageSize: limit ,// 每页的条数
                 total: count,
