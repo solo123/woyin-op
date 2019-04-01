@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-script-url */
 import React from 'react';
 import { 
@@ -143,6 +144,7 @@ import {
             if(res.status === 200 && res.data.data){
                 res.data.data.forEach((item) => {     
                     const batch = {};              
+                    batch.merchantId = this.state.merchantId;
                     batch.batchId = item.batchId ;
                     batch.memberName = item.memberName ;
                     batch.mobile = item.mobile ;
