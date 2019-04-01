@@ -37,7 +37,7 @@ class BalanceInfo extends Component {
             case 0: return  <Tag color="green">未激活</Tag>
             case 1: return  <Tag color="blue">正常</Tag>
             case 2: return  <Tag color="red">冻结</Tag>
-            default: return  <Tag color="red">其他</Tag>
+            default: return <Tag color="red">其他</Tag>
           }
         }},
         {title: '用户组创建时间', dataIndex: 'createTime', key: 'createTime'},

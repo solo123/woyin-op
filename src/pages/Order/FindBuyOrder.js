@@ -110,7 +110,6 @@ class List extends React.Component {
           dataSource={data} 
           bordered
           rowSelection={rowSelection}
-         
         />
       </PageHeaderWrapper>
     )

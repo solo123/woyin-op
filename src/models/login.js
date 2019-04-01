@@ -22,6 +22,9 @@ export default {
       if(response.status === 200){
         response.status = 'ok';
         response.currentAuthority = 'admin';
+      }else{
+        response.status = 'error';
+        response.type = 'account';
       }
       yield put({
         type: 'changeLoginStatus',

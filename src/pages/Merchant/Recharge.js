@@ -65,7 +65,6 @@ class Recharge extends React.Component {
     this.geGetMerList(params);
   }
 
-
   geGetMerList = (params) => {
     RechargeGetMerList(params).then(res => {
       if(res.status === 200) {

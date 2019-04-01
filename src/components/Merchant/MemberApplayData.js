@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
     Modal,
     Table,
     Row,
@@ -9,8 +9,8 @@ import {
     message
   } from 'antd';
   import {
-      UploadInterView, 
-      SubmintExcekData, 
+      UploadInterView,
+      SubmintExcekData,
       SubmintExceCancel,
       UploadInterCheckRate} from '@/services/api';
   import styles from './MemberApplayData.less';
@@ -21,6 +21,7 @@ import {
         super(props);    
         const palyInfo = {
           columns:[
+            {title: '序号',key: 'sn',dataIndex: 'sn'},
             {title: '商户编号',key: 'merchantId',dataIndex: 'merchantId', render:this.rowRander}, 
             // {title: '操作人编号',key: 'userId',dataIndex: 'userId', render: this.rowRander}, 
             {title: '会员名称',key: 'memberName',dataIndex: 'memberName'},
@@ -33,8 +34,8 @@ import {
                 <Tag color={importStatus === 2 ? 'geekblue' : 'red'} key={importStatus}>{importStatus === 2 ? '正常' : '异常'}</Tag>
               </span>
             )}, 
-              {title: '数据创建时间',key: 'createTime',dataIndex: 'createTime'}, 
-            ],
+            {title: '数据创建时间',key: 'createTime',dataIndex: 'createTime'}, 
+          ],
             data: []
         };
         this.state={
@@ -104,11 +105,11 @@ import {
         const {palyInfo} = this.state;
         palyInfo.data = [];
         UploadInterView(params).then(res => {
-          if(res.status === 200){
+          if(res.status === 200 && res.data!=null){
             res.data.forEach(item => {
               const user = {};
               user.createTime = item.createTime ;
-              user.id = item.id ;
+            //   user.id = item.id ;
               user.key = item.id ;
               user.importStatus = item.importStatus;
               user.memberName = item.memberName ;
@@ -118,12 +119,11 @@ import {
               user.points = item.points ;
               user.remark = item.remark ;
               user.sn = item.sn ;
-              user.userId = item.userId ;
+            //   user.userId = item.userId ;
               palyInfo.data.push(user);
             });
               this.setState({
                 palyInfo,
-                count: res.data.count
               })
             }
         })
@@ -172,7 +172,7 @@ import {
           <Modal
             title='上传数据待审核'
             transparent
-            width={1500}
+            width={1600}
             style={{ top: 100}}
             maskClosable={false}
             visible={visible}
@@ -183,7 +183,8 @@ import {
               bordered
               columns={palyInfo.columns} 
               dataSource={palyInfo.data}
-              footer={() => '总分'+ sum+'总数据'+count+'条'}
+             
+              footer={() =><div className={styles.tableFooter}> <span>总分:{sum} </span><span> 总数据:{count}条</span></div>}
               pagination={{
                 pageSize: limit ,// 每页的条数
                 total: count,

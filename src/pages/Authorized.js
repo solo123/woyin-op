@@ -12,7 +12,6 @@ function AuthComponent({ children, location, routerData, status }) {
       // match prefix
       if (pathToRegexp(`${route.path}(.*)`).test(path)) {
         authorities = route.authority || authorities;
-
         // get children authority recursively
         if (route.routes) {
           authorities = getRouteAuthority(path, route.routes) || authorities;

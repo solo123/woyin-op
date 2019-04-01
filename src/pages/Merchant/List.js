@@ -50,12 +50,12 @@ class List extends React.Component {
     ];
     const tableData = {
       columns: [
-        {title: '商户登录帐户', dataIndex: 'logo', key: 'logo'},
-        {title: '商户名称', dataIndex: 'name', key: 'name'},
-        {title: '商户地址', dataIndex: 'site', key: 'site'},
-        {title: '联系人', dataIndex: 'linkman', key: 'linkman'},
-        {title: '手机号', dataIndex: 'phone', key: 'phone'},
-        {title: '固定电话', dataIndex: 'telephone', key: 'telephone'},
+        {title: '商户登录帐户', dataIndex: 'userAccount', key: 'userAccount'},
+        {title: '商户名称', dataIndex: 'merchantName', key: 'merchantName'},
+        {title: '商户地址', dataIndex: 'merchantAddr', key: 'merchantAddr'},
+        {title: '联系人', dataIndex: 'contactMan', key: 'contactMan'},
+        {title: '手机号', dataIndex: 'phoneNum', key: 'phoneNum'},
+        {title: '固定电话', dataIndex: 'telNum', key: 'telNum'},
         {title: '状态', dataIndex: 'statue', key: 'statue', render: statue => (
           <span>
             <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '正常' : '异常'}</Tag>
@@ -183,12 +183,12 @@ class List extends React.Component {
           for(let i = 0; i < data.length; i+=1){
             const merch = {};
             merch.key = data[i].merchantId;
-            merch.logo =  data[i].accountId;
-            merch.name = data[i].merchantName;
-            merch.site =  data[i].merchantAddr;
-            merch.linkman =  data[i].contactMan;
-            merch.phone =  data[i].phoneNum;
-            merch.telephone =  data[i].telNum;
+            merch.userAccount =  data[i].userAccount;
+            merch.merchantName = data[i].merchantName;
+            merch.merchantAddr =  data[i].merchantAddr;
+            merch.contactMan =  data[i].contactMan;
+            merch.phoneNum =  data[i].phoneNum;
+            merch.telNum =  data[i].telNum;
             merch.statue =  data[i].status;
             merch.creatertime =  data[i].createTime;
             merch.find =  data[i].id;
@@ -207,8 +207,6 @@ class List extends React.Component {
       } catch (error) {
         console.error('网络接口异常');
       }
-
-
     });
   }
 
