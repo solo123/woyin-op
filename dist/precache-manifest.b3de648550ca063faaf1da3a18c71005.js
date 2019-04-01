@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "a0e5e9cbebe25869768b",
+    "revision": "3abcf1b99dda82a7db36",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
-    "revision": "73434728c2ee520c04ad",
+    "revision": "5384ce30107f504120ec",
     "url": "/vendors.chunk.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/umi.css"
   },
   {
-    "revision": "73434728c2ee520c04ad",
+    "revision": "5384ce30107f504120ec",
     "url": "/vendors.async.js"
   },
   {
@@ -136,7 +136,7 @@ self.__precacheManifest = [
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "a0e5e9cbebe25869768b",
+    "revision": "3abcf1b99dda82a7db36",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {

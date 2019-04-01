@@ -12,16 +12,18 @@ class MerchantAddOrUpdate extends React.Component {
     super(props);
     const option = [{
       value: '1',
-      label: '正常',
+      label: '可用',
     }, {
       value: '0',
-      label: '禁用',
+      label: '冻结',
     }];
     this.state = {
       status: 'add',
       visible: false,
       formData: [
-        {type: 'InputIcon' ,label: '商户登陆帐户', name: 'userName', ruless:[{required: true}] , placeholder: '商户登陆帐户', typeIco: 'user'},
+        
+        {type: 'InputIcon' ,label: '登录账号', name: 'userAccount', ruless:[{required: true}] , placeholder: '商户登陆帐户', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '登录账号用户名', name: 'userName', ruless:[{required: true}] , placeholder: '商户登陆帐户', typeIco: 'user'},
         {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[{required: true}] , placeholder: '商户名称', typeIco: 'user'},
         {type: 'InputIcon' ,label: '联系人', name: 'contactMan', ruless:[{required: true}] , placeholder: '联系人', typeIco: 'team'},
         {type: 'InputIcon' ,label: '登陆密码', name: 'password', ruless:[{required: true}] , placeholder: '登陆密码', typeIco: 'team'},
@@ -29,7 +31,7 @@ class MerchantAddOrUpdate extends React.Component {
         {type: 'InputIcon' ,label: '固定电话', name: 'telNum', ruless:[{required: true}] , placeholder: '固定电话', typeIco: 'pushpin'},
         {type: 'InputIcon' ,label: '地址', name: 'merchantAddr', ruless:[{required: true}] , placeholder: '地址', typeIco: 'inbox'},
         {type: 'InputIcon' ,label: '转让费率', name: 'transferRate', ruless:[{required: true}] , placeholder: '转让服务费', typeIco: 'inbox'},
-       // {type: 'SelectCompone', label: '状态：', name: 'state', options: option}
+        // {type: 'SelectCompone', label: '状态：', name: 'status', options: option}
       ]
     };
   }
@@ -63,10 +65,11 @@ class MerchantAddOrUpdate extends React.Component {
         formData.append("password", values.password);
         formData.append("userName", values.userName);
         formData.append("transferRate", values.transferRate);
-        // formData.append("authority", payload.authority);
+        formData.append("authority", 1);
+        // formData.append("status", values.status);
         formData.append("userAccount", values.userAccount);
         addMerchantApi(formData).then(res => {
-         if(res.result === 'success'){
+         if(res.status === 200){
           message.info('添加商户成功');
           this.onClose();
          }

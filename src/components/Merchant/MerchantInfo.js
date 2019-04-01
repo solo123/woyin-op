@@ -24,7 +24,7 @@ class MerchantInfo extends React.Component{
             // {title: '账户类型',key: '',}, 
             {title: '状态',key: '',render: statue => (
               <span>
-                <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '正常' : '异常'}</Tag>
+                <Tag color={statue === 1 ? 'geekblue' : 'geekblue'} key={statue}>{statue === 1 ? '正常' : '其他'}</Tag>
               </span>
             )}
           ];
@@ -36,7 +36,7 @@ class MerchantInfo extends React.Component{
           {title: '创建时间	',key: 'createTime',dataIndex: 'createTime',}, 
           {title: '状态',key: 'state',dataIndex: 'state',render: statue => (
             <span>
-              <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '正常' : '异常'}</Tag>
+              <Tag color={statue === 1 ? 'geekblue' : 'geekblue'} key={statue}>{statue === 1 ? '正常' : '其他'}</Tag>
             </span>
           )}
         ];
@@ -90,7 +90,7 @@ class MerchantInfo extends React.Component{
       info[2][0].value = MeInfo.site;
       info[2][1].value = MeInfo.phone;
       info[2][2].value = MeInfo.telephone;
-      getMerchantPlayApi(MeInfo.key).then((res) => {
+      getMerchantPlayApi({merchantId: MeInfo.key}).then((res) => {
         if(res.status === 200){
           for(let i = 0; i<res.data.length; i+=1){
             const paly = {};

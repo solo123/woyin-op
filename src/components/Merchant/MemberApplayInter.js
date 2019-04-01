@@ -149,7 +149,7 @@ import {
                     batch.usersNum = item.usersNum ;
                     batch.points = item.points ;
                     batch.importStatus = item.importStatus ;
-                    batch.key =  batch.userId;
+                    batch.key =  batch.id;
                     batchList.data.push(batch);
                 });
                 this.setState({
@@ -175,8 +175,9 @@ import {
         memberList.data = [];
         GetBatchMerchantList(params).then(res => {
             if(res.status === 200){
-                const member = {};
                 res.data.result.forEach(item =>{
+                    const member = {};
+                    member.key = item.id ;
                     member.merchantId = item.merchantId ;
                     member.remark = item.remark ;
                     member.memberName = item.memberName ;

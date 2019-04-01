@@ -65,16 +65,6 @@ class List extends React.Component {
       formData: formDatas,
       buttonData: buttonDatas,
       tableData,
-      params: {
-        orderId: '',
-        userAccount: '',
-        roleType: '',
-        merchantName: '',
-        batchNum: '',
-        state: '',
-        startTime: '',
-        endTime: ''
-      }
     }
   }
   
@@ -84,6 +74,7 @@ class List extends React.Component {
   
   getData = (param) => {
     const {tableData} = this.state;
+    tableData.data = [];
     findOrderInfo(param).then(res => {
       if(res.status === 200){
        res.data.data.forEach(item => {
@@ -159,7 +150,7 @@ class List extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if(!err){
-        console.log('Received values of form: ', values);
+        this.getData(values);
       }
     })
   }
