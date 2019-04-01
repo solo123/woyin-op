@@ -30,7 +30,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 壹企服技术部出品
+    Copyright <Icon type="copyright" /> 2018 沃银企服技术部出品
   </Fragment>
 );
 
@@ -63,10 +63,10 @@ class UserLayout extends Component {
               <div className={styles.header}>
                 <Link to="/">
                   <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>壹企服</span>
+                  <span className={styles.title}>沃银企服管理平台</span>
                 </Link>
               </div>
-              <div className={styles.desc}>壹企服 是深圳最具影响力的 企业服务平台</div>
+              <div className={styles.desc}>沃银企服管理平台 是深圳最具影响力的 企业服务平台</div>
             </div>
             {children}
           </div>

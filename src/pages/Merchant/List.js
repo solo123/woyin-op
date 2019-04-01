@@ -32,10 +32,10 @@ class List extends React.Component {
     super(props);
     const option = [{
       value: '1',
-      label: '正常',
+      label: '可用',
     }, {
       value: '0',
-      label: '禁用',
+      label: '冻结',
     }];
     const formDatas = [
       {type: 'InputIcon' ,label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
@@ -58,7 +58,7 @@ class List extends React.Component {
         {title: '固定电话', dataIndex: 'telNum', key: 'telNum'},
         {title: '状态', dataIndex: 'statue', key: 'statue', render: statue => (
           <span>
-            <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '正常' : '异常'}</Tag>
+            <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '可用' : '冻结'}</Tag>
           </span>
         )},
         {title: '创建时间', dataIndex: 'creatertime', key: 'creatertime'},
@@ -68,7 +68,7 @@ class List extends React.Component {
         {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right', 
          render: (texts, record) => (
            <span>
-             <a href="javascript:void(0)" onClick={()=> {this.onHangInter(texts, record)}}>上传会员积分</a> | 
+             <a href="javascript:void(0)" onClick={()=> {this.onHangInter(texts, record)}}>批量会员发分</a> | 
              <a href="javascript:void(0)" onClick={()=> {this.onHangApplayData(texts, record)}}>上传数据审核</a> | 
              <a href="javascript:void(0)" onClick={()=> {this.onHangApplayInter(texts, record)}}>会员发分审核</a>
            </span>)},

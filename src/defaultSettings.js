@@ -9,7 +9,7 @@ module.exports = {
   menu: {
     disableLocal: false,
   },
-  title: '壹企服',
+  title: '沃银企服管理平台',
   pwa: true,
   // your iconfont Symbol Scrip Url
   // eg：//at.alicdn.com/t/font_1039637_btcrd5co4w.js

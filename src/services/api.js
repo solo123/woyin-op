@@ -45,6 +45,13 @@ const RechargMerchantRecharges = async function RechargMerchantRecharges (params
   })
 }
 
+const RechargMerchantRechargesPOST = async function RechargMerchantRechargesPOST (params){
+  return request(`${serverApi}/op/admin/rechargeOrder`, {
+    method: 'PUT',
+    body: params,
+  })
+}
+
 const UploadInterView = async function UploadInterView (params){
   return request(`${serverApi}/op/temp_points?${stringify(params)}`);
 }
@@ -145,4 +152,5 @@ export {
   gerMerchantHuiInfo, // 获取商户下会员信息
   GetOrderList, // 获取订单列表
   UploadInterCheckRate, // 上传积分进度查询
+  RechargMerchantRechargesPOST, // 商户充值积分审核
 }

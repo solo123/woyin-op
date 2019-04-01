@@ -6,11 +6,13 @@ import {
   Col,
   Card,
   Form,
-  Table
+  Table,
+  Tag,
+  message
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
-import {GetOrderList} from '@/services/api';
+import {RechargMerchantRechargesPOST,findOrderInfo} from '@/services/api';
 import styles from './Shoporder.less'
 
 @connect()
@@ -34,26 +36,27 @@ class List extends React.Component {
       {type: 'SelectDateRang' ,label: '充值时间', name: 'rechargeTime', ruless:[] , placeholder: '充值时间', typeIco: 'book'},
     ];
     const buttonDatas = [
-      // {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '充值审核'},
-      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'}  
+      {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
+      {type: 'primary', ico: 'edit', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
     ];
     const tableData = {columns: 
       [
-        {title: '充值订单编号', dataIndex: 'orderId', key: 'orderId', width: 120},
-        {title: '批次号', dataIndex: 'batchNum', key: 'batchNum', width: 100},
-        {title: '充值对象登录号', dataIndex: 'userAccount', key: 'userAccount', width: 180},
-        {title: '充值对象名称', dataIndex: 'merchantName', key: 'merchantName', width: 160},
-        {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType', width: 160},
+        {title: '充值订单编号', dataIndex: 'orderId', key: 'orderId'},
+        // {title: '批次号', dataIndex: 'batchNum', key: 'batchNum'},
+        {title: '充值对象登录号', dataIndex: 'userAccount', key: 'userAccount'},
+        {title: '充值对象名称', dataIndex: 'merchantName', key: 'merchantName'},
+        {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType'},
         // {title: '充值类型', dataIndex: 'type', key: 'type', width: 100},
         // {title: '加款方式', dataIndex: 'mode', key: 'mode', width: 100},
-        {title: '订单积分', dataIndex: 'balance', key: 'balance', width: 100},
-        {title: '状态', dataIndex: 'statue', key: 'state', width: 80},
-        // {title: '申请人ID', dataIndex: 'applyId', key: 'applyId', width: 140},
-        // {title: '申请人', dataIndex: 'apply', key: 'apply', width: 80},
-        // {title: '审核人', dataIndex: 'audit', key: 'audit', width: 80},
-        // {title: '备注', dataIndex: 'remark', key: 'remark', width: 80},
-        // {title: '日志信息', dataIndex: 'jourInfo', key: 'jourInfo', width: 120},
-        // {title: '扩展属性', dataIndex: 'extend', key: 'extend', width: 120},
+        {title: '订单积分', dataIndex: 'balance', key: 'balance'},
+        {title: '状态', dataIndex: 'state', key: 'statue' ,render: state => {
+          switch(state){
+            case 1: return  <Tag color="green">新建</Tag>
+            case 2: return  <Tag color="blue">同意</Tag>
+            case -1: return  <Tag color="red">拒绝</Tag>
+            default: return <Tag color="red">其他</Tag>
+          }
+        }},
         {title: '创建时间', dataIndex: 'createTime', key: 'createTime', width: 120},
      ],
      data: []
@@ -61,7 +64,17 @@ class List extends React.Component {
     this.state = {
       formData: formDatas,
       buttonData: buttonDatas,
-      tableData
+      tableData,
+      params: {
+        orderId: '',
+        userAccount: '',
+        roleType: '',
+        merchantName: '',
+        batchNum: '',
+        state: '',
+        startTime: '',
+        endTime: ''
+      }
     }
   }
   
@@ -71,21 +84,19 @@ class List extends React.Component {
   
   getData = (param) => {
     const {tableData} = this.state;
-    GetOrderList(param).then(res => {
+    findOrderInfo(param).then(res => {
       if(res.status === 200){
-       res.data.withdrawal.forEach(item => {
+       res.data.data.forEach(item => {
           const order = {};
-          order.balance = item.balance;
-          order.batchNum = item.batchNum;
-          order.createTime = item.createTime;
-          order.id = item.id;
-          order.merchantId = item.merchantId;
-          order.merchantName = item.merchantName;
-          order.orderId = item.orderId;
-          order.roleType = item.roleType;
-          order.state = item.state;
-          order.userAccount = item.userAccount;
-          order.key = item.orderId;
+          order.orderId = item.orderId ;
+          order.userAccount = item.userAccount ;
+          order.key = item.orderId ;
+          order.roleType = item.roleType ;
+          order.merchantName = item.merchantName ;
+          order.balance = item.balance ;
+          order.batchNum = item.batchNum ;
+          order.createTime = item.createTime ;
+          order.state = item.state ;
           tableData.data.push(order);
         });
         this.setState({
@@ -93,6 +104,51 @@ class List extends React.Component {
         })
       }
     })
+  }
+
+  // 同意
+  handMerchInterAppaly = (e) => {
+    const {withDrawList} = this.state;
+    if(withDrawList.length <= 0) return;
+    
+    withDrawList.forEach(item => {
+      const params = {
+        orderId: item.key,
+        state: 2
+      }
+      RechargMerchantRechargesPOST(params).then(res => {
+        if(res.status === 200){
+          message.info('操作成功');
+        }else{
+          message.error('操作失败');
+        }
+      });
+    })
+  }
+
+  // 拒绝
+  handMerchInterAnace = (e) => {
+    const {withDrawList} = this.state;
+    if(withDrawList.length <= 0) return;
+    withDrawList.forEach(item => {
+      const params = {
+        orderId: item.key,
+        state: -1
+      }
+      RechargMerchantRechargesPOST(params).then(res => {
+        if(res.status === 200){
+          message.info('操作成功');
+        }else{
+          message.error('操作失败');
+        }
+      });
+    })
+  }
+
+  onSelectedRows = (selectedRowKeys, selectedRows) => {
+    this.setState({
+      withDrawList: selectedRows
+  });
   }
 
   handEdit = (e) => {
@@ -112,13 +168,7 @@ class List extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { formData, buttonData, tableData } = this.state;
     const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
+      onChange: this.onSelectedRows
     };
     return (
       <PageHeaderWrapper>
@@ -141,7 +191,7 @@ class List extends React.Component {
           dataSource={tableData.data} 
           bordered
           rowSelection={rowSelection}
-          scroll={{ x: 2000 }}
+          scroll={{ x: 1200 }}
         />
       </PageHeaderWrapper>
     )

@@ -45,22 +45,58 @@ import {
                    
                   </span>
                 )},
-                {title: '操作',dataIndex: 'action',render: (texts, records) => (
-                  <span>
-                    <a href="javascript:void(0)" onClick={()=> {this.onHangBatchOk(texts, records)}}>确认</a> | 
-                    <a href="javascript:void(0)" onClick={()=> {this.onHangBatchCaner(texts, records)}}>拒绝</a>
-                  </span>)}
+                {title: '操作',dataIndex: 'action',render: (texts, records) => {
+                    switch(records.importStatus){
+                      case 1:
+                      return(
+                        <span>
+                          <a href="javascript:void(0)">已确认</a>
+                        </span>
+                      )
+                      case 2:
+                        return(
+                          <span>
+                            <a href="javascript:void(0)" onClick={()=> {this.onHangBatchOk(texts, records)}}>确认</a>
+                            <a href="javascript:void(0)" onClick={()=> {this.onHangBatchCaner(texts, records)}}>拒绝</a>
+                          </span>
+                        )
+                     case 3:
+                        return(
+                          <span>
+                            <a href="javascript:void(0)" onClick={()=> {this.onHangBatchOk(texts, records)}}>确认</a> | 
+                            <a href="javascript:void(0)" onClick={()=> {this.onHangBatchCaner(texts, records)}}>拒绝</a>
+                          </span>
+                       )
+                      default: 
+                      return(
+                        <span>
+                          <a href="javascript:void(0)">已确认</a>
+                        </span>
+                      )
+                    }
+                   
+                  }
+                }
             ],
             data: []
         };
       
         const memberList = {
             columns:[
-                {title: '商户编号',key: 'merchantId',dataIndex: 'merchantId',width: 100}, 
-                {title: '会员编号',key: 'userId',dataIndex: 'userId'}, 
-                {title: '商户名称',key: 'memberName',dataIndex: 'userId'},
-                {title: '电话',key: 'mobile',dataIndex: 'usersNum'}, 
-                {title: '积分',key: 'points',dataIndex: 'points'}
+                // {title: '商户编号',key: 'memberName',dataIndex: 'memberName',width: 100}, 
+                {title: '商户名称',key: 'memberName',dataIndex: 'memberName'},
+                {title: '电话',key: 'mobile',dataIndex: 'mobile'}, 
+                {title: '积分',key: 'points',dataIndex: 'points'},
+                {title: '凭证号',key: 'memo', dataIndex: 'memo'},
+                {title: '备注',key: 'remark',dataIndex: 'remark'}, 
+                {title: '状态',key: 'importStatus',dataIndex: 'importStatus' ,render: importStatus => {
+                    switch(importStatus){
+                      case 1: return  <Tag color="green">已导入</Tag>
+                      case 2: return  <Tag color="blue">未导入</Tag>
+                      case 3: return  <Tag color="red">错误</Tag>
+                      default: return <Tag color="red">其他</Tag>
+                    }
+                  }}, 
             ],
             data:[]
         }
@@ -104,16 +140,16 @@ import {
         const {batchList} = this.state;
         batchList.data = [];
         GetBatchIdList(params).then(res => {
-            if(res.status === 200 && res.data.result){
-                res.data.result.forEach((item) => {     
+            if(res.status === 200 && res.data.data){
+                res.data.data.forEach((item) => {     
                     const batch = {};              
                     batch.batchId = item.batchId ;
-                    batch.merchantId = item.merchantId ;
-                    batch.userId = item.userId ;
+                    batch.memberName = item.memberName ;
+                    batch.mobile = item.mobile ;
                     batch.usersNum = item.usersNum ;
                     batch.points = item.points ;
                     batch.importStatus = item.importStatus ;
-                    batch.key =  batch.batchId;
+                    batch.key =  batch.userId;
                     batchList.data.push(batch);
                 });
                 this.setState({
@@ -142,22 +178,25 @@ import {
                 const member = {};
                 res.data.result.forEach(item =>{
                     member.merchantId = item.merchantId ;
-                    member.userId = item.userId ;
+                    member.remark = item.remark ;
                     member.memberName = item.memberName ;
+                    member.memo = item.memo;
                     member.mobile = item.mobile ;
                     member.points = item.points ;
+                    member.importStatus = item.importStatus;
                     memberList.data.push(member);
                 })
                 this.setState({
                     memberList,
-                });
+                }); 
             }
         })
     }
 
     onHangBatchOk = (texts, records) =>{
         const params = {
-            merchantId: records.merchantId,
+            // eslint-disable-next-line react/destructuring-assignment
+            merchantId: this.state.merchantId,
             batchId: records.batchId
         }
         SendInterApplyOk(params).then(res => {

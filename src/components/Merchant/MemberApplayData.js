@@ -29,9 +29,9 @@ import {
             {title: '金额',key: 'points',dataIndex: 'points'}, 
             {title: '凭证号',key: 'memo',dataIndex: 'memo'}, 
             {title: '标题',key: 'remark',dataIndex: 'remark'}, 
-            {title: '数据状态',key: 'importStatus',dataIndex: 'importStatus',render: importStatus => (
+            {title: '数据状态',key: 'isValid',dataIndex: 'isValid',render: isValid => (
               <span>
-                <Tag color={importStatus === 2 ? 'geekblue' : 'red'} key={importStatus}>{importStatus === 2 ? '正常' : '异常'}</Tag>
+                <Tag color={isValid === 1 ? 'geekblue' : 'red'} key={isValid}>{isValid === 1 ? '正常' : '异常'}</Tag>
               </span>
             )}, 
             {title: '数据创建时间',key: 'createTime',dataIndex: 'createTime'}, 
@@ -111,7 +111,7 @@ import {
               user.createTime = item.createTime ;
             //   user.id = item.id ;
               user.key = item.id ;
-              user.importStatus = item.importStatus;
+              user.isValid = item.isValid;
               user.memberName = item.memberName ;
               user.memo = item.memo ;
               user.merchantId = params.merchantId ;
@@ -198,7 +198,6 @@ import {
               </Col>
             </Row>
           </Modal>
-          
         )
     }
   }

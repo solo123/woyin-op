@@ -28,7 +28,7 @@ class MerchantAddOrUpdate extends React.Component {
         {type: 'InputIcon' ,label: '手机号码', name: 'phoneNum', ruless:[{required: true}] , placeholder: '手机号码', typeIco: 'phone'},
         {type: 'InputIcon' ,label: '固定电话', name: 'telNum', ruless:[{required: true}] , placeholder: '固定电话', typeIco: 'pushpin'},
         {type: 'InputIcon' ,label: '地址', name: 'merchantAddr', ruless:[{required: true}] , placeholder: '地址', typeIco: 'inbox'},
-        {type: 'InputIcon' ,label: '转让费率', name: 'transferRate', ruless:[{required: true}] , placeholder: '转让费率(%)', typeIco: 'inbox'},
+        {type: 'InputIcon' ,label: '转让费率', name: 'transferRate', ruless:[{required: true}] , placeholder: '转让服务费', typeIco: 'inbox'},
        // {type: 'SelectCompone', label: '状态：', name: 'state', options: option}
       ]
     };

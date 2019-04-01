@@ -7,7 +7,8 @@ import {
   Card,
   Form,
   Table,
-  Modal
+  Modal,
+  Tag
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {MemberRecharges} from '@/components/Merchant';
@@ -35,7 +36,11 @@ class Recharge extends React.Component {
         {title: '联系人', dataIndex: 'contactMan',},
         {title: '手机号', dataIndex: 'phoneNum', },
         {title: '固定电话', dataIndex: 'telNum', },
-        {title: '状态', dataIndex: 'status', },
+        {title: '状态', dataIndex: 'status', render: status => (
+          <span>
+            <Tag color={status === 1 ? 'geekblue' : 'red'} key={status}>{status === 1 ? '可用' : '冻结'}</Tag>
+          </span>
+        )},
         {title: '创建时间', dataIndex: 'createTime', },
      ],
      data :[]
@@ -130,7 +135,7 @@ class Recharge extends React.Component {
       mer.contactMan = data[i].contactMan;
       mer.phoneNum = data[i].phoneNum;
       mer.telNum = data[i].telNum;
-      mer.status = data[i].status===1 ? '正常' : '禁止';
+      mer.status = data[i].status;
       mer.createTime = data[i].createTime;
       tableData.data.push(mer);
     }

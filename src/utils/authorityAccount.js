@@ -46,7 +46,7 @@ export function authorityAccount() {
                 // '/merchant/balance-info',
                 // '/merchant/merchant-member-inter-apply',
                 '/order',
-                // '/order/shoporder',
+                '/order/shoporder',
                 // '/order/findrefundorder',
                 // '/order/findbuyorder',
                 // '/order/shopcreateroll',
