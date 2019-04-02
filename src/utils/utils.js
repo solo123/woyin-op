@@ -9,6 +9,7 @@ export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
 }
 
+// 把时间戳转换为普通日期格式
 export function getTimeDistance(type) {
   const now = new Date();
   const oneDay = 1000 * 60 * 60 * 24;
@@ -52,6 +53,12 @@ export function getTimeDistance(type) {
 
   const year = now.getFullYear();
   return [moment(`${year}-01-01 00:00:00`), moment(`${year}-12-31 23:59:59`)];
+}
+
+// 日期格式转换
+export function timeChangData(time){
+  const data = new Date(time);
+  return data.getFullYear()+'-'+(data.getMonth()+1)+'-'+data.getDate();
 }
 
 export function getPlainNode(nodeList, parentPath = '') {

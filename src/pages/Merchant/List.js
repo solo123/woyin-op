@@ -9,7 +9,6 @@ import {
   Form,
   Table,
   Modal,
-  Tag
 } from 'antd'
 import {
   MerchantAddOrUpdate, 
@@ -21,7 +20,8 @@ import {
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {getMerchantListApi} from '@/services/api';
-import styles from './List.less'
+import {statuesRend} from '@/utils/renderUtils';
+import styles from './List.less';
 
 @connect(({ merchant, loading }) => ({
   merchant,
@@ -48,6 +48,10 @@ class List extends React.Component {
       // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
       // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '冻结/解冻'},
     ];
+    const STATUSITEMS = [
+      {key: 1, describe: ['green', '可用']},
+      {key: -1, describe: ['red', '冻结']}
+    ]
     const tableData = {
       columns: [
         {title: '商户登录帐户', dataIndex: 'userAccount', key: 'userAccount'},
@@ -56,11 +60,9 @@ class List extends React.Component {
         {title: '联系人', dataIndex: 'contactMan', key: 'contactMan'},
         {title: '手机号', dataIndex: 'phoneNum', key: 'phoneNum'},
         {title: '固定电话', dataIndex: 'telNum', key: 'telNum'},
-        {title: '状态', dataIndex: 'statue', key: 'statue', render: statue => (
-          <span>
-            <Tag color={statue === 1 ? 'geekblue' : 'red'} key={statue}>{statue === 1 ? '可用' : '冻结'}</Tag>
-          </span>
-        )},
+        {title: '状态', dataIndex: 'statue', key: 'statue', render: statue => {
+          return statuesRend(statue, STATUSITEMS)
+        }},
         {title: '创建时间', dataIndex: 'creatertime', key: 'creatertime'},
         {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
         {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
@@ -97,10 +99,6 @@ class List extends React.Component {
       page: 1
     }
     this.getAllData(params);
-    // const {dispatch} = this.props
-    // dispatch({
-    //   type: 'merchant/getMerchantList',
-    // })
   }
 
   onHangeDetails = (texts, record) => {
@@ -166,95 +164,98 @@ class List extends React.Component {
     })
   }
 
-  onChangePage = (page)=>{
-    const {param} = this.state;
-    param.count = this.state.limit;
-    param.page = page;
-    this.getAllData(param);
-  }
-
-  getAllData = (params) => {
-    getMerchantListApi(params).then(res=>{
-      try {
-        if(res.status === 200){
-          const {data} = res.data;
-          const merchantList = [];
-          const {tableData} = this.state;
-          for(let i = 0; i < data.length; i+=1){
-            const merch = {};
-            merch.key = data[i].merchantId;
-            merch.userAccount =  data[i].userAccount;
-            merch.merchantName = data[i].merchantName;
-            merch.merchantAddr =  data[i].merchantAddr;
-            merch.contactMan =  data[i].contactMan;
-            merch.phoneNum =  data[i].phoneNum;
-            merch.telNum =  data[i].telNum;
-            merch.statue =  data[i].status;
-            merch.creatertime =  data[i].createTime;
-            merch.find =  data[i].id;
-            merch.freezing =  data[i].frozenTime;
-            merch.unfreezing =  data[i].unFrozenTime;
-            merchantList.push(merch);
-          }
-          tableData.data = merchantList;
-          this.setState(
-            {
-              tableData,
-              count: res.data.totalCount
-            }
-          );
-        }
-      } catch (error) {
-        console.error('网络接口异常');
-      }
-    });
-  }
-
-  render () {
-    const { getFieldDecorator } = this.props.form; 
-    const {tableData} = this.state;
-    const { formData, buttonData, limit, count } = this.state;
-    const rowSelection = {
-      type: 'radio',
-      onChange: this.getCheckUser
-    };
-    return (
-      <PageHeaderWrapper>
-        <Card bordered={false}>
-          <Row>
-            <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
-              </div>
-            </Col>
-          </Row>
-        </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data} 
-          bordered
-          rowSelection={rowSelection}
-          scroll={{ x: 1700 }}
-          pagination={{
-            pageSize: limit ,
-            total: count,
-            onChange: this.onChangePage
-           }}
-        />
-        <MerchantAddOrUpdate ref={c => {this.MerchantAddOrUpdate = c}} />
-        <MemberUpload ref={c => {this.MemberUpload = c}} />
-        <InterUpload ref={c => {this.InterUpload = c}} />
-        <MerchantInfo ref={c => {this.MerchantInfo = c}} />
-        <MemberApplayData ref={c => {this.MemberApplayData = c}} />
-        <MemberApplayInter ref={c => {this.MemberApplayInter = c}} />
-      </PageHeaderWrapper>
-    )
-  }
+onChangePage = (page)=>{
+  const {param} = this.state;
+  param.count = this.state.limit;
+  param.page = page;
+  this.getAllData(param);
 }
+
+Reset = () => {
+  this.getAllData();
+}
+
+getAllData = (params) => {
+  getMerchantListApi(params).then(res=>{
+    try {
+      if(res.status === 200){
+        const {data} = res.data;
+        const merchantList = [];
+        const {tableData} = this.state;
+        for(let i = 0; i < data.length; i+=1){
+          const merch = {};
+          merch.key = data[i].merchantId;
+          merch.userAccount =  data[i].userAccount;
+          merch.merchantName = data[i].merchantName;
+          merch.merchantAddr =  data[i].merchantAddr;
+          merch.contactMan =  data[i].contactMan;
+          merch.phoneNum =  data[i].phoneNum;
+          merch.telNum =  data[i].telNum;
+          merch.statue =  data[i].status;
+          merch.creatertime =  data[i].createTime;
+          merch.find =  data[i].id;
+          merch.freezing =  data[i].frozenTime;
+          merch.unfreezing =  data[i].unFrozenTime;
+          merchantList.push(merch);
+        }
+        tableData.data = merchantList;
+        this.setState(
+          {
+            tableData,
+            count: res.data.totalCount
+          }
+        );
+      }
+    } catch (error) {
+      console.error('网络接口异常');
+    }
+  });
+}
+
+render () {
+  const { getFieldDecorator } = this.props.form; 
+  const {tableData} = this.state;
+  const { formData, buttonData, limit, count } = this.state;
+  const rowSelection = {
+    type: 'radio',
+    onChange: this.getCheckUser
+  };
+  return (
+    <PageHeaderWrapper>
+      <Card bordered={false}>
+        <Row>
+          <Col>
+            <HeadFormSearch Reset={this.Reset} formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <div className={styles.addButton}>
+              <HeadFootButton buttonData={buttonData} />
+            </div>
+          </Col>
+        </Row>
+      </Card>
+      <Table
+        columns={tableData.columns}
+        dataSource={tableData.data} 
+        bordered
+        rowSelection={rowSelection}
+        scroll={{ x: 1700 }}
+        pagination={{
+          pageSize: limit ,
+          total: count,
+          onChange: this.onChangePage
+          }}
+      />
+      <MerchantAddOrUpdate ref={c => {this.MerchantAddOrUpdate = c}} />
+      <MemberUpload ref={c => {this.MemberUpload = c}} />
+      <InterUpload ref={c => {this.InterUpload = c}} />
+      <MerchantInfo ref={c => {this.MerchantInfo = c}} />
+      <MemberApplayData ref={c => {this.MemberApplayData = c}} />
+      <MemberApplayInter ref={c => {this.MemberApplayInter = c}} />
+    </PageHeaderWrapper>
+  )
+}}
 const Lists = Form.create({ name: 'list' })(List);
 export default Lists;

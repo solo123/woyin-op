@@ -128,7 +128,7 @@ export default [
               component: './Merchant/MemberInterApply',
             },
             {
-              path: '/merchant/info',
+              path: '/merchant/balanceinfo',
               name: 'merchant-info',
               component: './Merchant/BalanceInfo',
             },

@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "3abcf1b99dda82a7db36",
+    "revision": "7ea3e1b080a9305df51e",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
-    "revision": "06df0d358e3902ad0c5c",
+    "revision": "f247f90aad356293feab",
     "url": "/vendors.chunk.css"
   },
   {
@@ -20,15 +20,15 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "dfdf16dcf6e3410a0340",
+    "revision": "eac6554e5a1708c4e98f",
     "url": "/umi.js"
   },
   {
-    "revision": "dfdf16dcf6e3410a0340",
+    "revision": "eac6554e5a1708c4e98f",
     "url": "/umi.css"
   },
   {
-    "revision": "06df0d358e3902ad0c5c",
+    "revision": "f247f90aad356293feab",
     "url": "/vendors.async.js"
   },
   {
@@ -76,11 +76,11 @@ self.__precacheManifest = [
     "url": "/p__Exception__models__error.js.async.js"
   },
   {
-    "revision": "74ec71f8e494e5268ff6",
+    "revision": "1200701da2384e4b3ab9",
     "url": "/p__Merchant__BalanceInfo.chunk.css"
   },
   {
-    "revision": "74ec71f8e494e5268ff6",
+    "revision": "1200701da2384e4b3ab9",
     "url": "/p__Merchant__BalanceInfo.async.js"
   },
   {
@@ -88,19 +88,19 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberInterApply.async.js"
   },
   {
-    "revision": "581bfa82187fcb60dfc9",
+    "revision": "19f1e38f13c09696a81a",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "581bfa82187fcb60dfc9",
+    "revision": "19f1e38f13c09696a81a",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "62a934ff4a438425f8a3",
+    "revision": "e66bc5ead1552cdd8dee",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "62a934ff4a438425f8a3",
+    "revision": "e66bc5ead1552cdd8dee",
     "url": "/p__Merchant__list.async.js"
   },
   {
@@ -120,11 +120,11 @@ self.__precacheManifest = [
     "url": "/p__Order__FindreFundorder.async.js"
   },
   {
-    "revision": "eb0d3c6f054a2f27d301",
+    "revision": "5a7958fc1077a147c26a",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
-    "revision": "eb0d3c6f054a2f27d301",
+    "revision": "5a7958fc1077a147c26a",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
@@ -136,7 +136,7 @@ self.__precacheManifest = [
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "3abcf1b99dda82a7db36",
+    "revision": "7ea3e1b080a9305df51e",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {
@@ -144,7 +144,7 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__Info.chunk.css"
   },
   {
-    "revision": "cd4cf2fb0758b9e96c75",
+    "revision": "1c38b3935ce30ca4f52e",
     "url": "/p__User__ResetPaswrod.async.js"
   },
   {
@@ -228,7 +228,7 @@ self.__precacheManifest = [
     "url": "/p__User__Login.async.js"
   },
   {
-    "revision": "cd4cf2fb0758b9e96c75",
+    "revision": "1c38b3935ce30ca4f52e",
     "url": "/p__User__ResetPaswrod.chunk.css"
   },
   {
@@ -236,7 +236,7 @@ self.__precacheManifest = [
     "url": "/index.html"
   },
   {
-    "revision": "375ad4cc8c56212d323d",
+    "revision": "8ab17a79916d8b2744d8",
     "url": "/layouts__BasicLayout.chunk.css"
   },
   {
@@ -256,7 +256,7 @@ self.__precacheManifest = [
     "url": "/layouts__UserLayout.chunk.css"
   },
   {
-    "revision": "375ad4cc8c56212d323d",
+    "revision": "8ab17a79916d8b2744d8",
     "url": "/layouts__BasicLayout.async.js"
   },
   {

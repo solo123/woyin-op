@@ -42,7 +42,7 @@ export function authorityAccount() {
                 '/merchant',
                 '/merchant/list',
                 '/merchant/recharge',
-                '/merchant/info',
+                '/merchant/balanceinfo',
                 // '/merchant/balance-info',
                 // '/merchant/merchant-member-inter-apply',
                 '/order',
@@ -52,8 +52,8 @@ export function authorityAccount() {
                 // '/order/shopcreateroll',
                 // '/order/lotteryorder',
                 '/order/intersubmit',
-                // '/product',
-                // '/product/productinfo',
+                '/product',
+                '/product/productinfo',
                   /*
                 '/transfer',
                 '/transfer/transferaudit',
@@ -66,12 +66,14 @@ export function authorityAccount() {
                 '/task/taskdiary',
                 '/repayment',
                 '/repayment/list',
+                */
                 '/shop',
                 '/shop/jdshop',
                 '/shop/jdshopsort',
                 '/shopproduct',
                 '/shopproduct/jdshop',
                 '/shopproduct/jdshopsort',
+                /*
                 '/report',
                 '/report/reportlist',
                 */

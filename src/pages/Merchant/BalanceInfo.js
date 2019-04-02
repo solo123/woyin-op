@@ -7,11 +7,11 @@ import {
   Col,
   Card,
   Form,
-  Tag
 } from 'antd';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {gerMerchantHuiInfo} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {statuesRend} from '@/utils/renderUtils';
 import styles from './Info.less';
 
 @connect()
@@ -19,27 +19,25 @@ class BalanceInfo extends Component {
   constructor(props){
     super(props);
     const formDatas = [
-      {type: 'InputIcon' ,label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '商户名称', typeIco: 'book'},
-      {type: 'InputIcon' ,label: '用户手机号码', name: 'userPhoneNo', ruless:[] , placeholder: '用户手机号码', typeIco: 'book'},
-      {type: 'InputIcon' ,label: '用户名称', name: 'userName', ruless:[] , placeholder: '用户名称', typeIco: 'book'},
+      {type: 'InputIcon', label: '商户登录帐户', name: 'userAccount', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
+      {type: 'InputIcon', label: '商户名称', name: 'merchantName', ruless:[], placeholder: '商户名称', typeIco: 'book'},
+      {type: 'InputIcon', label: '用户手机号码', name: 'userPhoneNo', ruless:[], placeholder: '用户手机号码', typeIco: 'book'},
+      {type: 'InputIcon', label: '用户名称', name: 'userName', ruless:[], placeholder: '用户名称', typeIco: 'book'},
     ];
+    const STATUSITEMS = [
+      {key: 0, describe: ['green', '未激活']},
+      {key: 1, describe: ['blue', '正常']},
+      {key: 2, describe: ['red', '冻结']},
+      {key: 3, describe: ['red', '没激活']}
+    ]
     const tableData = {
       columns: [
         {title: '用户名', dataIndex: 'userName', key: 'userName'},
         {title: '用户手机号码', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        // {title: '用户昵称', dataIndex: 'nickName', key: 'nickName'},
         {title: '用户备注', dataIndex: 'remark', key: 'remark'},
         {title: '用户冻结时间', dataIndex: 'freezeTime', key: 'freezeTime'},
         {title: '用户更新时间', dataIndex: 'updateTime', key: 'updateTime'},
-        {title: '状态', dataIndex: 'status', key: 'status', render: status => {
-          switch(status){
-            case 0: return  <Tag color="green">未激活</Tag>
-            case 1: return  <Tag color="blue">正常</Tag>
-            case 2: return  <Tag color="red">冻结</Tag>
-            default: return <Tag color="red">其他</Tag>
-          }
-        }},
+        {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, STATUSITEMS))},
         {title: '用户组创建时间', dataIndex: 'createTime', key: 'createTime'},
       ],
       data: []
@@ -54,16 +52,16 @@ class BalanceInfo extends Component {
         userName: '' ,
         count: 10 ,
         page: 1,
-        totalCount: 10
+        totalCount: 10,
       }
     }
   }
 
-  componentWillMount() {
+  componentWillMount () {
     this.getData(this.state.params);
   }
 
-  onChangePage = (page)=>{
+  onChangePage = (page) => {
     const {params} = this.state;
     params.page = page;
     this.getData(params);
@@ -82,6 +80,10 @@ class BalanceInfo extends Component {
       }
     })
   };
+
+  Reset = () => {
+    this.getData();
+  }
 
   getData = (params) => {
     gerMerchantHuiInfo(params).then(res => {
@@ -119,7 +121,7 @@ class BalanceInfo extends Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch Reset={this.Reset} formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
         </Card>

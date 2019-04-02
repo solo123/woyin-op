@@ -4,15 +4,15 @@ import {
     DatePicker
   } from 'antd';
 
-const  handChangs = (value) => (value);
 const {RangePicker } = DatePicker;
+const dateFormat = 'YYYY/MM/DD';
 
-export default ({label ,name, options, handChang},getFieldDecorator) => (
+export default ({label ,name},getFieldDecorator) => (
   <Form.Item
     label={label}
   >
     {getFieldDecorator(name)(
-      <RangePicker />
+      <RangePicker format={dateFormat} />
   )}
   </Form.Item>
 )

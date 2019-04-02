@@ -7,12 +7,13 @@ import {
   Card,
   Form,
   Table,
-  Tag,
   message
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
 import {RechargMerchantRechargesPOST,findOrderInfo} from '@/services/api';
+import {timeChangData} from '@/utils/utils';
+import {statuesRend} from '@/utils/renderUtils';
 import styles from './Shoporder.less'
 
 @connect()
@@ -27,36 +28,31 @@ class List extends React.Component {
       label: '禁用',
     }];
     const formDatas = [
-      {type: 'InputIcon' ,label: '充值订单编号', name: 'orderId', ruless:[] , placeholder: '充值订单编号', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '商户登录账号', name: 'userAccount', ruless:[] , placeholder: '充值对象登录号', typeIco: 'book'},
+      {type: 'InputIcon', label: '充值订单编号', name: 'orderId', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
+      {type: 'InputIcon', label: '商户登录账号', name: 'userAccount', ruless:[], placeholder: '充值对象登录号', typeIco: 'book'},
       {type: 'SelectCompone', label: '充值人员类型', name: 'roleType', options: option},
       {type: 'SelectCompone', label: '状态：', name: 'state', options: option},
-      {type: 'InputIcon' ,label: '充值对象名称', name: 'merchantName', ruless:[] , placeholder: '充值对象名称', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '批次号', name: 'batchNum', ruless:[] , placeholder: '批次号', typeIco: 'user'},
-      {type: 'SelectDateRang' ,label: '充值时间', name: 'rechargeTime', ruless:[] , placeholder: '充值时间', typeIco: 'book'},
+      {type: 'InputIcon', label: '充值对象名称', name: 'merchantName', ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
+      {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[], placeholder: '批次号', typeIco: 'user'},
+      {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime', ruless:[], placeholder: '充值时间', typeIco: 'book'},
     ];
     const buttonDatas = [
       {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
       {type: 'primary', ico: 'edit', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
     ];
-    const tableData = {columns: 
-      [
+    const STATUSITEMS = [
+      {key: 1, describe: ['green', '新建']},
+      {key: 2, describe: ['green', '同意']},
+      {key: -1, describe: ['red', '拒绝']},
+    ]
+    const tableData = {
+      columns:[
         {title: '充值订单编号', dataIndex: 'orderId', key: 'orderId'},
-        // {title: '批次号', dataIndex: 'batchNum', key: 'batchNum'},
         {title: '充值对象登录号', dataIndex: 'userAccount', key: 'userAccount'},
         {title: '充值对象名称', dataIndex: 'merchantName', key: 'merchantName'},
         {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType'},
-        // {title: '充值类型', dataIndex: 'type', key: 'type', width: 100},
-        // {title: '加款方式', dataIndex: 'mode', key: 'mode', width: 100},
         {title: '订单积分', dataIndex: 'balance', key: 'balance'},
-        {title: '状态', dataIndex: 'state', key: 'statue' ,render: state => {
-          switch(state){
-            case 1: return  <Tag color="green">新建</Tag>
-            case 2: return  <Tag color="blue">同意</Tag>
-            case -1: return  <Tag color="red">拒绝</Tag>
-            default: return <Tag color="red">其他</Tag>
-          }
-        }},
+        {title: '状态', dataIndex: 'state', key: 'state' ,render: state => (statuesRend(state, STATUSITEMS))},
         {title: '创建时间', dataIndex: 'createTime', key: 'createTime', width: 120},
      ],
      data: []
@@ -79,15 +75,15 @@ class List extends React.Component {
       if(res.status === 200){
        res.data.data.forEach(item => {
           const order = {};
-          order.orderId = item.orderId ;
-          order.userAccount = item.userAccount ;
-          order.key = item.orderId ;
-          order.roleType = item.roleType ;
-          order.merchantName = item.merchantName ;
-          order.balance = item.balance ;
-          order.batchNum = item.batchNum ;
-          order.createTime = item.createTime ;
-          order.state = item.state ;
+          order.orderId = item.orderId;
+          order.userAccount = item.userAccount;
+          order.key = item.orderId;
+          order.roleType = item.roleType;
+          order.merchantName = item.merchantName;
+          order.balance = item.balance;
+          order.batchNum = item.batchNum;
+          order.createTime = item.createTime;
+          order.state = item.state;
           tableData.data.push(order);
         });
         this.setState({
@@ -101,7 +97,6 @@ class List extends React.Component {
   handMerchInterAppaly = (e) => {
     const {withDrawList} = this.state;
     if(withDrawList.length <= 0) return;
-    
     withDrawList.forEach(item => {
       const params = {
         orderId: item.key,
@@ -142,15 +137,27 @@ class List extends React.Component {
   });
   }
 
-  handEdit = (e) => {
-    e.preventDefault();
+  Reset = ()=> {
+    this.getData();
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
+    let startTime = null;
+    let endTime = null;
     this.props.form.validateFields((err, values) => {
+      if(typeof values.rechargeTime !== 'undefined'){
+        startTime = timeChangData(values.rechargeTime[0].toDate());
+        endTime = timeChangData(values.rechargeTime[1].toDate());
+      }
+      const params = {
+        ...values,
+        endTime,
+        startTime,
+        rechargeTime: null
+      };
       if(!err){
-        this.getData(values);
+        this.getData(params);
       }
     })
   }
@@ -166,7 +173,7 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearchTwo formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearchTwo formData={formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>

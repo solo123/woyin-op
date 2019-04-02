@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import {
-  Row,
-  Col,
   Card,
   Form,
   Table,
@@ -29,13 +27,13 @@ class Recharge extends React.Component {
         ],
         data: [
             {
-              key: '1', 
-              name: 'John2', 
-              phone: '322', 
-              price: 'New York No. 1 Lake Park', 
+              key: '1',
+              name: 'John2',
+              phone: '322',
+              price: 'New York No. 1 Lake Park',
               voucher: 'developer',
               title: '标题'
-            }, 
+            },
         ]
     }
     this.state = {
@@ -72,7 +70,7 @@ class Recharge extends React.Component {
         </Card>
         <Table
           columns={tableData.columns}
-          dataSource={tableData.data} 
+          dataSource={tableData.data}
           bordered
         />
       </PageHeaderWrapper>

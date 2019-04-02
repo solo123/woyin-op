@@ -9,12 +9,12 @@ import {
   Form,
   Table,
   message,
-  Tag
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {withdrawList, withdrawApplay} from '@/services/api';
 import {timeToYmdH} from '@/utils/utils';
+import {statuesRend} from '@/utils/renderUtils';
 import styles from './InterSubmit.less';
 
 @connect()
@@ -22,30 +22,33 @@ class List extends React.Component {
   constructor(props){
     super(props);
     const option = [
-        {value: '10',label: '新建',}, 
-        {value: '11',label: '受理成功',},
-        {value: '12',label: '处理成功',},
-        {value: '13',label: '失败',},
-        {value: '14',label: '待审核',},
-        {value: '15',label: '审核通过',},
-        {value: '16',label: '审核拒绝',},
-        {value: '17',label: '确认',},
+      {value: '10',label: '新建'}, 
+      {value: '11',label: '受理成功'},
+      {value: '12',label: '处理成功'},
+      {value: '13',label: '失败'},
+      {value: '14',label: '待审核'},
+      {value: '15',label: '审核通过'},
+      {value: '16',label: '审核拒绝'},
+      {value: '17',label: '确认'}
     ];
     const formDatas = [
-      {type: 'SelectCompone', label: '状态：', name: 'state', options: option, defaultValue: '新建'},
-     ];
-    const buttonDatas = [
-      {type: 'primary', ico: 'plus', hangClick: this.handWithDrawAppaly, labe: '充值审核'},
-    //   {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'}
+      {type: 'SelectCompone', label: '状态：', name: 'state', options: option, defaultValue: '新建'}
     ];
+    const buttonDatas = [
+      {type: 'primary', ico: 'plus', hangClick: this.handWithDrawAppaly, labe: '充值审核'}
+    ];
+    const STATUSITEMS = [
+      {key: 10, describe: ['green','新建']},
+      {key: 11, describe: ['green','受理成功']},
+      {key: 12, describe: ['green','处理成功']},
+      {key: 13, describe: ['green','失败']},
+      {key: 14, describe: ['green','待审核']},
+      {key: 15, describe: ['green','审核通过']},
+      {key: 16, describe: ['green','审核拒绝']},
+      {key: 17, describe: ['green','确认']},
+    ]
     const tableData = {columns: 
       [
-        // {title: '订单id', dataIndex: 'orderId', key: 'orderId', width: 120},
-        // {title: '用户id', dataIndex: 'userId', key: 'userId'},
-        // {title: '商户id', dataIndex: 'merchantId', key: 'merchantId', width: 180},
-        // {title: '外部订单id', dataIndex: 'exOrderN0', key: 'exOrderN0', width: 160},
-        // {title: '所属类型', dataIndex: 'objTypeform', key: 'objTypeform', width: 160},
-        // {title: '银行代号', dataIndex: 'bankCode', key: 'bankCode'},
         {title: '银行名称', dataIndex: 'bankName', key: 'bankName'},
         {title: '银行卡号', dataIndex: 'bankCard', key: 'bankCard'},
         {title: '持卡人姓名', dataIndex: 'cardHoldName', key: 'cardHoldName'},
@@ -53,34 +56,11 @@ class List extends React.Component {
         {title: '提现渠道', dataIndex: 'channelId', key: 'channelId'},
         {title: '提现金额', dataIndex: 'amount', key: 'amount'},
         {title: '状态', dataIndex: 'status', key: 'status',render: status => (
-          <span>
-            {
-              (
-                status=>{
-                    switch(status){
-                        case 10: return  <Tag color='geekblue'>新建</Tag>
-                        case 11: return  <Tag color='geekblue'>受理成功</Tag>
-                        case 12: return  <Tag color='geekblue'>处理成功</Tag>
-                        case 13: return  <Tag color='geekblue'>失败</Tag>
-                        case 14: return  <Tag color='geekblue'>待审核</Tag>
-                        case 15: return  <Tag color='geekblue'>审核通过</Tag>
-                        case 16: return  <Tag color='geekblue'>审核拒绝</Tag>
-                        case 17: return  <Tag color='geekblue'>确认</Tag>
-                        default:
-                    }
-                }
-                )(status)
-            }
-           
-          </span>
+          statuesRend(status, STATUSITEMS)
         )},
-        {title: '手续费', dataIndex: 'poundage', key: 'poundage'},
+        {title: '手续费', dataIndex: 'poundage', key: 'poundage'},  
         {title: '更新时间', dataIndex: 'updateTime', key: 'updateTime'},
         {title: '创建时间', dataIndex: 'createTime', key: 'createTime'},
-        // {title: '提现发起人姓名', dataIndex: 'userName', key: 'userName', width: 140},
-        // {title: '审核人id', dataIndex: 'auditUser', key: 'auditUser', width: 80},
-        // {title: '审核人姓名', dataIndex: 'auditUserName', key: 'auditUserName', width: 80},
-        // {title: '备注信息', dataIndex: 'remark', key: 'remark', width: 80},
      ],
      data: []
     };
@@ -160,7 +140,7 @@ class List extends React.Component {
           bankCard: item.bankCard,
           bankCode: item.bankCode,
           bankName: item.bankName,
-          bankcardtype: 1,// item.bankcardtype,
+          bankcardtype: 1,
           cardHoldName: item.cardHoldName,
           amount: item.amount,
           orderId: item.key,
@@ -216,7 +196,7 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>
@@ -233,7 +213,7 @@ class List extends React.Component {
           bordered
           rowSelection={rowSelection}
           pagination={{
-            pageSize: limit ,// 每页的条数
+            pageSize: limit,
             total: count,
             onChange: this.onChangePage
            }}

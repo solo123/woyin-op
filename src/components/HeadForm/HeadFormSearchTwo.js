@@ -7,7 +7,6 @@ import {
     Row,
     Col 
 } from 'antd';
-
 import {InputIcon, SelectCompone, SelectDate, SelectDateRang} from '../FormTool';
 import styles from './HeadFormSearchTwo.less'
 
@@ -21,14 +20,14 @@ class HeadFormTow extends React.Component {
   };
 
   constructor(props) {
-        super(props);
-        this.state = {}
+    super(props);
+    this.state = {}
   }
 
   render () {
-    const {formData, handleSubmit, getFieldDecorator} = this.props;
-    // eslint-disable-next-line react/destructuring-assignment
-   const rendComp = value => {
+    const {formData, handleSubmit, getFieldDecorator, form, Reset} = this.props;
+    const handleReset = () => {form.resetFields(); if(typeof Reset === 'function') Reset(); }
+    const rendComp = value => {
     switch (value.type){
       case 'InputIcon':
         return (
@@ -37,7 +36,6 @@ class HeadFormTow extends React.Component {
               {InputIcon(value, getFieldDecorator)}
             </Col>
           </React.Fragment>
-         
         );
       case 'SelectCompone':
           return (
@@ -54,41 +52,41 @@ class HeadFormTow extends React.Component {
             </Col>
           )
       case 'SelectDateRang':
-            return (
-              <Col md={8} key={value.label}>
-                {SelectDateRang(value, getFieldDecorator)}
-              </Col>
-            )
+          return (
+            <Col md={8} key={value.label}>
+              {SelectDateRang(value, getFieldDecorator)}
+            </Col>
+          )
       default:
-    }
+      }
     }
       
-    const one = formData.map( (value, index) => {
+  const one = formData.map( (value, index) => {
         if(index <=3){
           return rendComp(value, index);
         }
       });
 
-      const two = formData.map( (value, index) => {
+  const two = formData.map( (value, index) => {
         if(index >3 && index <= 6){
           return rendComp(value, index);
         }
       })
       
-      return (
-        <Form layout="inline" onSubmit={handleSubmit}>
-          <Row gutter={{ md: 6}}>
-            {one}
-          </Row>
-          <Row gutter={{ md: 8}}>
-            {two}
-          </Row>
-          <div className={styles.addButton}>
-            <Button type="primary" icon="search" htmlType="submit">查找</Button>
-            <Button style={{"marginLeft": '10px'}} icon="redo">重置</Button>
-          </div>
-        </Form>
-      )
-    }
+  return (
+    <Form layout="inline" onSubmit={handleSubmit}>
+      <Row gutter={{ md: 6}}>
+        {one}
+      </Row>
+      <Row gutter={{ md: 8}}>
+        {two}
+      </Row>
+      <div className={styles.addButton}>
+        <Button type="primary" icon="search" htmlType="submit">查找</Button>
+        <Button style={{"marginLeft": '10px'}} onClick={handleReset} icon="redo">重置</Button>
+      </div>
+    </Form>
+    )
+  }
 }
 export default HeadFormTow

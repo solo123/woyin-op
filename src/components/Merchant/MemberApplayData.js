@@ -5,20 +5,24 @@ import {
     Row,
     Col,
     Button,
-    Tag,
     message
   } from 'antd';
-  import {
+import {
       UploadInterView,
       SubmintExcekData,
       SubmintExceCancel,
       UploadInterCheckRate} from '@/services/api';
-  import styles from './MemberApplayData.less';
+import {statuesRend} from '@/utils/renderUtils';
+import styles from './MemberApplayData.less';
 
   class MemberApplayData extends React.Component{
       
     constructor(props) {
         super(props);    
+        const STATUSITEMS = [
+            {key: 1, describe: ['green', '可用']},
+            {key: 0, describe: ['blue', '异常']},
+        ]
         const palyInfo = {
           columns:[
             {title: '序号',key: 'sn',dataIndex: 'sn'},
@@ -29,11 +33,9 @@ import {
             {title: '金额',key: 'points',dataIndex: 'points'}, 
             {title: '凭证号',key: 'memo',dataIndex: 'memo'}, 
             {title: '标题',key: 'remark',dataIndex: 'remark'}, 
-            {title: '数据状态',key: 'isValid',dataIndex: 'isValid',render: isValid => (
-              <span>
-                <Tag color={isValid === 1 ? 'geekblue' : 'red'} key={isValid}>{isValid === 1 ? '正常' : '异常'}</Tag>
-              </span>
-            )}, 
+            {title: '数据状态',key: 'isValid',dataIndex: 'isValid',render: isValid => {
+                return statuesRend(isValid, STATUSITEMS);
+            }}, 
             {title: '数据创建时间',key: 'createTime',dataIndex: 'createTime'}, 
           ],
             data: []

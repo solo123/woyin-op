@@ -4,9 +4,9 @@ import {
     Row, 
     Col,
     Table,
-    Tag
   } from 'antd';
 import {getMerchantPlayApi, getMerchantAccApi} from '@/services/api';
+import {statuesRend} from '@/utils/renderUtils';
 import styles from './MerchantInfo.less';
 
 class MerchantInfo extends React.Component{
@@ -14,6 +14,10 @@ class MerchantInfo extends React.Component{
         super(props);
         const merchanLogo ={};
         const palyInfo = {};
+        const STATUSITEMS = [
+          {key: 0, describe: ['green', '正常']},
+          {key: 1, describe: ['red', '错误']}
+        ]
         merchanLogo.columns = [
             {title: '账户编号',key: 'accountId',dataIndex:'accountId' }, 
             {title: '对象编号',key: 'merchantId',dataIndex: 'merchantId' }, 
@@ -21,12 +25,7 @@ class MerchantInfo extends React.Component{
             {title: '账户积分',key: 'balance',dataIndex: 'balance'}, 
             {title: '可用积分',key: 'userBalance',dataIndex: 'userBalance'}, 
             {title: '冻结积分',key: 'freezeBalance',dataIndex: 'freezeBalance'}, 
-            // {title: '账户类型',key: '',}, 
-            {title: '状态',key: '',render: statue => (
-              <span>
-                <Tag color={statue === 1 ? 'geekblue' : 'geekblue'} key={statue}>{statue === 1 ? '正常' : '其他'}</Tag>
-              </span>
-            )}
+            {title: '状态',key: '',render: statue => (statuesRend(statue, STATUSITEMS))}
           ];
         merchanLogo.data = []
         palyInfo.columns = [
@@ -34,11 +33,7 @@ class MerchantInfo extends React.Component{
           {title: '操作员编号',key: 'userId',dataIndex: 'userId',}, 
           {title: '操作员名称',key: 'userName',dataIndex: 'userName',}, 
           {title: '创建时间	',key: 'createTime',dataIndex: 'createTime',}, 
-          {title: '状态',key: 'state',dataIndex: 'state',render: statue => (
-            <span>
-              <Tag color={statue === 1 ? 'geekblue' : 'geekblue'} key={statue}>{statue === 1 ? '正常' : '其他'}</Tag>
-            </span>
-          )}
+          {title: '状态',key: 'state',dataIndex: 'state',render: statue => (statuesRend(statue, STATUSITEMS))}
         ];
         palyInfo.data = []
         const info = [

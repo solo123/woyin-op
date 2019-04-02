@@ -22,20 +22,20 @@ class Recharge extends React.Component {
     super(props);
     const cureeMerchId = null;
     const formDatas = [
-      {type: 'InputIcon' ,label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '商户名称', typeIco: 'book'},
+      {type: 'InputIcon', label: '商户登录帐户', name: 'userAccount', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
+      {type: 'InputIcon', label: '商户名称', name: 'merchantName', ruless:[], placeholder: '商户名称', typeIco: 'book'},
     ];
     const buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.hangClick, labe: '代充值'},
     ];
     const tableData = {
       columns:[
-        {title: '商户登录帐户', dataIndex: 'userAccount',},
-        {title: '商户名称', dataIndex: 'merchantName', },
-        {title: '商户地址', dataIndex: 'merchantAddr', },
-        {title: '联系人', dataIndex: 'contactMan',},
-        {title: '手机号', dataIndex: 'phoneNum', },
-        {title: '固定电话', dataIndex: 'telNum', },
+        {title: '商户登录帐户', dataIndex: 'userAccount'},
+        {title: '商户名称', dataIndex: 'merchantName'},
+        {title: '商户地址', dataIndex: 'merchantAddr'},
+        {title: '联系人', dataIndex: 'contactMan'},
+        {title: '手机号', dataIndex: 'phoneNum'},
+        {title: '固定电话', dataIndex: 'telNum'},
         {title: '状态', dataIndex: 'status', render: status => (
           <span>
             <Tag color={status === 1 ? 'geekblue' : 'red'} key={status}>{status === 1 ? '可用' : '冻结'}</Tag>
@@ -65,7 +65,7 @@ class Recharge extends React.Component {
   componentWillMount () {
     const params = {
       count: this.state.limit,
-      page:1
+      page: 1
     }
     this.geGetMerList(params);
   }
@@ -123,6 +123,10 @@ class Recharge extends React.Component {
     })
   }
 
+  Reset = () => {
+    this.geGetMerList();
+  }
+
   dataRinse = (data) => {
     const {tableData} = this.state;
     tableData.data = [];
@@ -156,7 +160,7 @@ class Recharge extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch formData={formData} Reset={this.Reset} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>

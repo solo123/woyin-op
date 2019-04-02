@@ -9,17 +9,25 @@ import {
     Tag,
     message
   } from 'antd';
-  import {
+import {
       GetBatchIdList, 
       GetBatchMerchantList, 
       SendInterApplyOk,
       SendInterApplyCancel} from '@/services/api';
-  import styles from './MemberApplayInter.less';
+import {statuesRend} from '@/utils/renderUtils';
+import styles from './MemberApplayInter.less';
 
   class MemberApplayData extends React.Component{
       
     constructor(props) {
+        
         super(props);
+        const STATUSITEMS = [
+            {key: 1, describe: ['green', '已审核']},
+            {key: 2, describe: ['blue', '未提交']},
+            {key: 3, describe: ['red', '发分失败']},
+            {key: 4, describe: ['red', '正在发分']}
+        ]
         // 批次号数据
         const batchList = {
             columns:[
@@ -29,23 +37,8 @@ import {
                 {title: '该批次发分的总条数',key: 'usersNum',dataIndex: 'usersNum'}, 
                 {title: '该批次发分的总分数',key: 'points',dataIndex: 'points'},  
                 {title: '数据状态',key: 'importStatus',dataIndex: 'importStatus',render: importStatus => (
-                  <span>
-                    {
-                      (
-                        importStatus=>{
-                            switch(importStatus){
-                                case 1: return  <Tag color='geekblue'>已审核</Tag>
-                                case 2: return  <Tag color='geekblue'>未提交</Tag>
-                                case 3: return  <Tag color='geekblue'>发分失败</Tag>
-                                case 4: return  <Tag color='geekblue'>正在发分</Tag>
-                                default:
-                            }
-                        }
-                        )(importStatus)
-                    }
-                   
-                  </span>
-                )},
+                    statuesRend(importStatus, STATUSITEMS)
+                 )},
                 {title: '操作',dataIndex: 'action',render: (texts, records) => {
                     switch(records.importStatus){
                       case 1:
@@ -81,7 +74,12 @@ import {
             ],
             data: []
         };
-      
+        const STATUSITEMS2 = [
+            {key: 1, describe: ['green', '已导入']},
+            {key: 2, describe: ['blue', '未导入']},
+            {key: 3, describe: ['red', '错误']},
+            {key: 4, describe: ['red', '其他']},
+        ]
         const memberList = {
             columns:[
                 // {title: '商户编号',key: 'memberName',dataIndex: 'memberName',width: 100}, 
@@ -90,14 +88,9 @@ import {
                 {title: '积分',key: 'points',dataIndex: 'points'},
                 {title: '凭证号',key: 'memo', dataIndex: 'memo'},
                 {title: '备注',key: 'remark',dataIndex: 'remark'}, 
-                {title: '状态',key: 'importStatus',dataIndex: 'importStatus' ,render: importStatus => {
-                    switch(importStatus){
-                      case 1: return  <Tag color="green">已导入</Tag>
-                      case 2: return  <Tag color="blue">未导入</Tag>
-                      case 3: return  <Tag color="red">错误</Tag>
-                      default: return <Tag color="red">其他</Tag>
-                    }
-                  }}, 
+                {title: '状态',key: 'importStatus',dataIndex: 'importStatus' ,render: importStatus => (
+                    statuesRend(importStatus, STATUSITEMS2)
+                )}, 
             ],
             data:[]
         }
@@ -143,7 +136,8 @@ import {
         GetBatchIdList(params).then(res => {
             if(res.status === 200 && res.data.data){
                 res.data.data.forEach((item) => {     
-                    const batch = {};              
+                    const batch = {};    
+                    batch.key =  item.id;          
                     batch.merchantId = this.state.merchantId;
                     batch.batchId = item.batchId ;
                     batch.memberName = item.memberName ;
@@ -151,7 +145,6 @@ import {
                     batch.usersNum = item.usersNum ;
                     batch.points = item.points ;
                     batch.importStatus = item.importStatus ;
-                    batch.key =  batch.id;
                     batchList.data.push(batch);
                 });
                 this.setState({
