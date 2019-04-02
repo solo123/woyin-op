@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/p__Order__Shoporder.async.js"
   },
   {
-    "revision": "f247f90aad356293feab",
+    "revision": "6e62c4b223c172c8cfdd",
     "url": "/vendors.chunk.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/umi.css"
   },
   {
-    "revision": "f247f90aad356293feab",
+    "revision": "6e62c4b223c172c8cfdd",
     "url": "/vendors.async.js"
   },
   {
