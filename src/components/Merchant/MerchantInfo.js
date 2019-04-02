@@ -77,14 +77,14 @@ class MerchantInfo extends React.Component{
     int = (MeInfo) => {
       const {info, palyInfo, merchanLogo} = this.state;
       info[0][0].value = MeInfo.key;
-      info[0][1].value = MeInfo.name;
-      info[0][2].value = MeInfo.state;
-      info[1][0].value = MeInfo.linkman;
+      info[0][1].value = MeInfo.merchantName;
+      info[0][2].value = MeInfo.statue === 1 ? '可用':'冻结';
+      info[1][0].value = MeInfo.contactMan;
       info[1][1].value = MeInfo.creatertime;
-      info[1][2].value = MeInfo.remark;
-      info[2][0].value = MeInfo.site;
-      info[2][1].value = MeInfo.phone;
-      info[2][2].value = MeInfo.telephone;
+      info[1][2].value = MeInfo.find;
+      info[2][0].value = MeInfo.merchantAddr;
+      info[2][1].value = MeInfo.phoneNum;
+      info[2][2].value = MeInfo.telNum;
       getMerchantPlayApi({merchantId: MeInfo.key}).then((res) => {
         if(res.status === 200){
           for(let i = 0; i<res.data.length; i+=1){
@@ -142,7 +142,7 @@ class MerchantInfo extends React.Component{
             <div>
               <Row><Col> 商户个人信息：</Col></Row>
               {
-                info.map(item =>(
+                info.map((item) =>(
                   <Row className={styles.row} key={item[0].value}>
                     <Col span={2} className={styles.col}>{item[0].label}</Col>
                     <Col span={5} className={styles.col}>{item[0].value}</Col>
@@ -151,7 +151,6 @@ class MerchantInfo extends React.Component{
                     <Col span={4} className={styles.col}>{item[2].label}</Col>
                     <Col span={4} className={styles.col}>{item[2].value}</Col>
                   </Row>
-                  
                 ))
               }
               <Row>

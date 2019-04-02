@@ -45,8 +45,6 @@ class List extends React.Component {
     ];
     const buttonDatas = [
       {type: 'primary', ico: 'plus', hangClick: this.handAdd, labe: '添加'},
-      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
-      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '冻结/解冻'},
     ];
     const STATUSITEMS = [
       {key: 1, describe: ['green', '可用']},
