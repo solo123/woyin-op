@@ -31,12 +31,15 @@ class List extends React.Component {
       {value: '16',label: '审核拒绝'},
       {value: '17',label: '确认'}
     ];
-    const formDatas = [
-      {type: 'SelectCompone', label: '状态：', name: 'state', options: option, defaultValue: '新建'}
-    ];
-    const buttonDatas = [
-      {type: 'primary', ico: 'plus', hangClick: this.handWithDrawAppaly, labe: '充值审核'}
-    ];
+    const headForm = {
+      formData: [
+        {type: 'SelectCompone', label: '状态：', name: 'state', options: option, defaultValue: '新建'}
+      ],
+      buttonData: [
+        {type: 'primary', ico: 'plus', hangClick: this.handWithDrawAppaly, labe: '充值审核'}
+      ]
+    }
+
     const STATUSITEMS = [
       {key: 10, describe: ['green','新建']},
       {key: 11, describe: ['green','受理成功']},
@@ -65,8 +68,7 @@ class List extends React.Component {
      data: []
     };
     this.state = {
-      formData: formDatas,
-      buttonData: buttonDatas,
+      headForm,
       tableData,
       limit: 10,
       count: 1,
@@ -82,9 +84,9 @@ class List extends React.Component {
   
   componentWillMount () {
     const param = {
-        status: 10,
-        limit: this.state.limit,
-        page: this.state.page
+      status: 10,
+      limit: this.state.limit,
+      page: this.state.page
     }
     this.getData(param);
   }
@@ -136,30 +138,30 @@ class List extends React.Component {
     const {withDrawList} = this.state;
     if(withDrawList.length <= 0) return;
     withDrawList.forEach(item => {
-        const params = {
-          bankCard: item.bankCard,
-          bankCode: item.bankCode,
-          bankName: item.bankName,
-          bankcardtype: 1,
-          cardHoldName: item.cardHoldName,
-          amount: item.amount,
-          orderId: item.key,
-          idNo: item.idNo,
-          state: true
-        }
+      const params = {
+        bankCard: item.bankCard,
+        bankCode: item.bankCode,
+        bankName: item.bankName,
+        bankcardtype: 1,
+        cardHoldName: item.cardHoldName,
+        amount: item.amount,
+        orderId: item.key,
+        idNo: item.idNo,
+        state: true
+      }
     withdrawApplay(params).then(res => {
-        if(res.status === 200){
-            message.info('审核通过');
-        }else{
-            message.error('审核失败');
-        }
+      if(res.status === 200){
+        message.info('审核通过');
+      }else{
+        message.error('审核失败');
+      }
     });
     })
   }
 
   selectedRowKeys = (selectedRowKeys, selectedRows) => {
     this.setState({
-        withDrawList: selectedRows
+      withDrawList: selectedRows
     });
   }
 
@@ -186,7 +188,7 @@ class List extends React.Component {
 
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { formData, buttonData, tableData, count, limit } = this.state;
+    const { tableData, count, limit, headForm } = this.state;
     const rowSelection = {
       onChange: this.selectedRowKeys
     };
@@ -196,13 +198,13 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch formData={headForm.formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>
             <Col>
               <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
+                <HeadFootButton buttonData={headForm.buttonData} />
               </div>
             </Col>
           </Row>

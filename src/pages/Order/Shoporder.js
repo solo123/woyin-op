@@ -14,7 +14,7 @@ import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
 import {RechargMerchantRechargesPOST,findOrderInfo} from '@/services/api';
 import {timeChangData} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
-import styles from './Shoporder.less'
+import styles from './Shoporder.less';
 
 @connect()
 class List extends React.Component {
@@ -27,19 +27,21 @@ class List extends React.Component {
       value: '0',
       label: '禁用',
     }];
-    const formDatas = [
-      {type: 'InputIcon', label: '充值订单编号', name: 'orderId', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
-      {type: 'InputIcon', label: '商户登录账号', name: 'userAccount', ruless:[], placeholder: '充值对象登录号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '充值人员类型', name: 'roleType', options: option},
-      {type: 'SelectCompone', label: '状态：', name: 'state', options: option},
-      {type: 'InputIcon', label: '充值对象名称', name: 'merchantName', ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
-      {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[], placeholder: '批次号', typeIco: 'user'},
-      {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime', ruless:[], placeholder: '充值时间', typeIco: 'book'},
-    ];
-    const buttonDatas = [
-      {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
-      {type: 'primary', ico: 'edit', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
-    ];
+    const headForm = {
+      formData: [
+        {type: 'InputIcon', label: '充值订单编号', name: 'orderId', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
+        {type: 'InputIcon', label: '商户登录账号', name: 'userAccount', ruless:[], placeholder: '充值对象登录号', typeIco: 'book'},
+        {type: 'SelectCompone', label: '充值人员类型', name: 'roleType', options: option},
+        {type: 'SelectCompone', label: '状态：', name: 'state', options: option},
+        {type: 'InputIcon', label: '充值对象名称', name: 'merchantName', ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
+        {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[], placeholder: '批次号', typeIco: 'user'},
+        {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime', ruless:[], placeholder: '充值时间', typeIco: 'book'},
+      ],
+      buttonData: [
+        {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
+        {type: 'primary', ico: 'edit', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
+      ]
+    }
     const STATUSITEMS = [
       {key: 1, describe: ['green', '新建']},
       {key: 2, describe: ['green', '同意']},
@@ -58,9 +60,8 @@ class List extends React.Component {
      data: []
     };
     this.state = {
-      formData: formDatas,
-      buttonData: buttonDatas,
       tableData,
+      headForm
     }
   }
   
@@ -134,7 +135,7 @@ class List extends React.Component {
   onSelectedRows = (selectedRowKeys, selectedRows) => {
     this.setState({
       withDrawList: selectedRows
-  });
+    });
   }
 
   Reset = ()=> {
@@ -164,7 +165,7 @@ class List extends React.Component {
 
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { formData, buttonData, tableData } = this.state;
+    const { tableData, headForm } = this.state;
     const rowSelection = {
       onChange: this.onSelectedRows
     };
@@ -173,13 +174,13 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearchTwo formData={formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearchTwo formData={headForm.formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>
             <Col>
               <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
+                <HeadFootButton buttonData={headForm.buttonData} />
               </div>
             </Col>
           </Row>
