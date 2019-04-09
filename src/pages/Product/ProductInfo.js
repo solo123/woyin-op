@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
 import {
@@ -5,115 +6,226 @@ import {
   Col,
   Card,
   Form,
-  Table
-} from 'antd'
+  Table,
+  message
+} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import styles from './ProductInfo.less'
+import {ProductAddAndUpdate, ProductUpdate} from '@/components/Product';
+import {ProductListApi, ProductDeleApi} from '@/services/api';
+import {statuesRend} from '@/utils/renderUtils';
+import styles from './ProductInfo.less';
 
 @connect()
-class List extends React.Component {
+class ProductList extends React.Component {
   constructor(props){
     super(props);
     const option = [{
       value: '1',
-      label: '正常',
+      label: '正在销售',
     }, {
-      value: '0',
-      label: '禁用',
+      value: '2',
+      label: '停止销售',
     }];
-    const formDatas = [
-      {type: 'InputIcon' ,label: '产品名称', name: 'ordercoder', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '产品类型', name: 'logo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'statue', options: option}
+    const headForm = {
+      formData:  [
+        {type: 'InputIcon', label:'产品名称', name:'productName',ruless:[], placeholder: '产品名称', typeIco: 'user'},
+        {type: 'InputIcon', label:'产品现价', name:'cost',ruless:[], placeholder: '产品现价', typeIco: 'book'},
+        {type: 'SelectCompone', label: '产品状态：',style: {width: '193px'}, name: 'status', options: option}
+      ],
+      buttonData: [
+        {type: 'primary', ico: 'edit', hangClick: this.handAdd, labe: '添加'},
+        // {type: 'primary', ico: 'edit', hangClick: this.handUpdate, labe: '修改'},
+        {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除'}
+      ]
+    }
+    const PRODUCTSTATUE = [
+      {key: 1, describe: ['green', '正在销售']},
+      {key: 2, describe: ['green', '停止销售']},
     ];
-    const buttonDatas = [
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '添加'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'}
+    const PRODUCTCAN = [
+      {key: 1, describe: ['green', '支持']},
+      {key: 2, describe: ['green', '不支持']},
     ];
-    const tableDatas = {columns: 
+    const tableDatas = {columns:
       [
-        {title: '产品编号', dataIndex: 'id', key: 'id'},
-        {title: '产品类型', dataIndex: 'type', key: 'type'},
-        {title: '产品名称', dataIndex: 'name', key: 'name'},
-        {title: '价值', dataIndex: 'value', key: 'value'},
-        {title: '进货价', dataIndex: 'purchasing', key: 'purchasing'},
-        {title: '销售价', dataIndex: 'sales', key: 'sales'},
-        {title: '产品状态', dataIndex: 'statue', key: 'statue'},
-        {title: '是否支持退款', dataIndex: 'yesorno', key: 'yesorno', },
-        {title: '创建日期', dataIndex: 'creater', key: 'creater', },
-     ]
+        {title: '产品编号', dataIndex: 'productId', key: 'productId'},
+        {title: '产品类型', dataIndex: 'productCategoryId', key: 'productCategoryId'},
+        {title: '产品名称', dataIndex: 'productName', key: 'productName'},
+        {title: '价值', dataIndex: 'cost', key: 'cost'},
+        {title: '进货价', dataIndex: 'purchasePrice', key: 'purchasePrice'},
+        {title: '销售价', dataIndex: 'salesPrice', key: 'salesPrice'},
+        {title: '产品状态', dataIndex: 'status', key: 'status',render: status => (statuesRend(status, PRODUCTSTATUE))},
+        {title: '是否支持退款', dataIndex: 'canRefund', key: 'canRefund',render: canRefund => (statuesRend(canRefund, PRODUCTCAN))},
+        {title: '创建日期', dataIndex: 'createTime', key: 'createTime', },
+        {title: '操作', dataIndex: 'action', key: 'action',
+         render: (texts, record) => (
+           <span>
+             <a href="javascript:void(0)" onClick={()=> {this.handUpdate(texts, record)}}>修改</a>
+           </span>)},
+     ],
+     datas:[]
     };
-    const datas =  [
-      {key: '1', id: 'John2', type: 'xxxx', name: 'xxxx', value: 'xxxx', purchasing: 'xxxx', sales: 'xxx', statue:'2018-01-09', yesorno: '不',creater: 'ss' }, 
-     ];
+    const params = {
+      productName: '',
+      status: '',
+      limit: 10,
+      page: 1
+    }
     this.state = {
-      formData: formDatas,
-      tableData: tableDatas,
-      data: datas,
-      buttonData: buttonDatas
+      tableDatas,
+      headForm,
+      params,
+      selectedRows: {}
     }
   }
   
   componentWillMount () {
-
+    const {params} = this.state;
+    this.getData(params);
   }
 
   onClick = (texts, record) => {
     console.log('xxxx');
   }
 
-  handEdit = (e) => {
+  handAdd = (e) => {
     e.preventDefault();
+    this.ProductAddAndUpdate.showModal();
+  }
+
+  handDele = (e) => {
+    e.preventDefault();
+    const {selectedRows} = this.state;
+    let le = 0;
+    let er = 0;
+    selectedRows.forEach(elem => {
+      ProductDeleApi(elem.productId).then(res => {
+        const re = JSON.parse(res);
+        if(re.status === 200){
+          le=+1;
+        }else{
+          er=+1;
+        }
+      })
+    });
+    message.info(`删除成功`);
+  }
+
+  handUpdate = (texts, record) => {
+    this.ProductUpdate.init(record);
+    this.ProductUpdate.showModal();
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // eslint-disable-next-line react/destructuring-assignment
+    let {params} = this.state;
     this.props.form.validateFields((err, values) => {
       if(!err){
-        console.log('Received values of form: ', values);
+        params = {
+         ...values,
+         limit: 10,
+         page: 1
+        }
+        this.getData(params);
+        this.setState({params});
       }
+    })
+  }
+
+  onHandSelectRow =  (selectedRowKeys, selectedRows) => {
+    this.setState({selectedRows})
+  }
+
+  onChangePage = (page) => {
+    const {params} = this.state;
+    params.page = page;
+    this.getData(params);
+  }
+
+  Reset = () => {
+    const params = {
+      productName: '',
+      cost: null,
+      status: '',
+      limit: 10,
+      page: 1
+    }
+    this.getData(params);
+  }
+
+  getData = (params)=>{
+    const {tableDatas} =  this.state;
+    tableDatas.datas = [];
+    const param = params;
+    if(typeof param.cost === 'undefined' && param.cost===null){
+      delete  param.cost
+    }
+    ProductListApi(param).then(res => {
+      try {
+        if(res.status===200){
+          res.data.result.forEach(elem => {
+           const data = {
+             ...elem,
+             key: elem.productId
+           }
+           tableDatas.datas.push(data);
+          })
+          this.setState({
+            tableDatas,
+            params: {
+              count: res.data.count
+            }
+          })
+        }
+      } catch (error) {}
     })
   }
 
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { formData, buttonData, tableData, data } = this.state;
+    const { tableDatas, headForm, params} = this.state;
     const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
+      onChange: this.onHandSelectRow
     };
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch
+                form={this.props.form} 
+                Reset={this.Reset} 
+                formData={headForm.formData} 
+                handleSubmit={this.handleSubmit} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
           </Row>
           <Row>
             <Col>
               <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
+                <HeadFootButton buttonData={headForm.buttonData} />
               </div>
             </Col>
           </Row>
         </Card>
         <Table
-          columns={tableData.columns}
-          dataSource={data} 
+          columns={tableDatas.columns}
+          dataSource={tableDatas.datas}
           bordered
           rowSelection={rowSelection}
+          pagination={{
+            pageSize: params.limit,
+            total: params.count,
+            onChange: this.onChangePage
+          }}
         />
+        <ProductAddAndUpdate ref={c => { this.ProductAddAndUpdate = c}} />
+        <ProductUpdate ref={c => {this.ProductUpdate = c}} />
       </PageHeaderWrapper>
     )
   }
 }
-const Lists = Form.create({ name: 'list' })(List);
-export default Lists;
+const ProductLists = Form.create({ name: 'list' })(ProductList);
+export default ProductLists;

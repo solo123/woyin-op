@@ -1,15 +1,18 @@
 import React from 'react';
 import { 
-    Form,
+    Form
   } from 'antd';
-  import {InputIcon, SelectCompone, LabelInput} from '../FormTool';
+  import {
+    InputIcon, 
+    SelectCompone, 
+    LabelInput,
+    ButtonComponents} from '../FormTool';
 
 class AddInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
 
   onChange = (e) => {
     // e.preventDefault();
@@ -38,6 +41,12 @@ class AddInfo extends React.Component {
                 <React.Fragment key={value.label}>
                   {SelectCompone(value, getFieldDecorator)}
                 </React.Fragment>
+              );
+          case 'ButtonComponents':
+              return(
+                <React.Fragment key={value.label}>
+                  {ButtonComponents(value)}
+                </React.Fragment>
               )
           default:
         }
@@ -45,12 +54,6 @@ class AddInfo extends React.Component {
     });
     const handleSubmit = (e) => {
       e.preventDefault();
-      // eslint-disable-next-line react/destructuring-assignment
-      this.props.form.validateFields((err, values) => {
-        if(!err){
-          console.log(err,values);
-        }
-      })
     }
     return (
       <div>

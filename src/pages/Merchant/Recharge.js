@@ -8,12 +8,12 @@ import {
   Form,
   Table,
   Modal,
-  Tag
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {MemberRecharges} from '@/components/Merchant';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {RechargeGetMerList} from '@/services/api';
+import {statuesRend} from '@/utils/renderUtils';
 import styles from './Recharge.less'
 
 @connect()
@@ -26,7 +26,11 @@ class Recharge extends React.Component {
       {type: 'InputIcon', label: '商户名称', name: 'merchantName', ruless:[], placeholder: '商户名称', typeIco: 'book'},
     ];
     const buttonData = [
-      {type: 'primary', ico: 'plus', hangClick: this.hangClick, labe: '代充值'},
+      {type: 'primary', ico: 'plus', hangClick: this.hangClick, labe: '代充值'}
+    ];
+    const STATUSITEMS = [
+      {key: 1, describe: ['blue', '正常']},
+      {key: -1, describe: ['red', '没激活']}
     ];
     const tableData = {
       columns:[
@@ -36,11 +40,7 @@ class Recharge extends React.Component {
         {title: '联系人', dataIndex: 'contactMan'},
         {title: '手机号', dataIndex: 'phoneNum'},
         {title: '固定电话', dataIndex: 'telNum'},
-        {title: '状态', dataIndex: 'status', render: status => (
-          <span>
-            <Tag color={status === 1 ? 'geekblue' : 'red'} key={status}>{status === 1 ? '可用' : '冻结'}</Tag>
-          </span>
-        )},
+        {title: '状态', dataIndex: 'status', render: status => (statuesRend(status, STATUSITEMS))},
         {title: '创建时间', dataIndex: 'createTime', },
      ],
      data :[]

@@ -54,6 +54,7 @@ export function authorityAccount() {
                 '/order/intersubmit',
                 '/product',
                 '/product/productinfo',
+                '/product/productclass',
                   /*
                 '/transfer',
                 '/transfer/transferaudit',

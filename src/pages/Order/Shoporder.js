@@ -33,9 +33,9 @@ class List extends React.Component {
         {type: 'InputIcon', label: '商户登录账号', name: 'userAccount', ruless:[], placeholder: '充值对象登录号', typeIco: 'book'},
         {type: 'SelectCompone', label: '充值人员类型', name: 'roleType', options: option},
         {type: 'SelectCompone', label: '状态：', name: 'state', options: option},
-        {type: 'InputIcon', label: '充值对象名称', name: 'merchantName', ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
-        {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[], placeholder: '批次号', typeIco: 'user'},
-        {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime', ruless:[], placeholder: '充值时间', typeIco: 'book'},
+        {type: 'InputIcon', label: '充值对象名称', name: 'merchantName',ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
+        {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[],placeholder: '批次号', typeIco: 'user'},
+        {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime',ruless:[], placeholder: '充值时间', typeIco: 'book'},
       ],
       buttonData: [
         {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
@@ -49,13 +49,13 @@ class List extends React.Component {
     ]
     const tableData = {
       columns:[
-        {title: '充值订单编号', dataIndex: 'orderId', key: 'orderId'},
-        {title: '充值对象登录号', dataIndex: 'userAccount', key: 'userAccount'},
-        {title: '充值对象名称', dataIndex: 'merchantName', key: 'merchantName'},
-        {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType'},
-        {title: '订单积分', dataIndex: 'balance', key: 'balance'},
+        {title: '充值订单编号', dataIndex: 'orderId', key: 'orderId', width: 250},
+        {title: '充值对象登录号', dataIndex: 'userAccount', key: 'userAccount', width: 200},
+        {title: '充值对象名称', dataIndex: 'merchantName', key: 'merchantName', width: 200},
+        {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType', width: 150},
+        {title: '订单积分', dataIndex: 'balance', key: 'balance', width: 150},
         {title: '状态', dataIndex: 'state', key: 'state' ,render: state => (statuesRend(state, STATUSITEMS))},
-        {title: '创建时间', dataIndex: 'createTime', key: 'createTime', width: 120},
+        {title: '创建时间', dataIndex: 'createTime', key: 'createTime'},
      ],
      data: []
     };

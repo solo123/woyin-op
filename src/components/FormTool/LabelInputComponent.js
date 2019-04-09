@@ -18,11 +18,11 @@ export const LabelInput = ({label, name, ruless,disabled=true, placeholder, hand
 )
 
 
-export const InputIcon = ({label, name, ruless, placeholder, typeIco, handChang}, getFieldDecorator) => (
+export const InputIcon = ({label, name, ruless, placeholder, typeIco, handChang, initialValue=null}, getFieldDecorator) => (
   <Form.Item
     label={label}
   >
-    {getFieldDecorator(name, {rules: ruless})(
+    {getFieldDecorator(name, {rules: ruless, initialValue})(
       <Input prefix={<Icon type={typeIco} style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder={placeholder} onChange={typeof(handChang) === 'function' ? handChang : handChangs} />
     )}
   </Form.Item>

@@ -29,7 +29,7 @@ class BalanceInfo extends Component {
       {key: 1, describe: ['blue', '正常']},
       {key: 2, describe: ['red', '冻结']},
       {key: 3, describe: ['red', '没激活']}
-    ]
+    ];
     const tableData = {
       columns: [
         {title: '用户名', dataIndex: 'userName', key: 'userName'},
@@ -72,39 +72,42 @@ class BalanceInfo extends Component {
     this.props.form.validateFields((err, values) => {
       if(!err){
         const {params} = this.state;
-        params.userAccount = values.userAccount ;
-        params.merchantName = values.merchantName ;
-        params.userPhoneNo = values.userPhoneNo ;
-        params.userName = values.userName ;
+        params.userAccount = values.userAccount;
+        params.merchantName = values.merchantName;
+        params.userPhoneNo = values.userPhoneNo;
+        params.userName = values.userName;
         this.getData(params);
       }
     })
   };
 
   Reset = () => {
-    this.getData();
+    const params = {
+      userAccount: '',
+      merchantName: '',
+      userPhoneNo: '',
+      userName: '',
+      count: 10,
+      page: 1,
+      totalCount: 10,
+    }
+    this.getData(params);
   }
 
   getData = (params) => {
+    const param = params;
+    const {tableData} = this.state;
     gerMerchantHuiInfo(params).then(res => {
       if(res.status === 200){
-        const {tableData, params} = this.state;
         tableData.data = [];
         res.data.data.forEach(element => {
           const d = {
+            ...element,
             key: element.userId,
-            userName: element.userName,
-            userPhoneNo: element.userPhoneNo,
-            nickName: element.nickName,
-            remark: element.remark,
-            freezeTime: element.freezeTime,
-            updateTime: element.updateTime,
-            status: element.status,
-            createTime: element.createTime,
           }
           tableData.data.push(d);
         });
-        params.totalCount = res.data.totalCount;
+        param.totalCount = res.data.totalCount;
         this.setState({
           tableData,
           params
@@ -121,7 +124,13 @@ class BalanceInfo extends Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch Reset={this.Reset} formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch 
+                Reset={this.Reset} 
+                formData={formData} 
+                handleSubmit={this.handleSubmit} 
+                form={this.props.form} 
+                getFieldDecorator={getFieldDecorator}
+              />
             </Col>
           </Row>
         </Card>

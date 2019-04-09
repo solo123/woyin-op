@@ -61,6 +61,7 @@ export default {
   'menu.order.lotteryorder': '查询彩票订单',
   'menu.product': '产品管理',
   'menu.product.productinfo': '产品信息管理',
+  'menu.product.productclass': '产品分类管理',
   'menu.transfer': '转让管理',
   'menu.transfer.transferaudit': '转让审核（百事通接口付款）',
   'menu.transfer.transferorderlist': '转赠订单列表',

@@ -16,88 +16,88 @@ export async function fakeAccountLogin(params) {
 }
 
 const getMerchantListApi = async function getMerchantListApi (params) {
-  return request(`${serverApi}/op/admin/merInfos?${stringify(params)}`);
+  return request(`${serverApi}/op/op/merInfos?${stringify(params)}`);
 }
 
 const getMerchantPlayApi = async function getMerchantPlayApi (params) {
-  return request(`${serverApi}/op/admin/merUsers?${stringify(params)}`);
+  return request(`${serverApi}/op/op/merUsers?${stringify(params)}`);
 }
 
 const getMerchantAccApi = async function getMerchantAccApi (params) {
-  return request(`${serverApi}/op/admin/merAccounts?${stringify(params)}`);
+  return request(`${serverApi}/op/op/merAccounts?${stringify(params)}`);
 }
 
 const addMerchantApi = async function addMerchantApi (params) {
-  return request(`${serverApi}/op/admin/merchant`, {
+  return request(`${serverApi}/op/op/merchant`, {
     method: 'POST',
     body: params,
   })
 }
 
 const RechargeGetMerList = async function RechargeGetMerList (params) {
-  return request(`${serverApi}/op/admin/merInfos?${stringify(params)}`);
+  return request(`${serverApi}/op/op/merInfos?${stringify(params)}`);
 }
 
 const RechargMerchantRecharges = async function RechargMerchantRecharges (params){
-  return request(`${serverApi}/op/admin/rechargeOrder`, {
+  return request(`${serverApi}/op/op/rechargeOrder`, {
     method: 'POST',
     body: params,
   })
 }
 
 const RechargMerchantRechargesPOST = async function RechargMerchantRechargesPOST (params){
-  return request(`${serverApi}/op/admin/rechargeOrder`, {
+  return request(`${serverApi}/op/op/rechargeOrder`, {
     method: 'PUT',
     body: params,
   })
 }
 
 const UploadInterView = async function UploadInterView (params){
-  return request(`${serverApi}/op/temp_points?${stringify(params)}`);
+  return request(`${serverApi}/op/op/temp_points?${stringify(params)}`);
 }
  
 const uploadIntegralFile = async function uploadIntegralFile (params) {
-  return request(`${serverApi}/op/temp_points`, {
+  return request(`${serverApi}/op/op/temp_points`, {
     method: 'POST',
     body: params,
   })
 }
 
 const SubmintExcekData = async function SubmintExcekData (params) {
-  return request(`${serverApi}/op/batch_points`, {
+  return request(`${serverApi}/op/op/batch_points`, {
     method: 'PUT',
     body: params,
   })
 }
 
 const SubmintExceCancel = async function SubmintExceCancel (params) {
-  return request(`${serverApi}/op/temp_points`, {
+  return request(`${serverApi}/op/op/temp_points`, {
     method: 'DELETE',
     body: params,
   })
 }
 
 const GetBatchIdList = async function GetBatchIdList (params) {
-  return request(`${serverApi}/op/batch_points?${stringify(params)}`);
+  return request(`${serverApi}/op/op/batch_points?${stringify(params)}`);
 }
 
 const GetBatchMerchantList = async function GetBatchMerchantList (params) {
-  return request(`${serverApi}/op/send_points?${stringify(params)}`);
+  return request(`${serverApi}/op/op/send_points?${stringify(params)}`);
 }
 
 const SendInterApplyOk = async function SendInterApplyOk (params) {
-  return request(`${serverApi}/op/send_points`, {
+  return request(`${serverApi}/op/op/send_points`, {
     method: 'PUT',
     body: params,
   })
 }
 
 const SendInterApplyCancel = async function SendInterApplyCancel (params) {
-  return request(`${serverApi}/op/send_points?${stringify(params)}`);
+  return request(`${serverApi}/op/op/send_points?${stringify(params)}`);
 }
 
 const findOrderInfo = async function findOrderInfo (params) {
-  return request(`${serverApi}/op/admin/rechargeOrders?${stringify(params)}`);
+  return request(`${serverApi}/op/op/rechargeOrders?${stringify(params)}`);
 }
 
 export async function queryNotices(params = {}) {
@@ -109,26 +109,68 @@ export async function getFakeCaptcha(mobile) {
 }
 
 const withdrawList = async function withdrawList(params) {
-  return request(`${serverApi}/op/withdrawal/withdrawalList?${stringify(params)}`);
+  return request(`${serverApi}/op/op/withdrawal/withdrawalList?${stringify(params)}`);
 }
 
 const withdrawApplay = async function withdrawApplay(params) {
-  return request(`${serverApi}/op/withdrawal/auditWithdrawal`, {
+  return request(`${serverApi}/op/op/withdrawal/auditWithdrawal`, {
     method: 'POST',
     body: params,
   })
 }
 
 const gerMerchantHuiInfo = async function gerMerchantHuiInfo (params) {
-  return request(`${serverApi}/op/admin/users?${stringify(params)}`);
+  return request(`${serverApi}/op/op/users?${stringify(params)}`);
 }
 
 const GetOrderList = async function GetOrderList (params) {
-  return request(`${serverApi}/op/withdrawal/withdrawalList?${stringify(params)}`);
+  return request(`${serverApi}/op/op/withdrawal/withdrawalList?${stringify(params)}`);
 }
 
 const UploadInterCheckRate = async function UploadInterCheckRate(params){
-  return request(`${serverApi}/op/temp_points/total?${stringify(params)}`);
+  return request(`${serverApi}/op/op/temp_points/total?${stringify(params)}`);
+}
+
+const ProductListApi = async function ProductListApi(params){
+  return request(`${serverApi}/op/op/product?${stringify(params)}`);
+}
+
+const ProductAddApi = async function ProductAddApi(params) {
+  return request(`${serverApi}/op/op/product`, {
+    method: 'POST',
+    body: params,
+  })
+}
+
+const ProductDeleApi = async function ProductDeleApi(params) {
+  return request(`${serverApi}/op/op/product/${params}`, {
+    method: 'DELETE',
+    body: params,
+  })
+}
+
+const ProductClassApi = async function ProductClassApi(fatherId,params){
+  return request(`${serverApi}/op/op/product_category/${fatherId}/child?${stringify(params)}`);
+}
+
+const ProductEditApi = async function ProductEditApi(productId,params){
+  return request(`${serverApi}/op/op/product/${productId}`, {
+    method: 'PUT',
+    body: params,
+  })
+}
+
+const ProductClassDeleApi = async function ProductClassDeleApi(categoryId) {
+  return request(`${serverApi}/op/op/product_category/${categoryId}`, {
+    method: 'DELETE',
+  })
+}
+
+const ProductClassAddApi = async function ProductClassAddApi(params){
+  return request(`${serverApi}/op/op/product_category`, {
+    method: 'POST',
+    body: params,
+  })
 }
 
 export {
@@ -153,4 +195,11 @@ export {
   GetOrderList, // 获取订单列表
   UploadInterCheckRate, // 上传积分进度查询
   RechargMerchantRechargesPOST, // 商户充值积分审核
+  ProductListApi, // 产品列表
+  ProductAddApi,  // 产加产品
+  ProductDeleApi, // 产品删除
+  ProductClassApi, // 产品分类编号
+  ProductEditApi, // 修改产品信息
+  ProductClassDeleApi, // 删除产品分类
+  ProductClassAddApi, // 增加产品分类
 }

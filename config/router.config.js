@@ -187,6 +187,11 @@ export default [
             path: '/product/productinfo',
             name: 'productinfo',
             component: './Product/ProductInfo',
+          },
+          {
+            path: '/product/productclass',
+            name: 'productclass',
+            component: './Product/productclass',
           }
         ]
       },
