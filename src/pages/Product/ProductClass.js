@@ -8,10 +8,10 @@ import {
   Form,
   Table,
   message
-} from 'antd'
+} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import {ProductAddAndUpdateClass} from '@/components/Product';
+import {ProductAddAndUpdateClass, ProductEditClass} from '@/components/Product';
 import {ProductClassApi, ProductClassDeleApi} from '@/services/api';
 import {statuesRend} from '@/utils/renderUtils';
 import styles from './ProductInfo.less';
@@ -36,7 +36,7 @@ class ProductList extends React.Component {
         {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',
         render: (texts, record) => (
           <span> 
-            <a href="javascript:void(0)" onClick={()=> {this.onHangApplayData(texts, record)}}>编辑</a>
+            <a href="javascript:void(0)" onClick={()=> {this.onHangUpdate(texts, record)}}>查看运营商</a>
           </span>)
         },
      ],
@@ -67,6 +67,11 @@ class ProductList extends React.Component {
     this.ProductAddAndUpdateClass.showModal();
   }
 
+  onHangUpdate = (texts, record) => {
+    this.ProductEditClass.init(record);
+    this.ProductEditClass.showModal();
+  }
+
   handDele = (e) => {
     e.preventDefault();
     const {selectedRows} = this.state;
@@ -74,17 +79,11 @@ class ProductList extends React.Component {
     if(leng > 0){
         selectedRows.forEach(element => {
             ProductClassDeleApi(element.productCategoryId, {}).then(res => {
-                
             });
         });
         message.info('操作成功');
         this.Reset();
     }
-  }
-
-  handUpdate = (e) => {
-    e.preventDefault();
-    this.ProductAddAndUpdate.showModal();
   }
 
   handleSubmit = (e) => {
@@ -180,6 +179,7 @@ class ProductList extends React.Component {
             onChange: this.onChangePage
           }}
         />
+        <ProductEditClass ref={c=>{ this.ProductEditClass =c}} />
         <ProductAddAndUpdateClass ref={c => { this.ProductAddAndUpdateClass = c}} />
       </PageHeaderWrapper>
     )

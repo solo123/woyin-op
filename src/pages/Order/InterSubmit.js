@@ -33,7 +33,7 @@ class List extends React.Component {
     ];
     const headForm = {
       formData: [
-        {type: 'SelectCompone', label: '状态：', name: 'state', options: option, defaultValue: '新建'}
+        {type: 'SelectCompone', label: '状态：',style: {width: '198px'}, name: 'state', options: option, defaultValue: '新建'}
       ],
       buttonData: [
         {type: 'primary', ico: 'plus', hangClick: this.handWithDrawAppaly, labe: '充值审核'}

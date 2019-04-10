@@ -173,6 +173,10 @@ const ProductClassAddApi = async function ProductClassAddApi(params){
   })
 }
 
+const ProductGetClassApi = async function ProductGetClassApi(fatherId){
+  return request(`${serverApi}/op/op/product_category/${fatherId}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -202,4 +206,5 @@ export {
   ProductEditApi, // 修改产品信息
   ProductClassDeleApi, // 删除产品分类
   ProductClassAddApi, // 增加产品分类
+  ProductGetClassApi, // 获取单个分类的产品详情
 }

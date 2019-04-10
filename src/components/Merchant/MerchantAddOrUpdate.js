@@ -21,7 +21,6 @@ class MerchantAddOrUpdate extends React.Component {
       status: 'add',
       visible: false,
       formData: [
-        
         {type: 'InputIcon' ,label: '登录账号', name: 'userAccount', ruless:[{required: true}] , placeholder: '商户登陆帐户', typeIco: 'user'},
         {type: 'InputIcon' ,label: '登录账号用户名', name: 'userName', ruless:[{required: true}] , placeholder: '商户登陆帐户', typeIco: 'user'},
         {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[{required: true}] , placeholder: '商户名称', typeIco: 'user'},
@@ -30,7 +29,10 @@ class MerchantAddOrUpdate extends React.Component {
         {type: 'InputIcon' ,label: '手机号码', name: 'phoneNum', ruless:[{required: true}] , placeholder: '手机号码', typeIco: 'phone'},
         {type: 'InputIcon' ,label: '固定电话', name: 'telNum', ruless:[{required: true}] , placeholder: '固定电话', typeIco: 'pushpin'},
         {type: 'InputIcon' ,label: '地址', name: 'merchantAddr', ruless:[{required: true}] , placeholder: '地址', typeIco: 'inbox'},
-        {type: 'InputIcon' ,label: '转让费率', name: 'transferRate', ruless:[{required: true}] , placeholder: '转让服务费', typeIco: 'inbox'},
+        {type: 'InputIcon' ,label: '转让费率', name: 'redemptionRate', ruless:[{required: true}] , placeholder: '转让服务费', typeIco: 'inbox'},
+        {type: 'InputIcon' ,label: '转让服务费', name: 'redemptionFee', ruless:[{required: true}] , placeholder: '转让服务费', typeIco: 'inbox'},
+        {type: 'InputIcon' ,label: '转赠费率', name: 'presentRate', ruless:[{required: true}] , placeholder: '转赠费率', typeIco: 'inbox'},
+        {type: 'InputIcon' ,label: '信用卡还款费率', name: 'creditRate', ruless:[{required: true}] , placeholder: '信用卡还款费率', typeIco: 'inbox'},
         // {type: 'SelectCompone', label: '状态：', name: 'status', options: option}
       ]
     };
@@ -64,7 +66,10 @@ class MerchantAddOrUpdate extends React.Component {
         formData.append("telNum", values.telNum);
         formData.append("password", values.password);
         formData.append("userName", values.userName);
-        formData.append("transferRate", values.transferRate);
+        formData.append("redemptionRate", values.redemptionRate);
+        formData.append("redemptionFee", values.redemptionFee);
+        formData.append("presentRate", values.presentRate);
+        formData.append("creditRate", values.creditRate);
         formData.append("authority", 1);
         // formData.append("status", values.status);
         formData.append("userAccount", values.userAccount);

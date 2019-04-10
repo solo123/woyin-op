@@ -4,6 +4,7 @@ import {
   } from 'antd';
 import RoleAddOrUpdate from './Role-add-update';
 import RoleUser from './Role-user';
+import RoleAdd from './RoleAdd';
 
 class System extends React.Component {
   constructor(props) {
@@ -41,9 +42,10 @@ class System extends React.Component {
 }
 
 export {
-    System,
-    RoleAddOrUpdate,
-    RoleUser
+  RoleAdd,
+  System,
+  RoleAddOrUpdate,
+  RoleUser
 }
    
 

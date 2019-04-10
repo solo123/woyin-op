@@ -3,6 +3,8 @@ import SelectCompone from './SelectCompone';
 import SelectDate from './SelectDateComponent';
 import SelectDateRang from './SelectDateRangComponent';
 import ButtonComponents from './ButtonComponents';
+import CheckboxComponents from './CheckboxComponents';
+import RadioGroupComponent from './RadioGroupComponent';
 
 export {
     LabelInput,
@@ -10,7 +12,9 @@ export {
     SelectCompone,
     SelectDate,
     SelectDateRang,
-    ButtonComponents
+    ButtonComponents,
+    CheckboxComponents,
+    RadioGroupComponent
 }
 
 export default{

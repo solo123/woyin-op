@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import RoleSet from '@/components/System/Role-set';
-import {RoleAddOrUpdate, RoleUser} from '@/components/System';
+import {RoleAddOrUpdate, RoleUser, RoleAdd} from '@/components/System';
 import TabelList from '@/components/TableList/TableList';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import styles from './Role.less';
@@ -19,15 +19,16 @@ let data = null;
 let ColumnData = null;
 let formData = null;
 let buttonData = null;
-@connect()
+@connect(({ ModalStatue}) => ({
+  ModalStatue,
+}))
 class SearchList extends Component {
   componentWillMount () {
     ColumnData = {data: 
       [
         {title: '角色名称', dataIndex: 'firstName', key: 'firstName'},
-        {title: '角色编码', dataIndex: 'code', key: 'code'},
-        {title: '角色描述', dataIndex: 'describe', key: 'describe'},
-        {title: '状态', dataIndex: 'tags', key: 'tags'},
+        {title: '创建时间', dataIndex: 'code', key: 'code'},
+        {title: '状态', dataIndex: 'tags',key: 'tags'},
      ],
     dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '成员',onClick: this.handRoleUser},{label: '权限',onClick: this.handRoleSet}]
     }};
@@ -46,11 +47,11 @@ class SearchList extends Component {
     formData = [
       {type: 'InputIcon' ,label: '角色名称', name: 'name', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
       {type: 'InputIcon' ,label: '角色编码：', name: 'code', ruless:[] , placeholder: '角色编码', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'statue', options: option}
+      {type: 'SelectCompone', label: '状态：',style: {width: '198px'}, name: 'statue', options: option}
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '添加'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
+      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
     ]
    }
 
@@ -71,8 +72,13 @@ class SearchList extends Component {
 
   handAddRole = (e) => {
     e.preventDefault();
-    // eslint-disable-next-line react/no-string-refs ,no-shadow
-    this.RoleAddOrUpdate.showModal(e);
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'ModalAction/Open',
+       payload: {
+        SystemRole: true
+       },
+    });
   }
 
   handEdit = (e) => {
@@ -122,6 +128,7 @@ class SearchList extends Component {
         <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
         <RoleUser ref={(c) => {this.RoleUser = c;}} />
+        <RoleAdd ref={(c) => {this.RoleAdd = c;}} />
       </PageHeaderWrapper>
     );
   }

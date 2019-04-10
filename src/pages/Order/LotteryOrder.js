@@ -25,7 +25,7 @@ class List extends React.Component {
     const formDatas = [
       {type: 'InputIcon' ,label: '购买订单编号', name: 'logo', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
       {type: 'InputIcon' ,label: '登录手机号', name: 'phone', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'statue', options: option},
+      {type: 'SelectCompone', label: '状态：',style: {width: '198px'}, name: 'statue', options: option},
       {type: 'InputIcon', label: '购买对象名称',name: 'buyname', ruless:[] , placeholder: '购买对象名称', typeIco: 'book'},
       {type: 'SelectDateRang' ,label: '购买时间', name: 'time', ruless:[] , placeholder: '购买时间', typeIco: 'book'},
     ];

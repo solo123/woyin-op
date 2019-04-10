@@ -17,6 +17,7 @@ import {
   MerchantInfo, 
   MemberApplayInter,
   MemberApplayData} from '@/components/Merchant';
+import {routerRedux} from 'dva/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {getMerchantListApi} from '@/services/api';
@@ -41,7 +42,7 @@ class List extends React.Component {
       {type: 'InputIcon' ,label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
       {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '角商户名称色编码', typeIco: 'book'},
       {type: 'InputIcon' ,label: '手机号', name: 'phoneNum', ruless:[] , placeholder: '手机号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'status', options: option}
+      {type: 'SelectCompone', label: '状态：', style:{width: '198px'}, name: 'status', options: option}
     ];
     const buttonDatas = [
       {type: 'primary', ico: 'plus', hangClick: this.handAdd, labe: '添加'},
@@ -62,15 +63,16 @@ class List extends React.Component {
           return statuesRend(statue, STATUSITEMS)
         }},
         {title: '创建时间', dataIndex: 'creatertime', key: 'creatertime'},
-        {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
-        {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
+        // {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
+        // {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
         {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right', 
          render: (texts, record) => (
            <span>
              <a href="javascript:void(0)" onClick={()=> {this.onHangInter(texts, record)}}>批量会员发分</a> | 
              <a href="javascript:void(0)" onClick={()=> {this.onHangApplayData(texts, record)}}>上传数据审核</a> | 
-             <a href="javascript:void(0)" onClick={()=> {this.onHangApplayInter(texts, record)}}>会员发分审核</a>
+             <a href="javascript:void(0)" onClick={()=> {this.onHangApplayInter(texts, record)}}>会员发分审核</a> | 
+             <a href="javascript:void(0)" onClick={()=> {this.onHangGoPround(texts, record)}}>商户产品管理</a>
            </span>)},
      ],
      data: []
@@ -125,6 +127,13 @@ class List extends React.Component {
   handAdd = (e) => {
     e.preventDefault();
     this.MerchantAddOrUpdate.showModal();
+  }
+
+  onHangGoPround = (texts, record) =>{
+    this.props.dispatch(routerRedux.push({
+      pathname: '/merchant/memberproduct',
+      params: record.key
+    }));
   }
 
   handEdit = (e) => {
@@ -239,7 +248,7 @@ render () {
         dataSource={tableData.data} 
         bordered
         rowSelection={rowSelection}
-        scroll={{ x: 1700 }}
+        // scroll={{ x: 1300 }}
         pagination={{
           pageSize: limit ,
           total: count,

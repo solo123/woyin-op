@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-script-url */
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -5,39 +6,43 @@ import {
   Row, 
   Col,
   Card,
-  Form
+  Form,
+  Table
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import RoleSet from '@/components/System/Role-set';
-import TabelList from '@/components/TableList/TableList';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import UserAddUpdate from '@/components/System/User-add-update';
+import UserAddUpdate from '@/components/System/UserAddOrUpdate';
 import UserRole from '@/components/System/User-role';
 import styles from './User.less';
 
-const component = {};
-let data = null;
-let ColumnData = null;
 let formData = null;
 let buttonData = null;
 @connect()
 class SearchList extends Component {
-  componentWillMount () {
-    ColumnData = {data: 
-      [
-        {title: '登录帐号', dataIndex: 'logo', key: 'logo'},
-        {title: '用户名称', dataIndex: 'name', key: 'name'},
-        {title: '描述', dataIndex: 'describe', key: 'describe'},
+
+  constructor(props){
+    super(props);
+    const tableData = {
+      Columns:[
+        {title: '帐号', dataIndex: 'logo', key: 'logo'},
+        {title: '角色', dataIndex: 'name', key: 'name'},
+        {title: '电话', dataIndex: 'phone', key: 'phone'},
+        {title: '邮箱', dataIndex: 'email', key: 'email'},
         {title: '创建日期', dataIndex: 'createrdata', key: 'createrdata'},
-        {title: '状态', dataIndex: 'statue', key: 'statue'},
+        {title: '机构名称', dataIndex: 'describe', key: 'describe'},
+        {title: '操作', dataIndex: 'action', key: 'action', width: 80, render: (texts, record) => (<a href="javascript:;" onClick={()=> {this.onClick(texts, record)}}>操作</a>)},
+        // {title: '状态', dataIndex: 'statue', key: 'statue'},
      ],
-    dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '角色',onClick: this.handUserRole}]
-    }};
-    data =  [
-      {key: '1', logo: 'John', name: '张三', describe: 'New York No. 1 Lake Park', createrdata: '2018-8-12', statue: '正常'}, 
-      {key: '2', logo: 'John2', name: '刘备', describe: 'New York No. 1 Lake Park', createrdata: '2018-8-13', statue: '正常'}, 
-      {key: '3', logo: 'John3', name: '痝', describe: 'New York No. 1 Lake Park', createrdata: '2018-8-14', statue: '正常'}, 
-    ];
+     data:  []
+    }
+    this.state = {
+      tableData
+    }
+  }
+
+  componentWillMount () {
+
     const option = [{
       value: '1',
       label: '正常',
@@ -47,22 +52,23 @@ class SearchList extends Component {
     }];
     formData = [
       {type: 'InputIcon' ,label: '用户名称：', name: 'name', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '登录帐户：', name: 'code', ruless:[] , placeholder: '角色编码', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'statue', options: option}
+      // {type: 'InputIcon' ,label: '登录帐户：', name: 'code', ruless:[] , placeholder: '角色编码', typeIco: 'book'},
+      {type: 'SelectCompone', style:{width: '198px'}, label: '状态：', name: 'statue', options: option}
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddUser, labe: '添加'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '重置密码'},
+      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '禁用'},
       {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
       {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '删除'},
     ]
+  
    }
 
   componentDidMount() {
     // To disabled submit button at the beginning.
-    component.RoleSet  = this.RoleSet;
-    component.UserAddUpdate = this.UserAddUpdate;
-    console.log(this.UserAddUpdate);
+    // component.RoleSet  = this.RoleSet;
+    // component.UserAddUpdate = this.UserAddUpdate;
+    // console.log(this.UserAddUpdate);
   }
 
   handUserRole = (texts, record) => {
@@ -90,16 +96,12 @@ class SearchList extends Component {
   }
 
   render() {
-    // const { match, children, location } = this.props;
     const { getFieldDecorator } = this.props.form;
+    const {tableData} = this.state;
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
+      }
     };
 
     return (
@@ -118,7 +120,13 @@ class SearchList extends Component {
             </Col>
           </Row>
         </Card>
-        <TabelList data={data} ColumnData={ColumnData} rowSelection={rowSelection} />
+        <Table
+          columns={tableData.Columns}
+          dataSource={tableData.data} 
+          bordered
+          rowSelection={rowSelection}
+          // scroll={{ x: 1000 }}
+        />
         <UserAddUpdate ref={(c) => {this.UserAddUpdate = c}} />
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
         <UserRole ref={(c) => { this.UserRole = c;}}  />

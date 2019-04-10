@@ -6,8 +6,8 @@ export default [
     routes: [
       { path: '/user', redirect: '/user/login' },
       { path: '/user/login', name: 'login', component: './User/Login' },
-      { path: '/user/ResetPaswrod', name: 'ResetPaswrod', component: './User/ResetPaswrod' },
-    ],
+      { path: '/user/ResetPaswrod', name: 'ResetPaswrod', component: './User/ResetPaswrod' }
+    ]
   },
   // app
   {
@@ -136,7 +136,8 @@ export default [
               path: '/merchant/balance-info',
               name: 'merchant-balance-info',
               component: './Exception/modelNo',
-            }
+            },
+            { path: '/Merchant/MemberProduct', name: 'MemberProduct', component: './Merchant/MemberProduct' },
       ]
       },
       // 订单管理

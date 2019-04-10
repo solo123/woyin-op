@@ -15,7 +15,7 @@ import {ProductAddAndUpdate, ProductUpdate} from '@/components/Product';
 import {ProductListApi, ProductDeleApi, ProductClassApi} from '@/services/api';
 import {timeChangData} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
-import styles from './ProductInfo.less';
+import styles from './MemberProduct.less';
 
 @connect()
 class ProductList extends React.Component {
@@ -56,13 +56,15 @@ class ProductList extends React.Component {
       [
         {title: '产品编号', dataIndex: 'productId', key: 'productId'},
         {title: '产品类型', dataIndex: 'parentCategoryName', key: 'parentCategoryName'},
-        {title: '产品名称', dataIndex: 'productName', key: 'productName'},
-        {title: '价值', dataIndex: 'cost', key: 'cost'},
-        {title: '进货价', dataIndex: 'purchasePrice', key: 'purchasePrice'},
+        {title: '运营商', dataIndex: 'productName', key: 'productName'},
+        {title: '产品名称', dataIndex: 'cost', key: 'cost'},
+        {title: '价值', dataIndex: 'purchasePrice', key: 'purchasePrice'},
+        {title: '进货价', dataIndex: 'salesPrice', key: 'salesPrice'},
         {title: '销售价', dataIndex: 'salesPrice', key: 'salesPrice'},
         {title: '产品状态', dataIndex: 'status', key: 'status',render: status => (statuesRend(status, PRODUCTSTATUE))},
         {title: '是否支持退款', dataIndex: 'canRefund', key: 'canRefund',render: canRefund => (statuesRend(canRefund, PRODUCTCAN))},
         {title: '创建日期', dataIndex: 'createTime', key: 'createTime', },
+        {title: '折扣', dataIndex: 'createTime', key: 'createTime', },
         {title: '操作', dataIndex: 'action', key: 'action',
          render: (texts, record) => (
            <span>
@@ -88,6 +90,7 @@ class ProductList extends React.Component {
   }
   
   componentWillMount () {
+    console.log(this.props.location.params);
     const {headForm} = this.state;
     const productClass = [];
     ProductClassApi(0, {}).then(res => {

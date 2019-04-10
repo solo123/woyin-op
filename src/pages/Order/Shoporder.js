@@ -31,8 +31,8 @@ class List extends React.Component {
       formData: [
         {type: 'InputIcon', label: '充值订单编号', name: 'orderId', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
         {type: 'InputIcon', label: '商户登录账号', name: 'userAccount', ruless:[], placeholder: '充值对象登录号', typeIco: 'book'},
-        {type: 'SelectCompone', label: '充值人员类型', name: 'roleType', options: option},
-        {type: 'SelectCompone', label: '状态：', name: 'state', options: option},
+        {type: 'SelectCompone', label: '充值人员类型', name: 'roleType',style:{width: '198px'}, options: option},
+        {type: 'SelectCompone', label: '状态：', name: 'state',style:{width: '198px'}, options: option},
         {type: 'InputIcon', label: '充值对象名称', name: 'merchantName',ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
         {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[],placeholder: '批次号', typeIco: 'user'},
         {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime',ruless:[], placeholder: '充值时间', typeIco: 'book'},
