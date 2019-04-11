@@ -25,8 +25,8 @@ class List extends React.Component {
     const formDatas = [
       {type: 'InputIcon' ,label: '退款编号', name: 'ordercoder', ruless:[] , placeholder: '退款编号', typeIco: 'user'},
       {type: 'InputIcon' ,label: '产品编号', name: 'logo', ruless:[] , placeholder: '产品编号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '产品名称',name: 'logo', ruless:[] , placeholder: '产品名称', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'statue', options: option},
+      // {type: 'SelectCompone', label: '产品名称',name: 'logo', ruless:[] , placeholder: '产品名称', typeIco: 'book'},
+      // {type: 'SelectCompone', label: '状态：', name: 'statue', options: option},
       {type: 'InputIcon' ,label: '购买订单编号', name: 'rechargeLogo', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
       {type: 'InputIcon' ,label: '购买订单详情编号', name: 'number', ruless:[] , placeholder: '购买订单详情编号', typeIco: 'user'},
       {type: 'SelectDateRang' ,label: '退款订单时间', name: 'rechargeTime', ruless:[] , placeholder: '退款订单时间', typeIco: 'book'},

@@ -12,10 +12,9 @@ import {
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {MemberProducZ} from '@/components/Merchant';
-import {ProductAddAndUpdate, ProductUpdate} from '@/components/Product';
-import {MemberProductZDel, ProductDeleApi, ProductClassApi, MemberProductListApi} from '@/services/api';
-import {timeChangData} from '@/utils/utils';
+import {MemberProductZDel, ProductClassApi, MemberProductListApi} from '@/services/api';
 import {statuesRend} from '@/utils/renderUtils';
+import {timeChangData} from '@/utils/utils';
 import styles from './MemberProduct.less';
 
 @connect()
@@ -35,7 +34,7 @@ class ProductList extends React.Component {
     }]
     const headForm = {
       formData:  [
-        {type: 'SelectCompone' ,label: '产品类型',style:{width:'196px'}, placeholder: '退款编号', name: 'productCategoryId', ruless:[], options: productClass},
+        {type: 'SelectCompone' ,label: '产品类型',style:{width:'196px'}, placeholder: '产品类型', name: 'productCategoryId', ruless:[], options: productClass},
         {type: 'SelectCompone', label: '状态：',style: {width: '193px'}, name: 'status', options: option},
         {type: 'InputIcon', label:'产品名称', name:'productName',ruless:[], placeholder: '产品名称', typeIco: 'user'},
         {type: 'SelectDateRang' ,label: '创建时间', name: 'rechargeTime', ruless:[] , placeholder: '创建时间', typeIco: 'book'}
@@ -118,72 +117,73 @@ class ProductList extends React.Component {
         })
       }
     })
-    
-    this.getData(params);
     this.setState({
-        params
+        params,
     })
+    this.getData(params);
   }
 
   handAdd = (texts, record) => {
-    const da = this.getDataByKey(this.state.tableDatas.datas, record.productId);
-    this.MemberProducZ.showModal(da);
+    const {tableDatas, params} = this.state;
+    const da = this.getDataByKey(tableDatas.datas, record.productId);
+    this.MemberProducZ.showModal(da,params.merchantId);
+  }
+
+  handUpdate = (texts, record) => {
+    const {tableDatas, params} = this.state;
+    const da = this.getDataByKey(tableDatas.datas, record.productId);
+    this.MemberProducZ.showModal(da, params.merchantId);
   }
 
   handDele = (e) => {
     e.preventDefault();
     const {selectedRows} = this.state;
-    let le = 0;
-    let er = 0;
     selectedRows.forEach(elem => {
-        MemberProductZDel(elem.productId).then(res => {
+        if(elem.discount==='-'){
+          message.error('无法删除，没有折扣');
+          return null
+        }
+        MemberProductZDel(elem.discountId).then(res => {
         const re = JSON.parse(res);
         if(re.status === 200){
-          le=+1;
-        }else{
-          er=+1;
+         message.info('删除成功')
         }
       })
     });
-    message.info(`删除成功`);
-  }
-
-  handUpdate = (texts, record) => {
-    this.ProductUpdate.init(record);
-    this.ProductUpdate.showModal();
   }
 
   getDataByKey = (data,key) => {
-      const leng = data.length;
-      for(let i = 0; i < leng; i+=1){
-          if(data[i].productId === key){
-            return data[i]
-          }
+    const leng = data.length;
+    for(let i = 0; i < leng; i+=1){
+      if(data[i].productId === key){
+        return data[i]
       }
-      return null;
+    }
+    return null;
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // let {params} = this.state;
-    // let value = null;
-    // this.props.form.validateFields((err, values) => {
-    //   value = values;
-    //   if(typeof values.rechargeTime !== 'undefined'){
-    //     value.startTime = timeChangData(values.rechargeTime[0].toDate());
-    //     value.endTime = timeChangData(values.rechargeTime[1].toDate());
-    //   }
-    //   delete value.rechargeTime;
-    //   if(!err){
-    //     params = {
-    //      ...values,
-    //      limit: 10,
-    //      page: 1
-    //     }
-    //    this.getData(params);
-    //    this.setState({params});
-    //   }
-    // })
+    let {params} = this.state;
+    let value = null;
+    this.props.form.validateFields((err, values) => {
+      value = values;
+      if(typeof values.rechargeTime !== 'undefined'){
+        value.startTime = timeChangData(values.rechargeTime[0].toDate());
+        value.endTime = timeChangData(values.rechargeTime[1].toDate());
+      }
+      delete value.rechargeTime;
+      if(!err){
+        params = {
+         ...params,
+         ...values,
+         limit: 10,
+         page: 1
+        }
+       this.getData(params);
+       this.setState({params});
+      }
+    })
   }
 
   onHandSelectRow =  (selectedRowKeys, selectedRows) => {
@@ -198,11 +198,8 @@ class ProductList extends React.Component {
 
   Reset = () => {
     const params = {
-      productName: '',
-      status: '',
-      limit: 10,
-      page: 1
-    }
+      merchantId: this.state.params.merchantId
+    };
     this.getData(params);
   }
 
@@ -210,9 +207,6 @@ class ProductList extends React.Component {
     const {tableDatas} =  this.state;
     tableDatas.datas = [];
     const param = params;
-    if(typeof param.cost === 'undefined' && param.cost===null){
-      delete  param.cost
-    }
     MemberProductListApi(param).then(res => {
       try {
         if(res.status===200){
@@ -240,6 +234,7 @@ class ProductList extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { tableDatas, headForm, params} = this.state;
     const rowSelection = {
+      type: 'radio',
       onChange: this.onHandSelectRow
     };
     return (
@@ -276,9 +271,7 @@ class ProductList extends React.Component {
             onChange: this.onChangePage
           }}
         />
-        <ProductAddAndUpdate ref={c => { this.ProductAddAndUpdate = c}} />
-        <ProductUpdate ref={c => {this.ProductUpdate = c}} />
-        <MemberProducZ ref={c => {this.MemberProducZ =  c}} />
+        <MemberProducZ ref={c => {this.MemberProducZ =  c}} Reset={this.Reset} />
       </PageHeaderWrapper>
     )
   }

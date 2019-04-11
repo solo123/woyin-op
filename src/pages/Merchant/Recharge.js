@@ -30,7 +30,7 @@ class Recharge extends React.Component {
     ];
     const STATUSITEMS = [
       {key: 1, describe: ['blue', '正常']},
-      {key: -1, describe: ['red', '没激活']}
+      {key: 2, describe: ['red', '冻结']}
     ];
     const tableData = {
       columns:[

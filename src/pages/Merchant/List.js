@@ -35,7 +35,7 @@ class List extends React.Component {
       value: '1',
       label: '可用',
     }, {
-      value: '0',
+      value: '2',
       label: '冻结',
     }];
     const formDatas = [
@@ -49,7 +49,7 @@ class List extends React.Component {
     ];
     const STATUSITEMS = [
       {key: 1, describe: ['green', '可用']},
-      {key: -1, describe: ['red', '冻结']}
+      {key: 2, describe: ['red', '冻结']}
     ]
     const tableData = {
       columns: [

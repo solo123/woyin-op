@@ -14,7 +14,7 @@ class MerchantAddOrUpdate extends React.Component {
       value: '1',
       label: '可用',
     }, {
-      value: '0',
+      value: '2',
       label: '冻结',
     }];
     this.state = {
@@ -33,7 +33,7 @@ class MerchantAddOrUpdate extends React.Component {
         {type: 'InputIcon' ,label: '转让服务费', name: 'redemptionFee', ruless:[{required: true}] , placeholder: '转让服务费', typeIco: 'inbox'},
         {type: 'InputIcon' ,label: '转赠费率', name: 'presentRate', ruless:[{required: true}] , placeholder: '转赠费率', typeIco: 'inbox'},
         {type: 'InputIcon' ,label: '信用卡还款费率', name: 'creditRate', ruless:[{required: true}] , placeholder: '信用卡还款费率', typeIco: 'inbox'},
-        // {type: 'SelectCompone', label: '状态：', name: 'status', options: option}
+        {type: 'SelectCompone', label: '状态：', name: 'status', options: option}
       ]
     };
   }
@@ -89,6 +89,7 @@ class MerchantAddOrUpdate extends React.Component {
       <div>
         <Modal
           title='添加商户'
+          width={700}
           transparent
           style={{ top: 100 }}
           maskClosable={false}

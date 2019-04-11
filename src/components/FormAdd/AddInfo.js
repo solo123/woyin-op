@@ -1,6 +1,8 @@
 import React from 'react';
 import { 
-    Form
+    Form,
+    Row,
+    Col
   } from 'antd';
   import {
     InputIcon, 
@@ -71,9 +73,34 @@ class AddInfo extends React.Component {
     }
     return (
       <div>
-        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} onSubmit={handleSubmit} style={{textAlign: "center"}}>
+        {/* <Form labelCol={{ span: 6 }} wrapperCol={{ span: 6 }} onSubmit={handleSubmit} style={{textAlign: "center"}}>
           {formInputRend}
-        </Form>
+        </Form> */}
+        {
+          (()=>{
+            if(formInputRend.length> 10){
+              const one = formInputRend%2 === 0 ? formInputRend.length/2 : (formInputRend.length/2)+1;
+              return(
+                <Form labelCol={{ span: 10 }} wrapperCol={{ span: 14 }} onSubmit={handleSubmit} style={{textAlign: "center"}}>
+                  <Row>
+                    <Col span={12} style={{ textAlign: 'right' }}>
+                      {formInputRend.slice(0,one)}
+                    </Col>
+                    <Col span={12} style={{ textAlign: 'right' }}>
+                      {formInputRend.slice(one,formInputRend.length)}
+                    </Col>
+                  </Row>
+                </Form>
+              )
+            }
+            return (
+              <Form labelCol={{ span: 6 }} wrapperCol={{ span: 6 }} onSubmit={handleSubmit} style={{textAlign: "center"}}>
+                {formInputRend}
+              </Form>
+            )
+          })()
+        }
+
       </div>
     );
   }

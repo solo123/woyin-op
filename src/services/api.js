@@ -189,11 +189,17 @@ const MemberProductZAddApi = async function MemberProductZAddApi(params){
 }
 
 const MemberProductZDel = async function MemberProductZDel(categoryId) {
-  return request(`${serverApi}/api/op/merchant_product//${categoryId}`, {
+  return request(`${serverApi}/api/op/merchant_product/${categoryId}`, {
     method: 'DELETE',
   })
 }
 
+const MemberProductZEdit = async function MemberProductZEdit(params,id){
+  return request(`${serverApi}/api/op/merchant_product/${id}`, {
+    method: 'PUT',
+    body: params,
+  })
+}
 
 export {
   UploadInterView, // 上传积分查看
@@ -228,4 +234,5 @@ export {
   MemberProductListApi, // 商户产品管理
   MemberProductZAddApi, // 产品折扣
   MemberProductZDel, // 删除折扣
+  MemberProductZEdit, // 折扣修改MemberProductEdit
 }

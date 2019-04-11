@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { 
     Modal,
@@ -7,7 +8,7 @@ import {
     message
   } from 'antd';
 
-import {MemberProductZAddApi} from '@/services/api';
+import {MemberProductZAddApi, MemberProductZEdit} from '@/services/api';
 import styles from './MemberProducZ.less'
 
 class MemberProducZ extends React.Component {
@@ -21,7 +22,7 @@ class MemberProducZ extends React.Component {
         {label: '销售价', value: '1200'},
         {label: '产品类型', value: '话费'},
         {label: '运营商', value:'中国移动'},
-        {label: '产品状态', value: '可能'},
+        {label: '产品状态', value: '可用'},
         {label: '是否支持退款', value:'支持'},
         {label: '产品编号', value:'333333'}
     ];
@@ -44,7 +45,7 @@ class MemberProducZ extends React.Component {
     })
   }
 
-  showModal = (params) => {
+  showModal = (params, merchantId) => {
     const {prodInfo} = this.state;
     prodInfo[0].value = params.productName;
     prodInfo[1].value = params.cost;
@@ -52,8 +53,8 @@ class MemberProducZ extends React.Component {
     prodInfo[3].value = params.salesPrice;
     prodInfo[4].value = params.fatherName;
     prodInfo[5].value = params.childName;
-    prodInfo[6].value = params.status;
-    prodInfo[7].value = params.canRefund;
+    prodInfo[6].value = params.status===1 ? '正在销售' : '停止销售';
+    prodInfo[7].value = params.canRefund===1 ? '支持' : '不支持';
     prodInfo[8].value = params.productId;
     this.setState({
       visible: true,
@@ -61,6 +62,7 @@ class MemberProducZ extends React.Component {
       statue: params.discount ==='-' ? 'add' : 'update',
       params:{
           ...params,
+          merchantId,
           discount: params.discount ==='-' ? 0 : params.discount
       }
     });
@@ -79,14 +81,20 @@ class MemberProducZ extends React.Component {
             if(res.status === 200){
                 message.info('添加折扣成功');
                 this.onClose();
+                this.props.Reset();
             }else{
                 message.info('添加折扣失败');
             }
         })
+    }else{
+        MemberProductZEdit(params, params.discountId).then(res => {
+          if(res.status === 200){
+            message.info('更新成功');
+            this.onClose();
+            this.props.Reset();
+          }
+        })
     }
-
-
-
   }
   
   render() {
@@ -111,14 +119,13 @@ class MemberProducZ extends React.Component {
           <Col className={`gutter-row ${  styles.inforow}`} span={12}>
             <span className={styles.label}>折扣：</span>
             <InputNumber
-              defaultValue={params.discount}
+              value={params.discount}
               formatter={value => ` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               onChange={this.onChange}
             />
           </Col>
         </Row>
-
       </Modal>
     )
   }
