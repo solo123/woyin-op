@@ -14,6 +14,7 @@ import RoleSet from '@/components/System/Role-set';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import UserAddUpdate from '@/components/System/UserAddOrUpdate';
 import UserRole from '@/components/System/User-role';
+import {GetUserLogoListApi} from '@/services/api';
 import styles from './User.less';
 
 let formData = null;
@@ -65,6 +66,9 @@ class SearchList extends Component {
    }
 
   componentDidMount() {
+    GetUserLogoListApi().then(res => {
+      console.log(res);
+    })
     // To disabled submit button at the beginning.
     // component.RoleSet  = this.RoleSet;
     // component.UserAddUpdate = this.UserAddUpdate;

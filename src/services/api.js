@@ -201,6 +201,10 @@ const MemberProductZEdit = async function MemberProductZEdit(params,id){
   })
 }
 
+const GetUserLogoListApi = async function GetUserLogoListApi(params){
+  return request(`${serverApi}/api/op/permit/user?${stringify(params)}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -235,4 +239,5 @@ export {
   MemberProductZAddApi, // 产品折扣
   MemberProductZDel, // 删除折扣
   MemberProductZEdit, // 折扣修改MemberProductEdit
+  GetUserLogoListApi, // 获取帐户列表
 }

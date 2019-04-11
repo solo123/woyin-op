@@ -59,6 +59,7 @@ class ProductAddAndUpdateClass extends React.Component {
                 if(res.status === 200){
                  message.info('添加产品分类成功');
                  this.onClose();
+                 this.props.Reset();
                 }
               })
         } catch (error) {}

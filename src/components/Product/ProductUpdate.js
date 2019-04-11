@@ -72,6 +72,7 @@ class ProductUpdate extends React.Component {
                 if(res.status === 200){
                  message.info('修改产品成功');
                  this.onClose();
+                 this.props.Reset();
                 }
               })
         } catch (error) {}

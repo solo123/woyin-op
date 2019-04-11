@@ -14,6 +14,7 @@ import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {MemberProducZ} from '@/components/Merchant';
 import {MemberProductZDel, ProductClassApi, MemberProductListApi} from '@/services/api';
 import {statuesRend} from '@/utils/renderUtils';
+import LocalStr from '@/utils/LocalStr';
 import {timeChangData} from '@/utils/utils';
 import styles from './MemberProduct.less';
 
@@ -97,7 +98,7 @@ class ProductList extends React.Component {
   
   componentWillMount () {
     const params = {
-        merchantId: this.props.location.params
+        merchantId: LocalStr.get("merchantId")
     };
    
     const {headForm} = this.state;

@@ -66,16 +66,12 @@ class AddInfo extends React.Component {
               )
           default:
         }
-      
     });
     const handleSubmit = (e) => {
       e.preventDefault();
     }
     return (
       <div>
-        {/* <Form labelCol={{ span: 6 }} wrapperCol={{ span: 6 }} onSubmit={handleSubmit} style={{textAlign: "center"}}>
-          {formInputRend}
-        </Form> */}
         {
           (()=>{
             if(formInputRend.length> 10){
@@ -94,13 +90,12 @@ class AddInfo extends React.Component {
               )
             }
             return (
-              <Form labelCol={{ span: 6 }} wrapperCol={{ span: 6 }} onSubmit={handleSubmit} style={{textAlign: "center"}}>
+              <Form labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} onSubmit={handleSubmit} style={{textAlign: "center"}}>
                 {formInputRend}
               </Form>
             )
           })()
         }
-
       </div>
     );
   }

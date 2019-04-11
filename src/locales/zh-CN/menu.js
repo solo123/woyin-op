@@ -42,7 +42,7 @@ export default {
   'menu.account.admin': 'Admin个人设置',
   'menu.system': '系统管理',
   'menu.system.role': '角色权限',
-  'menu.system.user': '用户管理',
+  'menu.system.user': '帐户列表',
   'menu.merchant': '商户管理',
   'menu.merchant.merchant-list': '商户列表',
   'menu.merchant.MemberProduct': '商户产品管理',

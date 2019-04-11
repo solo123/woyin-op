@@ -249,8 +249,8 @@ class ProductList extends React.Component {
             onChange: this.onChangePage
           }}
         />
-        <ProductAddAndUpdate ref={c => { this.ProductAddAndUpdate = c}} />
-        <ProductUpdate ref={c => {this.ProductUpdate = c}} />
+        <ProductAddAndUpdate ref={c => { this.ProductAddAndUpdate = c}} Reset={this.Reset} />
+        <ProductUpdate ref={c => {this.ProductUpdate = c}} Reset={this.Reset} />
       </PageHeaderWrapper>
     )
   }

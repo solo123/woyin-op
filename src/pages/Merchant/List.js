@@ -22,6 +22,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {getMerchantListApi} from '@/services/api';
 import {statuesRend} from '@/utils/renderUtils';
+import LocalStr from '@/utils/LocalStr';
 import styles from './List.less';
 
 @connect(({ merchant, loading }) => ({
@@ -130,9 +131,9 @@ class List extends React.Component {
   }
 
   onHangGoPround = (texts, record) =>{
+    LocalStr.set("merchantId",  record.key);
     this.props.dispatch(routerRedux.push({
       pathname: '/merchant/memberproduct',
-      params: record.key
     }));
   }
 

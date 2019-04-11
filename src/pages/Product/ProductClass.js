@@ -78,11 +78,16 @@ class ProductList extends React.Component {
     const leng = selectedRows.length;
     if(leng > 0){
         selectedRows.forEach(element => {
-            ProductClassDeleApi(element.productCategoryId, {}).then(res => {
+            ProductClassDeleApi(element.productCategoryId, {}).then(re => {
+                const res = JSON.parse(re);
+                if(res.status===200){
+                    this.Reset();
+                    message.info('操作成功');
+                }else{
+                    message.error(res.data);
+                }
             });
         });
-        message.info('操作成功');
-        this.Reset();
     }
   }
 
@@ -180,7 +185,7 @@ class ProductList extends React.Component {
           }}
         />
         <ProductEditClass ref={c=>{ this.ProductEditClass =c}} />
-        <ProductAddAndUpdateClass ref={c => { this.ProductAddAndUpdateClass = c}} />
+        <ProductAddAndUpdateClass ref={c => { this.ProductAddAndUpdateClass = c}} Reset={this.Reset} />
       </PageHeaderWrapper>
     )
   }
