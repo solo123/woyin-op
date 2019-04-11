@@ -2,102 +2,102 @@ import { stringify } from 'qs';
 import request from '@/utils/request';
 import {Dev} from '../defaultSettings';
 
-const serverApi = Dev ? '' : '/server/api';
+const serverApi = Dev ? '' : '/server';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
 }
 
 export async function fakeAccountLogin(params) {
-  return request( `${serverApi}/op/admin_login`, {
+  return request( `${serverApi}/api/op/admin_login`, {
     method: 'POST',
     body: params,
   });
 }
 
 const getMerchantListApi = async function getMerchantListApi (params) {
-  return request(`${serverApi}/op/op/merInfos?${stringify(params)}`);
+  return request(`${serverApi}/api/op/merInfos?${stringify(params)}`);
 }
 
 const getMerchantPlayApi = async function getMerchantPlayApi (params) {
-  return request(`${serverApi}/op/op/merUsers?${stringify(params)}`);
+  return request(`${serverApi}/api/op/merUsers?${stringify(params)}`);
 }
 
 const getMerchantAccApi = async function getMerchantAccApi (params) {
-  return request(`${serverApi}/op/op/merAccounts?${stringify(params)}`);
+  return request(`${serverApi}/api/op/merAccounts?${stringify(params)}`);
 }
 
 const addMerchantApi = async function addMerchantApi (params) {
-  return request(`${serverApi}/op/op/merchant`, {
+  return request(`${serverApi}/api/op/merchant`, {
     method: 'POST',
     body: params,
   })
 }
 
 const RechargeGetMerList = async function RechargeGetMerList (params) {
-  return request(`${serverApi}/op/op/merInfos?${stringify(params)}`);
+  return request(`${serverApi}/api/op/merInfos?${stringify(params)}`);
 }
 
 const RechargMerchantRecharges = async function RechargMerchantRecharges (params){
-  return request(`${serverApi}/op/op/rechargeOrder`, {
+  return request(`${serverApi}/api/op/rechargeOrder`, {
     method: 'POST',
     body: params,
   })
 }
 
 const RechargMerchantRechargesPOST = async function RechargMerchantRechargesPOST (params){
-  return request(`${serverApi}/op/op/rechargeOrder`, {
+  return request(`${serverApi}/api/op/rechargeOrder`, {
     method: 'PUT',
     body: params,
   })
 }
 
 const UploadInterView = async function UploadInterView (params){
-  return request(`${serverApi}/op/op/temp_points?${stringify(params)}`);
+  return request(`${serverApi}/api/op/temp_points?${stringify(params)}`);
 }
  
 const uploadIntegralFile = async function uploadIntegralFile (params) {
-  return request(`${serverApi}/op/op/temp_points`, {
+  return request(`${serverApi}/api/op/temp_points`, {
     method: 'POST',
     body: params,
   })
 }
 
 const SubmintExcekData = async function SubmintExcekData (params) {
-  return request(`${serverApi}/op/op/batch_points`, {
+  return request(`${serverApi}/api/op/batch_points`, {
     method: 'PUT',
     body: params,
   })
 }
 
 const SubmintExceCancel = async function SubmintExceCancel (params) {
-  return request(`${serverApi}/op/op/temp_points`, {
+  return request(`${serverApi}/api/op/temp_points`, {
     method: 'DELETE',
     body: params,
   })
 }
 
 const GetBatchIdList = async function GetBatchIdList (params) {
-  return request(`${serverApi}/op/op/batch_points?${stringify(params)}`);
+  return request(`${serverApi}/api/op/batch_points?${stringify(params)}`);
 }
 
 const GetBatchMerchantList = async function GetBatchMerchantList (params) {
-  return request(`${serverApi}/op/op/send_points?${stringify(params)}`);
+  return request(`${serverApi}/api/op/send_points?${stringify(params)}`);
 }
 
 const SendInterApplyOk = async function SendInterApplyOk (params) {
-  return request(`${serverApi}/op/op/send_points`, {
+  return request(`${serverApi}/api/op/send_points`, {
     method: 'PUT',
     body: params,
   })
 }
 
 const SendInterApplyCancel = async function SendInterApplyCancel (params) {
-  return request(`${serverApi}/op/op/send_points?${stringify(params)}`);
+  return request(`${serverApi}/api/op/send_points?${stringify(params)}`);
 }
 
 const findOrderInfo = async function findOrderInfo (params) {
-  return request(`${serverApi}/op/op/rechargeOrders?${stringify(params)}`);
+  return request(`${serverApi}/api/op/rechargeOrders?${stringify(params)}`);
 }
 
 export async function queryNotices(params = {}) {
@@ -109,87 +109,87 @@ export async function getFakeCaptcha(mobile) {
 }
 
 const withdrawList = async function withdrawList(params) {
-  return request(`${serverApi}/op/op/withdrawal/withdrawalList?${stringify(params)}`);
+  return request(`${serverApi}/api/op/withdrawal/withdrawalList?${stringify(params)}`);
 }
 
 const withdrawApplay = async function withdrawApplay(params) {
-  return request(`${serverApi}/op/op/withdrawal/auditWithdrawal`, {
+  return request(`${serverApi}/api/op/withdrawal/auditWithdrawal`, {
     method: 'POST',
     body: params,
   })
 }
 
 const gerMerchantHuiInfo = async function gerMerchantHuiInfo (params) {
-  return request(`${serverApi}/op/op/users?${stringify(params)}`);
+  return request(`${serverApi}/api/op/users?${stringify(params)}`);
 }
 
 const GetOrderList = async function GetOrderList (params) {
-  return request(`${serverApi}/op/op/withdrawal/withdrawalList?${stringify(params)}`);
+  return request(`${serverApi}/api/op/withdrawal/withdrawalList?${stringify(params)}`);
 }
 
 const UploadInterCheckRate = async function UploadInterCheckRate(params){
-  return request(`${serverApi}/op/op/temp_points/total?${stringify(params)}`);
+  return request(`${serverApi}/api/op/temp_points/total?${stringify(params)}`);
 }
 
 const ProductListApi = async function ProductListApi(params){
-  return request(`${serverApi}/op/op/product?${stringify(params)}`);
+  return request(`${serverApi}/api/op/product?${stringify(params)}`);
 }
 
 const ProductAddApi = async function ProductAddApi(params) {
-  return request(`${serverApi}/op/op/product`, {
+  return request(`${serverApi}/api/op/product`, {
     method: 'POST',
     body: params,
   })
 }
 
 const ProductDeleApi = async function ProductDeleApi(params) {
-  return request(`${serverApi}/op/op/product/${params}`, {
+  return request(`${serverApi}/api/op/product/${params}`, {
     method: 'DELETE',
     body: params,
   })
 }
 
 const ProductClassApi = async function ProductClassApi(fatherId,params){
-  return request(`${serverApi}/op/op/product_category/${fatherId}/child?${stringify(params)}`);
+  return request(`${serverApi}/api/op/product_category/${fatherId}/child?${stringify(params)}`);
 }
 
 const ProductEditApi = async function ProductEditApi(productId,params){
-  return request(`${serverApi}/op/op/product/${productId}`, {
+  return request(`${serverApi}/api/op/product/${productId}`, {
     method: 'PUT',
     body: params,
   })
 }
 
 const ProductClassDeleApi = async function ProductClassDeleApi(categoryId) {
-  return request(`${serverApi}/op/op/product_category/${categoryId}`, {
+  return request(`${serverApi}/api/op/product_category/${categoryId}`, {
     method: 'DELETE',
   })
 }
 
 const ProductClassAddApi = async function ProductClassAddApi(params){
-  return request(`${serverApi}/op/op/product_category`, {
+  return request(`${serverApi}/api/op/product_category`, {
     method: 'POST',
     body: params,
   })
 }
 
 const ProductGetClassApi = async function ProductGetClassApi(fatherId){
-  return request(`${serverApi}/op/op/product_category/${fatherId}`);
+  return request(`${serverApi}/api/op/product_category/${fatherId}`);
 }
 
 const MemberProductListApi = async function MemberProductListApi (params){
-  return request(`${serverApi}/op/op/merchant_product?${stringify(params)}`);
+  return request(`${serverApi}/api/op/merchant_product?${stringify(params)}`);
 }
 
 const MemberProductZAddApi = async function MemberProductZAddApi(params){
-  return request(`${serverApi}/op/op/merchant_product`, {
+  return request(`${serverApi}/api/op/merchant_product`, {
     method: 'POST',
     body: params,
   })
 }
 
 const MemberProductZDel = async function MemberProductZDel(categoryId) {
-  return request(`${serverApi}/op/op/merchant_product//${categoryId}`, {
+  return request(`${serverApi}/api/op/merchant_product//${categoryId}`, {
     method: 'DELETE',
   })
 }
