@@ -9,7 +9,7 @@ export async function queryProjectNotice() {
 }
 
 export async function fakeAccountLogin(params) {
-  return request( `${serverApi}/api/op/admin_login`, {
+  return request( `${serverApi}/api/admin_login`, {
     method: 'POST',
     body: params,
   });
