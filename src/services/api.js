@@ -2,7 +2,7 @@ import { stringify } from 'qs';
 import request from '@/utils/request';
 import {Dev} from '../defaultSettings';
 
-const serverApi = Dev ? '' : '/server';
+const serverApi = Dev ? '' : '/server/api';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');

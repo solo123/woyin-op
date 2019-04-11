@@ -20,11 +20,11 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "ca32428f07c8c0e95def",
+    "revision": "37a9ed67271891c90dca",
     "url": "/umi.js"
   },
   {
-    "revision": "ca32428f07c8c0e95def",
+    "revision": "37a9ed67271891c90dca",
     "url": "/umi.css"
   },
   {

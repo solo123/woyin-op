@@ -87,10 +87,10 @@ export default {
   //   },
   // },
   proxy: {
-    '/server': {
+    '/server/api/': {
       target: 'https://uatop.ewoyin.com/',
       changeOrigin: true,
-     pathRewrite: { '^/server': '' },
+     pathRewrite: { '^/server/api/': '' },
    },
  },
   ignoreMomentLocale: true,
