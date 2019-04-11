@@ -1,15 +1,15 @@
 self.__precacheManifest = [
   {
-    "revision": "7ea3e1b080a9305df51e",
-    "url": "/p__Order__Shoporder.async.js"
+    "revision": "a3511e973d928889d046",
+    "url": "/p__Order__Shoporder.chunk.css"
   },
   {
-    "revision": "6e62c4b223c172c8cfdd",
+    "revision": "e05de524fe5772143c02",
     "url": "/vendors.chunk.css"
   },
   {
-    "revision": "f73b4452b14217c05651",
-    "url": "/p__Product__ProductInfo.chunk.css"
+    "revision": "a3511e973d928889d046",
+    "url": "/p__Order__Shoporder.async.js"
   },
   {
     "revision": "b19327e3e83ce06113ae14c0d0497903",
@@ -20,20 +20,20 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "eac6554e5a1708c4e98f",
+    "revision": "d0f9d6af0a35afb878d4",
     "url": "/umi.js"
   },
   {
-    "revision": "eac6554e5a1708c4e98f",
+    "revision": "d0f9d6af0a35afb878d4",
     "url": "/umi.css"
   },
   {
-    "revision": "6e62c4b223c172c8cfdd",
+    "revision": "e05de524fe5772143c02",
     "url": "/vendors.async.js"
   },
   {
-    "revision": "0d7f72fbc400c3ea11fe",
-    "url": "/p__Repayment__List.async.js"
+    "revision": "d22cd013839dbc906021",
+    "url": "/p__Repayment__List.chunk.css"
   },
   {
     "revision": "38b8e5e1892c9a778243",
@@ -76,11 +76,11 @@ self.__precacheManifest = [
     "url": "/p__Exception__models__error.js.async.js"
   },
   {
-    "revision": "1200701da2384e4b3ab9",
+    "revision": "8e73c8c68a04123f1510",
     "url": "/p__Merchant__BalanceInfo.chunk.css"
   },
   {
-    "revision": "1200701da2384e4b3ab9",
+    "revision": "8e73c8c68a04123f1510",
     "url": "/p__Merchant__BalanceInfo.async.js"
   },
   {
@@ -88,147 +88,155 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberInterApply.async.js"
   },
   {
-    "revision": "19f1e38f13c09696a81a",
+    "revision": "30f6385773ddb9a355f5",
+    "url": "/p__Merchant__MemberProduct.chunk.css"
+  },
+  {
+    "revision": "30f6385773ddb9a355f5",
+    "url": "/p__Merchant__MemberProduct.async.js"
+  },
+  {
+    "revision": "c70545b8c4e5273154dd",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "19f1e38f13c09696a81a",
+    "revision": "c70545b8c4e5273154dd",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "e66bc5ead1552cdd8dee",
+    "revision": "2980257d3f1436b8e0eb",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "e66bc5ead1552cdd8dee",
+    "revision": "2980257d3f1436b8e0eb",
     "url": "/p__Merchant__list.async.js"
   },
   {
-    "revision": "4e6746b8d31793a0a1e1",
+    "revision": "e49e298ca53edc3865d5",
     "url": "/p__Order__FindBuyOrder.chunk.css"
   },
   {
-    "revision": "4e6746b8d31793a0a1e1",
+    "revision": "e49e298ca53edc3865d5",
     "url": "/p__Order__FindBuyOrder.async.js"
   },
   {
-    "revision": "c6b78e50174fc5a71f8c",
+    "revision": "604cde0adb991f8f771b",
     "url": "/p__Order__FindreFundorder.chunk.css"
   },
   {
-    "revision": "c6b78e50174fc5a71f8c",
+    "revision": "604cde0adb991f8f771b",
     "url": "/p__Order__FindreFundorder.async.js"
   },
   {
-    "revision": "5a7958fc1077a147c26a",
+    "revision": "5e9f72cb3c513e84ded2",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
-    "revision": "5a7958fc1077a147c26a",
+    "revision": "5e9f72cb3c513e84ded2",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
-    "revision": "911e61a8fdfcd8d24e24",
+    "revision": "1249262ad6d9007a647e",
     "url": "/p__Order__LotteryOrder.async.js"
   },
   {
-    "revision": "c612880ef568a5461029",
+    "revision": "c3163fc3dbbf8327286f",
     "url": "/p__Order__ShopCreateroll.async.js"
-  },
-  {
-    "revision": "7ea3e1b080a9305df51e",
-    "url": "/p__Order__Shoporder.chunk.css"
   },
   {
     "revision": "38b8e5e1892c9a778243",
     "url": "/p__Account__Settings__Info.chunk.css"
   },
   {
-    "revision": "1c38b3935ce30ca4f52e",
+    "revision": "dd02e321e98e02bfb408",
     "url": "/p__User__ResetPaswrod.async.js"
   },
   {
-    "revision": "f73b4452b14217c05651",
+    "revision": "50ebcfb8e3f9391c77b8",
     "url": "/p__Product__ProductInfo.async.js"
   },
   {
-    "revision": "0d7f72fbc400c3ea11fe",
-    "url": "/p__Repayment__List.chunk.css"
+    "revision": "2f09cd18cd5e8aeb2129",
+    "url": "/p__Product__productclass.async.js"
   },
   {
     "revision": "2ac61536b83ec21c8faf",
     "url": "/p__Account__Settings__models__geographic.js.async.js"
   },
   {
-    "revision": "7a4d1e95766014ad02da",
+    "revision": "d22cd013839dbc906021",
+    "url": "/p__Repayment__List.async.js"
+  },
+  {
+    "revision": "9cc18f1bc26a7266fe88",
     "url": "/p__System__Menu.async.js"
   },
   {
-    "revision": "7b342ee98df174f172bf",
+    "revision": "29fee61452f1b9506c33",
     "url": "/p__System__Parameter.chunk.css"
   },
   {
-    "revision": "7b342ee98df174f172bf",
+    "revision": "29fee61452f1b9506c33",
     "url": "/p__System__Parameter.async.js"
   },
   {
-    "revision": "0c489c43e1fb05b73eab",
+    "revision": "f67c32163ece7e72b8e5",
     "url": "/p__System__Role.chunk.css"
   },
   {
-    "revision": "0c489c43e1fb05b73eab",
+    "revision": "f67c32163ece7e72b8e5",
     "url": "/p__System__Role.async.js"
   },
   {
-    "revision": "0335169a4b01a41cbe66",
+    "revision": "1faf8c2979f319a726c0",
     "url": "/p__System__User.chunk.css"
   },
   {
-    "revision": "0335169a4b01a41cbe66",
+    "revision": "1faf8c2979f319a726c0",
     "url": "/p__System__User.async.js"
   },
   {
-    "revision": "2d723ffa58cc92ab9fca",
+    "revision": "05afa2cc2f09f6edcef2",
     "url": "/p__Task__TaskList.chunk.css"
   },
   {
-    "revision": "2d723ffa58cc92ab9fca",
+    "revision": "05afa2cc2f09f6edcef2",
     "url": "/p__Task__TaskList.async.js"
   },
   {
-    "revision": "94d221194fd33aeaf0c6",
+    "revision": "8e77f6540ff47f993f1a",
     "url": "/p__Transfer__TrandsferCredit.chunk.css"
   },
   {
-    "revision": "94d221194fd33aeaf0c6",
+    "revision": "8e77f6540ff47f993f1a",
     "url": "/p__Transfer__TrandsferCredit.async.js"
   },
   {
-    "revision": "e3a3df59884124ae173e",
+    "revision": "5acd987580637e2a0187",
     "url": "/p__Transfer__TransferOrderList.chunk.css"
   },
   {
-    "revision": "e3a3df59884124ae173e",
+    "revision": "5acd987580637e2a0187",
     "url": "/p__Transfer__TransferOrderList.async.js"
   },
   {
-    "revision": "f2c0213328fb214d6132",
+    "revision": "3b94dce217db49dd3727",
     "url": "/p__Transfer__Transferaudit.chunk.css"
   },
   {
-    "revision": "f2c0213328fb214d6132",
+    "revision": "3b94dce217db49dd3727",
     "url": "/p__Transfer__Transferaudit.async.js"
   },
   {
-    "revision": "286d5a809b8eb957dcd6",
+    "revision": "3e307c3cf20d7e86d172",
     "url": "/p__User__Login.chunk.css"
   },
   {
-    "revision": "286d5a809b8eb957dcd6",
+    "revision": "3e307c3cf20d7e86d172",
     "url": "/p__User__Login.async.js"
   },
   {
-    "revision": "1c38b3935ce30ca4f52e",
+    "revision": "dd02e321e98e02bfb408",
     "url": "/p__User__ResetPaswrod.chunk.css"
   },
   {
@@ -236,7 +244,7 @@ self.__precacheManifest = [
     "url": "/index.html"
   },
   {
-    "revision": "8ab17a79916d8b2744d8",
+    "revision": "0a06f5373ee00c4eeca7",
     "url": "/layouts__BasicLayout.chunk.css"
   },
   {
@@ -256,7 +264,7 @@ self.__precacheManifest = [
     "url": "/layouts__UserLayout.chunk.css"
   },
   {
-    "revision": "8ab17a79916d8b2744d8",
+    "revision": "0a06f5373ee00c4eeca7",
     "url": "/layouts__BasicLayout.async.js"
   },
   {
@@ -276,11 +284,11 @@ self.__precacheManifest = [
     "url": "/favicon.png"
   },
   {
-    "revision": "8290b20d2102fde7f6d6",
-    "url": "/36.chunk.css"
+    "revision": "5b43c4f0b463cb4c35f8",
+    "url": "/38.chunk.css"
   },
   {
-    "revision": "8290b20d2102fde7f6d6",
-    "url": "/36.async.js"
+    "revision": "5b43c4f0b463cb4c35f8",
+    "url": "/38.async.js"
   }
 ];

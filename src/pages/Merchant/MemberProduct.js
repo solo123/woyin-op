@@ -11,8 +11,9 @@ import {
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import {MemberProducZ} from '@/components/Merchant';
 import {ProductAddAndUpdate, ProductUpdate} from '@/components/Product';
-import {ProductListApi, ProductDeleApi, ProductClassApi} from '@/services/api';
+import {MemberProductZDel, ProductDeleApi, ProductClassApi, MemberProductListApi} from '@/services/api';
 import {timeChangData} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
 import styles from './MemberProduct.less';
@@ -40,8 +41,8 @@ class ProductList extends React.Component {
         {type: 'SelectDateRang' ,label: '创建时间', name: 'rechargeTime', ruless:[] , placeholder: '创建时间', typeIco: 'book'}
       ],
       buttonData: [
-        {type: 'primary', ico: 'edit', hangClick: this.handAdd, labe: '添加'},
-        {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除'}
+        // {type: 'primary', ico: 'edit', hangClick: this.handAdd, labe: '添加折扣'},
+        {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除折扣'}
       ]
     }
     const PRODUCTSTATUE = [
@@ -55,29 +56,35 @@ class ProductList extends React.Component {
     const tableDatas = {columns:
       [
         {title: '产品编号', dataIndex: 'productId', key: 'productId'},
-        {title: '产品类型', dataIndex: 'parentCategoryName', key: 'parentCategoryName'},
-        {title: '运营商', dataIndex: 'productName', key: 'productName'},
-        {title: '产品名称', dataIndex: 'cost', key: 'cost'},
-        {title: '价值', dataIndex: 'purchasePrice', key: 'purchasePrice'},
-        {title: '进货价', dataIndex: 'salesPrice', key: 'salesPrice'},
+        // {title: '', dataIndex: 'discountId', key: 'discountId'},
+        {title: '产品类型', dataIndex: 'fatherName', key: 'fatherName'},
+        {title: '运营商', dataIndex: 'childName', key: 'childName'},
+        {title: '产品名称', dataIndex: 'productName', key: 'productName'},
+        {title: '价值', dataIndex: 'cost', key: 'cost'},
+        {title: '进货价', dataIndex: 'purchasePrice', key: 'purchasePrice'},
         {title: '销售价', dataIndex: 'salesPrice', key: 'salesPrice'},
         {title: '产品状态', dataIndex: 'status', key: 'status',render: status => (statuesRend(status, PRODUCTSTATUE))},
         {title: '是否支持退款', dataIndex: 'canRefund', key: 'canRefund',render: canRefund => (statuesRend(canRefund, PRODUCTCAN))},
         {title: '创建日期', dataIndex: 'createTime', key: 'createTime', },
-        {title: '折扣', dataIndex: 'createTime', key: 'createTime', },
+        {title: '折扣', dataIndex: 'discount', key: 'discount', },
         {title: '操作', dataIndex: 'action', key: 'action',
-         render: (texts, record) => (
-           <span>
-             <a href="javascript:void(0)" onClick={()=> {this.handUpdate(texts, record)}}>修改</a>
-           </span>)},
+         render: (texts, record) => {
+           if(record.discount > 0){
+            return <a href="javascript:void(0)" onClick={()=> {this.handUpdate(texts, record)}}>编辑</a>
+           }
+            return <a href="javascript:void(0)" onClick={()=> {this.handAdd(texts, record)}}>添加</a>
+        }},
      ],
      datas:[]
     };
     const params = {
+      merchantId: this.props.location.params,
       productName: '',
+      cost: '',
       status: '',
+      productCategoryId: '',
       startTime: '',
-      endTime: '' ,
+      endTime: '',
       limit: 10,
       page: 1
     }
@@ -90,7 +97,10 @@ class ProductList extends React.Component {
   }
   
   componentWillMount () {
-    console.log(this.props.location.params);
+    const params = {
+        merchantId: this.props.location.params
+    };
+   
     const {headForm} = this.state;
     const productClass = [];
     ProductClassApi(0, {}).then(res => {
@@ -106,16 +116,18 @@ class ProductList extends React.Component {
         this.setState({
           headForm
         })
-        console.log(res);
       }
     })
-    const {params} = this.state;
+    
     this.getData(params);
+    this.setState({
+        params
+    })
   }
 
-  handAdd = (e) => {
-    e.preventDefault();
-    this.ProductAddAndUpdate.showModal();
+  handAdd = (texts, record) => {
+    const da = this.getDataByKey(this.state.tableDatas.datas, record.productId);
+    this.MemberProducZ.showModal(da);
   }
 
   handDele = (e) => {
@@ -124,7 +136,7 @@ class ProductList extends React.Component {
     let le = 0;
     let er = 0;
     selectedRows.forEach(elem => {
-      ProductDeleApi(elem.productId).then(res => {
+        MemberProductZDel(elem.productId).then(res => {
         const re = JSON.parse(res);
         if(re.status === 200){
           le=+1;
@@ -141,27 +153,37 @@ class ProductList extends React.Component {
     this.ProductUpdate.showModal();
   }
 
+  getDataByKey = (data,key) => {
+      const leng = data.length;
+      for(let i = 0; i < leng; i+=1){
+          if(data[i].productId === key){
+            return data[i]
+          }
+      }
+      return null;
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    let {params} = this.state;
-    let value = null;
-    this.props.form.validateFields((err, values) => {
-      value = values;
-      if(typeof values.rechargeTime !== 'undefined'){
-        value.startTime = timeChangData(values.rechargeTime[0].toDate());
-        value.endTime = timeChangData(values.rechargeTime[1].toDate());
-      }
-      delete value.rechargeTime;
-      if(!err){
-        params = {
-         ...values,
-         limit: 10,
-         page: 1
-        }
-       this.getData(params);
-       this.setState({params});
-      }
-    })
+    // let {params} = this.state;
+    // let value = null;
+    // this.props.form.validateFields((err, values) => {
+    //   value = values;
+    //   if(typeof values.rechargeTime !== 'undefined'){
+    //     value.startTime = timeChangData(values.rechargeTime[0].toDate());
+    //     value.endTime = timeChangData(values.rechargeTime[1].toDate());
+    //   }
+    //   delete value.rechargeTime;
+    //   if(!err){
+    //     params = {
+    //      ...values,
+    //      limit: 10,
+    //      page: 1
+    //     }
+    //    this.getData(params);
+    //    this.setState({params});
+    //   }
+    // })
   }
 
   onHandSelectRow =  (selectedRowKeys, selectedRows) => {
@@ -191,7 +213,7 @@ class ProductList extends React.Component {
     if(typeof param.cost === 'undefined' && param.cost===null){
       delete  param.cost
     }
-    ProductListApi(param).then(res => {
+    MemberProductListApi(param).then(res => {
       try {
         if(res.status===200){
           res.data.result.forEach(elem => {
@@ -204,6 +226,7 @@ class ProductList extends React.Component {
           this.setState({
             tableDatas,
             params: {
+              ...params,
               count: res.data.count
             }
           })
@@ -246,6 +269,7 @@ class ProductList extends React.Component {
           dataSource={tableDatas.datas}
           bordered
           rowSelection={rowSelection}
+          scroll={{ x: 1500 }}
           pagination={{
             pageSize: params.limit,
             total: params.count,
@@ -254,6 +278,7 @@ class ProductList extends React.Component {
         />
         <ProductAddAndUpdate ref={c => { this.ProductAddAndUpdate = c}} />
         <ProductUpdate ref={c => {this.ProductUpdate = c}} />
+        <MemberProducZ ref={c => {this.MemberProducZ =  c}} />
       </PageHeaderWrapper>
     )
   }

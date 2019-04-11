@@ -177,6 +177,24 @@ const ProductGetClassApi = async function ProductGetClassApi(fatherId){
   return request(`${serverApi}/op/op/product_category/${fatherId}`);
 }
 
+const MemberProductListApi = async function MemberProductListApi (params){
+  return request(`${serverApi}/op/op/merchant_product?${stringify(params)}`);
+}
+
+const MemberProductZAddApi = async function MemberProductZAddApi(params){
+  return request(`${serverApi}/op/op/merchant_product`, {
+    method: 'POST',
+    body: params,
+  })
+}
+
+const MemberProductZDel = async function MemberProductZDel(categoryId) {
+  return request(`${serverApi}/op/op/merchant_product//${categoryId}`, {
+    method: 'DELETE',
+  })
+}
+
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -207,4 +225,7 @@ export {
   ProductClassDeleApi, // 删除产品分类
   ProductClassAddApi, // 增加产品分类
   ProductGetClassApi, // 获取单个分类的产品详情
+  MemberProductListApi, // 商户产品管理
+  MemberProductZAddApi, // 产品折扣
+  MemberProductZDel, // 删除折扣
 }

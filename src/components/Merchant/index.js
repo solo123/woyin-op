@@ -5,6 +5,7 @@ import MerchantInfo from './MerchantInfo';
 import MemberApplayData from'./MemberApplayData';
 import MemberRecharges from './MemberRecharges';
 import MemberApplayInter from './MemberApplayInter';
+import MemberProducZ from './MemberProducZ';
 
 
 export {
@@ -14,6 +15,7 @@ export {
     MerchantInfo,
     MemberApplayData,
     MemberRecharges,
-    MemberApplayInter
+    MemberApplayInter,
+    MemberProducZ
 }
 export default MerchantAddOrUpdate
