@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
@@ -13,7 +14,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {ProductAddAndUpdateClass, ProductEditClass} from '@/components/Product';
 import {ProductClassApi, ProductClassDeleApi} from '@/services/api';
-import {statuesRend} from '@/utils/renderUtils';
+import {statuesRend, hreRend} from '@/utils/renderUtils';
 import styles from './ProductInfo.less';
 
 @connect()
@@ -21,7 +22,7 @@ class ProductList extends React.Component {
   constructor(props){
     super(props);
     const formData = [
-        {type: 'InputIcon' ,label: '产品类型名称', name: 'userAccount', ruless:[] , placeholder: '产品类型名称', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '产品类型名称', name: 'productCategoryName', ruless:[] , placeholder: '产品类型名称', typeIco: 'user'},
     ];
     const headForm = {
       buttonData: [
@@ -29,16 +30,14 @@ class ProductList extends React.Component {
         {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除'}
       ]
     }
+    const hre = [
+        {onClick: this.onHangUpdate, label: '查看运营商'}
+    ];
     const tableDatas = {columns:
       [
         {title: '分类编号', dataIndex: 'productCategoryId', key: 'productCategoryId'},
         {title: '分类名称', dataIndex: 'productCategoryName', key: 'productCategoryName'},
-        {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',
-        render: (texts, record) => (
-          <span> 
-            <a href="javascript:void(0)" onClick={()=> {this.onHangUpdate(texts, record)}}>查看运营商</a>
-          </span>)
-        },
+        {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',render:(texts, record)=>(hreRend(hre, texts, record)) },
      ],
      datas:[]
     };
@@ -97,9 +96,9 @@ class ProductList extends React.Component {
     this.props.form.validateFields((err, values) => {
       if(!err){
         params = {
-         ...values,
-         limit: 10,
-         page: 1
+          ...values,
+          limit: 10,
+          page: 1
         }
         this.getData(params);
         this.setState({params});
@@ -162,7 +161,7 @@ class ProductList extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch formData={formData} Reset={this.Reset} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>

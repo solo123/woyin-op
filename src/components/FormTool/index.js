@@ -1,4 +1,4 @@
-import {LabelInput, InputIcon} from './LabelInputComponent';
+import {LabelInput, InputIcon, InputNum} from './LabelInputComponent';
 import SelectCompone from './SelectCompone';
 import SelectDate from './SelectDateComponent';
 import SelectDateRang from './SelectDateRangComponent';
@@ -14,7 +14,8 @@ export {
     SelectDateRang,
     ButtonComponents,
     CheckboxComponents,
-    RadioGroupComponent
+    RadioGroupComponent,
+    InputNum
 }
 
 export default{

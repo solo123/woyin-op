@@ -23,6 +23,17 @@ export const statuesRend = (status, STATUSITEMS) => {
     return null
 }
 
+/**
+ * 渲染按键
+ */
+export const hreRend = (hreData, texts, record) =>{
+  return(
+    <span>
+      {hreData.map(ref => (<a href="javascript:void(0)" key={ref.label} onClick={()=> { ref.onClick(texts, record)}}>{ref.label}</a>))}
+    </span>
+  )
+}
+
 export const test = ()=> {
     return null
 }

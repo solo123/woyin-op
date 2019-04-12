@@ -21,7 +21,7 @@ import {routerRedux} from 'dva/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {getMerchantListApi} from '@/services/api';
-import {statuesRend} from '@/utils/renderUtils';
+import {statuesRend, hreRend} from '@/utils/renderUtils';
 import LocalStr from '@/utils/LocalStr';
 import styles from './List.less';
 
@@ -32,13 +32,10 @@ import styles from './List.less';
 class List extends React.Component {
   constructor(props){
     super(props);
-    const option = [{
-      value: '1',
-      label: '可用',
-    }, {
-      value: '2',
-      label: '冻结',
-    }];
+    const option = [
+      {value: '1',label: '可用'}, 
+      {value: '2',label: '冻结'}
+    ];
     const formDatas = [
       {type: 'InputIcon' ,label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
       {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '角商户名称色编码', typeIco: 'book'},
@@ -51,6 +48,12 @@ class List extends React.Component {
     const STATUSITEMS = [
       {key: 1, describe: ['green', '可用']},
       {key: 2, describe: ['red', '冻结']}
+    ]
+    const hreReng = [
+      {onClick: this.onHangInter, label: '批量会员发分 |'},
+      {onClick: this.onHangApplayData, label: '上传数据审核 |'},
+      {onClick: this.onHangApplayInter, label: '会员发分审核 | '},
+      {onClick: this.onHangGoPround, label: '商户产品管理'},
     ]
     const tableData = {
       columns: [
@@ -67,16 +70,9 @@ class List extends React.Component {
         // {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
         // {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
-        {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right', 
-         render: (texts, record) => (
-           <span>
-             <a href="javascript:void(0)" onClick={()=> {this.onHangInter(texts, record)}}>批量会员发分</a> | 
-             <a href="javascript:void(0)" onClick={()=> {this.onHangApplayData(texts, record)}}>上传数据审核</a> | 
-             <a href="javascript:void(0)" onClick={()=> {this.onHangApplayInter(texts, record)}}>会员发分审核</a> | 
-             <a href="javascript:void(0)" onClick={()=> {this.onHangGoPround(texts, record)}}>商户产品管理</a>
-           </span>)},
-     ],
-     data: []
+        {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right',width: 400, render:(texts, record)=>(hreRend(hreReng, texts, record)) },
+      ],
+      data: []
     }
     this.state = {
       formData: formDatas,
@@ -164,8 +160,8 @@ class List extends React.Component {
           phoneNum: values.phoneNum,
           status: values.status=== undefined ? '' : values.status[0],
         }
-       this.getAllData(param);
-       this.setState({
+        this.getAllData(param);
+        this.setState({
         param
        })
       }
@@ -207,11 +203,10 @@ getAllData = (params) => {
           merchantList.push(merch);
         }
         tableData.data = merchantList;
-        this.setState(
-          {
-            tableData,
-            count: res.data.totalCount
-          }
+        this.setState({
+          tableData,
+          count: res.data.totalCount
+        }
         );
       }
     } catch (error) {
@@ -222,7 +217,7 @@ getAllData = (params) => {
 
 render () {
   const { getFieldDecorator } = this.props.form; 
-  const {tableData} = this.state;
+  const { tableData } = this.state;
   const { formData, buttonData, limit, count } = this.state;
   const rowSelection = {
     type: 'radio',

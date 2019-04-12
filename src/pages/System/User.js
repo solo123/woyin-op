@@ -20,30 +20,24 @@ import styles from './User.less';
 let formData = null;
 let buttonData = null;
 @connect()
-class SearchList extends Component {
+class UserList extends Component {
 
   constructor(props){
     super(props);
     const tableData = {
       Columns:[
-        {title: '帐号', dataIndex: 'logo', key: 'logo'},
-        {title: '角色', dataIndex: 'name', key: 'name'},
-        {title: '电话', dataIndex: 'phone', key: 'phone'},
+        {title: '帐号', dataIndex: 'userAccount', key: 'userAccount'},
+        {title: '姓名', dataIndex: 'userName', key: 'userName'},
+        {title: '角色', dataIndex: 'roleName', key: 'roleName'},
+        // {title: '电话', dataIndex: 'phone', key: 'phone'},
         {title: '邮箱', dataIndex: 'email', key: 'email'},
-        {title: '创建日期', dataIndex: 'createrdata', key: 'createrdata'},
-        {title: '机构名称', dataIndex: 'describe', key: 'describe'},
+        // {title: '创建日期', dataIndex: 'createrdata', key: 'createrdata'},
+        // {title: '机构名称', dataIndex: 'describe', key: 'describe'},
         {title: '操作', dataIndex: 'action', key: 'action', width: 80, render: (texts, record) => (<a href="javascript:;" onClick={()=> {this.onClick(texts, record)}}>操作</a>)},
         // {title: '状态', dataIndex: 'statue', key: 'statue'},
      ],
      data:  []
     }
-    this.state = {
-      tableData
-    }
-  }
-
-  componentWillMount () {
-
     const option = [{
       value: '1',
       label: '正常',
@@ -52,27 +46,58 @@ class SearchList extends Component {
       label: '禁用',
     }];
     formData = [
-      {type: 'InputIcon' ,label: '用户名称：', name: 'name', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
-      // {type: 'InputIcon' ,label: '登录帐户：', name: 'code', ruless:[] , placeholder: '角色编码', typeIco: 'book'},
-      {type: 'SelectCompone', style:{width: '198px'}, label: '状态：', name: 'statue', options: option}
+      {type: 'InputIcon' ,label: '查询条件', name: 'condition', ruless:[] , placeholder: '帐户,角色,邮箱', typeIco: 'user'},
+      {type: 'SelectCompone', style:{width: '198px'}, label: '状态：', name: 'state', options: option}
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddUser, labe: '添加'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '禁用'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '删除'},
+      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '禁用'},
+      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
+      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '删除'},
     ]
-  
-   }
+    this.state = {
+      tableData,
+      params: {
+        state: null,
+        condition: null,
+        page: 1,
+        count: 10,
+        totalCount: 0,
+      }
+    }
+  }
+
+  componentWillMount () {
+
+  }
 
   componentDidMount() {
-    GetUserLogoListApi().then(res => {
-      console.log(res);
+    const {params} = this.state;
+    this.getData(params);
+  }
+
+  getData(params) {
+    const {tableData} = this.state;
+    tableData.data = [];
+    GetUserLogoListApi(params).then(res => {
+      if(res.status === 200){
+        res.data.data.forEach(element => {
+          const elem = {
+            ...element,
+            key: element.userId
+          };
+          tableData.data.push(elem);
+        });
+        const para = {
+          ...params,
+          totalCount: res.data.totalCount
+        }
+        this.setState({
+          tableData,
+          params: para
+        })
+      }
     })
-    // To disabled submit button at the beginning.
-    // component.RoleSet  = this.RoleSet;
-    // component.UserAddUpdate = this.UserAddUpdate;
-    // console.log(this.UserAddUpdate);
   }
 
   handUserRole = (texts, record) => {
@@ -81,7 +106,6 @@ class SearchList extends Component {
 
   handAddUser = (e) => {
     e.preventDefault();
-    // eslint-disable-next-line react/no-string-refs ,no-shadow
     this.UserAddUpdate.showModal(e);
   }
 
@@ -91,29 +115,66 @@ class SearchList extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // eslint-disable-next-line react/destructuring-assignment
+    const {params} = this.state;
     this.props.form.validateFields((err, values) => {
       if(!err){
-        console.log('Received values of form: ', values);
+        const d = {
+          condition: values.condition,
+          state: values.state,
+          totalCount: params.totalCount,
+          page: 1,
+        };
+        this.setState({
+          params: d
+        }, this.getData(d))
       }
     })
   }
 
+  resData = () => {
+    this.setState({
+      params: {
+        state: null,
+        condition: null,
+        page: 1,
+        count: 10,
+        totalCount: 0,
+      }
+    },this.getData({
+      state: null,
+      condition: null,
+      page: 1,
+      count: 10,
+      totalCount: 0,
+    }))
+  }
+
+  onChangePage = (page) =>{
+    const {params} = this.state;
+    params.page = page;
+    this.getData(params);
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {tableData} = this.state;
+    const {tableData, params} = this.state;
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       }
     };
-
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch 
+                form={this.props.form}
+                formData={formData} 
+                Reset={this.resData} 
+                handleSubmit={this.handleSubmit} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
           </Row>
           <Row>
@@ -129,6 +190,11 @@ class SearchList extends Component {
           dataSource={tableData.data} 
           bordered
           rowSelection={rowSelection}
+          pagination={{
+            pageSize: params.count,
+            total: params.totalCount,
+            onChange: this.onChangePage
+           }}
           // scroll={{ x: 1000 }}
         />
         <UserAddUpdate ref={(c) => {this.UserAddUpdate = c}} />
@@ -138,5 +204,5 @@ class SearchList extends Component {
     );
   }
 }
-const SearchLists = Form.create({ name: 'SearchList' })(SearchList);
-export default SearchLists;
+const UserLists = Form.create({ name: 'SearchList' })(UserList);
+export default UserLists;

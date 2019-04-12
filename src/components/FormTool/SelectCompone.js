@@ -13,10 +13,35 @@ export default ({label ,name, options,style, handChang,initialValue=null},getFie
     <Form.Item
       label={label}
     >
-      {getFieldDecorator(name,{initialValue})(
-        <Select style={style} onChange={typeof(handChang) === 'function' ? handChang : handChangs} placeholder="请选择"> 
-          {option}
-        </Select>
-      )}
+      {
+        (() => {
+          if(initialValue){
+            return (
+              getFieldDecorator(name,{initialValue})(
+                <Select 
+                  style={style} 
+                  onChange={typeof(handChang) === 'function' ? handChang : handChangs} 
+                  placeholder="请选择"
+                > 
+                  {option}
+                </Select>
+              )
+            )
+          }
+            return (
+              getFieldDecorator(name,{})(
+                <Select 
+                  style={style} 
+                  onChange={typeof(handChang) === 'function' ? handChang : handChangs} 
+                  placeholder="请选择"
+                > 
+                  {option}
+                </Select>
+              )
+            )
+          
+        })()
+      }
+
     </Form.Item>
 )}

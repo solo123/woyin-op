@@ -8,6 +8,7 @@ import {
     InputIcon, 
     SelectCompone, 
     LabelInput,
+    InputNum,
     ButtonComponents,
     CheckboxComponents,
     RadioGroupComponent} from '../FormTool';
@@ -62,6 +63,12 @@ class AddInfo extends React.Component {
               return(
                 <React.Fragment key={value.label}>
                   {RadioGroupComponent(value,getFieldDecorator)}
+                </React.Fragment>
+              )
+          case 'InputNum':
+              return(
+                <React.Fragment key={value.label}>
+                  {InputNum(value, getFieldDecorator)}
                 </React.Fragment>
               )
           default:

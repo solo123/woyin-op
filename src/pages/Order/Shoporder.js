@@ -22,10 +22,10 @@ class List extends React.Component {
     super(props);
     const option = [{
       value: '1',
-      label: '正常',
+      label: '新建',
     }, {
-      value: '0',
-      label: '禁用',
+      value: '-1',
+      label: '拒绝',
     }];
     const headForm = {
       formData: [
@@ -151,6 +151,7 @@ class List extends React.Component {
         startTime = timeChangData(values.rechargeTime[0].toDate());
         endTime = timeChangData(values.rechargeTime[1].toDate());
       }
+      console.log(values);
       const params = {
         ...values,
         endTime,

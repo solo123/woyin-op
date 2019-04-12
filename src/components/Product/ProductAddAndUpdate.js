@@ -5,7 +5,8 @@ import {
     message
   } from 'antd';
 import AddInfo from '../FormAdd/AddInfo';
-import {ProductAddApi} from '@/services/api';
+import {ProductAddApi,ProductClassApi} from '@/services/api';
+import {isNumber} from '@/utils/validate';
 
 class ProductAddAndUpdate extends React.Component {
   constructor(props) {
@@ -18,32 +19,70 @@ class ProductAddAndUpdate extends React.Component {
       label: '冻结',
     }];
     this.state = {
-      status: 'add',
       visible: false,
       formData: [
         {type: 'InputIcon' ,label: '产品名称', name: 'productName', ruless:[{required: true}] , placeholder: '产品名称', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '产品分类编号', name: 'productCategoryId', ruless:[{required: true}] , placeholder: '产品分类编号', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '产品现价/分', name: 'cost', ruless:[{required: true}] , placeholder: '产品现价/分', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '产品售价/元', name: 'salesPrice', ruless:[{required: false}] , placeholder: '产品售价/元', typeIco: 'team'},
-        {type: 'InputIcon' ,label: ' 产品进价/元', name: 'purchasePrice', ruless:[{required: false}] , placeholder: '产品进价/元', typeIco: 'team'},
+        {type: 'SelectCompone' ,label: '产品分类',handChang: this.handSelectChang,options: option, name: 'fatherId', ruless:[{required: true}] , placeholder: '产品分类编号', typeIco: 'user'},
+        {type: 'SelectCompone' ,label: '运营商',handChang: this.handSelectChang,options: option, name: 'productCategoryId', ruless:[{required: true}] , placeholder: '产品分类编号', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '产品现价/分', name: 'cost', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品现价/分', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '产品售价/元', name: 'salesPrice', ruless:[{required: false, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品售价/元', typeIco: 'team'},
+        {type: 'InputIcon' ,label: ' 产品进价/元', name: 'purchasePrice', ruless:[{required: false, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品进价/元', typeIco: 'team'},
       ]
     };
-  }
-
-  init = (userInfo) => {
-    return typeof(userInfo.id) === 'undefined' ? this.setState({status: 'add'}) : this.setState({status: 'update'});
   }
 
   showModal = () => {
     this.setState({
       visible: true,
-    });
+    }, this.getClass);
   }
 
   onClose = () => {
       this.setState({
         visible: false,
       });
+  }
+
+  getClass = () => {
+    const {formData} = this.state;
+    ProductClassApi(0, {}).then(res => {
+      if(res.status === 200){
+        const dataClass = [];
+        res.data.result.forEach(element => {
+          const po = {
+            value: element.productCategoryId,
+            label: element.productCategoryName,
+          }
+          dataClass.push(po);
+        });
+        formData[1].options = dataClass;
+        this.setState({
+          formData
+        })
+      }
+    })
+  }
+
+  handSelectChang = (value) => {
+    const {formData} = this.state;
+    ProductClassApi(value, {}).then(res => {
+      if(res.status === 200 && res.data.result){
+        const dataClass = [];
+        res.data.result.forEach(element => {
+          const po = {
+            value: element.productCategoryId,
+            label: element.productCategoryName,
+          }
+          dataClass.push(po);
+        });
+        formData[2].options = dataClass;
+      }else{
+        formData[2].options = [];
+      }
+      this.setState({
+        formData
+      })
+    })
   }
 
   handleSubmit = (e) => {
@@ -60,12 +99,12 @@ class ProductAddAndUpdate extends React.Component {
         try {
             ProductAddApi(formData).then(res => {
                 if(res.status === 200){
-                 message.info('添加产品成功');
-                 this.onClose();
+                  message.info('添加产品成功');
+                  this.onClose();
+                  this.props.Reset();
                 }
               })
         } catch (error) {}
-
       }
     });
   }

@@ -21,17 +21,13 @@ import styles from './ProductInfo.less';
 class ProductList extends React.Component {
   constructor(props){
     super(props);
-    const option = [{
-      value: '1',
-      label: '正在销售',
-    }, {
-      value: '2',
-      label: '停止销售',
-    }];
+    const option = [
+      {value: '1',label: '正在销售',}, 
+      {value: '2',label: '停止销售',}];
     const productClass = [{
       value: '1',
       label: '正在销售',
-    }]
+    }];
     const headForm = {
       formData:  [
         {type: 'SelectCompone' ,label: '产品类型',style:{width:'196px'}, placeholder: '退款编号', name: 'productCategoryId', ruless:[], options: productClass},
@@ -43,7 +39,7 @@ class ProductList extends React.Component {
         {type: 'primary', ico: 'edit', hangClick: this.handAdd, labe: '添加'},
         {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除'}
       ]
-    }
+    };
     const PRODUCTSTATUE = [
       {key: 1, describe: ['green', '正在销售']},
       {key: 2, describe: ['green', '停止销售']},
@@ -103,7 +99,6 @@ class ProductList extends React.Component {
         this.setState({
           headForm
         })
-        console.log(res);
       }
     })
     const {params} = this.state;

@@ -1,4 +1,3 @@
-import { formatMessage, FormattedMessage } from 'umi/locale';
 
 export function validatePrimeNumber(number) {
     if (number === 11) {
