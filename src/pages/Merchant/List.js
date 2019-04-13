@@ -22,6 +22,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {getMerchantListApi} from '@/services/api';
 import {statuesRend, hreRend} from '@/utils/renderUtils';
+import {timeChangData} from '@/utils/utils';
 import LocalStr from '@/utils/LocalStr';
 import styles from './List.less';
 
@@ -196,7 +197,7 @@ getAllData = (params) => {
           merch.phoneNum =  data[i].phoneNum;
           merch.telNum =  data[i].telNum;
           merch.statue =  data[i].status;
-          merch.creatertime =  data[i].createTime;
+          merch.creatertime =  timeChangData(data[i].createTime);
           merch.find =  data[i].id;
           merch.freezing =  data[i].frozenTime;
           merch.unfreezing =  data[i].unFrozenTime;

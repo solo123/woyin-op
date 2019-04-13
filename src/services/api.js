@@ -205,6 +205,14 @@ const GetUserLogoListApi = async function GetUserLogoListApi(params){
   return request(`${serverApi}/api/op/permit/user?${stringify(params)}`);
 }
 
+const GetOrderForBuyLisApi = async function GetOrderForBuyLisApi(params){
+  return request(`${serverApi}/api/op/buyOrder?${stringify(params)}`);
+}
+
+const GetTransferOrderApi = async function GetTransferOrderApi(params){
+  return request(`${serverApi}/api/op/transferOrder?${stringify(params)}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -240,4 +248,6 @@ export {
   MemberProductZDel, // 删除折扣
   MemberProductZEdit, // 折扣修改MemberProductEdit
   GetUserLogoListApi, // 获取帐户列表
+  GetOrderForBuyLisApi, // 用户购买订单
+  GetTransferOrderApi, // 转增订单
 }

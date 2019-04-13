@@ -167,6 +167,11 @@ export default [
            component: './Order/FindBuyOrder',
          },
          {
+          path: '/order/orderincrease',
+          name: 'orderincrease',
+          component: './Order/TransferOrderList',
+        },
+         {
            path: '/order/shopcreateroll',
            name: 'shopcreateroll',
            component: './Order/ShopCreateroll',
@@ -248,6 +253,24 @@ export default [
             name: 'taskdiary',
             component: './Exception/modelNo',
           }
+        ]
+      },
+      // 财务管理
+      {
+        path: '/finance',
+        name: 'finance',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/finance/merchantwater',
+            name: 'merchantwater',
+            component: './Finance/MerchantWater',
+          },
+          {
+            path: '/finance/userwater',
+            name: 'userwater',
+            component: './Finance/UserWater',
+          },
         ]
       },
       // 还款管理

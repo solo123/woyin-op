@@ -22,7 +22,7 @@ class ProductList extends React.Component {
   constructor(props){
     super(props);
     const formData = [
-        {type: 'InputIcon' ,label: '产品类型名称', name: 'productCategoryName', ruless:[] , placeholder: '产品类型名称', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '产品类型名称', name: 'productCategoryName', ruless:[] , placeholder: '产品类型名称', typeIco: 'user'},
     ];
     const headForm = {
       buttonData: [
@@ -31,15 +31,15 @@ class ProductList extends React.Component {
       ]
     }
     const hre = [
-        {onClick: this.onHangUpdate, label: '查看运营商'}
+      {onClick: this.onHangUpdate, label: '查看运营商'}
     ];
     const tableDatas = {columns:
-      [
-        {title: '分类编号', dataIndex: 'productCategoryId', key: 'productCategoryId'},
-        {title: '分类名称', dataIndex: 'productCategoryName', key: 'productCategoryName'},
-        {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',render:(texts, record)=>(hreRend(hre, texts, record)) },
-     ],
-     datas:[]
+    [
+      {title: '分类编号', dataIndex: 'productCategoryId', key: 'productCategoryId'},
+      {title: '分类名称', dataIndex: 'productCategoryName', key: 'productCategoryName'},
+      {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',render:(texts, record)=>(hreRend(hre, texts, record)) },
+    ],
+      datas:[]
     };
     const params = {
       productName: '',
@@ -108,7 +108,7 @@ class ProductList extends React.Component {
 
   onHandSelectRow =  (selectedRowKeys, selectedRows) => {
     this.setState({
-        selectedRows
+      selectedRows
     })
   }
 
@@ -131,20 +131,20 @@ class ProductList extends React.Component {
     tableDatas.datas = [];
     const param = params;
     if(typeof param.cost === 'undefined' || param.cost===null){
-        delete param.columns;
+      delete param.columns;
     }
     ProductClassApi(0,param).then(res => {
       try {
         if(res.status===200){
-            res.data.result = res.data.result;
-            res.data.result.forEach(element => {
-                const ne = element;
-                ne.key = element.productCategoryId;
-                tableDatas.datas.push(ne);
-            });
-            this.setState({
-                tableDatas
-            })
+          res.data.result = res.data.result;
+          res.data.result.forEach(element => {
+            const ne = element;
+            ne.key = element.productCategoryId;
+            tableDatas.datas.push(ne);
+          });
+          this.setState({
+            tableDatas
+          })
         }
       } catch (error) {}
     })

@@ -12,6 +12,7 @@ import {HeadFormSearch} from '@/components/HeadForm';
 import {gerMerchantHuiInfo} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {statuesRend} from '@/utils/renderUtils';
+import {timeChangData} from '@/utils/utils';
 import styles from './Info.less';
 
 @connect()
@@ -35,8 +36,8 @@ class BalanceInfo extends Component {
         {title: '用户名', dataIndex: 'userName', key: 'userName'},
         {title: '用户手机号码', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
         {title: '用户备注', dataIndex: 'remark', key: 'remark'},
-        {title: '用户冻结时间', dataIndex: 'freezeTime', key: 'freezeTime'},
-        {title: '用户更新时间', dataIndex: 'updateTime', key: 'updateTime'},
+        // {title: '用户冻结时间', dataIndex: 'freezeTime', key: 'freezeTime'},
+        // {title: '用户更新时间', dataIndex: 'updateTime', key: 'updateTime'},
         {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, STATUSITEMS))},
         {title: '用户组创建时间', dataIndex: 'createTime', key: 'createTime'},
       ],
@@ -103,6 +104,7 @@ class BalanceInfo extends Component {
         res.data.data.forEach(element => {
           const d = {
             ...element,
+            createTime: timeChangData(element.createTime),
             key: element.userId,
           }
           tableData.data.push(d);

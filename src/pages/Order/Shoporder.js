@@ -20,13 +20,10 @@ import styles from './Shoporder.less';
 class List extends React.Component {
   constructor(props){
     super(props);
-    const option = [{
-      value: '1',
-      label: '新建',
-    }, {
-      value: '-1',
-      label: '拒绝',
-    }];
+    const option = [
+      {value: '1',label: '新建'}, 
+      {value: '-1',label: '拒绝'}
+    ];
     const headForm = {
       formData: [
         {type: 'InputIcon', label: '充值订单编号', name: 'orderId', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
@@ -66,7 +63,7 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-   this.getData();
+    this.getData();
   }
   
   getData = (param) => {
@@ -74,7 +71,7 @@ class List extends React.Component {
     tableData.data = [];
     findOrderInfo(param).then(res => {
       if(res.status === 200){
-       res.data.data.forEach(item => {
+        res.data.data.forEach(item => {
           const order = {};
           order.orderId = item.orderId;
           order.userAccount = item.userAccount;

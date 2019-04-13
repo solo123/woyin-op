@@ -12,11 +12,11 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo} from '@/components/HeadForm';
 import {statuesRend} from '@/utils/renderUtils';
 import {timeChangData} from '@/utils/utils';
-import {GetOrderForBuyLisApi} from '@/services/api';
+import {GetTransferOrderApi} from '@/services/api';
 import styles from './FindBuyOrder.less';
 
 @connect()
-class List extends React.Component {
+class TransferOrderList extends React.Component {
   constructor(props){
     super(props);
     const option = [{
@@ -27,35 +27,21 @@ class List extends React.Component {
       label: '禁用',
     }];
     const formDatas = [
-      {type: 'InputIcon' ,label: '购买订单编号', name: 'reqStreamId', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '登录手机号', name: 'logo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'status',style:{width:'196px'},  options: option},
-      {type: 'InputIcon', label: '购买对象名称',name: 'userName', ruless:[] , placeholder: '购买对象名称', typeIco: 'book'},
+      {type: 'InputIcon' ,label: '订单Id', name: 'orderId', ruless:[] , placeholder: '订单Id', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '转赠账号', name: 'fromAccount', ruless:[] , placeholder: '转赠账号', typeIco: 'book'},
+      {type: 'InputIcon' ,label: '接收转赠的账号', name: 'toAccount', ruless:[] , placeholder: '接收转赠的账号', typeIco: 'book'},
       {type: 'SelectDateRang' ,label: '购买时间', name: 'rechargeTime', ruless:[] , placeholder: '购买时间', typeIco: 'book'},
-    ];
-    // const buttonDatas = [
-    //   {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'}
-    // ];
-    const PRODUCTSTATUE = [
-      {key: 10, describe: ['green', '待付款']},
-      {key: 11, describe: ['green', '处理中']},
-      {key: 12, describe: ['green', '成功']},
-      {key: 13, describe: ['green', '失败']},
-      {key: 14, describe: ['green', '取消']},
     ];
     const tableData = {columns: 
       [
-        {title: '订单编号', dataIndex: 'reqStreamId', key: 'reqStreamId'},
-        {title: '登录手机号', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        {title: '用户名', dataIndex: 'userName', key: 'userName'},
-        {title: '所属商户', dataIndex: 'merchantName', key: 'merchantName'},
-        {title: '产品名', dataIndex: 'productName', key: 'productName'},
-        // {title: '产品类型', dataIndex: 'productType', key: 'productType'},
-        {title: '实际价值（折扣后）', dataIndex: 'Actual', key: 'Actual'},
-        {title: '产品价值（折扣前）', dataIndex: 'productValue', key: 'productValue'},
-        {title: '折扣率', dataIndex: 'discount', key: 'discount'},
-        {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, PRODUCTSTATUE))},
-        {title: '创建日期', dataIndex: 'startTime', key: 'startTime'},
+        {title: '订单ID', dataIndex: 'orderId', key: 'orderId'},
+        {title: '转赠人姓名', dataIndex: 'fromName', key: 'fromName'},
+        {title: '转赠账号', dataIndex: 'fromAccount', key: 'fromAccount'},
+        {title: '接收人姓名', dataIndex: 'toName', key: 'toName'},
+        {title: '接收转赠的账号', dataIndex: 'toAccount', key: 'toAccount'},
+        {title: '转赠积分', dataIndex: 'num', key: 'num'},
+        {title: '手续费', dataIndex: 'poundage', key: 'poundage'},
+        {title: '创建日期', dataIndex: 'createTime', key: 'createTime'},
       ],
      data: []
     };
@@ -63,11 +49,10 @@ class List extends React.Component {
     this.state = {
       formData: formDatas,
       tableData,
-      // buttonData: buttonDatas, 
       params:{
-        reqStreamId: null,
-        userName: null,
-        status: null,
+        orderId: null,
+        fromAccount: null,
+        toAccount: null,
         startTime: null,
         endTime: null,
         page: 1,
@@ -84,13 +69,13 @@ class List extends React.Component {
   getData = (params) => {
     const {tableData} = this.state;
     tableData.data = [];
-    GetOrderForBuyLisApi(params).then(res=>{
+    GetTransferOrderApi(params).then(res=>{
       if(res.status===200 && res.data.data){
         res.data.data.forEach(element => {
           const p = {
             ...element,
-            startTime: timeChangData(element.startTime),
-            key: element.reqStreamId
+            createTime: timeChangData(element.createTime),
+            key: element.orderId
           };
           tableData.data.push(p);
         });
@@ -102,7 +87,6 @@ class List extends React.Component {
           }
         })
       }
-      // console.log(res);
     })
   }
 
@@ -155,13 +139,7 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearchTwo 
-                formData={formData} 
-                Reset={this.Reset} 
-                form={this.props.form} 
-                handleSubmit={this.handleSubmit} 
-                getFieldDecorator={getFieldDecorator} 
-              />
+              <HeadFormSearchTwo formData={formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
         </Card>
@@ -169,7 +147,6 @@ class List extends React.Component {
           columns={tableData.columns}
           dataSource={tableData.data} 
           bordered
-          // rowSelection={rowSelection}
           pagination={{
             pageSize: params.pageSize,
             total: params.totalCount,
@@ -180,5 +157,5 @@ class List extends React.Component {
     )
   }
 }
-const Lists = Form.create({ name: 'list' })(List);
-export default Lists;
+const TransferOrderLists = Form.create({ name: 'TransferOrderList' })(TransferOrderList);
+export default TransferOrderLists;
