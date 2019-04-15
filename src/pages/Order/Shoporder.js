@@ -94,7 +94,8 @@ class List extends React.Component {
   // 同意
   handMerchInterAppaly = (e) => {
     const {withDrawList} = this.state;
-    if(withDrawList.length <= 0) return;
+    console.log(withDrawList);
+    if(typeof withDrawList === 'undefined') return;
     withDrawList.forEach(item => {
       const params = {
         orderId: item.key,
@@ -113,7 +114,7 @@ class List extends React.Component {
   // 拒绝
   handMerchInterAnace = (e) => {
     const {withDrawList} = this.state;
-    if(withDrawList.length <= 0) return;
+    if(typeof withDrawList === 'undefined') return;
     withDrawList.forEach(item => {
       const params = {
         orderId: item.key,

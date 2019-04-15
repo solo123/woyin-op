@@ -8,7 +8,7 @@ self.__precacheManifest = [
     "url": "/vendors.chunk.css"
   },
   {
-    "revision": "ca8b8ffc4d71a4de7a77",
+    "revision": "a257cc891e88b81c7f17",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {
@@ -160,7 +160,7 @@ self.__precacheManifest = [
     "url": "/p__User__ResetPaswrod.async.js"
   },
   {
-    "revision": "ca8b8ffc4d71a4de7a77",
+    "revision": "a257cc891e88b81c7f17",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
