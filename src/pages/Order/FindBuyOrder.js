@@ -50,7 +50,7 @@ class List extends React.Component {
         {title: '用户名', dataIndex: 'userName', key: 'userName'},
         {title: '所属商户', dataIndex: 'merchantName', key: 'merchantName'},
         {title: '产品名', dataIndex: 'productName', key: 'productName'},
-        // {title: '产品类型', dataIndex: 'productType', key: 'productType'},
+        {title: '产品类型', dataIndex: 'productType', key: 'productType'},
         {title: '实际价值（折扣后）', dataIndex: 'Actual', key: 'Actual'},
         {title: '产品价值（折扣前）', dataIndex: 'productValue', key: 'productValue'},
         {title: '折扣率', dataIndex: 'discount', key: 'discount'},

@@ -140,15 +140,15 @@ class ProductList extends React.Component {
     e.preventDefault();
     const {selectedRows} = this.state;
     selectedRows.forEach(elem => {
-        if(elem.discount==='-'){
-          message.error('无法删除，没有折扣');
-          return null
-        }
-        MemberProductZDel(elem.discountId).then(res => {
-        const re = JSON.parse(res);
-        if(re.status === 200){
-         message.info('删除成功')
-        }
+      if(elem.discount==='-'){
+        message.error('无法删除，没有折扣');
+        return null
+      }
+      MemberProductZDel(elem.discountId).then(res => {
+      const re = JSON.parse(res);
+      if(re.status === 200){
+        message.info('删除成功')
+      }
       })
     });
   }

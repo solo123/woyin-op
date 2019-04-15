@@ -39,16 +39,28 @@ class ProductUpdate extends React.Component {
 
   init = (product) => {
     const {formData} = this.state;
-    formData[0].initialValue = product.productName;
-    formData[1].initialValue = product.cost;
-    formData[2].initialValue = product.purchasePrice;
-    formData[3].initialValue = product.salesPrice;
-    formData[4].initialValue = product.status===1 ? '正在销售' : '停止销售';
-    formData[5].initialValue = product.canRefund===1 ? '支持' : '不支持';
-    this.setState({
-        formData,
-        product
-    })
+    if(this.AddInfo){
+       this.AddInfo.setFieldsValue({
+        productName: product.productName,
+        cost: product.cost,
+        purchasePrice: product.purchasePrice,
+        salesPrice: product.salesPrice,
+        status: product.status===1 ? '正在销售' : '停止销售',
+        canRefund: product.canRefund===1 ? '支持' : '不支持',
+       });
+    }else{
+        formData[0].initialValue = product.productName;
+        formData[1].initialValue = product.cost;
+        formData[2].initialValue = product.purchasePrice;
+        formData[3].initialValue = product.salesPrice;
+        formData[4].initialValue = product.status===1 ? '正在销售' : '停止销售';
+        formData[5].initialValue = product.canRefund===1 ? '支持' : '不支持';
+        this.setState({
+            formData,
+            product
+        })
+    }
+    // this.AddInfo.resetFields(()=>({productName: 'test'}));
   }
 
   handleSubmit = (e) => {
@@ -57,16 +69,19 @@ class ProductUpdate extends React.Component {
     this.AddInfo.validateFields((err, values) => {
       if (!err){
         const value = values;
-        if(values.status=== '正在销售' || values.status===1){
+        if(values.status=== '正在销售' || values.status==='1'){
             value.status = 1
         }else{
             value.status = 2
         }
-        if(values.canRefund=== '支持' || values.canRefund===1){
+        if(values.canRefund=== '支持' || values.canRefund==='1'){
             value.canRefund = 1
         }else{
             value.canRefund = 2
         }
+        value.cost = parseFloat(value.cost);
+        value.purchasePrice = parseFloat(value.purchasePrice);
+        value.salesPrice = parseFloat( value.salesPrice);
         try {
             ProductEditApi(product.productId,value).then(res => {
                 if(res.status === 200){
@@ -87,9 +102,9 @@ class ProductUpdate extends React.Component {
   }
 
   onClose = () => {
-      this.setState({
-        visible: false,
-      });
+    this.setState({
+      visible: false,
+    });
   }
 
   render() {

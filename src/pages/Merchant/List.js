@@ -31,6 +31,7 @@ import styles from './List.less';
   submitting: loading.effects['merchant/setMerchant'],
 }))
 class List extends React.Component {
+
   constructor(props){
     super(props);
     const option = [
@@ -89,85 +90,85 @@ class List extends React.Component {
         status: '',
       }
     }
-  }
+}
   
-  componentWillMount (){
-    const params = {
-      count: this.state.limit,
-      page: 1
-    }
-    this.getAllData(params);
+componentWillMount (){
+  const params = {
+    count: this.state.limit,
+    page: 1
   }
+  this.getAllData(params);
+}
 
-  onHangeDetails = (texts, record) => {
-    this.MerchantInfo.int(record);
-    this.MerchantInfo.showModal();
-  }
+onHangeDetails = (texts, record) => {
+  this.MerchantInfo.int(record);
+  this.MerchantInfo.showModal();
+}
 
-  onHangApplayData = (texts, record) => {
-    this.MemberApplayData.int(record);
-    this.MemberApplayData.showModal();
-  }
+onHangApplayData = (texts, record) => {
+  this.MemberApplayData.int(record);
+  this.MemberApplayData.showModal();
+}
 
-  onHangApplayInter = (texts, record) => {
-    this.MemberApplayInter.int(record);
-    this.MemberApplayInter.showModal();
-  }
+onHangApplayInter = (texts, record) => {
+  this.MemberApplayInter.int(record);
+  this.MemberApplayInter.showModal();
+}
 
-  onHangeAddUser = (texts, record) => {
-    this.MemberUpload.showModal();
-  }
+onHangeAddUser = (texts, record) => {
+  this.MemberUpload.showModal();
+}
 
-  onHangInter = (texts, record) => {
-    this.InterUpload.showModal(record.key);
-  }
+onHangInter = (texts, record) => {
+  this.InterUpload.showModal(record.key);
+}
 
-  handAdd = (e) => {
-    e.preventDefault();
-    this.MerchantAddOrUpdate.showModal();
-  }
+handAdd = (e) => {
+  e.preventDefault();
+  this.MerchantAddOrUpdate.showModal();
+}
 
-  onHangGoPround = (texts, record) =>{
-    LocalStr.set("merchantId",  record.key);
-    this.props.dispatch(routerRedux.push({
-      pathname: '/merchant/memberproduct',
-    }));
-  }
+onHangGoPround = (texts, record) =>{
+  LocalStr.set("merchantId",  record.key);
+  this.props.dispatch(routerRedux.push({
+    pathname: '/merchant/memberproduct',
+  }));
+}
 
-  handEdit = (e) => {
-    e.preventDefault();
-    const {selectUserData} = this.state;
-    if (selectUserData !== null){
-      this.MerchantAddOrUpdate.showModal(e);
-    }else{
-      Modal.error({
-        title: '商户修改错误',
-        content: '请先选择商户信息，再进行修改...',
-      })
-    }
-  }
-
-  getCheckUser = (selectedRowKeys, selectedRows) => {
-    this.setState({selectUserData: selectedRows});
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        const param = {
-          userAccount: values.userAccount,
-          merchantName: values.merchantName,
-          phoneNum: values.phoneNum,
-          status: values.status=== undefined ? '' : values.status[0],
-        }
-        this.getAllData(param);
-        this.setState({
-        param
-       })
-      }
+handEdit = (e) => {
+  e.preventDefault();
+  const {selectUserData} = this.state;
+  if (selectUserData !== null){
+    this.MerchantAddOrUpdate.showModal(e);
+  }else{
+    Modal.error({
+      title: '商户修改错误',
+      content: '请先选择商户信息，再进行修改...',
     })
   }
+}
+
+getCheckUser = (selectedRowKeys, selectedRows) => {
+  this.setState({selectUserData: selectedRows});
+}
+
+handleSubmit = (e) => {
+  e.preventDefault();
+  this.props.form.validateFields((err, values) => {
+    if(!err){
+      const param = {
+        userAccount: values.userAccount,
+        merchantName: values.merchantName,
+        phoneNum: values.phoneNum,
+        status: values.status=== undefined ? '' : values.status[0],
+      }
+      this.getAllData(param);
+      this.setState({
+      param
+      })
+    }
+  })
+}
 
 onChangePage = (page)=>{
   const {param} = this.state;
@@ -217,7 +218,7 @@ getAllData = (params) => {
 }
 
 render () {
-  const { getFieldDecorator } = this.props.form; 
+  const { getFieldDecorator } = this.props.form;
   const { tableData } = this.state;
   const { formData, buttonData, limit, count } = this.state;
   const rowSelection = {
@@ -250,7 +251,7 @@ render () {
           pageSize: limit ,
           total: count,
           onChange: this.onChangePage
-          }}
+        }}
       />
       <MerchantAddOrUpdate ref={c => {this.MerchantAddOrUpdate = c}} />
       <MemberUpload ref={c => {this.MemberUpload = c}} />
