@@ -9,6 +9,7 @@ import {
   Form,
   Table,
   message,
+  Modal
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
@@ -136,7 +137,13 @@ class List extends React.Component {
   
   handWithDrawAppaly = (e) => {
     const {withDrawList} = this.state;
-    if(withDrawList.length <= 0) return;
+    if(withDrawList.length <= 0) {
+      Modal.info({
+        title: '信息提醒',
+        content: '请选择要充值审核的商户',
+      })
+      return;
+    }
     withDrawList.forEach(item => {
       const params = {
         bankCard: item.bankCard,
@@ -153,7 +160,7 @@ class List extends React.Component {
       if(res.status === 200){
         message.info('审核通过');
       }else{
-        message.error('审核失败');
+        message.error(res.msg);
       }
     });
     })

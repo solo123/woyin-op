@@ -7,7 +7,8 @@ import {
   Card,
   Form,
   Table,
-  message
+  message,
+  Modal
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
@@ -94,8 +95,13 @@ class List extends React.Component {
   // 同意
   handMerchInterAppaly = (e) => {
     const {withDrawList} = this.state;
-    console.log(withDrawList);
-    if(typeof withDrawList === 'undefined') return;
+    if(typeof withDrawList === 'undefined') {
+      Modal.info({
+        title: '信息提醒',
+        content: '请选择要审核的订单！',
+      })
+      return
+    }
     withDrawList.forEach(item => {
       const params = {
         orderId: item.key,
@@ -105,7 +111,10 @@ class List extends React.Component {
         if(res.status === 200){
           message.info('操作成功');
         }else{
-          message.error('操作失败');
+          Modal.info({
+            title: '信息提醒',
+            content: res.msg,
+          })
         }
       });
     })
@@ -114,7 +123,13 @@ class List extends React.Component {
   // 拒绝
   handMerchInterAnace = (e) => {
     const {withDrawList} = this.state;
-    if(typeof withDrawList === 'undefined') return;
+    if(typeof withDrawList === 'undefined') {
+      Modal.info({
+        title: '信息提醒',
+        content: '请选择要审核的订单',
+      })
+      return;
+    }
     withDrawList.forEach(item => {
       const params = {
         orderId: item.key,

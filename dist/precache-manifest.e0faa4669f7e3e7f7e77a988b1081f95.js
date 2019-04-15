@@ -4,11 +4,11 @@ self.__precacheManifest = [
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "202797a6ce0924094c22",
+    "revision": "d1598b3459d16b950395",
     "url": "/vendors.chunk.css"
   },
   {
-    "revision": "a257cc891e88b81c7f17",
+    "revision": "3db6920bd71ef49d55e4",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/umi.css"
   },
   {
-    "revision": "202797a6ce0924094c22",
+    "revision": "d1598b3459d16b950395",
     "url": "/vendors.async.js"
   },
   {
@@ -140,11 +140,11 @@ self.__precacheManifest = [
     "url": "/p__Order__FindreFundorder.async.js"
   },
   {
-    "revision": "bd8cec5056de09336035",
+    "revision": "e48c050868154d65e52b",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
-    "revision": "bd8cec5056de09336035",
+    "revision": "e48c050868154d65e52b",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
@@ -160,7 +160,7 @@ self.__precacheManifest = [
     "url": "/p__User__ResetPaswrod.async.js"
   },
   {
-    "revision": "a257cc891e88b81c7f17",
+    "revision": "3db6920bd71ef49d55e4",
     "url": "/p__Order__Shoporder.async.js"
   },
   {

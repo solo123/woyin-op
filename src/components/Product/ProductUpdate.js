@@ -79,9 +79,9 @@ class ProductUpdate extends React.Component {
         }else{
             value.canRefund = 2
         }
-        value.cost = parseFloat(value.cost);
-        value.purchasePrice = parseFloat(value.purchasePrice);
-        value.salesPrice = parseFloat( value.salesPrice);
+        value.cost = value.cost;
+        value.purchasePrice =value.purchasePrice;
+        value.salesPrice = value.salesPrice;
         try {
             ProductEditApi(product.productId,value).then(res => {
                 if(res.status === 200){

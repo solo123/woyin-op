@@ -76,8 +76,12 @@ class MemberProducZ extends React.Component {
 
   handleSubmit = () =>{
     const {params,statue} = this.state;
+    const param = {
+        ...params,
+        discount: params.discount.toString()
+    }
     if(statue === 'add'){
-        MemberProductZAddApi(params).then(res =>{
+        MemberProductZAddApi(param).then(res =>{
             if(res.status === 200){
                 message.info('添加折扣成功');
                 this.onClose();
@@ -87,7 +91,7 @@ class MemberProducZ extends React.Component {
             }
         })
     }else{
-        MemberProductZEdit(params, params.discountId).then(res => {
+        MemberProductZEdit(param, param.discountId).then(res => {
           if(res.status === 200){
             message.info('更新成功');
             this.onClose();
