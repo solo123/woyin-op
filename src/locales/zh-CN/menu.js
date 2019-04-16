@@ -80,7 +80,7 @@ export default {
   'menu.shop.jdshopsort': '精选产品排序',
   'menu.report': '报表管理',
   'menu.report.reportlist': '报表管理',
-  'menu.task': '任务调度管理',
+  'menu.task': '任务管理',
   'menu.task.tasklist': '任务调度信息列表',
   'menu.task.taskdiary': '任务调度执行日记列表',
  

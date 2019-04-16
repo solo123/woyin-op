@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
 import {
@@ -8,108 +9,156 @@ import {
   Table
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
-import styles from './UserWater.less'
+import {HeadFormSearch} from '@/components/HeadForm';
+import {GetUserWaterApi, getMerchantListApi} from '@/services/api';
+import styles from './UserWater.less';
 
 @connect()
 class List extends React.Component {
   constructor(props){
     super(props);
-    const option = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
-    const formDatas = [
-      {type: 'InputIcon' ,label: '购买订单编号', name: 'ordercoder', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '登录手机号', name: 'logo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'statue', options: option},
-      {type: 'InputIcon', label: '购买对象名称',name: 'logo', ruless:[] , placeholder: '购买对象名称', typeIco: 'book'},
-      {type: 'SelectDateRang' ,label: '购买时间', name: 'rechargeTime', ruless:[] , placeholder: '购买时间', typeIco: 'book'},
+    const option = [
+      {value: '1',label: '正常'},
+      {value: '0',label: '禁用',}
     ];
-    const buttonDatas = [
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'}
+    const formData = [
+      {type: 'InputIcon' ,label: '用户名', name: 'userName', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '登录手机号', name: 'userPhoneNo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
+      {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'merchantId', options: option},
     ];
-    const tableDatas = {columns: 
+  
+    const tableData = {columns:
       [
-        {title: '购买订单编号', dataIndex: 'id', key: 'id'},
-        {title: '登录手机号', dataIndex: 'phone', key: 'phone'},
-        {title: '购买对象名称', dataIndex: 'buyName', key: 'buyName'},
-        {title: '购买对象类型', dataIndex: 'buyType', key: 'buyType'},
-        {title: '状态', dataIndex: 'statue', key: 'statue'},
-        {title: '积分', dataIndex: 'integral', key: 'integral'},
-        {title: '创建日期', dataIndex: 'createrTime', key: 'createrTime'},
-        {title: '操作', dataIndex: 'action', key: 'action', width: 80, render: (texts, record) => (<a href="javascript:;" onClick={()=> {this.onClick(texts, record)}}>操作</a>)},
-     ]
+        {title: '用户名', dataIndex: 'userName', key: 'userName'},
+        {title: '手机号码', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
+        {title: '账户余额', dataIndex: 'balance', key: 'balance'},
+        {title: '所属商户', dataIndex: 'merchantName', key: 'merchantName'},
+      ],
+      data:[]
     };
-    const datas =  [
-      {key: '1', id: 'John2', phone: 'xxxx', buyName: 'xxxx', buyType: 'xxxx', statue: 'xxxx', integral: 'xxx', createrTime:'2018-01-09'}, 
-     ];
+  
     this.state = {
-      formData: formDatas,
-      tableData: tableDatas,
-      data: datas,
-      buttonData: buttonDatas
+      formData,
+      tableData,
+      params:{
+        username: '',
+        userPhoneNo: '',
+        merchantId: '',
+        page:1,
+        count: 10,
+        totalCount: 0,
+      }
     }
   }
   
   componentWillMount () {
-
+    const {formData, params} = this.state;
+    const option = [];
+    getMerchantListApi().then(res => {
+        if(res.status===200 && res.data.data){
+            res.data.data.forEach(elem => {
+                option.push({
+                    value: elem.merchantId,
+                    label: elem.merchantName,
+                    key: elem.merchantId
+                });
+            })
+            formData[2].options = option
+            this.setState({
+                formData
+            })
+        }
+    })
+    this.getData(params);
   }
 
-  onClick = (texts, record) => {
-    console.log('xxxx');
-  }
+  getData = (params) => {
+    const {tableData} = this.state;
+    tableData.data = [];
+    GetUserWaterApi(params).then(res => {
+      if(res.status ===200 && res.data.data){
+        res.data.data.forEach(element => {
+            const d = {
+                ...element,
+                key: element.userPhoneNo+element.balance
+            }
+            tableData.data.push(d);
+        });
 
-  handEdit = (e) => {
-    e.preventDefault();
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        console.log('Received values of form: ', values);
+        this.setState({
+            params:{
+                ...params,
+                totalCount: res.data.totalCount
+            },
+            tableData})
       }
     })
   }
 
+  Reset = () => {
+    const params = {
+        username: '',
+        userPhoneNo: '',
+        merchantId: '',
+        page:1,
+        count: 10,
+    }
+    this.setState({params}, this.getData(params))
+  }
+
+  handleSubmit = (e) => {
+    const {params} = this.state;
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if(!err){
+          const p = {
+            ...params,
+            ...values,
+            page: 1
+          };
+          this.setState({
+            params: p
+          }, this.getData(p))
+      }
+    })
+  }
+
+  onChangePage = (page)=>{
+    const {params} = this.state;
+    params.page = page;
+    this.setState({params},  this.getData(params));
+  }
+
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { formData, buttonData, tableData, data } = this.state;
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
-    };
+    const { formData, tableData, params} = this.state;
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearchTwo formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch formData={formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col>
               <div className={styles.addButton}>
                 <HeadFootButton buttonData={buttonData} />
               </div>
             </Col>
-          </Row>
+          </Row> */}
         </Card>
         <Table
           columns={tableData.columns}
-          dataSource={data} 
+          dataSource={tableData.data}
+          pagination={{
+            current: params.page,
+            pageSize: params.count,
+            total: params.totalCount,
+            onChange: this.onChangePage
+          }}
           bordered
-          rowSelection={rowSelection}
+        //   rowSelection={rowSelection}
         />
       </PageHeaderWrapper>
     )

@@ -4,11 +4,11 @@ self.__precacheManifest = [
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "d1598b3459d16b950395",
+    "revision": "dd8320631b062dbff774",
     "url": "/vendors.chunk.css"
   },
   {
-    "revision": "3db6920bd71ef49d55e4",
+    "revision": "fc1c45274b23740a04b5",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {
@@ -20,19 +20,19 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "00d4892ab611ef95ac58",
+    "revision": "f7d9db25a3a88a9f7d8d",
     "url": "/umi.js"
   },
   {
-    "revision": "00d4892ab611ef95ac58",
+    "revision": "f7d9db25a3a88a9f7d8d",
     "url": "/umi.css"
   },
   {
-    "revision": "d1598b3459d16b950395",
+    "revision": "dd8320631b062dbff774",
     "url": "/vendors.async.js"
   },
   {
-    "revision": "59429378d53000611cb6",
+    "revision": "5ba322ebe83b7804a7d3",
     "url": "/p__Product__ProductInfo.async.js"
   },
   {
@@ -84,19 +84,19 @@ self.__precacheManifest = [
     "url": "/p__Finance__MerchantWater.async.js"
   },
   {
-    "revision": "1a88ea9a75bd36ff39c2",
+    "revision": "f64507ad86b792c59ffe",
     "url": "/p__Finance__UserWater.chunk.css"
   },
   {
-    "revision": "1a88ea9a75bd36ff39c2",
+    "revision": "f64507ad86b792c59ffe",
     "url": "/p__Finance__UserWater.async.js"
   },
   {
-    "revision": "460a3eeac0673c358130",
+    "revision": "f7a09873c6369d438177",
     "url": "/p__Merchant__BalanceInfo.chunk.css"
   },
   {
-    "revision": "460a3eeac0673c358130",
+    "revision": "f7a09873c6369d438177",
     "url": "/p__Merchant__BalanceInfo.async.js"
   },
   {
@@ -104,31 +104,31 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberInterApply.async.js"
   },
   {
-    "revision": "883c0efaf805b806815b",
+    "revision": "3634f3210809f34f169c",
     "url": "/p__Merchant__MemberProduct.chunk.css"
   },
   {
-    "revision": "883c0efaf805b806815b",
+    "revision": "3634f3210809f34f169c",
     "url": "/p__Merchant__MemberProduct.async.js"
   },
   {
-    "revision": "69d2ae03061571e4aa11",
+    "revision": "20f89413c6fadd7235d1",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "69d2ae03061571e4aa11",
+    "revision": "20f89413c6fadd7235d1",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "856e80fdfccd2340bc4e",
+    "revision": "9588de50689abf8b1489",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "856e80fdfccd2340bc4e",
+    "revision": "9588de50689abf8b1489",
     "url": "/p__Merchant__list.async.js"
   },
   {
-    "revision": "2a6410228b9db4b3debe",
+    "revision": "9bc70fda6acc1beee184",
     "url": "/p__Order__FindBuyOrder.async.js"
   },
   {
@@ -140,11 +140,11 @@ self.__precacheManifest = [
     "url": "/p__Order__FindreFundorder.async.js"
   },
   {
-    "revision": "e48c050868154d65e52b",
+    "revision": "af46e5b5ffb80c90632c",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
-    "revision": "e48c050868154d65e52b",
+    "revision": "af46e5b5ffb80c90632c",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
@@ -160,11 +160,11 @@ self.__precacheManifest = [
     "url": "/p__User__ResetPaswrod.async.js"
   },
   {
-    "revision": "3db6920bd71ef49d55e4",
+    "revision": "fc1c45274b23740a04b5",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
-    "revision": "9f673aea2a9e9045560e",
+    "revision": "9bcedaef0ed6e882c3bd",
     "url": "/p__Order__TransferOrderList.async.js"
   },
   {
@@ -172,7 +172,7 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__models__geographic.js.async.js"
   },
   {
-    "revision": "3533a60d21873fa9a68d",
+    "revision": "4afa3e275824060717ec",
     "url": "/p__Product__productclass.async.js"
   },
   {
@@ -204,11 +204,11 @@ self.__precacheManifest = [
     "url": "/p__System__Role.async.js"
   },
   {
-    "revision": "1da6bf290d02cb241447",
+    "revision": "29abf1a9c2b3d5218eec",
     "url": "/p__System__User.chunk.css"
   },
   {
-    "revision": "1da6bf290d02cb241447",
+    "revision": "29abf1a9c2b3d5218eec",
     "url": "/p__System__User.async.js"
   },
   {

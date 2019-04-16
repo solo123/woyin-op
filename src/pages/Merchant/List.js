@@ -189,19 +189,13 @@ getAllData = (params) => {
         const merchantList = [];
         const {tableData} = this.state;
         for(let i = 0; i < data.length; i+=1){
-          const merch = {};
-          merch.key = data[i].merchantId;
-          merch.userAccount =  data[i].userAccount;
-          merch.merchantName = data[i].merchantName;
-          merch.merchantAddr =  data[i].merchantAddr;
-          merch.contactMan =  data[i].contactMan;
-          merch.phoneNum =  data[i].phoneNum;
-          merch.telNum =  data[i].telNum;
-          merch.statue =  data[i].status;
-          merch.creatertime =  timeChangData(data[i].createTime);
-          merch.find =  data[i].id;
-          merch.freezing =  data[i].frozenTime;
-          merch.unfreezing =  data[i].unFrozenTime;
+          const merch = {
+            ... data[i],
+            key: data[i].merchantId,
+            statue: data[i].status,
+            creatertime: timeChangData(data[i].createTime),
+            find: data[i].id
+          };
           merchantList.push(merch);
         }
         tableData.data = merchantList;
@@ -245,7 +239,7 @@ render () {
         columns={tableData.columns}
         dataSource={tableData.data} 
         bordered
-        rowSelection={rowSelection}
+        // rowSelection={rowSelection}
         // scroll={{ x: 1300 }}
         pagination={{
           pageSize: limit ,

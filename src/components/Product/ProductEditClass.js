@@ -34,7 +34,7 @@ class ProductAddAndUpdate extends React.Component {
   getData =(productClass) =>{
     const tags = [];
     ProductClassApi(productClass.productCategoryId,{}).then(res => {
-        if(res.status === 200){
+        if(res.status === 200 && res.data.result){
             for(let i= 0; i < res.data.result.length; i+=1){
                 tags.push(res.data.result[i].productCategoryName);
             }
@@ -62,7 +62,6 @@ class ProductAddAndUpdate extends React.Component {
             message.error(re.data);
         }
     })
-   
   }
 
   getProundctClassId = (data, name) =>{
@@ -137,7 +136,7 @@ class ProductAddAndUpdate extends React.Component {
   onClose = () => {
       this.setState({
         visible: false,
-      });
+    });
   }
 
   render() {

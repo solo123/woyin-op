@@ -213,6 +213,10 @@ const GetTransferOrderApi = async function GetTransferOrderApi(params){
   return request(`${serverApi}/api/op/transferOrder?${stringify(params)}`);
 }
 
+const GetUserWaterApi = async function GetUserWaterApi(params){
+  return request(`${serverApi}/api/op/userAccounts?${stringify(params)}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -250,4 +254,5 @@ export {
   GetUserLogoListApi, // 获取帐户列表
   GetOrderForBuyLisApi, // 用户购买订单
   GetTransferOrderApi, // 转增订单
+  GetUserWaterApi, // 获取商户流水
 }

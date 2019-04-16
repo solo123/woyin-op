@@ -56,6 +56,9 @@ export function authorityAccount() {
                 '/product',
                 '/product/productinfo',
                 '/product/productclass',
+                '/task',
+                '/task/tasklist',
+                // '/task/taskdiary',
                   /*
                 '/transfer',
                 '/transfer/transferaudit',
@@ -63,9 +66,7 @@ export function authorityAccount() {
                 '/transfer/trandsfercredit',
                 '/etag',
                 '/etag/findetag',
-                '/task',
-                '/task/tasklist',
-                '/task/taskdiary',
+           
                 '/repayment',
                 '/repayment/list',
                 */
