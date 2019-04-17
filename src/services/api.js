@@ -28,7 +28,7 @@ const getMerchantAccApi = async function getMerchantAccApi (params) {
 }
 
 const addMerchantApi = async function addMerchantApi (params) {
-  return request(`${serverApi}/api/op/merchant`, {
+  return request(`${serverApi}/api/op/merchant_service`, {
     method: 'POST',
     body: params,
   })
