@@ -66,17 +66,19 @@ class MerchantAddOrUpdate extends React.Component {
         formData.append("telNum", values.telNum);
         formData.append("password", values.password);
         formData.append("userName", values.userName);
-        formData.append("redemptionRate", values.redemptionRate);
-        formData.append("redemptionFee", values.redemptionFee);
-        formData.append("presentRate", values.presentRate);
-        formData.append("creditRate", values.creditRate);
-        formData.append("authority", 1);
+        // formData.append("redemptionRate", values.redemptionRate);
+        // formData.append("redemptionFee", values.redemptionFee);
+        // formData.append("presentRate", values.presentRate);
+        // formData.append("creditRate", values.creditRate);
+        // formData.append("authority", 1);
         // formData.append("status", values.status);
         formData.append("userAccount", values.userAccount);
         addMerchantApi(formData).then(res => {
          if(res.status === 200){
           message.info('添加商户成功');
           this.onClose();
+         }else{
+          message.info('添加商户失败，可能是登录账户重复！！');
          }
        })
       }

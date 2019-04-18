@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "5f4a6254e0cb7cbb78fc",
+    "revision": "99c3e6f11547a80de32c",
     "url": "/vendors.chunk.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/umi.css"
   },
   {
-    "revision": "5f4a6254e0cb7cbb78fc",
+    "revision": "99c3e6f11547a80de32c",
     "url": "/vendors.async.js"
   },
   {
