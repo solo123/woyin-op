@@ -69,6 +69,7 @@ export default {
   'menu.transfer.transferorderlist': '转赠订单列表',
   'menu.transfer.trandsfercredit': '信用卡还款订单',
   'menu.finance': '财务管理',
+  'menu.finance.accountWater': '帐户流水',
   'menu.finance.merchantwater': '商户流水',
   'menu.finance.userwater': '用户流水',
   'menu.etag': '电子卷管理',

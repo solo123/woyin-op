@@ -1,14 +1,14 @@
 self.__precacheManifest = [
   {
-    "revision": "9d328751d4ed693d2f32",
+    "revision": "bcfeef32f9f18a7324f6",
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "dd8320631b062dbff774",
+    "revision": "ab144db3c58cdb89d499",
     "url": "/vendors.chunk.css"
   },
   {
-    "revision": "fc1c45274b23740a04b5",
+    "revision": "cecf01f9c982e44a4c8e",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {
@@ -20,19 +20,19 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "2831d8e3851eebb6adfe",
+    "revision": "dd6d52466c3659330d73",
     "url": "/umi.js"
   },
   {
-    "revision": "2831d8e3851eebb6adfe",
+    "revision": "dd6d52466c3659330d73",
     "url": "/umi.css"
   },
   {
-    "revision": "dd8320631b062dbff774",
+    "revision": "ab144db3c58cdb89d499",
     "url": "/vendors.async.js"
   },
   {
-    "revision": "5ba322ebe83b7804a7d3",
+    "revision": "c8b89e3751966f1f606c",
     "url": "/p__Product__ProductInfo.async.js"
   },
   {
@@ -84,71 +84,71 @@ self.__precacheManifest = [
     "url": "/p__Finance__MerchantWater.async.js"
   },
   {
-    "revision": "f64507ad86b792c59ffe",
-    "url": "/p__Finance__UserWater.chunk.css"
-  },
-  {
-    "revision": "f64507ad86b792c59ffe",
+    "revision": "355f073032bfc7721dca",
     "url": "/p__Finance__UserWater.async.js"
   },
   {
-    "revision": "f7a09873c6369d438177",
+    "revision": "e560344019a0604102c0",
+    "url": "/p__Finance__accountWater.async.js"
+  },
+  {
+    "revision": "6a1fc4ed1a888a7af4e2",
     "url": "/p__Merchant__BalanceInfo.chunk.css"
   },
   {
-    "revision": "f7a09873c6369d438177",
+    "revision": "6a1fc4ed1a888a7af4e2",
     "url": "/p__Merchant__BalanceInfo.async.js"
   },
   {
-    "revision": "7231ab4b272db86b5226",
+    "revision": "c9f982e9888ab7ef0c59",
     "url": "/p__Merchant__MemberInterApply.async.js"
   },
   {
-    "revision": "3634f3210809f34f169c",
+    "revision": "c2be61af01b43afc1e53",
     "url": "/p__Merchant__MemberProduct.chunk.css"
   },
   {
-    "revision": "3634f3210809f34f169c",
+    "revision": "c2be61af01b43afc1e53",
     "url": "/p__Merchant__MemberProduct.async.js"
   },
   {
-    "revision": "20f89413c6fadd7235d1",
+    "revision": "7622c8c4a385c1fea5b8",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "20f89413c6fadd7235d1",
+    "revision": "7622c8c4a385c1fea5b8",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "9588de50689abf8b1489",
+    "revision": "7468232c25b3e7443056",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "9588de50689abf8b1489",
+    "revision": "7468232c25b3e7443056",
     "url": "/p__Merchant__list.async.js"
   },
   {
-    "revision": "9bc70fda6acc1beee184",
+    "revision": "52b879bd046c488c8605",
     "url": "/p__Order__FindBuyOrder.async.js"
   },
   {
-    "revision": "9b6353822a6f4eb888b5",
+    "revision": "4060ce395bf48698847e",
     "url": "/p__Order__FindreFundorder.chunk.css"
   },
   {
-    "revision": "9b6353822a6f4eb888b5",
+    "revision": "4060ce395bf48698847e",
     "url": "/p__Order__FindreFundorder.async.js"
   },
   {
-    "revision": "af46e5b5ffb80c90632c",
+    "revision": "b7f3c8b5db1fb9186345",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
-    "revision": "af46e5b5ffb80c90632c",
+    "revision": "b7f3c8b5db1fb9186345",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
-    "revision": "c53532250c97e61fdef2",
+    "revision": "634459f53b883a4e7d2a",
     "url": "/p__Order__LotteryOrder.async.js"
   },
   {
@@ -156,15 +156,15 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__Info.chunk.css"
   },
   {
-    "revision": "e26d40879115c567beac",
+    "revision": "13639cc7c9bac4aa2374",
     "url": "/p__User__ResetPaswrod.async.js"
   },
   {
-    "revision": "fc1c45274b23740a04b5",
+    "revision": "cecf01f9c982e44a4c8e",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
-    "revision": "9bcedaef0ed6e882c3bd",
+    "revision": "3c064ae99a638baf6ab3",
     "url": "/p__Order__TransferOrderList.async.js"
   },
   {
@@ -172,87 +172,87 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__models__geographic.js.async.js"
   },
   {
-    "revision": "4afa3e275824060717ec",
+    "revision": "ff25930294f650e7f1c7",
     "url": "/p__Product__productclass.async.js"
   },
   {
-    "revision": "fb6bd1a2249a4305cab5",
+    "revision": "2e880be0539f97484add",
     "url": "/p__Repayment__List.chunk.css"
   },
   {
-    "revision": "fb6bd1a2249a4305cab5",
+    "revision": "2e880be0539f97484add",
     "url": "/p__Repayment__List.async.js"
   },
   {
-    "revision": "f5ca4145f56eb6e6e403",
+    "revision": "df51605e29c93c17a15d",
     "url": "/p__System__Menu.async.js"
   },
   {
-    "revision": "8c83a843e44922fffe7f",
+    "revision": "ebb76d5a5f3fcc334f16",
     "url": "/p__System__Parameter.chunk.css"
   },
   {
-    "revision": "8c83a843e44922fffe7f",
+    "revision": "ebb76d5a5f3fcc334f16",
     "url": "/p__System__Parameter.async.js"
   },
   {
-    "revision": "452ac1a8ebb429597b4f",
+    "revision": "83788af23b2013e3dd06",
     "url": "/p__System__Role.chunk.css"
   },
   {
-    "revision": "452ac1a8ebb429597b4f",
+    "revision": "83788af23b2013e3dd06",
     "url": "/p__System__Role.async.js"
   },
   {
-    "revision": "29abf1a9c2b3d5218eec",
+    "revision": "08b794a313e630d346e4",
     "url": "/p__System__User.chunk.css"
   },
   {
-    "revision": "29abf1a9c2b3d5218eec",
+    "revision": "08b794a313e630d346e4",
     "url": "/p__System__User.async.js"
   },
   {
-    "revision": "b96498eef1cdd4216603",
+    "revision": "53ac7903f0e4fdef9d54",
     "url": "/p__Task__TaskList.chunk.css"
   },
   {
-    "revision": "b96498eef1cdd4216603",
+    "revision": "53ac7903f0e4fdef9d54",
     "url": "/p__Task__TaskList.async.js"
   },
   {
-    "revision": "02f298725d81dc055458",
+    "revision": "ddcad82a9c9ea1ef97ee",
     "url": "/p__Transfer__TrandsferCredit.chunk.css"
   },
   {
-    "revision": "02f298725d81dc055458",
+    "revision": "ddcad82a9c9ea1ef97ee",
     "url": "/p__Transfer__TrandsferCredit.async.js"
   },
   {
-    "revision": "286098ad9beb3fe793c4",
+    "revision": "b0506cd34f1936d8025d",
     "url": "/p__Transfer__TransferOrderList.chunk.css"
   },
   {
-    "revision": "286098ad9beb3fe793c4",
+    "revision": "b0506cd34f1936d8025d",
     "url": "/p__Transfer__TransferOrderList.async.js"
   },
   {
-    "revision": "7ce3094b2ea8e4c99ee0",
+    "revision": "5d20edd1c8f94c877c40",
     "url": "/p__Transfer__Transferaudit.chunk.css"
   },
   {
-    "revision": "7ce3094b2ea8e4c99ee0",
+    "revision": "5d20edd1c8f94c877c40",
     "url": "/p__Transfer__Transferaudit.async.js"
   },
   {
-    "revision": "60c111d3b09504b457c2",
+    "revision": "0d01a3152db7db73eed8",
     "url": "/p__User__Login.chunk.css"
   },
   {
-    "revision": "60c111d3b09504b457c2",
+    "revision": "0d01a3152db7db73eed8",
     "url": "/p__User__Login.async.js"
   },
   {
-    "revision": "e26d40879115c567beac",
+    "revision": "13639cc7c9bac4aa2374",
     "url": "/p__User__ResetPaswrod.chunk.css"
   },
   {
@@ -260,7 +260,7 @@ self.__precacheManifest = [
     "url": "/index.html"
   },
   {
-    "revision": "12696bb2b278a1c20801",
+    "revision": "e916f5aabaf8e57d43dc",
     "url": "/layouts__BasicLayout.chunk.css"
   },
   {
@@ -280,7 +280,7 @@ self.__precacheManifest = [
     "url": "/layouts__UserLayout.chunk.css"
   },
   {
-    "revision": "12696bb2b278a1c20801",
+    "revision": "e916f5aabaf8e57d43dc",
     "url": "/layouts__BasicLayout.async.js"
   },
   {
@@ -300,11 +300,11 @@ self.__precacheManifest = [
     "url": "/favicon.png"
   },
   {
-    "revision": "3f539d3f7dbc2c7e2164",
-    "url": "/41.chunk.css"
+    "revision": "9d1371a0af2158b22ebd",
+    "url": "/42.chunk.css"
   },
   {
-    "revision": "3f539d3f7dbc2c7e2164",
-    "url": "/41.async.js"
+    "revision": "9d1371a0af2158b22ebd",
+    "url": "/42.async.js"
   }
 ];

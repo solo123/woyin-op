@@ -262,6 +262,11 @@ export default [
         icon: 'profile',
         routes: [
           {
+            path: '/finance/accountwater',
+            name: 'accountWater',
+            component: './Finance/accountWater',
+          },
+          {
             path: '/finance/merchantwater',
             name: 'merchantwater',
             component: './Finance/MerchantWater',

@@ -83,7 +83,7 @@ class LoginPage extends Component {
               this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
             <UserName
               name="userAccount"
-              placeholder='请输入用户名:admin'
+              placeholder='请输入用户名'
               rules={[
                 {
                   required: true,
@@ -93,7 +93,7 @@ class LoginPage extends Component {
             />
             <Password
               name="password"
-              placeholder='请输入密码:admin'
+              placeholder='请输入密码'
               rules={[
                 {
                   required: true,
