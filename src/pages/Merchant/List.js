@@ -52,8 +52,8 @@ class List extends React.Component {
       {key: 2, describe: ['red', '冻结']}
     ]
     const hreReng = [
-      {onClick: this.onHangInter, label: '批量会员发分 |'},
-      {onClick: this.onHangApplayData, label: '上传数据审核 |'},
+      // {onClick: this.onHangInter, label: '批量会员发分 |'},
+      // {onClick: this.onHangApplayData, label: '上传数据审核 |'},
       {onClick: this.onHangApplayInter, label: '会员发分审核 | '},
       {onClick: this.onHangGoPround, label: '商户产品管理'},
     ]
@@ -72,7 +72,7 @@ class List extends React.Component {
         // {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
         // {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
-        {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right',width: 400, render:(texts, record)=>(hreRend(hreReng, texts, record)) },
+        {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right',width: 220, render:(texts, record)=>(hreRend(hreReng, texts, record)) },
       ],
       data: []
     }

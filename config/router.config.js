@@ -267,14 +267,19 @@ export default [
             component: './Finance/accountWater',
           },
           {
+            path: '/finance/userwater',
+            name: 'userwater',
+            component: './Finance/UserWater',
+          },
+          {
             path: '/finance/merchantwater',
             name: 'merchantwater',
             component: './Finance/MerchantWater',
           },
           {
-            path: '/finance/userwater',
-            name: 'userwater',
-            component: './Finance/UserWater',
+            path: '/finance/WaterDetails',
+            name: 'WaterDetails',
+            component: './Finance/WaterDetails',
           },
         ]
       },

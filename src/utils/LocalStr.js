@@ -3,6 +3,8 @@ class LocalStr{
     constructor(){
         this.key = {
             merchantId: true,
+            wateruserid: true,
+            waterusertype: true
         }
     }
 

@@ -23,7 +23,7 @@ class List extends React.Component {
     ];
     const formData = [
       {type: 'InputIcon' ,label: '用户名', name: 'userName', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '登录手机号', name: 'userPhoneNo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
+      {type: 'InputIcon' ,label: '手机号', name: 'userPhoneNo', ruless:[] , placeholder: '手机号', typeIco: 'book'},
       {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'merchantId', options: option},
     ];
   
@@ -54,6 +54,7 @@ class List extends React.Component {
   componentWillMount () {
     const {formData, params} = this.state;
     const option = [];
+    // 获取所属商
     getMerchantListApi().then(res => {
         if(res.status===200 && res.data.data){
             res.data.data.forEach(elem => {

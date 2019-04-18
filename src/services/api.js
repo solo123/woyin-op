@@ -217,6 +217,10 @@ const GetUserWaterApi = async function GetUserWaterApi(params){
   return request(`${serverApi}/api/op/userAccounts?${stringify(params)}`);
 }
 
+const GetvouchersListById = async function GetvouchersListById(params){
+  return request(`${serverApi}/api/op/vouchers?${stringify(params)}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -255,4 +259,5 @@ export {
   GetOrderForBuyLisApi, // 用户购买订单
   GetTransferOrderApi, // 转增订单
   GetUserWaterApi, // 获取商户流水
+  GetvouchersListById, // 获取流水
 }

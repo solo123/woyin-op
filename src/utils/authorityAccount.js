@@ -71,9 +71,9 @@ export function authorityAccount() {
                 '/repayment/list',
                 */
                 '/finance',
-                '/finance/accountwater',
-                // '/finance/merchantwater',
-                // '/finance/userwater',
+                // '/finance/accountwater',
+                '/finance/merchantwater',
+                '/finance/userwater',
                 // '/shop',
                 // '/shop/jdshop',
                 // '/shop/jdshopsort',

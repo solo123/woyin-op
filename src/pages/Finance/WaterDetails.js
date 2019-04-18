@@ -10,8 +10,8 @@ import {
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch} from '@/components/HeadForm';
-import {routerRedux} from 'dva/router';
-import {GetUserWaterApi, getMerchantListApi} from '@/services/api';
+import {WaterDetails} from '@/components/Finance';
+import {GetvouchersListById, getMerchantListApi} from '@/services/api';
 import LocalStr from '@/utils/LocalStr';
 import styles from './UserWater.less';
 
@@ -31,11 +31,18 @@ class List extends React.Component {
   
     const tableData = {columns:
       [
-        // {title: '帐户编号', dataIndex: 'accountId', key: 'accountId'},
-        {title: '用户名', dataIndex: 'userName', key: 'userName'},
-        {title: '手机号码', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        {title: '账户余额', dataIndex: 'balance', key: 'balance'},
-        {title: '所属商户', dataIndex: 'merchantName', key: 'merchantName'},
+        {title: '账户编号', dataIndex: 'account_id', key: 'account_id'},
+        {title: '凭证名称', dataIndex: 'title', key: 'title'},
+        {title: '操作名称', dataIndex: 'doc_type', key: 'doc_type'},
+        {title: '操作编号', dataIndex: 'doc_id', key: 'doc_id'},
+        {title: '变动前账户可用余额', dataIndex: 'before_amount', key: 'before_amount'},
+        {title: '余额变动数额', dataIndex: 'amount', key: 'amount'},
+        {title: '变动后账户可用余额', dataIndex: 'after_amount', key: 'after_amount'},
+        {title: '变动前账户冻结余额', dataIndex: 'before_block', key: 'before_block'},
+        {title: '冻结余额变动数额', dataIndex: 'block_amount', key: 'block_amount'},
+        {title: '变动后账户冻结余额', dataIndex: 'after_block', key: 'after_block'},
+        {title: '创建时间', dataIndex: 'create_at', key: 'create_at'},
+        // {title: '账户对应用户的名称', dataIndex: 'userName', key: 'userName'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
       ],
       data:[]
@@ -45,9 +52,8 @@ class List extends React.Component {
       formData,
       tableData,
       params:{
-        username: '',
-        userPhoneNo: '',
-        merchantId: '',
+        accountId: '',
+        type: '',
         page:1,
         count: 10,
         totalCount: 0,
@@ -56,7 +62,10 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-    const {formData, params} = this.state;
+    // const params = {
+    //     merchantId: LocalStr.get("wateruserid")
+    // };
+    const {formData} = this.state;
     const option = [];
     getMerchantListApi().then(res => {
         if(res.status===200 && res.data.data){
@@ -73,26 +82,34 @@ class List extends React.Component {
             })
         }
     })
-    this.getData(params);
+    
+    this.getData({
+        accountId: LocalStr.get("wateruserid"),
+        type: LocalStr.get("waterusertype"),
+        page:1,
+        count: 10,
+        totalCount: 0,
+    });
   }
 
-  onHangeDetails = (texts, record) => {
-    LocalStr.set("wateruserid",  record.accountId);
-    LocalStr.set("waterusertype",  2);
-    this.props.dispatch(routerRedux.push({
-      pathname: '/finance/WaterDetails',
-    }));
+  onHangeDetails = (record) => {
+    this.WaterDetails.showModal();
+    // LocalStr.set("wateruserid",  record.key);
+    // this.props.dispatch(routerRedux.push({
+    //   pathname: '/finance/WaterDetails',
+    // }));
   }
 
   getData = (params) => {
     const {tableData} = this.state;
     tableData.data = [];
-    GetUserWaterApi(params).then(res => {
-      if(res.status ===200 && res.data.data){
-        res.data.data.forEach(element => {
+    GetvouchersListById(params).then(res => {
+      if(res.status ===200 && res.data){
+      
+        res.data.forEach(element => {
             const d = {
                 ...element,
-                key: element.userPhoneNo+element.balance
+                key: element.doc_id
             }
             tableData.data.push(d);
         });
@@ -144,6 +161,7 @@ class List extends React.Component {
   render () {
     const { getFieldDecorator } = this.props.form;
     const { formData, tableData, params} = this.state;
+    console.log(tableData.data);
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
@@ -163,6 +181,7 @@ class List extends React.Component {
         <Table
           columns={tableData.columns}
           dataSource={tableData.data}
+          scroll={{ x: 1800 }}
           pagination={{
             current: params.page,
             pageSize: params.count,
@@ -172,6 +191,7 @@ class List extends React.Component {
           bordered
         //   rowSelection={rowSelection}
         />
+        <WaterDetails ref={c => {this.WaterDetails = c}} />
       </PageHeaderWrapper>
     )
   }
