@@ -20,7 +20,7 @@ class List extends React.Component {
   constructor(props){
     super(props);
     const formData = [
-      {type: 'InputIcon' ,label: '商户名', name: 'merchantName', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '商户名', name: 'merchantName', ruless:[] , placeholder: '商户名', typeIco: 'user'},
     ];
   
     const tableData = {columns:
@@ -63,33 +63,29 @@ class List extends React.Component {
   getData = (params) => {
     const {tableData} = this.state;
     tableData.data = [];
-    getMerchantListApi({}).then(res => {
+    getMerchantListApi(params).then(res => {
       if(res.status ===200 && res.data.data){
         res.data.data.forEach(element => {
-            const d = {
-                ...element,
-                key: element.accountId
-            }
-            tableData.data.push(d);
+          const d = {
+            ...element,
+            key: element.accountId
+          }
+          tableData.data.push(d);
         });
-
         this.setState({
-            params:{
-                ...params,
-                totalCount: res.data.totalCount
-            },
-            tableData})
+          params:{
+            ...params,
+            totalCount: res.data.totalCount
+          },tableData})
       }
     })
   }
 
   Reset = () => {
     const params = {
-        username: '',
-        userPhoneNo: '',
-        merchantId: '',
-        page:1,
-        count: 10,
+      merchantName: '',
+      page:1,
+      count: 10,
     }
     this.setState({params}, this.getData(params))
   }
@@ -99,14 +95,14 @@ class List extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if(!err){
-          const p = {
-            ...params,
-            ...values,
-            page: 1
-          };
-          this.setState({
-            params: p
-          }, this.getData(p))
+        const p = {
+          ...params,
+          ...values,
+          page: 1
+        };
+        this.setState({
+          params: p
+        }, this.getData(p))
       }
     })
   }

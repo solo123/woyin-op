@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "b9f4e7b1cff8de0b8261",
+    "revision": "5f4a6254e0cb7cbb78fc",
     "url": "/vendors.chunk.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/umi.css"
   },
   {
-    "revision": "b9f4e7b1cff8de0b8261",
+    "revision": "5f4a6254e0cb7cbb78fc",
     "url": "/vendors.async.js"
   },
   {
@@ -76,19 +76,19 @@ self.__precacheManifest = [
     "url": "/p__Exception__models__error.js.async.js"
   },
   {
-    "revision": "339c42c911e82deeb293",
+    "revision": "ef57e43968a43ff14ee5",
     "url": "/p__Finance__MerchantWater.async.js"
   },
   {
-    "revision": "b99d659af3a909de46ef",
+    "revision": "80ecb58a63739efdc2de",
     "url": "/p__Finance__UserWater.async.js"
   },
   {
-    "revision": "67e6ace403c48a486cc3",
+    "revision": "8dd3ffabedca21caff15",
     "url": "/p__Finance__WaterDetails.chunk.css"
   },
   {
-    "revision": "67e6ace403c48a486cc3",
+    "revision": "8dd3ffabedca21caff15",
     "url": "/p__Finance__WaterDetails.async.js"
   },
   {
@@ -264,7 +264,7 @@ self.__precacheManifest = [
     "url": "/index.html"
   },
   {
-    "revision": "b8185a96796f3b896745",
+    "revision": "573bb878618b10ac3ce9",
     "url": "/layouts__BasicLayout.chunk.css"
   },
   {
@@ -284,7 +284,7 @@ self.__precacheManifest = [
     "url": "/layouts__UserLayout.chunk.css"
   },
   {
-    "revision": "b8185a96796f3b896745",
+    "revision": "573bb878618b10ac3ce9",
     "url": "/layouts__BasicLayout.async.js"
   },
   {

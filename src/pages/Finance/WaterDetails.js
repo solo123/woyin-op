@@ -62,33 +62,30 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-    // const params = {
-    //     merchantId: LocalStr.get("wateruserid")
-    // };
     const {formData} = this.state;
     const option = [];
     getMerchantListApi().then(res => {
-        if(res.status===200 && res.data.data){
-            res.data.data.forEach(elem => {
-                option.push({
-                    value: elem.merchantId,
-                    label: elem.merchantName,
-                    key: elem.merchantId
-                });
-            })
-            formData[2].options = option
-            this.setState({
-                formData
-            })
+      if(res.status===200 && res.data.data){
+        res.data.data.forEach(elem => {
+          option.push({
+            value: elem.merchantId,
+              label: elem.merchantName,
+                key: elem.merchantId
+            });
+        })
+        formData[2].options = option
+          this.setState({
+            formData
+        })
         }
     })
     
     this.getData({
-        accountId: LocalStr.get("wateruserid"),
-        type: LocalStr.get("waterusertype"),
-        page:1,
-        count: 10,
-        totalCount: 0,
+      accountId: LocalStr.get("wateruserid"),
+      type: LocalStr.get("waterusertype"),
+      page:1,
+      count: 10,
+      totalCount: 0,
     });
   }
 
@@ -104,22 +101,21 @@ class List extends React.Component {
     const {tableData} = this.state;
     tableData.data = [];
     GetvouchersListById(params).then(res => {
-      if(res.status ===200 && res.data){
-      
-        res.data.forEach(element => {
-            const d = {
-                ...element,
-                key: element.doc_id
-            }
-            tableData.data.push(d);
+      if(res.status ===200 && res.data.voucher){
+        res.data.voucher.forEach(element => {
+          const d = {
+          ...element,
+          key: element.doc_id
+          }
+          tableData.data.push(d);
         });
 
         this.setState({
-            params:{
-                ...params,
-                totalCount: res.data.totalCount
-            },
-            tableData})
+          params:{
+            ...params,
+            totalCount: res.data.count
+          },
+        tableData})
       }
     })
   }
@@ -161,7 +157,6 @@ class List extends React.Component {
   render () {
     const { getFieldDecorator } = this.props.form;
     const { formData, tableData, params} = this.state;
-    console.log(tableData.data);
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
