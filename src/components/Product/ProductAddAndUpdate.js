@@ -21,12 +21,12 @@ class ProductAddAndUpdate extends React.Component {
     this.state = {
       visible: false,
       formData: [
-        {type: 'InputIcon' ,label: '产品名称', name: 'productName', ruless:[{required: true}] , placeholder: '产品名称', typeIco: 'user'},
-        {type: 'SelectCompone' ,label: '产品分类',handChang: this.handSelectChang,options: option, name: 'fatherId', ruless:[{required: true}] , placeholder: '产品分类编号', typeIco: 'user'},
-        {type: 'SelectCompone' ,label: '运营商',handChang: this.handSelectChang,options: option, name: 'productCategoryId', ruless:[{required: true}] , placeholder: '产品分类编号', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '产品名称', name: 'productName', ruless:[{required: true, message: '请输入产品名称'}] , placeholder: '产品名称', typeIco: 'user'},
+        {type: 'SelectCompone' ,label: '产品分类',handChang: this.handSelectChang,options: option, name: 'fatherId', ruless:[{required: true,  message: '请选择产品分类'}] , placeholder: '产品分类编号', typeIco: 'user'},
+        {type: 'SelectCompone' ,label: '运营商',handChang: this.handSelectChang,options: option, name: 'productCategoryId', ruless:[{required: true, message: '请选选择运营商'}] , placeholder: '产品分类编号', typeIco: 'user'},
         {type: 'InputIcon' ,label: '产品现价/分', name: 'cost', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品现价/分', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '产品售价/元', name: 'salesPrice', ruless:[{required: false, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品售价/元', typeIco: 'team'},
-        {type: 'InputIcon' ,label: ' 产品进价/元', name: 'purchasePrice', ruless:[{required: false, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品进价/元', typeIco: 'team'},
+        {type: 'InputIcon' ,label: '产品售价/元', name: 'salesPrice', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品售价/元', typeIco: 'team'},
+        {type: 'InputIcon' ,label: ' 产品进价/元', name: 'purchasePrice', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品进价/元', typeIco: 'team'},
       ]
     };
   }

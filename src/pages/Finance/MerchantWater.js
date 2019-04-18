@@ -11,7 +11,8 @@ import {
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {routerRedux} from 'dva/router';
-import {getMerchantListApi, RechargeGetMerList} from '@/services/api';
+import {WaterDetails} from '@/components/Finance';
+import {getMerchantListApi, GetvouchersListById} from '@/services/api';
 import LocalStr from '@/utils/LocalStr';
 import styles from './UserWater.less';
 
@@ -19,15 +20,25 @@ import styles from './UserWater.less';
 class List extends React.Component {
   constructor(props){
     super(props);
+    const option = [];
     const formData = [
-      {type: 'InputIcon' ,label: '商户名', name: 'merchantName', ruless:[] , placeholder: '商户名', typeIco: 'user'},
+      // {type: 'InputIcon' ,label: '商户名', name: 'merchantName', ruless:[] , placeholder: '商户名', typeIco: 'user'},
+      {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'accountId', options: option},
     ];
   
     const tableData = {columns:
       [
-        {title: '商户名', dataIndex: 'merchantName', key: 'merchantName'},
-        {title: '商户地址', dataIndex: 'merchantAddr', key: 'merchantAddr'},
-        {title: '手机号', dataIndex: 'phoneNum', key: 'phoneNum'},
+        {title: '流水编号', dataIndex: 'id', key: 'id'},
+        {title: '凭证名称', dataIndex: 'title', key: 'title'},
+        {title: '操作名称', dataIndex: 'doc_type', key: 'doc_type'},
+        {title: '操作编号', dataIndex: 'doc_id', key: 'doc_id'},
+        {title: '变动前账户可用余额', dataIndex: 'before_amount', key: 'before_amount'},
+        {title: '余额变动数额', dataIndex: 'amount', key: 'amount'},
+        {title: '变动后账户可用余额', dataIndex: 'after_amount', key: 'after_amount'},
+        {title: '变动前账户冻结余额', dataIndex: 'before_block', key: 'before_block'},
+        {title: '冻结余额变动数额', dataIndex: 'block_amount', key: 'block_amount'},
+        {title: '变动后账户冻结余额', dataIndex: 'after_block', key: 'after_block'},
+        {title: '创建时间', dataIndex: 'create_at', key: 'create_at'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>查看</a>)},
       ],
       data:[]
@@ -48,27 +59,45 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-    const {params} = this.state;
-    this.getData(params);
+    const {formData} = this.state;
+    const option = [];
+   // this.getData(params);
+    getMerchantListApi().then(res => {
+      if(res.status===200 && res.data.data){
+          res.data.data.forEach(elem => {
+              option.push({
+                  value: elem.accountId,
+                  label: elem.merchantName,
+                  key: elem.accountId
+              });
+          })
+          formData[0].options = option
+          this.setState({
+              formData
+          })
+      }
+  })
   }
 
   onHangeDetails = (texts, record) => {
-    LocalStr.set("wateruserid",  record.key);
-    LocalStr.set("waterusertype",  1);
-    this.props.dispatch(routerRedux.push({
-      pathname: '/finance/WaterDetails',
-    }));
+    // LocalStr.set("wateruserid",  record.key);
+    // LocalStr.set("waterusertype",  1);
+    // this.props.dispatch(routerRedux.push({
+    //   pathname: '/finance/WaterDetails',
+    // }));
+    this.WaterDetails.showModal(record.id);
   }
 
   getData = (params) => {
     const {tableData} = this.state;
     tableData.data = [];
-    getMerchantListApi(params).then(res => {
-      if(res.status ===200 && res.data.data){
-        res.data.data.forEach(element => {
+    if(!params.accountId) return
+    GetvouchersListById(params).then(res => {
+      if(res.status ===200 && res.data.voucher){
+        res.data.voucher.forEach(element => {
           const d = {
             ...element,
-            key: element.accountId
+            key: element.id
           }
           tableData.data.push(d);
         });
@@ -98,10 +127,12 @@ class List extends React.Component {
         const p = {
           ...params,
           ...values,
+          type: 1,
           page: 1
         };
-        this.setState({
-          params: p
+        console.log(p);
+         this.setState({
+           params: p
         }, this.getData(p))
       }
     })
@@ -144,6 +175,7 @@ class List extends React.Component {
           bordered
         //   rowSelection={rowSelection}
         />
+        <WaterDetails ref={c => {this.WaterDetails = c}} />
       </PageHeaderWrapper>
     )
   }

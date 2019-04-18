@@ -221,6 +221,10 @@ const GetvouchersListById = async function GetvouchersListById(params){
   return request(`${serverApi}/api/op/vouchers?${stringify(params)}`);
 }
 
+const GetVouchersDetails = async function GetVouchersDetails(id){
+  return request(`${serverApi}/api/op/vouchers/${id}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -260,4 +264,5 @@ export {
   GetTransferOrderApi, // 转增订单
   GetUserWaterApi, // 获取商户流水
   GetvouchersListById, // 获取流水
+  GetVouchersDetails, // 流水详情
 }

@@ -31,7 +31,7 @@ class List extends React.Component {
   
     const tableData = {columns:
       [
-        {title: '账户编号', dataIndex: 'account_id', key: 'account_id'},
+        {title: '流水编号', dataIndex: 'id', key: 'id'},
         {title: '凭证名称', dataIndex: 'title', key: 'title'},
         {title: '操作名称', dataIndex: 'doc_type', key: 'doc_type'},
         {title: '操作编号', dataIndex: 'doc_id', key: 'doc_id'},
@@ -43,7 +43,7 @@ class List extends React.Component {
         {title: '变动后账户冻结余额', dataIndex: 'after_block', key: 'after_block'},
         {title: '创建时间', dataIndex: 'create_at', key: 'create_at'},
         // {title: '账户对应用户的名称', dataIndex: 'userName', key: 'userName'},
-        {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
+        // {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
       ],
       data:[]
     };
@@ -62,7 +62,7 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-    const {formData} = this.state;
+    const {formData, tableData} = this.state;
     const option = [];
     getMerchantListApi().then(res => {
       if(res.status===200 && res.data.data){
@@ -79,7 +79,10 @@ class List extends React.Component {
         })
         }
     })
-    
+    if(LocalStr.get("waterusertype") === 1){
+        tableData.columns.push({title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)})
+    }
+    this.setState({tableData})
     this.getData({
       accountId: LocalStr.get("wateruserid"),
       type: LocalStr.get("waterusertype"),
@@ -89,8 +92,8 @@ class List extends React.Component {
     });
   }
 
-  onHangeDetails = (record) => {
-    this.WaterDetails.showModal();
+  onHangeDetails = (texts, record) => {
+    this.WaterDetails.showModal(record.id);
     // LocalStr.set("wateruserid",  record.key);
     // this.props.dispatch(routerRedux.push({
     //   pathname: '/finance/WaterDetails',
@@ -105,7 +108,7 @@ class List extends React.Component {
         res.data.voucher.forEach(element => {
           const d = {
           ...element,
-          key: element.doc_id
+          key: element.id
           }
           tableData.data.push(d);
         });
