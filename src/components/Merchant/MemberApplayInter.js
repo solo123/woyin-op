@@ -34,7 +34,7 @@ import styles from './MemberApplayInter.less';
                 {title: '商户编号',key: 'merchantId',dataIndex: 'merchantId',width: 100}, 
                 {title: '批次编号',key: 'batchId',dataIndex: 'batchId'}, 
                 {title: '该批次操作人的编号',key: 'userId',dataIndex: 'userId'},
-                {title: '该批次发分的总条数',key: 'usersNum',dataIndex: 'usersNum'}, 
+                {title: '该批次发分的总条数',key: 'usersNum',dataIndex: 'usersNum'},
                 {title: '该批次发分的总分数',key: 'points',dataIndex: 'points'},  
                 {title: '数据状态',key: 'importStatus',dataIndex: 'importStatus',render: importStatus => (
                     statuesRend(importStatus, STATUSITEMS)
