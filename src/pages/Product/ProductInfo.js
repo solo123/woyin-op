@@ -126,6 +126,7 @@ class ProductList extends React.Component {
       })
     });
     message.info(`删除成功`);
+    this.Reset();
   }
 
   handUpdate = (texts, record) => {
