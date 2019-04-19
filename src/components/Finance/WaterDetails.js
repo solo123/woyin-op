@@ -4,6 +4,7 @@ import {
     Modal,
     Row,
     Col,
+    Table
   } from 'antd';
 import {GetVouchersDetails} from '@/services/api';
 import styles from './WaterDetails.less'
@@ -15,9 +16,6 @@ class MemberProducZ extends React.Component {
     this.state = {
         visible: false,
         // prodInfo,
-        params: {
-            value:0.00,
-        },
         data:{
             Voucher:{},
             Merchant: {}
@@ -25,18 +23,7 @@ class MemberProducZ extends React.Component {
     }
   }
 
-  onChange = value => {
-    const {params} = this.state;
-    this.setState({
-        params: {
-            ...params,
-            discount: value
-        }
-    })
-  }
-
   showModal = (id) => {
-
     this.setState({
         visible: true,
       });
@@ -53,17 +40,22 @@ class MemberProducZ extends React.Component {
     });
   }
 
-  handleSubmit = () =>{
-    const {params,statue} = this.state;
-    const param = {
-        ...params,
-        discount: params.discount.toString()
-    }
-  }
-  
   render() {
     const {visible, data} = this.state;
-  
+    const columns = [
+      {title: '标签1',dataIndex: 'label1'}, 
+      {title: '数值1',dataIndex: 'value1'}, 
+      {title: '标签2',dataIndex: 'label2'}, 
+      {title: '数值2',dataIndex: 'value2'}
+    ];
+    const data1 = [
+      {key: '1', label1: '状态', value1: '已完成', label2: '业务：', value2: data.Voucher.DocType},
+      {key: '2', label1: '应付金额：', value1: data.Voucher.Amount, label2: '实际金额：', value2: data.Voucher.BlockAmount},
+      {key: '3', label1: '支付时间：', value1: data.Voucher.CreateTime, label2: '帐户ID：', value2: data.Voucher.AccountId},
+      {key: '4', label1: '用户名：', value1: data.Voucher.AccountId, label2: '手机号：', value2: data.Merchant.phoneNum},
+      {key: '5', label1: '所属商户：', value1: data.Merchant.merchantName, label2: '业务订单号：', value2: data.Voucher.DocId},
+      {key: '6', label1: '支付方式：', value1: data.Voucher.DocType, label2: '支付流水号：', value2: data.Voucher.DocId}
+    ];
     return (
       <Modal
         title='流水详情'
@@ -73,94 +65,16 @@ class MemberProducZ extends React.Component {
         maskClosable={false}
         visible={visible}
         onCancel={this.onClose}
-        onOk={this.handleSubmit}
+        onOk={this.onClose}
       >
-        <Row>
-          <Col className="gutter-row" span={2}>
-            <div className="gutter-box">状态</div>
-          </Col>
-          <Col className="gutter-row" span={6}>
-            <div className="gutter-box">已完成</div>
-          </Col>
-          <Col className="gutter-row" span={2}>
-            <div className="gutter-box">业务：</div>
-          </Col>
-          <Col className="gutter-row" span={6}>
-            <div className="gutter-box">{data.Voucher.DocType}</div>
-          </Col>
-          <Col className="gutter-row" span={2}>
-            <div className="gutter-box">应付金额：</div>
-          </Col>
-          <Col className="gutter-row" span={6}>
-            <div className="gutter-box">{data.Voucher.Amount}</div>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="gutter-row" span={2}>
-            <div className="gutter-box">实际金额：</div>
-          </Col>
-          <Col className="gutter-row" span={6}>
-            <div className="gutter-box">{data.Voucher.BlockAmount}</div>
-          </Col>
-          <Col className="gutter-row" span={2}>
-            <div className="gutter-box">支付时间：</div>
-          </Col>
-          <Col className="gutter-row" span={6}>
-            <div className="gutter-box">{data.Voucher.CreateTime}</div>
-          </Col>
-        </Row>
-
-        <div className={styles.rowBorder}>
-          <Row>
-            <Col className="gutter-row" span={3}>
-              <div className="gutter-box">帐户ID：</div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div className="gutter-box">{data.Voucher.AccountId}</div>
-            </Col>
-            <Col className="gutter-row" span={2}>
-              <div className="gutter-box">用户名：</div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div className="gutter-box">{data.Merchant.merchantName}</div>
-            </Col> 
-            <Col className="gutter-row" span={2}>
-              <div className="gutter-box">手机号：</div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div className="gutter-box">{data.Merchant.phoneNum}</div>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="gutter-row" span={3}>
-              <div className="gutter-box">所属商户：</div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div className="gutter-box">{data.Merchant.merchantName}</div>
-            </Col>
-            <Col className="gutter-row" span={3}>
-              <div className="gutter-box">业务订单号：</div>
-            </Col>
-            <Col className="gutter-row" span={6}>
-              <div className="gutter-box">{data.Voucher.DocId}</div>
-            </Col>
-          </Row>
-        </div>
-        <div className={styles.playBorder}>
-          <Row>
-            <Col className="gutter-row" span={4}>
-              <div className="gutter-box">支付信息</div>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="gutter-row" span={6}>
-              <div className="gutter-box">支付方式：{data.Voucher.DocType}</div>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <div className="gutter-box">支付流水号：{data.Voucher.DocId}</div>
-            </Col>
-          </Row>
-        </div>
+        <Table
+          columns={columns}
+          dataSource={data1}
+          pagination={false}
+          bordered
+          showHeader={false}
+        //   title={() => '流水详情'}
+        />,
       </Modal>
     )
   }

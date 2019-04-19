@@ -128,6 +128,11 @@ export default [
               component: './Merchant/MemberInterApply',
             },
             {
+              path: '/merchant/MerchantInfo',
+              name: 'MerchantInfo',
+              component: './Merchant/MerchantInfo',
+            },
+            {
               path: '/merchant/balanceinfo',
               name: 'merchant-info',
               component: './Merchant/BalanceInfo',

@@ -78,7 +78,7 @@ const SubmintExceCancel = async function SubmintExceCancel (params) {
 }
 
 const GetBatchIdList = async function GetBatchIdList (params) {
-  return request(`${serverApi}/api/op/batch_points?${stringify(params)}`);
+  return request(`${serverApi}/api/op/send_points/batch?${stringify(params)}`);
 }
 
 const GetBatchMerchantList = async function GetBatchMerchantList (params) {
@@ -264,5 +264,5 @@ export {
   GetTransferOrderApi, // 转增订单
   GetUserWaterApi, // 获取商户流水
   GetvouchersListById, // 获取流水
-  GetVouchersDetails, // 流水详情
+  GetVouchersDetails, //流水详情
 }

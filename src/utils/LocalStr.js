@@ -4,7 +4,8 @@ class LocalStr{
         this.key = {
             merchantId: true,
             wateruserid: true,
-            waterusertype: true
+            waterusertype: true,
+            merchantInfo: true
         }
     }
 
