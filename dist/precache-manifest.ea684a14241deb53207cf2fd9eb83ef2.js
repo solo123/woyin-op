@@ -112,19 +112,19 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberProduct.async.js"
   },
   {
-    "revision": "31fe6a4c2e44bc74c5b4",
+    "revision": "6206bc8536183da8e3c6",
     "url": "/p__Merchant__MerchantInfo.chunk.css"
   },
   {
-    "revision": "31fe6a4c2e44bc74c5b4",
+    "revision": "6206bc8536183da8e3c6",
     "url": "/p__Merchant__MerchantInfo.async.js"
   },
   {
-    "revision": "820e4844e01b0e0a1f11",
+    "revision": "c9837f1f2f1eeee5f379",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "820e4844e01b0e0a1f11",
+    "revision": "c9837f1f2f1eeee5f379",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
@@ -176,7 +176,7 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__models__geographic.js.async.js"
   },
   {
-    "revision": "17e350694158ad36e869",
+    "revision": "64f8fd70aa7b87f54dce",
     "url": "/p__Product__ProductInfo.async.js"
   },
   {

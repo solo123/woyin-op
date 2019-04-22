@@ -41,7 +41,8 @@ class Recharge extends React.Component {
         {title: '手机号', dataIndex: 'phoneNum'},
         {title: '固定电话', dataIndex: 'telNum'},
         {title: '状态', dataIndex: 'status', render: status => (statuesRend(status, STATUSITEMS))},
-        {title: '创建时间', dataIndex: 'createTime', },
+        {title: '创建时间', dataIndex: 'createTime'},
+        {title: '操作', dataIndex: 'action', key: 'action' ,render:(texts, record)=>(<a href="javascript:void(0)" onClick={()=> { this.hangClick(texts, record)}}>充值</a>)}
      ],
      data :[]
     };
@@ -81,9 +82,8 @@ class Recharge extends React.Component {
     })
   }
 
-  hangClick = (e) => {
-    e.preventDefault();
-    const {cureeMerchId} = this.state;
+  hangClick = (texts, record) => {
+    const cureeMerchId = record.key;
     if(cureeMerchId){
       this.MemberRecharges.showModal(cureeMerchId);
     }else{
@@ -163,13 +163,13 @@ class Recharge extends React.Component {
               <HeadFormSearch formData={formData} Reset={this.Reset} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col>
               <div className={styles.addButton}>
                 <HeadFootButton buttonData={buttonData} />
               </div>
             </Col>
-          </Row>
+          </Row> */}
         </Card>
         <Table
           columns={tableData.columns}

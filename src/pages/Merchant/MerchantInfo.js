@@ -20,54 +20,59 @@ import styles from './MerchantInfo.less';
 
 @connect()
 class MerchantInfo extends React.Component{
-    constructor(props) {
-        super(props);
-        const merchanLogo ={};
-        const palyInfo = {};
-        const STATUSITEMS = [
-          {key: 0, describe: ['green', '正常']},
-          {key: 1, describe: ['red', '错误']}
-        ]
-        merchanLogo.columns = [
-            {title: '账户编号',key: 'accountId',dataIndex:'accountId' }, 
-            {title: '对象编号',key: 'merchantId',dataIndex: 'merchantId' }, 
-            {title: '对象类型',key: 'status',dataIndex: 'status'}, 
-            {title: '账户积分',key: 'balance',dataIndex: 'balance'}, 
-            {title: '可用积分',key: 'userBalance',dataIndex: 'userBalance'}, 
-            {title: '冻结积分',key: 'freezeBalance',dataIndex: 'freezeBalance'}, 
-            {title: '状态',key: '',render: statue => (statuesRend(statue, STATUSITEMS))}
-        ];
-        merchanLogo.data = [];
-        palyInfo.columns = [
-          {title: '操作员登录账号',key: 'userAccount',dataIndex: 'userAccount',}, 
-          {title: '操作员编号',key: 'userId',dataIndex: 'userId',}, 
-          {title: '操作员名称',key: 'userName',dataIndex: 'userName',}, 
-          {title: '创建时间	',key: 'createTime',dataIndex: 'createTime',}, 
-          {title: '状态',key: 'state',dataIndex: 'state',render: statue => (statuesRend(statue, STATUSITEMS))}
-        ];
-        palyInfo.data = []
-        const info = [
-          [
-            {label: '商户编号:',value: ''},
-            {label: '商户名称:',value: ''},
-            {label: '状态:',value: ''}
-          ],
-          [
-            {label: '联系人:',value: ''},
-            {label: '创建时间:',value: ''},
-            {label: '转让费率(%):',value: ''}
-          ],
-          [
-            {label: '商户地址:',value: ''},
-            {label: '手机号码:',value: ''},
-            {label: '固定电话:',value: ''}
-          ]
-        ]
-        this.state={
-            merchanLogo,
-            info,
-            palyInfo
-        }
+  constructor(props) {
+    super(props);
+    const merchanLogo ={};
+    const palyInfo = {};
+    const STATUSITEMS = [
+      {key: 0, describe: ['green', '正常']},
+      {key: 1, describe: ['red', '错误']}
+    ]
+    merchanLogo.columns = [
+      {title: '账户编号',key: 'accountId',dataIndex:'accountId' }, 
+      {title: '对象编号',key: 'merchantId',dataIndex: 'merchantId' }, 
+      {title: '对象类型',key: 'status',dataIndex: 'status'}, 
+      {title: '账户积分',key: 'balance',dataIndex: 'balance'}, 
+      {title: '可用积分',key: 'userBalance',dataIndex: 'userBalance'}, 
+      {title: '冻结积分',key: 'freezeBalance',dataIndex: 'freezeBalance'}, 
+      {title: '状态',key: '',render: statue => (statuesRend(statue, STATUSITEMS))}
+    ];
+    const buttonData = [
+      // {type: 'primary', hangClick: this.handAdd, labe: '添加'},
+      {type: 'primary', hangClick: this.onHangApplayInter, labe: '会员发分审核'},
+      {type: 'primary', hangClick: this.onHangGoPround, labe: '产品折扣管理'},
+      {type: 'primary', hangClick: this.onHangRateMang, labe: '费率管理'},
+    ];
+    merchanLogo.data = [];
+    palyInfo.columns = [
+      {title: '操作员登录账号',key: 'userAccount',dataIndex: 'userAccount',}, 
+      {title: '操作员编号',key: 'userId',dataIndex: 'userId',}, 
+      {title: '操作员名称',key: 'userName',dataIndex: 'userName',}, 
+      {title: '创建时间	',key: 'createTime',dataIndex: 'createTime',}, 
+      {title: '状态',key: 'state',dataIndex: 'state',render: statue => (statuesRend(statue, STATUSITEMS))}
+    ];
+    palyInfo.data = []
+    const info = [
+      [
+        {label: '商户编号:',value: ''},
+        {label: '商户名称:',value: ''},
+        {label: '状态:',value: ''}],
+      [
+      {label: '联系人:',value: ''},
+      {label: '创建时间:',value: ''},
+      {label: '转让费率(%):',value: ''}],
+      [
+      {label: '商户地址:',value: ''},
+      {label: '手机号码:',value: ''},
+      {label: '固定电话:',value: ''}
+      ]
+      ]
+      this.state={
+        merchanLogo,
+        info,
+        palyInfo,
+        buttonData
+      }
     }
 
     componentDidMount(){
@@ -88,9 +93,12 @@ class MerchantInfo extends React.Component{
       }));
     }
 
+    onHangRateMang = () => {
+      
+    }
+
     int = () => {
       const MeInfo = JSON.parse(LocalStr.get("merchantInfo"));
-    
       const {info, palyInfo, merchanLogo} = this.state;
       info[0][0].value = MeInfo.key;
       info[0][1].value = MeInfo.merchantName;
@@ -143,12 +151,8 @@ class MerchantInfo extends React.Component{
     }
 
     render () {
-        const {merchanLogo, info, palyInfo} = this.state;
-        const buttonData = [
-          // {type: 'primary', hangClick: this.handAdd, labe: '添加'},
-          {type: 'primary', hangClick: this.onHangApplayInter, labe: '会员发分审核'},
-          {type: 'primary', hangClick: this.onHangGoPround, labe: '产品折扣管理'},
-        ];
+        const {merchanLogo, info, palyInfo, buttonData} = this.state;
+
         return (
           <PageHeaderWrapper>
             <Card bordered>
