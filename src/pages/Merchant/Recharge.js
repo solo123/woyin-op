@@ -175,7 +175,7 @@ class Recharge extends React.Component {
           columns={tableData.columns}
           dataSource={tableData.data} 
           bordered
-          rowSelection={rowSelection}
+          // rowSelection={rowSelection}
           pagination={{
             pageSize: limit ,// 每页的条数
             total: count,

@@ -112,19 +112,19 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberProduct.async.js"
   },
   {
-    "revision": "6206bc8536183da8e3c6",
+    "revision": "d0021da17803d46a3e27",
     "url": "/p__Merchant__MerchantInfo.chunk.css"
   },
   {
-    "revision": "6206bc8536183da8e3c6",
+    "revision": "d0021da17803d46a3e27",
     "url": "/p__Merchant__MerchantInfo.async.js"
   },
   {
-    "revision": "c9837f1f2f1eeee5f379",
+    "revision": "96f5d4006f59914e587a",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "c9837f1f2f1eeee5f379",
+    "revision": "96f5d4006f59914e587a",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {

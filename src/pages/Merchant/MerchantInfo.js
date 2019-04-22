@@ -39,7 +39,7 @@ class MerchantInfo extends React.Component{
     ];
     const buttonData = [
       // {type: 'primary', hangClick: this.handAdd, labe: '添加'},
-      {type: 'primary', hangClick: this.onHangApplayInter, labe: '会员发分审核'},
+      // {type: 'primary', hangClick: this.onHangApplayInter, labe: '会员发分审核'},
       {type: 'primary', hangClick: this.onHangGoPround, labe: '产品折扣管理'},
       {type: 'primary', hangClick: this.onHangRateMang, labe: '费率管理'},
     ];
@@ -94,7 +94,7 @@ class MerchantInfo extends React.Component{
     }
 
     onHangRateMang = () => {
-      
+
     }
 
     int = () => {
