@@ -40,12 +40,14 @@ class MemberProducZ extends React.Component {
     });
   }
 
+  rend = (tags)=> (<h4 style={{fontWeight: 'bold'}}>{tags}</h4>)
+  
   render() {
     const {visible, data} = this.state;
     const columns = [
-      {title: '标签1',dataIndex: 'label1'}, 
+      {title: '标签1',dataIndex: 'label1', render: this.rend}, 
       {title: '数值1',dataIndex: 'value1'}, 
-      {title: '标签2',dataIndex: 'label2'}, 
+      {title: '标签2',dataIndex: 'label2', render: this.rend}, 
       {title: '数值2',dataIndex: 'value2'}
     ];
     const data1 = [

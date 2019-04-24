@@ -6,6 +6,7 @@ import {
   } from 'antd';
 import AddInfo from '../FormAdd/AddInfo';
 import {ProductEditApi} from '@/services/api';
+import {isNumber} from '@/utils/validate';
 
 class ProductUpdate extends React.Component {
   constructor(props) {
@@ -28,9 +29,9 @@ class ProductUpdate extends React.Component {
       visible: false,
       formData: [
         {type: 'InputIcon' ,label: '产品名称', name: 'productName',initialValue: null, ruless:[{required: true}] , placeholder: '产品名称', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '产品现价/分', name: 'cost',initialValue: null, ruless:[{required: true}] , placeholder: '产品现价/分', typeIco: 'user'},
-        {type: 'InputIcon' ,label: ' 产品进价/元', name: 'purchasePrice',initialValue: null, ruless:[{required: false}] , placeholder: '产品进价/元', typeIco: 'team'},
-        {type: 'InputIcon' ,label: '产品售价/元', name: 'salesPrice',initialValue: null, ruless:[{required: false}] , placeholder: '产品售价/元', typeIco: 'team'},
+        {type: 'InputIcon' ,label: '产品现价/分', name: 'cost',initialValue: null, ruless:[{required: true, pattern: isNumber, message: '请输入正确的值'}] , placeholder: '产品现价/分', typeIco: 'user'},
+        {type: 'InputIcon' ,label: ' 产品进价/元', name: 'purchasePrice',initialValue: null, ruless:[{required: false,  pattern: isNumber, message: '请输入正确的值'}] , placeholder: '产品进价/元', typeIco: 'team'},
+        {type: 'InputIcon' ,label: '产品售价/元', name: 'salesPrice',initialValue: null, ruless:[{required: false, pattern: isNumber,message: '请输入正确的值' }] , placeholder: '产品售价/元', typeIco: 'team'},
         {type: 'SelectCompone', label: '状态：',style: {}, name: 'status',initialValue: null, options: optionStatus},
         {type: 'SelectCompone', label: '是否支持退款', name: 'canRefund',initialValue: null, options: optionCanRefund},
       ]

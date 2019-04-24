@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/p__Order__LotteryOrder.async.js"
   },
   {
-    "revision": "aa7686ac07fd594081be",
+    "revision": "cfd327c48214793ff520",
     "url": "/vendors.chunk.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/umi.css"
   },
   {
-    "revision": "aa7686ac07fd594081be",
+    "revision": "cfd327c48214793ff520",
     "url": "/vendors.async.js"
   },
   {
@@ -128,11 +128,11 @@ self.__precacheManifest = [
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "85dcf5c4898c1ec3e5e2",
+    "revision": "228eec0b360c8a50dc09",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "85dcf5c4898c1ec3e5e2",
+    "revision": "228eec0b360c8a50dc09",
     "url": "/p__Merchant__list.async.js"
   },
   {
@@ -164,11 +164,11 @@ self.__precacheManifest = [
     "url": "/p__User__ResetPaswrod.async.js"
   },
   {
-    "revision": "cec2c01559599ad62268",
+    "revision": "3ce9a48306c0a0edc33b",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {
-    "revision": "cec2c01559599ad62268",
+    "revision": "3ce9a48306c0a0edc33b",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
