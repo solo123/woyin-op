@@ -7,7 +7,8 @@ import {
   Card,
   Form,
   Table,
-  message
+  message,
+  Modal
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
@@ -79,7 +80,7 @@ class ProductList extends React.Component {
       tableDatas,
       headForm,
       params,
-      selectedRows: {}
+      selectedRows: []
     }
   }
   
@@ -113,6 +114,14 @@ class ProductList extends React.Component {
   handDele = (e) => {
     e.preventDefault();
     const {selectedRows} = this.state;
+    if(selectedRows.length === 0) {
+      Modal.info({
+        title: '信息提醒',
+        content: '请选择要删除的产品。',
+      })
+      return;
+    }
+
     let le = 0;
     let er = 0;
     selectedRows.forEach(elem => {

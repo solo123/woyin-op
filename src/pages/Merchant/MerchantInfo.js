@@ -58,13 +58,13 @@ class MerchantInfo extends React.Component{
         {label: '商户名称:',value: ''},
         {label: '状态:',value: ''}],
       [
-      {label: '联系人:',value: ''},
-      {label: '创建时间:',value: ''},
-      {label: '转让费率(%):',value: ''}],
+        {label: '联系人:',value: ''},
+        {label: '创建时间:',value: ''},
+        {label: '转让费率(%):',value: ''}],
       [
-      {label: '商户地址:',value: ''},
-      {label: '手机号码:',value: ''},
-      {label: '固定电话:',value: ''}
+        {label: '商户地址:',value: ''},
+        {label: '手机号码:',value: ''},
+        {label: '固定电话:',value: ''}
       ]
       ]
       this.state={
@@ -138,7 +138,7 @@ class MerchantInfo extends React.Component{
             merchan.accountId = ress.data[j].accountId;
             merchan.balance = ress.data[j].balance;
             merchan.userBalance = parseInt(ress.data[j].balance, 10) - parseInt(ress.data[j].freezeBalance, 10);
-            merchan.freezeBalance = ress.data[j].freezeBalance
+            merchan.freezeBalance = ress.data[j].freezeBalance;
             merchan.status = ress.data[j].status;
             merchanLogo.data.push(merchan);
           }

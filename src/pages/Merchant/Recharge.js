@@ -8,13 +8,13 @@ import {
   Form,
   Table,
   Modal,
-} from 'antd'
+} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {MemberRecharges} from '@/components/Merchant';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {RechargeGetMerList} from '@/services/api';
 import {statuesRend} from '@/utils/renderUtils';
-import styles from './Recharge.less'
+import styles from './Recharge.less';
 
 @connect()
 class Recharge extends React.Component {

@@ -51,20 +51,17 @@ class List extends React.Component {
       {key: 16, describe: ['green','审核拒绝']},
       {key: 17, describe: ['green','确认']},
     ]
-    const tableData = {columns: 
-      [
-        {title: '银行名称', dataIndex: 'bankName', key: 'bankName'},
-        {title: '银行卡号', dataIndex: 'bankCard', key: 'bankCard'},
-        {title: '持卡人姓名', dataIndex: 'cardHoldName', key: 'cardHoldName'},
-        {title: '持卡人手机号', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        {title: '提现渠道', dataIndex: 'channelId', key: 'channelId'},
-        {title: '提现金额', dataIndex: 'amount', key: 'amount'},
-        {title: '状态', dataIndex: 'status', key: 'status',render: status => (
-          statuesRend(status, STATUSITEMS)
-        )},
-        {title: '手续费', dataIndex: 'poundage', key: 'poundage'},  
-        {title: '更新时间', dataIndex: 'updateTime', key: 'updateTime'},
-        {title: '创建时间', dataIndex: 'createTime', key: 'createTime'},
+    const tableData = {columns: [
+      {title: '银行名称', dataIndex: 'bankName', key: 'bankName'},
+      {title: '银行卡号', dataIndex: 'bankCard', key: 'bankCard'},
+      {title: '持卡人姓名', dataIndex: 'cardHoldName', key: 'cardHoldName'},
+      {title: '持卡人手机号', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
+      {title: '提现渠道', dataIndex: 'channelId', key: 'channelId'},
+      {title: '提现金额', dataIndex: 'amount', key: 'amount'},
+      {title: '状态', dataIndex: 'status', key: 'status',render: status => (statuesRend(status, STATUSITEMS))},
+      {title: '手续费', dataIndex: 'poundage', key: 'poundage'},  
+      {title: '更新时间', dataIndex: 'updateTime', key: 'updateTime'},
+      {title: '创建时间', dataIndex: 'createTime', key: 'createTime'},
      ],
      data: []
     };
@@ -97,28 +94,13 @@ class List extends React.Component {
     tableData.data = [];
     withdrawList(param).then(res => {
       if(res.status === 200){
-       res.data.withdrawal.forEach(item => {
-          const order = {};
-          order.key = item.orderId;
-          order.userId = item.userId;
-          order.merchantId = item.merchantId;
-          order.exOrderN0 = item.exOrderN0;
-          order.objTypeform = item.objTypeform;
-          order.channelId = item.channelId;
-          order.amount = item.amount;
-          order.status = item.status;
-          order.poundage = item.poundage;
-          order.userName = item.userName;
-          order.auditUser = item.auditUser;
-          order.auditUserName = item.auditUserName;
-          order.remark = item.remark;
-          order.bankCode = item.bankCode;
-          order.bankName = item.bankName;
-          order.bankCard = item.bankCard;
-          order.cardHoldName = item.cardHoldName;
-          order.userPhoneNo = item.userPhoneNo;
-          order.updateTime = timeToYmdH(item.updateTime);
-          order.createTime = timeToYmdH(item.createTime);     
+        res.data.withdrawal.forEach(item => {
+          const order = {
+            ...item,
+            key: item.orderId,
+            updateTime: timeToYmdH(item.updateTime),
+            createTime: timeToYmdH(item.createTime),    
+          };    
           tableData.data.push(order);
         });
         this.setState({

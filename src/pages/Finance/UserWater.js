@@ -59,18 +59,18 @@ class List extends React.Component {
     const {formData, params} = this.state;
     const option = [];
     getMerchantListApi().then(res => {
-        if(res.status===200 && res.data.data){
-            res.data.data.forEach(elem => {
-                option.push({
-                    value: elem.merchantId,
-                    label: elem.merchantName,
-                    key: elem.merchantId
-                });
-            })
-            formData[2].options = option
-            this.setState({
-                formData
-            })
+      if(res.status===200 && res.data.data){
+          res.data.data.forEach(elem => {
+            option.push({
+              value: elem.merchantId,
+              label: elem.merchantName,
+              key: elem.merchantId
+            });
+          })
+          formData[2].options = option
+          this.setState({
+            formData
+          })
         }
     })
     this.getData(params);
@@ -90,30 +90,29 @@ class List extends React.Component {
     GetUserWaterApi(params).then(res => {
       if(res.status ===200 && res.data.data){
         res.data.data.forEach(element => {
-            const d = {
-                ...element,
-                key: element.userPhoneNo+element.balance
-            }
-            tableData.data.push(d);
+          const d = {
+            ...element,
+            key: element.userPhoneNo+element.balance
+          }
+          tableData.data.push(d);
         });
 
         this.setState({
-            params:{
-                ...params,
-                totalCount: res.data.totalCount
-            },
-            tableData})
+          params:{
+            ...params,
+            totalCount: res.data.totalCount
+          },tableData})
       }
     })
   }
 
   Reset = () => {
     const params = {
-        username: '',
-        userPhoneNo: '',
-        merchantId: '',
-        page:1,
-        count: 10,
+      username: '',
+      userPhoneNo: '',
+      merchantId: '',
+      page:1,
+      count: 10,
     }
     this.setState({params}, this.getData(params))
   }

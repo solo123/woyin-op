@@ -8,7 +8,8 @@ import {
   Card,
   Form,
   Table,
-  message
+  message,
+  Modal
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
@@ -33,8 +34,7 @@ class ProductList extends React.Component {
     const hre = [
       {onClick: this.onHangUpdate, label: '查看运营商'}
     ];
-    const tableDatas = {columns:
-    [
+    const tableDatas = {columns:[
       {title: '分类编号', dataIndex: 'productCategoryId', key: 'productCategoryId'},
       {title: '分类名称', dataIndex: 'productCategoryName', key: 'productCategoryName'},
       {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',render:(texts, record)=>(hreRend(hre, texts, record)) },
@@ -52,7 +52,8 @@ class ProductList extends React.Component {
       tableDatas,
       headForm,
       params,
-      formData
+      formData,
+      selectedRows: []
     }
   }
   
@@ -77,16 +78,21 @@ class ProductList extends React.Component {
     const leng = selectedRows.length;
     if(leng > 0){
         selectedRows.forEach(element => {
-            ProductClassDeleApi(element.productCategoryId, {}).then(re => {
-                const res = JSON.parse(re);
-                if(res.status===200){
-                    this.Reset();
-                    message.info('操作成功');
-                }else{
-                    message.error(res.data);
-                }
-            });
+          ProductClassDeleApi(element.productCategoryId, {}).then(re => {
+            const res = JSON.parse(re);
+              if(res.status===200){
+                this.Reset();
+                  message.info('操作成功');
+              }else{
+                  message.error(res.data);
+              }
+          });
         });
+    }else{
+      Modal.info({
+        title: '信息提醒',
+        content: '请选择要删除的产品分类！',
+      })
     }
   }
 

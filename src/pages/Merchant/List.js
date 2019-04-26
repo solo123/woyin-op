@@ -31,7 +31,6 @@ import styles from './List.less';
   submitting: loading.effects['merchant/setMerchant'],
 }))
 class List extends React.Component {
-
   constructor(props){
     super(props);
     const option = [
@@ -39,9 +38,9 @@ class List extends React.Component {
       {value: '2',label: '冻结'}
     ];
     const formDatas = [
-      {type: 'InputIcon' ,label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '商户名称', typeIco: 'book'},
-      {type: 'InputIcon' ,label: '手机号', name: 'phoneNum', ruless:[] , placeholder: '手机号', typeIco: 'book'},
+      {type: 'InputIcon',label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
+      {type: 'InputIcon',label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '商户名称', typeIco: 'book'},
+      {type: 'InputIcon',label: '手机号', name: 'phoneNum', ruless:[], placeholder: '手机号', typeIco: 'book'},
       {type: 'SelectCompone', label: '状态：', style:{width: '198px'}, name: 'status', options: option}
     ];
     const buttonDatas = [
@@ -52,8 +51,6 @@ class List extends React.Component {
       {key: 2, describe: ['red', '冻结']}
     ]
     const hreReng = [
-      // {onClick: this.onHangInter, label: '批量会员发分 |'},
-      // {onClick: this.onHangApplayData, label: '上传数据审核 |'},
       {onClick: this.onHangApplayInter, label: '会员发分审核 | '},
       {onClick: this.onHangGoPround, label: '商户产品管理'},
     ]
@@ -72,7 +69,7 @@ class List extends React.Component {
         // {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
         // {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
-      //  {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right',width: 220, render:(texts, record)=>(hreRend(hreReng, texts, record)) },
+        // {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right',width: 220, render:(texts, record)=>(hreRend(hreReng, texts, record)) },
       ],
       data: []
     }
@@ -96,16 +93,14 @@ componentWillMount (){
   const params = {
     count: this.state.limit,
     page: 1
-  }
+  };
   this.getAllData(params);
 }
 
 onHangeDetails = (texts, record) => {
   // this.MerchantInfo.int(record);
   // this.MerchantInfo.showModal();
-
   LocalStr.set("merchantInfo", JSON.stringify(record));
-  
   this.props.dispatch(routerRedux.push({
     pathname: '/merchant/MerchantInfo'
   }));

@@ -20,11 +20,11 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "727b1d1e93428000591c",
+    "revision": "979439e3fe5864a60fc8",
     "url": "/umi.js"
   },
   {
-    "revision": "727b1d1e93428000591c",
+    "revision": "979439e3fe5864a60fc8",
     "url": "/umi.css"
   },
   {
@@ -128,31 +128,31 @@ self.__precacheManifest = [
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "228eec0b360c8a50dc09",
+    "revision": "71b6bce2593874f16b6f",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "228eec0b360c8a50dc09",
+    "revision": "71b6bce2593874f16b6f",
     "url": "/p__Merchant__list.async.js"
   },
   {
-    "revision": "4ed353057aba48c83ede",
+    "revision": "e290576ad65bcad702d2",
     "url": "/p__Order__FindBuyOrder.async.js"
   },
   {
-    "revision": "ce095dbe49ea4aeee821",
+    "revision": "ca5f2f9257de6e6ceca5",
     "url": "/p__Order__FindreFundorder.chunk.css"
   },
   {
-    "revision": "ce095dbe49ea4aeee821",
+    "revision": "ca5f2f9257de6e6ceca5",
     "url": "/p__Order__FindreFundorder.async.js"
   },
   {
-    "revision": "0debf27f45bfb8e69d71",
+    "revision": "da264092d1fa0f21a047",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
-    "revision": "0debf27f45bfb8e69d71",
+    "revision": "da264092d1fa0f21a047",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
@@ -164,11 +164,11 @@ self.__precacheManifest = [
     "url": "/p__User__ResetPaswrod.async.js"
   },
   {
-    "revision": "3ce9a48306c0a0edc33b",
+    "revision": "8d36a4466027859665e4",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {
-    "revision": "3ce9a48306c0a0edc33b",
+    "revision": "8d36a4466027859665e4",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
@@ -176,11 +176,11 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__models__geographic.js.async.js"
   },
   {
-    "revision": "64f8fd70aa7b87f54dce",
+    "revision": "d09af99f58cdbac9b88c",
     "url": "/p__Product__ProductInfo.async.js"
   },
   {
-    "revision": "11b641766632f21d2395",
+    "revision": "1a503afb5b0ba5c36026",
     "url": "/p__Product__productclass.async.js"
   },
   {

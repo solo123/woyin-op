@@ -25,11 +25,14 @@ class List extends React.Component {
       {value: '1',label: '新建'}, 
       {value: '-1',label: '拒绝'}
     ];
+    const option1 = [
+      {value: '1',label: '商户'}
+    ];
     const headForm = {
       formData: [
         {type: 'InputIcon', label: '充值订单编号', name: 'orderId', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
         {type: 'InputIcon', label: '商户登录账号', name: 'userAccount', ruless:[], placeholder: '商户登录账号', typeIco: 'book'},
-        {type: 'SelectCompone', label: '充值人员类型', name: 'roleType',style:{width: '198px'}, options: option},
+        // {type: 'SelectCompone', label: '充值人员类型', name: 'roleType',style:{width: '198px'}, options: option1},
         {type: 'SelectCompone', label: '状态：', name: 'state',style:{width: '198px'}, options: option},
         {type: 'InputIcon', label: '充值对象名称', name: 'merchantName',ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
         {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[],placeholder: '批次号', typeIco: 'user'},
@@ -73,16 +76,10 @@ class List extends React.Component {
     findOrderInfo(param).then(res => {
       if(res.status === 200){
         res.data.data.forEach(item => {
-          const order = {};
-          order.orderId = item.orderId;
-          order.userAccount = item.userAccount;
-          order.key = item.orderId;
-          order.roleType = item.roleType;
-          order.merchantName = item.merchantName;
-          order.balance = item.balance;
-          order.batchNum = item.batchNum;
-          order.createTime = item.createTime;
-          order.state = item.state;
+          const order = {
+            ...item,
+            key: item.orderId,
+          };
           tableData.data.push(order);
         });
         this.setState({
@@ -164,7 +161,6 @@ class List extends React.Component {
         startTime = timeChangData(values.rechargeTime[0].toDate());
         endTime = timeChangData(values.rechargeTime[1].toDate());
       }
-      console.log(values);
       const params = {
         ...values,
         endTime,

@@ -125,11 +125,11 @@ class List extends React.Component {
 
   Reset = () => {
     const params = {
-        username: '',
-        userPhoneNo: '',
-        merchantId: '',
-        page:1,
-        count: 10,
+      username: '',
+      userPhoneNo: '',
+      merchantId: '',
+      page:1,
+      count: 10,
     }
     this.setState({params}, this.getData(params))
   }
@@ -139,14 +139,14 @@ class List extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if(!err){
-          const p = {
-            ...params,
-            ...values,
-            page: 1
-          };
-          this.setState({
-            params: p
-          }, this.getData(p))
+        const p = {
+          ...params,
+          ...values,
+          page: 1
+        };
+      this.setState({
+        params: p
+      }, this.getData(p))
       }
     })
   }

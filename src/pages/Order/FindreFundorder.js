@@ -32,23 +32,22 @@ class List extends React.Component {
       {type: 'SelectDateRang' ,label: '退款订单时间', name: 'rechargeTime', ruless:[] , placeholder: '退款订单时间', typeIco: 'book'},
     ];
   
-    const tableDatas = {columns: 
-      [
-        {title: '退款编号', dataIndex: 'id', key: 'id', width: 100},
-        {title: '购买订单编号', dataIndex: 'orderId', key: 'orderId', width: 100},
-        {title: '购买订单详细编号', dataIndex: 'orderInfoId', key: 'orderInfoId', width: 140},
-        {title: '申请退款积分', dataIndex: 'applyIntegral', key: 'applyIntegral', width: 100},
-        {title: '实际退款积分', dataIndex: 'integral', key: 'integral', width: 100},
-        {title: '产品编号', dataIndex: 'productId', key: 'productId', width: 80},
-        {title: '产品名称', dataIndex: 'productName', key: 'productName', width: 80},
-        {title: '状态', dataIndex: 'statue', key: 'statue', width: 80},
-        {title: '退款申请人编号', dataIndex: 'applyOrder', key: 'applyOrder', width: 120},
-        {title: '退款申请人', dataIndex: 'apply', key: 'apply', width: 100},
-        {title: '退款申请时间', dataIndex: 'applyTime', key: 'applyTime', width: 120},
-        {title: '完成时间', dataIndex: 'succeedTiem', key: 'succeedTiem', width: 80},
-        {title: '审核人编号', dataIndex: 'auditId', key: 'auditId', width: 80},
-        {title: '审核人', dataIndex: 'audit', key: 'audit', width: 120},
-        {title: '备注', dataIndex: 'remark', key: 'remark', width: 120}
+    const tableDatas = {columns: [
+      {title: '退款编号', dataIndex: 'id', key: 'id', width: 100},
+      {title: '购买订单编号', dataIndex: 'orderId', key: 'orderId', width: 100},
+      {title: '购买订单详细编号', dataIndex: 'orderInfoId', key: 'orderInfoId', width: 140},
+      {title: '申请退款积分', dataIndex: 'applyIntegral', key: 'applyIntegral', width: 100},
+      {title: '实际退款积分', dataIndex: 'integral', key: 'integral', width: 100},
+      {title: '产品编号', dataIndex: 'productId', key: 'productId', width: 80},
+      {title: '产品名称', dataIndex: 'productName', key: 'productName', width: 80},
+      {title: '状态', dataIndex: 'statue', key: 'statue', width: 80},
+      {title: '退款申请人编号', dataIndex: 'applyOrder', key: 'applyOrder', width: 120},
+      {title: '退款申请人', dataIndex: 'apply', key: 'apply', width: 100},
+      {title: '退款申请时间', dataIndex: 'applyTime', key: 'applyTime', width: 120},
+      {title: '完成时间', dataIndex: 'succeedTiem', key: 'succeedTiem', width: 80},
+      {title: '审核人编号', dataIndex: 'auditId', key: 'auditId', width: 80},
+      {title: '审核人', dataIndex: 'audit', key: 'audit', width: 120},
+      {title: '备注', dataIndex: 'remark', key: 'remark', width: 120}
      ]
     };
     const datas =  [
@@ -64,10 +63,6 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-
-  }
-
-  createMember = (texts, record) => {
 
   }
 

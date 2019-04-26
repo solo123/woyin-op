@@ -32,16 +32,15 @@ class List extends React.Component {
     const buttonDatas = [
       {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'}
     ];
-    const tableDatas = {columns: 
-      [
-        {title: '购买订单编号', dataIndex: 'id', key: 'id'},
-        {title: '登录手机号', dataIndex: 'phone', key: 'phone'},
-        {title: '购买对象名称', dataIndex: 'buyName', key: 'buyName'},
-        {title: '购买对象类型', dataIndex: 'buyType', key: 'buyType'},
-        {title: '状态', dataIndex: 'statue', key: 'statue'},
-        {title: '积分', dataIndex: 'integral', key: 'integral'},
-        {title: '创建日期', dataIndex: 'creatueTime', key: 'creatueTime'},
-        {title: '操作', dataIndex: 'action', key: 'action', render: (texts, record) => (<a href="javascript:;" onClick={()=> {this.onClick(texts, record)}}>操作</a>)},
+    const tableDatas = {columns: [
+      {title: '购买订单编号', dataIndex: 'id', key: 'id'},
+      {title: '登录手机号', dataIndex: 'phone', key: 'phone'},
+      {title: '购买对象名称', dataIndex: 'buyName', key: 'buyName'},
+      {title: '购买对象类型', dataIndex: 'buyType', key: 'buyType'},
+      {title: '状态', dataIndex: 'statue', key: 'statue'},
+      {title: '积分', dataIndex: 'integral', key: 'integral'},
+      {title: '创建日期', dataIndex: 'creatueTime', key: 'creatueTime'},
+      {title: '操作', dataIndex: 'action', key: 'action', render: (texts, record) => (<a href="javascript:;" onClick={()=> {this.onClick(texts, record)}}>操作</a>)},
      ]
     };
     const datas =  [

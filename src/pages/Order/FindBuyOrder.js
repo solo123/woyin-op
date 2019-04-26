@@ -33,9 +33,6 @@ class List extends React.Component {
       {type: 'InputIcon', label: '购买对象名称',name: 'userName', ruless:[] , placeholder: '购买对象名称', typeIco: 'book'},
       {type: 'SelectDateRang' ,label: '购买时间', name: 'rechargeTime', ruless:[] , placeholder: '购买时间', typeIco: 'book'},
     ];
-    // const buttonDatas = [
-    //   {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'}
-    // ];
     const PRODUCTSTATUE = [
       {key: 10, describe: ['green', '待付款']},
       {key: 11, describe: ['green', '处理中']},
@@ -43,19 +40,18 @@ class List extends React.Component {
       {key: 13, describe: ['green', '失败']},
       {key: 14, describe: ['green', '取消']},
     ];
-    const tableData = {columns: 
-      [
-        {title: '订单编号', dataIndex: 'reqStreamId', key: 'reqStreamId'},
-        {title: '登录手机号', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        {title: '用户名', dataIndex: 'userName', key: 'userName'},
-        {title: '所属商户', dataIndex: 'merchantName', key: 'merchantName'},
-        {title: '产品名', dataIndex: 'productName', key: 'productName'},
-        {title: '产品类型', dataIndex: 'productType', key: 'productType'},
-        {title: '实际价值（折扣后）', dataIndex: 'Actual', key: 'Actual'},
-        {title: '产品价值（折扣前）', dataIndex: 'productValue', key: 'productValue'},
-        {title: '折扣率', dataIndex: 'discount', key: 'discount'},
-        {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, PRODUCTSTATUE))},
-        {title: '创建日期', dataIndex: 'startTime', key: 'startTime'},
+    const tableData = {columns: [
+      {title: '订单编号', dataIndex: 'reqStreamId', key: 'reqStreamId'},
+      {title: '登录手机号', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
+      {title: '用户名', dataIndex: 'userName', key: 'userName'},
+      {title: '所属商户', dataIndex: 'merchantName', key: 'merchantName'},
+      {title: '产品名', dataIndex: 'productName', key: 'productName'},
+      {title: '产品类型', dataIndex: 'productType', key: 'productType'},
+      {title: '实际价值（折扣后）', dataIndex: 'Actual', key: 'Actual'},
+      {title: '产品价值（折扣前）', dataIndex: 'productValue', key: 'productValue'},
+      {title: '折扣率', dataIndex: 'discount', key: 'discount'},
+      {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, PRODUCTSTATUE))},
+      {title: '创建日期', dataIndex: 'startTime', key: 'startTime'},
       ],
      data: []
     };
@@ -102,7 +98,6 @@ class List extends React.Component {
           }
         })
       }
-      // console.log(res);
     })
   }
 
