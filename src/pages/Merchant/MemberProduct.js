@@ -147,7 +147,8 @@ class ProductList extends React.Component {
       MemberProductZDel(elem.discountId).then(res => {
       const re = JSON.parse(res);
       if(re.status === 200){
-        message.info('删除成功')
+        message.info('删除成功');
+        this.Reset();
       }
       })
     });

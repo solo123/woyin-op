@@ -19,13 +19,13 @@ import styles from './FindBuyOrder.less';
 class List extends React.Component {
   constructor(props){
     super(props);
-    const option = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
+    const option = [
+      {value: '10',label: '待付款'}, 
+      {value: '11',label: '处理中'},
+      {value: '12',label: '成功'},
+      {value: '13',label: '失败'},
+      {value: '14',label: '取消'},
+    ];
     const formDatas = [
       {type: 'InputIcon' ,label: '购买订单编号', name: 'reqStreamId', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
       {type: 'InputIcon' ,label: '登录手机号', name: 'logo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
@@ -57,6 +57,7 @@ class List extends React.Component {
     };
 
     this.state = {
+      option,
       formData: formDatas,
       tableData,
       // buttonData: buttonDatas, 
@@ -115,11 +116,21 @@ class List extends React.Component {
         const param = {
           ...params,
           ...value,
+          state: this.getV(value.state)
         }
         this.setState({params: param});
         this.getData(param)
       }
     })
+  }
+
+  getV = (key) => {
+    const {option} = this.state;
+    for(let i = 0 ; i < option.length ; i+=1){
+       if(option[i].label === key){
+         return option[i].value
+       }
+    }
   }
 
   Reset = () => {

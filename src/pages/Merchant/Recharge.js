@@ -132,7 +132,7 @@ class Recharge extends React.Component {
     tableData.data = [];
     for(let i = 0; i < data.length; i+=1){
       const mer = {};
-      mer.key = data[i].accountId;
+      mer.key = data[i].merchantId;
       mer.userAccount = data[i].userAccount;
       mer.merchantName = data[i].merchantName;
       mer.merchantAddr = data[i].merchantAddr;

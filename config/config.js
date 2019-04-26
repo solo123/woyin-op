@@ -93,6 +93,13 @@ export default {
      pathRewrite: { '^/server/api/': '' },
    },
  },
+//  proxy: {
+//   '/server/api/api/': {
+//     target: 'http://192.168.0.91:9000/',
+//     changeOrigin: true,
+//    pathRewrite: { '^/server/api/api/': '' },
+//  },
+// },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

@@ -66,6 +66,7 @@ class List extends React.Component {
      data: []
     };
     this.state = {
+      option,
       headForm,
       tableData,
       limit: 10,
@@ -163,7 +164,7 @@ class List extends React.Component {
     this.props.form.validateFields((err, values) => {
       if(!err){
         const params = {
-          status: values.state,
+          status: this.getV(values.state),
           limit: this.state.limit,
           page: this.state.page
         };
@@ -174,6 +175,16 @@ class List extends React.Component {
       }
     })
   }
+
+  getV = (key) => {
+   const {option} = this.state;
+   for(let i = 0 ; i < option.length ; i=+1){
+      if(option[i].label === key){
+        return option[i].value
+      }
+   }
+  }
+  
 
   render () {
     const { getFieldDecorator } = this.props.form;
