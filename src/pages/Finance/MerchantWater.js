@@ -11,6 +11,7 @@ import {
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {routerRedux} from 'dva/router';
+import {timeChangData} from '@/utils/utils';
 import {WaterDetails} from '@/components/Finance';
 import {getMerchantListApi, GetvouchersListById} from '@/services/api';
 import LocalStr from '@/utils/LocalStr';
@@ -24,6 +25,7 @@ class List extends React.Component {
     const formData = [
       // {type: 'InputIcon' ,label: '商户名', name: 'merchantName', ruless:[] , placeholder: '商户名', typeIco: 'user'},
       {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'accountId', options: option},
+      {type: 'SelectDateRang' ,label: '时间', name: 'rechargeTime', ruless:[] , placeholder: '时间', typeIco: 'book'},
     ];
   
     const tableData = {columns:
@@ -130,6 +132,11 @@ class List extends React.Component {
           type: 1,
           page: 1
         };
+        if(typeof values.rechargeTime !== 'undefined'){
+          p.startTime = timeChangData(values.rechargeTime[0].toDate());
+          p.endTime = timeChangData(values.rechargeTime[1].toDate());
+        }
+        delete p.rechargeTime;
         console.log(p);
          this.setState({
            params: p

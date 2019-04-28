@@ -20,11 +20,11 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "979439e3fe5864a60fc8",
+    "revision": "60917abafc178e5c66bd",
     "url": "/umi.js"
   },
   {
-    "revision": "979439e3fe5864a60fc8",
+    "revision": "60917abafc178e5c66bd",
     "url": "/umi.css"
   },
   {
@@ -76,7 +76,7 @@ self.__precacheManifest = [
     "url": "/p__Exception__models__error.js.async.js"
   },
   {
-    "revision": "2603f21afd3ef5724a1a",
+    "revision": "5f4748aa19b30f651517",
     "url": "/p__Finance__MerchantWater.async.js"
   },
   {
