@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 import React from 'react';
 import {
     Tag
@@ -32,8 +33,4 @@ export const hreRend = (hreData, texts, record) =>{
       {hreData.map(ref => (<a href="javascript:void(0)" key={ref.label} onClick={()=> { ref.onClick(texts, record)}}>{ref.label}</a>))}
     </span>
   )
-}
-
-export const test = ()=> {
-    return null
 }

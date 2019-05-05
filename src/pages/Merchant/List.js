@@ -13,7 +13,7 @@ import {
 import {
   MerchantAddOrUpdate, 
   MemberUpload, 
-  InterUpload, 
+  InterUpload,
   MerchantInfo, 
   MemberApplayInter,
   MemberApplayData} from '@/components/Merchant';
@@ -22,6 +22,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {getMerchantListApi} from '@/services/api';
 import {statuesRend, hreRend} from '@/utils/renderUtils';
+import {Table2} from '@/components/TableList/TableListPage';
 import {timeChangData} from '@/utils/utils';
 import LocalStr from '@/utils/LocalStr';
 import styles from './List.less';
@@ -85,21 +86,19 @@ class List extends React.Component {
         merchantName: '',
         phoneNum: '',
         status: '',
+        pageSize: 20,
+        totalCount: 0,
+        page: 1
       }
     }
 }
   
 componentWillMount (){
-  const params = {
-    count: this.state.limit,
-    page: 1
-  };
-  this.getAllData(params);
+  const {param} = this.state;
+  this.getData(param);
 }
 
 onHangeDetails = (texts, record) => {
-  // this.MerchantInfo.int(record);
-  // this.MerchantInfo.showModal();
   LocalStr.set("merchantInfo", JSON.stringify(record));
   this.props.dispatch(routerRedux.push({
     pathname: '/merchant/MerchantInfo'
@@ -163,7 +162,7 @@ handleSubmit = (e) => {
         phoneNum: values.phoneNum,
         status: values.status=== undefined ? '' : values.status[0],
       }
-      this.getAllData(param);
+      this.getData(param);
       this.setState({
       param
       })
@@ -171,19 +170,12 @@ handleSubmit = (e) => {
   })
 }
 
-onChangePage = (page)=>{
-  const {param} = this.state;
-  param.count = this.state.limit;
-  param.page = page;
-  this.getAllData(param);
-}
-
-Reset = () => {
-  this.getAllData();
-}
-
-getAllData = (params) => {
-  getMerchantListApi(params).then(res=>{
+getData = (params) => {
+  const param = {
+    ...params,
+    count: params.pageSize,
+  }
+  getMerchantListApi(param).then(res=>{
     try {
       if(res.status === 200){
         const {data} = res.data;
@@ -202,6 +194,10 @@ getAllData = (params) => {
         tableData.data = merchantList;
         this.setState({
           tableData,
+          param: {
+            ...params,
+            totalCount: res.data.totalCount
+          },
           count: res.data.totalCount
         }
         );
@@ -215,7 +211,7 @@ getAllData = (params) => {
 render () {
   const { getFieldDecorator } = this.props.form;
   const { tableData } = this.state;
-  const { formData, buttonData, limit, count } = this.state;
+  const { formData, buttonData, param } = this.state;
   const rowSelection = {
     type: 'radio',
     onChange: this.getCheckUser
@@ -225,7 +221,7 @@ render () {
       <Card bordered={false}>
         <Row>
           <Col>
-            <HeadFormSearch Reset={this.Reset} formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+            <HeadFormSearch getData={this.getData} formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
           </Col>
         </Row>
         <Row>
@@ -236,17 +232,12 @@ render () {
           </Col>
         </Row>
       </Card>
-      <Table
-        columns={tableData.columns}
-        dataSource={tableData.data} 
-        bordered
-        // rowSelection={rowSelection}
-        // scroll={{ x: 1300 }}
-        pagination={{
-          pageSize: limit ,
-          total: count,
-          onChange: this.onChangePage
-        }}
+      <Table2
+        tableData={tableData}
+        rowSelection={rowSelection}
+        params={param}
+        getData={this.getData}
+        scroll={{ x: 1300 }}
       />
       <MerchantAddOrUpdate ref={c => {this.MerchantAddOrUpdate = c}} />
       <MemberUpload ref={c => {this.MemberUpload = c}} />

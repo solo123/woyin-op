@@ -9,9 +9,10 @@ import {
   Table
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {HeadFormSearchTwo} from '@/components/HeadForm';
+import {HeadFormSearch} from '@/components/HeadForm';
 import {statuesRend} from '@/utils/renderUtils';
 import {timeChangData} from '@/utils/utils';
+import {Table2} from '@/components/TableList/TableListPage';
 import {GetOrderForBuyLisApi} from '@/services/api';
 import styles from './FindBuyOrder.less';
 
@@ -26,9 +27,9 @@ class List extends React.Component {
       {value: '13',label: '失败'},
       {value: '14',label: '取消'},
     ];
-    const formDatas = [
+    const formData = [
       {type: 'InputIcon' ,label: '购买订单编号', name: 'reqStreamId', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '登录手机号', name: 'logo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
+      // {type: 'InputIcon' ,label: '登录手机号', name: 'logo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
       {type: 'SelectCompone', label: '状态：', name: 'status',style:{width:'196px'},  options: option},
       {type: 'InputIcon', label: '购买对象名称',name: 'userName', ruless:[] , placeholder: '购买对象名称', typeIco: 'book'},
       {type: 'SelectDateRang' ,label: '购买时间', name: 'rechargeTime', ruless:[] , placeholder: '购买时间', typeIco: 'book'},
@@ -58,7 +59,7 @@ class List extends React.Component {
 
     this.state = {
       option,
-      formData: formDatas,
+      formData,
       tableData,
       // buttonData: buttonDatas, 
       params:{
@@ -68,14 +69,15 @@ class List extends React.Component {
         startTime: null,
         endTime: null,
         page: 1,
-        pageSize: 10,
+        pageSize: 20,
         totalCount: 10,
       }
     }
   }
   
   componentWillMount () {
-    this.getData();
+    const {params} = this.state;
+    this.getData(params);
   }
 
   getData = (params) => {
@@ -91,6 +93,7 @@ class List extends React.Component {
           };
           tableData.data.push(p);
         });
+       
         this.setState({
           tableData,
           params: {
@@ -133,37 +136,18 @@ class List extends React.Component {
     }
   }
 
-  Reset = () => {
-    const params = {
-      reqStreamId: null,
-      userName: null,
-      status: null,
-      startTime: null,
-      endTime: null,
-      page: 1,
-      pageSize: 10,
-      totalCount: 10,
-    }
-    this.getData(params);
-  }
-
-  onChangePage = (page) => {
-    const {params} = this.state;
-    params.page = page;
-    this.getData(params);
-  }
-
   render () {
     const { getFieldDecorator } = this.props.form;
     const { formData, tableData, params} = this.state;
+   
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearchTwo 
+              <HeadFormSearch 
                 formData={formData} 
-                Reset={this.Reset} 
+                getData={this.getData} 
                 form={this.props.form} 
                 handleSubmit={this.handleSubmit} 
                 getFieldDecorator={getFieldDecorator} 
@@ -171,16 +155,11 @@ class List extends React.Component {
             </Col>
           </Row>
         </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data} 
-          bordered
+        <Table2
+          tableData={tableData}
           // rowSelection={rowSelection}
-          pagination={{
-            pageSize: params.pageSize,
-            total: params.totalCount,
-            onChange: this.onChangePage
-          }}
+          params={params}
+          getData={this.getData}
         />
       </PageHeaderWrapper>
     )

@@ -23,12 +23,11 @@ class ProductList extends React.Component {
   constructor(props){
     super(props);
     const option = [
-      {value: '1',label: '正在销售',}, 
-      {value: '2',label: '停止销售',}];
+      {value: '1',label: '正在销售'}, 
+      {value: '2',label: '停止销售'}];
     const productClass = [{
       value: '1',
-      label: '正在销售',
-    }];
+      label: '正在销售'}];
     const headForm = {
       formData:  [
         {type: 'SelectCompone' ,label: '产品类型',style:{width:'196px'}, placeholder: '退款编号', name: 'productCategoryId', ruless:[], options: productClass},
@@ -38,8 +37,7 @@ class ProductList extends React.Component {
       ],
       buttonData: [
         {type: 'primary', ico: 'edit', hangClick: this.handAdd, labe: '添加'},
-        {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除'}
-      ]
+        {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除'}]
     };
     const PRODUCTSTATUE = [
       {key: 1, describe: ['green', '正在销售']},
@@ -73,7 +71,7 @@ class ProductList extends React.Component {
       status: '',
       startTime: '',
       endTime: '' ,
-      limit: 10,
+      limit: 20,
       page: 1
     }
     this.state = {
@@ -176,16 +174,6 @@ class ProductList extends React.Component {
     this.getData(params);
   }
 
-  Reset = () => {
-    const params = {
-      productName: '',
-      status: '',
-      limit: 10,
-      page: 1
-    }
-    this.getData(params);
-  }
-
   getData = (params)=>{
     const {tableDatas} =  this.state;
     tableDatas.datas = [];
@@ -228,7 +216,7 @@ class ProductList extends React.Component {
             <Col>
               <HeadFormSearch
                 form={this.props.form} 
-                Reset={this.Reset} 
+                getData={this.getData} 
                 formData={headForm.formData} 
                 handleSubmit={this.handleSubmit} 
                 getFieldDecorator={getFieldDecorator} 

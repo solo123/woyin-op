@@ -11,6 +11,7 @@ import {
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo} from '@/components/HeadForm';
 import {statuesRend} from '@/utils/renderUtils';
+import {Table2} from '@/components/TableList/TableListPage';
 import {timeChangData} from '@/utils/utils';
 import {GetTransferOrderApi} from '@/services/api';
 import styles from './FindBuyOrder.less';
@@ -56,14 +57,15 @@ class TransferOrderList extends React.Component {
         startTime: null,
         endTime: null,
         page: 1,
-        pageSize: 10,
+        pageSize: 20,
         totalCount: 10,
       }
     }
   }
   
   componentWillMount () {
-    this.getData();
+    const {params} = this.state;
+    this.getData(params);
   }
 
   getData = (params) => {
@@ -111,26 +113,6 @@ class TransferOrderList extends React.Component {
     })
   }
 
-  Reset = () => {
-    const params = {
-      reqStreamId: null,
-      userName: null,
-      status: null,
-      startTime: null,
-      endTime: null,
-      page: 1,
-      pageSize: 10,
-      totalCount: 10,
-    }
-    this.getData(params);
-  }
-
-  onChangePage = (page) => {
-    const {params} = this.state;
-    params.page = page;
-    this.getData(params);
-  }
-
   render () {
     const { getFieldDecorator } = this.props.form;
     const { formData, tableData, params} = this.state;
@@ -139,19 +121,22 @@ class TransferOrderList extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearchTwo formData={formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearchTwo 
+                formData={formData} 
+                getData={this.getData} 
+                form={this.props.form} 
+                handleSubmit={this.handleSubmit} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
           </Row>
         </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data} 
-          bordered
-          pagination={{
-            pageSize: params.pageSize,
-            total: params.totalCount,
-            onChange: this.onChangePage
-          }}
+        <Table2
+          tableData={tableData}
+          // rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
+          scroll={{ x: 1200 }}
         />
       </PageHeaderWrapper>
     )

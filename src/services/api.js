@@ -264,5 +264,5 @@ export {
   GetTransferOrderApi, // 转增订单
   GetUserWaterApi, // 获取商户流水
   GetvouchersListById, // 获取流水
-  GetVouchersDetails, //流水详情
+  GetVouchersDetails, // 流水详情
 }

@@ -198,7 +198,12 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={headForm.formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch 
+                formData={headForm.formData} 
+                handleSubmit={this.handleSubmit} 
+                form={this.props.form} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
           </Row>
           <Row>

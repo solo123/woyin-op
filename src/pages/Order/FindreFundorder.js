@@ -97,7 +97,10 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearchTwo formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearchTwo 
+                formData={formData} 
+                handleSubmit={this.handleSubmit} 
+                getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
           <Row>

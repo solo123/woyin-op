@@ -53,6 +53,7 @@ class ProductList extends React.Component {
       {key: 1, describe: ['green', '支持']},
       {key: 2, describe: ['green', '不支持']},
     ];
+
     const tableDatas = {columns:
       [
         {title: '产品编号', dataIndex: 'productId', key: 'productId'},
@@ -63,6 +64,7 @@ class ProductList extends React.Component {
         {title: '价值', dataIndex: 'cost', key: 'cost'},
         {title: '进货价', dataIndex: 'purchasePrice', key: 'purchasePrice'},
         {title: '销售价', dataIndex: 'salesPrice', key: 'salesPrice'},
+        {title: '定价', dataIndex: 'salesOkPrice', key: 'salesOkPrice'},
         {title: '产品状态', dataIndex: 'status', key: 'status',render: status => (statuesRend(status, PRODUCTSTATUE))},
         {title: '是否支持退款', dataIndex: 'canRefund', key: 'canRefund',render: canRefund => (statuesRend(canRefund, PRODUCTCAN))},
         {title: '创建日期', dataIndex: 'createTime', key: 'createTime', },
@@ -85,7 +87,7 @@ class ProductList extends React.Component {
       productCategoryId: '',
       startTime: '',
       endTime: '',
-      limit: 10,
+      limit: 20,
       page: 1
     }
     this.state = {
@@ -215,7 +217,8 @@ class ProductList extends React.Component {
           res.data.result.forEach(elem => {
            const data = {
              ...elem,
-             key: elem.productId
+             key: elem.productId,
+             salesOkPrice: elem.discount==="-" ? elem.salesPrice : (elem.salesPrice*elem.discount).toFixed(2)
            }
            tableDatas.datas.push(data);
           })

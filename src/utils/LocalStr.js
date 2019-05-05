@@ -1,3 +1,7 @@
+/**
+ * 本地local 管理器，把需要进行的local的key需要在本地配置好
+ */
+
 class LocalStr{
  
     constructor(){
@@ -9,7 +13,7 @@ class LocalStr{
         }
     }
 
-     set(key, value){
+    set(key, value){
         if(this.key[key]){
           localStorage.setItem(key, value);
         }

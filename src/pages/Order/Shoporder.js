@@ -13,6 +13,7 @@ import {
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
 import {RechargMerchantRechargesPOST,findOrderInfo} from '@/services/api';
+import {Table2} from '@/components/TableList/TableListPage';
 import {timeChangData} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
 import styles from './Shoporder.less';
@@ -62,12 +63,17 @@ class List extends React.Component {
     };
     this.state = {
       tableData,
-      headForm
+      headForm,
+      params: {
+        pageSize: 20,
+        totalCount: 0,
+      }
     }
   }
   
   componentWillMount () {
-    this.getData();
+    const {params} = this.state;
+    this.getData(params);
   }
   
   getData = (param) => {
@@ -82,7 +88,13 @@ class List extends React.Component {
           };
           tableData.data.push(order);
         });
+        const params = {
+          ...param,
+          totalCount: res.data.totalCount
+        }
+       
         this.setState({
+          params,
           tableData
         })
       }
@@ -148,10 +160,6 @@ class List extends React.Component {
     });
   }
 
-  Reset = ()=> {
-    this.getData();
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     let startTime = null;
@@ -175,7 +183,7 @@ class List extends React.Component {
 
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { tableData, headForm } = this.state;
+    const { tableData, headForm , params} = this.state;
     const rowSelection = {
       onChange: this.onSelectedRows
     };
@@ -186,7 +194,7 @@ class List extends React.Component {
             <Col>
               <HeadFormSearchTwo 
                 formData={headForm.formData} 
-                Reset={this.Reset} 
+                getData={this.getData} 
                 form={this.props.form} 
                 handleSubmit={this.handleSubmit} 
                 getFieldDecorator={getFieldDecorator} 
@@ -201,11 +209,11 @@ class List extends React.Component {
             </Col>
           </Row>
         </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data} 
-          bordered
+        <Table2
+          tableData={tableData}
           rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
           scroll={{ x: 1200 }}
         />
       </PageHeaderWrapper>

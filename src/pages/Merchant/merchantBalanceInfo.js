@@ -13,7 +13,7 @@ import {gerMerchantHuiInfo} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {statuesRend} from '@/utils/renderUtils';
 import {timeChangData} from '@/utils/utils';
-import styles from './Info.less';
+import styles from './merchantBalanceInfo.less';
 
 @connect()
 class BalanceInfo extends Component {
@@ -22,8 +22,7 @@ class BalanceInfo extends Component {
     const formDatas = [
       {type: 'InputIcon', label: '商户登录帐户', name: 'userAccount', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
       {type: 'InputIcon', label: '商户名称', name: 'merchantName', ruless:[], placeholder: '商户名称', typeIco: 'book'},
-      {type: 'InputIcon', label: '用户手机号码', name: 'userPhoneNo', ruless:[], placeholder: '用户手机号码', typeIco: 'book'},
-      {type: 'InputIcon', label: '用户名称', name: 'userName', ruless:[], placeholder: '用户名称', typeIco: 'book'},
+      {type: 'SelectDateRang' ,label: '时间', name: 'rechargeTime', ruless:[] , placeholder: '时间', typeIco: 'book'},
     ];
     const STATUSITEMS = [
       {key: 0, describe: ['green', '未激活']},
@@ -33,13 +32,16 @@ class BalanceInfo extends Component {
     ];
     const tableData = {
       columns: [
-        {title: '用户名', dataIndex: 'userName', key: 'userName'},
-        {title: '用户手机号码', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        {title: '用户备注', dataIndex: 'remark', key: 'remark'},
+        {title: '成员ID', dataIndex: 'userName', key: 'userName'},
+        {title: '商户名称', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
+        {title: '成员名称', dataIndex: 'remark', key: 'remark'},
         // {title: '用户冻结时间', dataIndex: 'freezeTime', key: 'freezeTime'},
         // {title: '用户更新时间', dataIndex: 'updateTime', key: 'updateTime'},
-        {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, STATUSITEMS))},
-        {title: '用户组创建时间', dataIndex: 'createTime', key: 'createTime'},
+        // {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, STATUSITEMS))},
+        {title: '登录账号', dataIndex: 'createTime', key: 'createTime'},
+        {title: '账户当前积分', dataIndex: 'createTime', key: 'createTime'},
+        {title: '当前账户可用积分', dataIndex: 'createTime', key: 'createTime'},
+        {title: '当前账户冻结积分', dataIndex: 'createTime', key: 'createTime'}
       ],
       data: []
     }
@@ -51,7 +53,7 @@ class BalanceInfo extends Component {
         merchantName: '' ,
         userPhoneNo: '' ,
         userName: '' ,
-        count: 20 ,
+        count: 10 ,
         page: 1,
         totalCount: 10,
       }
@@ -81,6 +83,19 @@ class BalanceInfo extends Component {
       }
     })
   };
+
+  Reset = () => {
+    const params = {
+      userAccount: '',
+      merchantName: '',
+      userPhoneNo: '',
+      userName: '',
+      count: 10,
+      page: 1,
+      totalCount: 10,
+    }
+    this.getData(params);
+  }
 
   getData = (params) => {
     const param = params;
@@ -114,7 +129,7 @@ class BalanceInfo extends Component {
           <Row>
             <Col>
               <HeadFormSearch 
-                getData={this.getData} 
+                Reset={this.Reset} 
                 formData={formData} 
                 handleSubmit={this.handleSubmit} 
                 form={this.props.form} 

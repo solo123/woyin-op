@@ -140,7 +140,7 @@ export default [
             {
               path: '/merchant/balance-info',
               name: 'merchant-balance-info',
-              component: './Exception/modelNo',
+              component: './Merchant/merchantBalanceInfo',
             },
             { path: '/Merchant/MemberProduct', name: 'MemberProduct', component: './Merchant/MemberProduct' },
       ]

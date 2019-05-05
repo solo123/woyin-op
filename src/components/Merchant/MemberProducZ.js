@@ -16,6 +16,7 @@ class MemberProducZ extends React.Component {
   constructor(props) {
     super(props);
     const prodInfo = [
+        {label: '产品编号', value:'333333'},
         {label: '产品名称', value: '老白干'},
         {label: '价值', value: '30'},
         {label: '进货价', value: '1000'},
@@ -24,7 +25,8 @@ class MemberProducZ extends React.Component {
         {label: '运营商', value:'中国移动'},
         {label: '产品状态', value: '可用'},
         {label: '是否支持退款', value:'支持'},
-        {label: '产品编号', value:'333333'}
+        {label: '定价', value: '1200'},
+       
     ];
     this.state = {
         visible: false,
@@ -36,8 +38,10 @@ class MemberProducZ extends React.Component {
   }
 
   onChange = value => {
-    const {params} = this.state;
+    const {params, prodInfo} = this.state;
+    prodInfo[9].value = (value* prodInfo[3].value).toFixed(2);
     this.setState({
+      prodInfo,
         params: {
             ...params,
             discount: value
@@ -47,15 +51,17 @@ class MemberProducZ extends React.Component {
 
   showModal = (params, merchantId) => {
     const {prodInfo} = this.state;
-    prodInfo[0].value = params.productName;
-    prodInfo[1].value = params.cost;
-    prodInfo[2].value = params.purchasePrice;
-    prodInfo[3].value = params.salesPrice;
-    prodInfo[4].value = params.fatherName;
-    prodInfo[5].value = params.childName;
-    prodInfo[6].value = params.status===1 ? '正在销售' : '停止销售';
-    prodInfo[7].value = params.canRefund===1 ? '支持' : '不支持';
-    prodInfo[8].value = params.productId;
+    prodInfo[0].value = params.productId;
+    prodInfo[1].value = params.productName;
+    prodInfo[2].value = params.cost;
+    prodInfo[3].value = params.purchasePrice;
+    prodInfo[4].value = params.salesPrice;
+    prodInfo[5].value = params.fatherName;
+    prodInfo[6].value = params.childName;
+    prodInfo[7].value = params.status===1 ? '正在销售' : '停止销售';
+    prodInfo[8].value = params.canRefund===1 ? '支持' : '不支持';
+    prodInfo[9].value = params.discount ==='-' ? 0 : (params.discount*params.salesPrice).toFixed(2);
+   
     this.setState({
       visible: true,
       prodInfo,

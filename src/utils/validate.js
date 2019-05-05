@@ -1,4 +1,8 @@
 
+/* 
+ *
+ *校验规则集
+ */
 export function validatePrimeNumber(number) {
     if (number === 11) {
       return {

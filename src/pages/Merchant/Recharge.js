@@ -11,8 +11,9 @@ import {
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {MemberRecharges} from '@/components/Merchant';
-import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import {HeadFormSearch} from '@/components/HeadForm';
 import {RechargeGetMerList} from '@/services/api';
+import {Table2} from '@/components/TableList/TableListPage';
 import {statuesRend} from '@/utils/renderUtils';
 import styles from './Recharge.less';
 
@@ -20,13 +21,9 @@ import styles from './Recharge.less';
 class Recharge extends React.Component {
   constructor(props){
     super(props);
-    const cureeMerchId = null;
     const formDatas = [
       {type: 'InputIcon', label: '商户登录帐户', name: 'userAccount', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
       {type: 'InputIcon', label: '商户名称', name: 'merchantName', ruless:[], placeholder: '商户名称', typeIco: 'book'},
-    ];
-    const buttonData = [
-      {type: 'primary', ico: 'plus', hangClick: this.hangClick, labe: '代充值'}
     ];
     const STATUSITEMS = [
       {key: 1, describe: ['blue', '正常']},
@@ -49,34 +46,36 @@ class Recharge extends React.Component {
 
     this.state = {
       formData: formDatas,
-      buttonData,
       tableData,
-      cureeMerchId,
-      limit: 10,
-      count: 1,
       params: {
         userAccount: null,
         merchantName: null,
         count: null,
-        page: null,
-      },
+        page: 1,
+        pageSize: 20,
+        totalCount: 0,
+      }
     }
   }
   
   componentWillMount () {
-    const params = {
-      count: this.state.limit,
-      page: 1
-    }
-    this.geGetMerList(params);
+    const {params} = this.state;
+    this.getData(params);
   }
 
-  geGetMerList = (params) => {
-    RechargeGetMerList(params).then(res => {
+  getData = (params) => {
+    const param = {
+      ...params,
+      count: params.pageSize,
+    }
+    RechargeGetMerList(param).then(res => {
       if(res.status === 200) {
         this.dataRinse(res.data.data);
         this.setState({
-          count: res.data.totalCount
+          params: {
+            ...params,
+            totalCount: res.data.totalCount
+          }
         })
       }
     })
@@ -110,37 +109,20 @@ class Recharge extends React.Component {
     })
   }
 
-  onChangePage = (page, pageSize) => {
-    const {params} = this.state;
-    params.count = this.state.limit;
-    params.page = page;
-    this.geGetMerList(params);
-  }
-
   hangelRowChange = (selectedRowKeys, selectedRows) => {
     this.setState({
       cureeMerchId: selectedRows[0].key
     })
   }
 
-  Reset = () => {
-    this.geGetMerList();
-  }
-
   dataRinse = (data) => {
     const {tableData} = this.state;
     tableData.data = [];
     for(let i = 0; i < data.length; i+=1){
-      const mer = {};
-      mer.key = data[i].merchantId;
-      mer.userAccount = data[i].userAccount;
-      mer.merchantName = data[i].merchantName;
-      mer.merchantAddr = data[i].merchantAddr;
-      mer.contactMan = data[i].contactMan;
-      mer.phoneNum = data[i].phoneNum;
-      mer.telNum = data[i].telNum;
-      mer.status = data[i].status;
-      mer.createTime = data[i].createTime;
+      const mer = {
+        ...data[i],
+        key: data[i].merchantId
+      }
       tableData.data.push(mer);
     }
     this.setState({
@@ -150,7 +132,7 @@ class Recharge extends React.Component {
 
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { formData, tableData, buttonData, limit, count } = this.state;
+    const { formData, tableData, params } = this.state;
     const rowSelection = {
       type: 'radio',
       onChange: this.hangelRowChange
@@ -160,27 +142,22 @@ class Recharge extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} Reset={this.Reset} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch 
+                formData={formData} 
+                getData={this.getData} 
+                handleSubmit={this.handleSubmit} 
+                form={this.props.form} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
           </Row>
-          {/* <Row>
-            <Col>
-              <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
-              </div>
-            </Col>
-          </Row> */}
         </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data} 
-          bordered
-          // rowSelection={rowSelection}
-          pagination={{
-            pageSize: limit ,// 每页的条数
-            total: count,
-            onChange: this.onChangePage
-           }}
+        <Table2
+          tableData={tableData}
+          rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
+          scroll={{ x: 1200 }}
         />
         <MemberRecharges ref={c => {this.MemberRecharges = c}} />
       </PageHeaderWrapper>

@@ -24,9 +24,33 @@ class HeadFormTow extends React.Component {
     this.state = {}
   }
 
+  Reset = (formData) => {
+    let params = {};
+    formData.forEach(elem=>{
+      params[elem.type] = null;
+      if(elem.type === 'SelectDateRang'){
+        params.startTime = null;
+        params.endTime = null;
+      }
+    })
+
+    params = {
+      ...params,
+      page: 1,
+      pageSize: 20,
+      totalCount: 10
+    }
+   
+    return params;
+  }
+
   render () {
-    const {formData, handleSubmit, getFieldDecorator, form, Reset} = this.props;
-    const handleReset = () => {form.resetFields(); if(typeof Reset === 'function') Reset(); }
+    const {formData, handleSubmit, getFieldDecorator, form, getData, Reset} = this.props;
+    const handleReset = () => {
+      form.resetFields();  
+      if(typeof getData === 'function') getData(this.Reset(formData));
+      if(typeof Reset === 'function') Reset(); 
+    }
     const rendComp = value => {
     switch (value.type){
       case 'InputIcon':

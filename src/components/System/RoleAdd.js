@@ -36,99 +36,99 @@ class RoleAdd extends React.Component {
 
   render() {
     function onChange(checkedValues) {
-        console.log('checked = ', checkedValues);
-      }
+      console.log('checked = ', checkedValues);
+    }
     const rol = [
-        {
-            menu: '系统管理',
-            child:[
-                {
-                 title: '帐户列表',
-                 child:[{value: 1, label: '访问'}, {value: 2, label: '新增'}, {value: 3, label: '编辑'}, {value: 4, label: '删除'}, {value: 5, label: '保存'},
-                ]
-                },
-                {
-                 title: '角色列表',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                 ]
-                },
-                {
-                 title: '菜单管理',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                 ]
-                },
-                {
-                 title: '参数管理',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                 ]
-                }
-            ] 
-        },
-        {
-            menu: '产品管理',
-            child:[
-                {
-                 title: '产品列表',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                 ]
-               }
-            ] 
-        },
-        {
-            menu: '客户管理',
-            child:[
-                {
-                 title: '企业客户',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                 ]
-                },
-                {
-                 title: 'APP客户',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                 ]
-                },
-            ] 
-        },
-        {
-            menu: '运营管理',
-            child:[
-                {
-                 title: '机构套餐管理',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                ]
-               },
-               {
-                title: '设备套餐管理',
-                child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-               ]
-              },
-              {
-                title: '视频通话套餐管理',
-                child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-               ]
-              }
-            ] 
-        },
-        {
-            menu: '财务管理',
-            child:[
-                {
-                 title: '订单列表',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                ]
-             }
-            ] 
-        },
-        {
-            menu: '系统管理',
-            child:[
-                {
-                 title: '收款帐户管理',
-                 child:[{value: 1, label: '访问'}, {value: 1, label: '新增'}, {value: 1, label: '编辑'}, {value: 1, label: '删除'}, {value: 1, label: '保存'},
-                ]
-               }
-            ] 
-        }
+      {
+        menu: '系统管理',
+        child: [
+          {
+            title: '帐户列表',
+            child: [{ value: 1, label: '访问' }, { value: 2, label: '新增' }, { value: 3, label: '编辑' }, { value: 4, label: '删除' }, { value: 5, label: '保存' },
+            ]
+          },
+          {
+            title: '角色列表',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          },
+          {
+            title: '菜单管理',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          },
+          {
+            title: '参数管理',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          }
+        ]
+      },
+      {
+        menu: '产品管理',
+        child: [
+          {
+            title: '产品列表',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          }
+        ]
+      },
+      {
+        menu: '客户管理',
+        child: [
+          {
+            title: '企业客户',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          },
+          {
+            title: 'APP客户',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          },
+        ]
+      },
+      {
+        menu: '运营管理',
+        child: [
+          {
+            title: '机构套餐管理',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          },
+          {
+            title: '设备套餐管理',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          },
+          {
+            title: '视频通话套餐管理',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          }
+        ]
+      },
+      {
+        menu: '财务管理',
+        child: [
+          {
+            title: '订单列表',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          }
+        ]
+      },
+      {
+        menu: '系统管理',
+        child: [
+          {
+            title: '收款帐户管理',
+            child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
+            ]
+          }
+        ]
+      }
     ]
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
