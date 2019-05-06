@@ -14,6 +14,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {ProductAddAndUpdate, ProductUpdate} from '@/components/Product';
 import {ProductListApi, ProductDeleApi, ProductClassApi} from '@/services/api';
+import {Table2} from '@/components/TableList/TableListPage';
 import {timeChangData} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
 import styles from './ProductInfo.less';
@@ -64,14 +65,14 @@ class ProductList extends React.Component {
              <a href="javascript:void(0)" onClick={()=> {this.handUpdate(texts, record)}}>修改</a>
            </span>)},
      ],
-     datas:[]
+     data:[]
     };
     const params = {
       productName: '',
       status: '',
       startTime: '',
       endTime: '' ,
-      limit: 20,
+      pageSize: 20,
       page: 1
     }
     this.state = {
@@ -155,7 +156,7 @@ class ProductList extends React.Component {
       if(!err){
         params = {
          ...values,
-         limit: 10,
+         pageSize: 10,
          page: 1
         }
        this.getData(params);
@@ -168,19 +169,17 @@ class ProductList extends React.Component {
     this.setState({selectedRows})
   }
 
-  onChangePage = (page) => {
-    const {params} = this.state;
-    params.page = page;
-    this.getData(params);
-  }
-
   getData = (params)=>{
     const {tableDatas} =  this.state;
-    tableDatas.datas = [];
-    const param = params;
+    tableDatas.data = [];
+    const param = {
+      ...params,
+      limit: params.pageSize
+    }
     if(typeof param.cost === 'undefined' && param.cost===null){
       delete  param.cost
     }
+
     ProductListApi(param).then(res => {
       try {
         if(res.status===200){
@@ -189,12 +188,13 @@ class ProductList extends React.Component {
              ...elem,
              key: elem.productId
            }
-           tableDatas.datas.push(data);
+           tableDatas.data.push(data);
           })
           this.setState({
             tableDatas,
             params: {
-              count: res.data.count
+              ...params,
+              totalCount: res.data.count
             }
           })
         }
@@ -231,16 +231,12 @@ class ProductList extends React.Component {
             </Col>
           </Row>
         </Card>
-        <Table
-          columns={tableDatas.columns}
-          dataSource={tableDatas.datas}
-          bordered
+        <Table2
+          tableData={tableDatas}
           rowSelection={rowSelection}
-          pagination={{
-            pageSize: params.limit,
-            total: params.count,
-            onChange: this.onChangePage
-          }}
+          params={params}
+          getData={this.getData}
+          // scroll={{ x: 1300 }}
         />
         <ProductAddAndUpdate ref={c => { this.ProductAddAndUpdate = c}} Reset={this.Reset} />
         <ProductUpdate ref={c => {this.ProductUpdate = c}} Reset={this.Reset} />

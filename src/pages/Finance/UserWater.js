@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
@@ -6,11 +7,11 @@ import {
   Col,
   Card,
   Form,
-  Table
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {routerRedux} from 'dva/router';
+import {Table2} from '@/components/TableList/TableListPage';
 import {GetUserWaterApi, getMerchantListApi} from '@/services/api';
 import LocalStr from '@/utils/LocalStr';
 import styles from './UserWater.less';
@@ -49,7 +50,7 @@ class List extends React.Component {
         userPhoneNo: '',
         merchantId: '',
         page:1,
-        count: 10,
+        pageSize: 20,
         totalCount: 0,
       }
     }
@@ -106,17 +107,6 @@ class List extends React.Component {
     })
   }
 
-  Reset = () => {
-    const params = {
-      username: '',
-      userPhoneNo: '',
-      merchantId: '',
-      page:1,
-      count: 10,
-    }
-    this.setState({params}, this.getData(params))
-  }
-
   handleSubmit = (e) => {
     const {params} = this.state;
     e.preventDefault();
@@ -134,12 +124,6 @@ class List extends React.Component {
     })
   }
 
-  onChangePage = (page)=>{
-    const {params} = this.state;
-    params.page = page;
-    this.setState({params},  this.getData(params));
-  }
-
   render () {
     const { getFieldDecorator } = this.props.form;
     const { formData, tableData, params} = this.state;
@@ -148,28 +132,23 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch 
+                formData={formData} 
+                // Reset={this.Reset}
+                getData={this.getData}
+                form={this.props.form} 
+                handleSubmit={this.handleSubmit} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
           </Row>
-          {/* <Row>
-            <Col>
-              <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
-              </div>
-            </Col>
-          </Row> */}
         </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data}
-          pagination={{
-            current: params.page,
-            pageSize: params.count,
-            total: params.totalCount,
-            onChange: this.onChangePage
-          }}
-          bordered
-        //   rowSelection={rowSelection}
+        <Table2
+          tableData={tableData}
+          // rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
+          // scroll={{ x: 1200 }}
         />
       </PageHeaderWrapper>
     )

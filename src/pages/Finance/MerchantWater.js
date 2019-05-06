@@ -10,11 +10,12 @@ import {
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch} from '@/components/HeadForm';
-import {routerRedux} from 'dva/router';
-import {timeChangData} from '@/utils/utils';
+import {Table2} from '@/components/TableList/TableListPage';
 import {WaterDetails} from '@/components/Finance';
 import {getMerchantListApi, GetvouchersListById} from '@/services/api';
 import LocalStr from '@/utils/LocalStr';
+import {routerRedux} from 'dva/router';
+import {timeChangData} from '@/utils/utils';
 import styles from './UserWater.less';
 
 @connect()
@@ -54,7 +55,7 @@ class List extends React.Component {
         userPhoneNo: '',
         merchantId: '',
         page:1,
-        count: 10,
+        pageSize: 20,
         totalCount: 0,
       }
     }
@@ -63,7 +64,6 @@ class List extends React.Component {
   componentWillMount () {
     const {formData} = this.state;
     const option = [];
-   // this.getData(params);
     getMerchantListApi().then(res => {
       if(res.status===200 && res.data.data){
           res.data.data.forEach(elem => {
@@ -78,23 +78,22 @@ class List extends React.Component {
               formData
           })
       }
-  })
+    })
   }
 
   onHangeDetails = (texts, record) => {
-    // LocalStr.set("wateruserid",  record.key);
-    // LocalStr.set("waterusertype",  1);
-    // this.props.dispatch(routerRedux.push({
-    //   pathname: '/finance/WaterDetails',
-    // }));
     this.WaterDetails.showModal(record.id);
   }
 
   getData = (params) => {
     const {tableData} = this.state;
+    const param = {
+      ...params,
+      count: params.pageSize
+    }
     tableData.data = [];
-    if(!params.accountId) return
-    GetvouchersListById(params).then(res => {
+    if(!param.accountId) return
+    GetvouchersListById(param).then(res => {
       if(res.status ===200 && res.data.voucher){
         res.data.voucher.forEach(element => {
           const d = {
@@ -110,15 +109,6 @@ class List extends React.Component {
           },tableData})
       }
     })
-  }
-
-  Reset = () => {
-    const params = {
-      merchantName: '',
-      page:1,
-      count: 10,
-    }
-    this.setState({params}, this.getData(params))
   }
 
   handleSubmit = (e) => {
@@ -137,18 +127,11 @@ class List extends React.Component {
           p.endTime = timeChangData(values.rechargeTime[1].toDate());
         }
         delete p.rechargeTime;
-        console.log(p);
          this.setState({
            params: p
         }, this.getData(p))
       }
     })
-  }
-
-  onChangePage = (page)=>{
-    const {params} = this.state;
-    params.page = page;
-    this.setState({params},  this.getData(params));
   }
 
   render () {
@@ -159,28 +142,22 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch 
+                formData={formData} 
+                getData={this.getData}
+                form={this.props.form} 
+                handleSubmit={this.handleSubmit} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
           </Row>
-          {/* <Row>
-            <Col>
-              <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
-              </div>
-            </Col>
-          </Row> */}
         </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data}
-          pagination={{
-            current: params.page,
-            pageSize: params.count,
-            total: params.totalCount,
-            onChange: this.onChangePage
-          }}
-          bordered
-        //   rowSelection={rowSelection}
+        <Table2
+          tableData={tableData}
+          // rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
+          // scroll={{ x: 1200 }}
         />
         <WaterDetails ref={c => {this.WaterDetails = c}} />
       </PageHeaderWrapper>

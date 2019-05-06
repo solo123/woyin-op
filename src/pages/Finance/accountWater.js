@@ -11,6 +11,7 @@ import {
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {GetUserWaterApi, getMerchantListApi} from '@/services/api';
+import {Table2} from '@/components/TableList/TableListPage';
 import styles from './UserWater.less';
 
 @connect()
@@ -141,13 +142,6 @@ class List extends React.Component {
               <HeadFormSearch formData={formData} Reset={this.Reset} form={this.props.form} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
           </Row>
-          {/* <Row>
-            <Col>
-              <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
-              </div>
-            </Col>
-          </Row> */}
         </Card>
         <Table
           columns={tableData.columns}

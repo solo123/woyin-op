@@ -6,13 +6,13 @@ import {
   Col,
   Card,
   Form,
-  Table,
   message
 } from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import {MemberProducZ} from '@/components/Merchant';
 import {MemberProductZDel, ProductClassApi, MemberProductListApi} from '@/services/api';
+import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {Table2} from '@/components/TableList/TableListPage';
+import {MemberProducZ} from '@/components/Merchant';
 import {statuesRend} from '@/utils/renderUtils';
 import LocalStr from '@/utils/LocalStr';
 import {timeChangData} from '@/utils/utils';
@@ -22,17 +22,12 @@ import styles from './MemberProduct.less';
 class ProductList extends React.Component {
   constructor(props){
     super(props);
-    const option = [{
-      value: '1',
-      label: '正在销售',
-    }, {
-      value: '2',
-      label: '停止销售',
-    }];
-    const productClass = [{
-      value: '1',
-      label: '正在销售',
-    }]
+    const option = [
+      {value: '1',label: '正在销售'}, 
+      {value: '2',label: '停止销售'}
+    ];
+    const productClass = [
+      {value: '1',label: '正在销售'}]
     const headForm = {
       formData:  [
         {type: 'SelectCompone' ,label: '产品类型',style:{width:'196px'}, placeholder: '产品类型', name: 'productCategoryId', ruless:[], options: productClass},
@@ -77,7 +72,7 @@ class ProductList extends React.Component {
             return <a href="javascript:void(0)" onClick={()=> {this.handAdd(texts, record)}}>添加</a>
         }},
      ],
-     datas:[]
+     data:[]
     };
     const params = {
       merchantId: this.props.location.params,
@@ -87,7 +82,7 @@ class ProductList extends React.Component {
       productCategoryId: '',
       startTime: '',
       endTime: '',
-      limit: 20,
+      pageSize: 20,
       page: 1
     }
     this.state = {
@@ -99,7 +94,9 @@ class ProductList extends React.Component {
   }
   
   componentWillMount () {
-    const params = {
+    const {params} = this.state;
+    const param = {
+      ...params,
         merchantId: LocalStr.get("merchantId")
     };
    
@@ -123,18 +120,18 @@ class ProductList extends React.Component {
     this.setState({
         params,
     })
-    this.getData(params);
+    this.getData(param);
   }
 
   handAdd = (texts, record) => {
     const {tableDatas, params} = this.state;
-    const da = this.getDataByKey(tableDatas.datas, record.productId);
+    const da = this.getDataByKey(tableDatas.data, record.productId);
     this.MemberProducZ.showModal(da,params.merchantId);
   }
 
   handUpdate = (texts, record) => {
     const {tableDatas, params} = this.state;
-    const da = this.getDataByKey(tableDatas.datas, record.productId);
+    const da = this.getDataByKey(tableDatas.data, record.productId);
     this.MemberProducZ.showModal(da, params.merchantId);
   }
 
@@ -181,7 +178,6 @@ class ProductList extends React.Component {
         params = {
          ...params,
          ...values,
-         limit: 10,
          page: 1
         }
        this.getData(params);
@@ -194,12 +190,6 @@ class ProductList extends React.Component {
     this.setState({selectedRows})
   }
 
-  onChangePage = (page) => {
-    const {params} = this.state;
-    params.page = page;
-    this.getData(params);
-  }
-
   Reset = () => {
     const params = {
       merchantId: this.state.params.merchantId
@@ -209,8 +199,11 @@ class ProductList extends React.Component {
 
   getData = (params)=>{
     const {tableDatas} =  this.state;
-    tableDatas.datas = [];
-    const param = params;
+    tableDatas.data = [];
+    const param = {
+      ...params,
+      limit: params.pageSize
+    };
     MemberProductListApi(param).then(res => {
       try {
         if(res.status===200){
@@ -220,13 +213,13 @@ class ProductList extends React.Component {
              key: elem.productId,
              salesOkPrice: elem.discount==="-" ? elem.salesPrice : (elem.salesPrice*elem.discount).toFixed(2)
            }
-           tableDatas.datas.push(data);
+           tableDatas.data.push(data);
           })
           this.setState({
             tableDatas,
             params: {
               ...params,
-              count: res.data.count
+              totalCount: res.data.count
             }
           })
         }
@@ -264,17 +257,12 @@ class ProductList extends React.Component {
             </Col>
           </Row>
         </Card>
-        <Table
-          columns={tableDatas.columns}
-          dataSource={tableDatas.datas}
-          bordered
-          rowSelection={rowSelection}
-          scroll={{ x: 1500 }}
-          pagination={{
-            pageSize: params.limit,
-            total: params.count,
-            onChange: this.onChangePage
-          }}
+        <Table2
+          tableData={tableDatas}
+          // rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
+          scroll={{ x: 1300 }}
         />
         <MemberProducZ ref={c => {this.MemberProducZ =  c}} Reset={this.Reset} />
       </PageHeaderWrapper>

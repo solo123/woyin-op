@@ -8,9 +8,10 @@ import {
   Card,
   Form,
 } from 'antd';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {Table2} from '@/components/TableList/TableListPage';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {gerMerchantHuiInfo} from '@/services/api';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {statuesRend} from '@/utils/renderUtils';
 import {timeChangData} from '@/utils/utils';
 import styles from './Info.less';
@@ -51,7 +52,7 @@ class BalanceInfo extends Component {
         merchantName: '' ,
         userPhoneNo: '' ,
         userName: '' ,
-        count: 20 ,
+        pageSize: 20 ,
         page: 1,
         totalCount: 10,
       }
@@ -60,12 +61,6 @@ class BalanceInfo extends Component {
 
   componentWillMount () {
     this.getData(this.state.params);
-  }
-
-  onChangePage = (page) => {
-    const {params} = this.state;
-    params.page = page;
-    this.getData(params);
   }
 
   handleSubmit = e => {
@@ -80,12 +75,16 @@ class BalanceInfo extends Component {
         this.getData(params);
       }
     })
-  };
+  }
 
   getData = (params) => {
-    const param = params;
+    const param = {
+      ...params,
+      count: params.pageSize
+    };
     const {tableData} = this.state;
-    gerMerchantHuiInfo(params).then(res => {
+    
+    gerMerchantHuiInfo(param).then(res => {
       if(res.status === 200){
         tableData.data = [];
         res.data.data.forEach(element => {
@@ -99,7 +98,10 @@ class BalanceInfo extends Component {
         param.totalCount = res.data.totalCount;
         this.setState({
           tableData,
-          params
+          params:{
+            ...params,
+            totalCount: res.data.totalCount
+          }
         })
       }
     })
@@ -123,16 +125,12 @@ class BalanceInfo extends Component {
             </Col>
           </Row>
         </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data}
-          bordered
+        <Table2
+          tableData={tableData}
+          // rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
           scroll={{ x: 1200 }}
-          pagination={{
-            pageSize: params.count,
-            total: params.totalCount,
-            onChange: this.onChangePage
-           }}
         />
       </PageHeaderWrapper>
     );

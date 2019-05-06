@@ -1,6 +1,5 @@
 import React from 'react';
-import {Table} from 'antd';
-
+import {Table, InputNumber} from 'antd';
 
 /**
  * table模块 ，封装分页在里面
@@ -9,7 +8,9 @@ import {Table} from 'antd';
  * @param {*} params 
  * @param {*} getData 
  */
-export const Table2 = ({tableData, rowSelection, params, getData, scroll}) =>{
+export const Table2 = ({tableData ,rowSelection, params, getData, scroll}) =>{
+    let pageSize = 0;
+
     const onChangePage = (page) => {
        const param = {
            ...params,
@@ -17,6 +18,16 @@ export const Table2 = ({tableData, rowSelection, params, getData, scroll}) =>{
        }
        getData(param);
     }
+
+    function onChange(value) {pageSize = value;}
+
+    function onBlur(){
+      getData({
+        ...params,
+        pageSize
+      })
+    }
+
     return(
       <Table
         columns={tableData.columns}
@@ -27,8 +38,24 @@ export const Table2 = ({tableData, rowSelection, params, getData, scroll}) =>{
         pagination={{
           pageSize: params.pageSize,
           total: params.totalCount,
-          onChange: onChangePage
+          onChange: onChangePage,
+          showTotal: (total, range) => (
+            <div style={{height: '20px'}}>
+              <div style={{float:'left', lineHeight: '25px', marginRight: '20px'}}>总共：{total}条</div>
+              <div style={{float:'left'}}>单页：
+                <InputNumber
+                  min={0}
+                  step={1}
+                  size="small" 
+                  defaultValue={params.pageSize}
+                  precision={0}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />条
+              </div>
+            </div>)
         }}
+    
       />
     )
   }

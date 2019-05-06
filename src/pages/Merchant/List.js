@@ -79,8 +79,6 @@ class List extends React.Component {
       buttonData: buttonDatas,
       tableData,
       selectUserData: null,
-      limit: 10,
-      count: 0,
       param: {
         userAccount: '',
         merchantName: '',
@@ -197,8 +195,7 @@ getData = (params) => {
           param: {
             ...params,
             totalCount: res.data.totalCount
-          },
-          count: res.data.totalCount
+          }
         }
         );
       }
@@ -234,7 +231,7 @@ render () {
       </Card>
       <Table2
         tableData={tableData}
-        rowSelection={rowSelection}
+        // rowSelection={rowSelection}
         params={param}
         getData={this.getData}
         scroll={{ x: 1300 }}

@@ -14,6 +14,7 @@ import {
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {withdrawList, withdrawApplay} from '@/services/api';
+import {Table2} from '@/components/TableList/TableListPage';
 import {timeToYmdH} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
 import styles from './InterSubmit.less';
@@ -77,23 +78,30 @@ class List extends React.Component {
         status: 10,
         page: 1,
         limit: 10,
+        pageSize: 20,
+        totalCount: 0
       }
     }
   }
   
   componentWillMount () {
-    const param = {
-      status: 10,
-      limit: this.state.limit,
-      page: this.state.page
-    }
-    this.getData(param);
+    // const param = {
+    //   status: 10,
+    //   limit: this.state.limit,
+    //   page: this.state.page
+    // }
+    const {params} = this.state;
+    this.getData(params);
   }
 
   getData = (param) => {
     const {tableData} = this.state;
     tableData.data = [];
-    withdrawList(param).then(res => {
+    const params = {
+      ...param,
+      limit: param.pageSize
+    }
+    withdrawList(params).then(res => {
       if(res.status === 200){
         res.data.withdrawal.forEach(item => {
           const order = {
@@ -106,16 +114,14 @@ class List extends React.Component {
         });
         this.setState({
           tableData,
-          count: res.data.count,
+          params:{
+            ...param,
+            totalCount: res.data.count
+          }
+         
         })
       }
     })
-  }
-
-  onChangePage = (page) =>{
-    const {params} = this.state;
-      params.page = page;
-      this.getData(params);
   }
   
   handWithDrawAppaly = (e) => {
@@ -188,7 +194,7 @@ class List extends React.Component {
 
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { tableData, count, limit, headForm } = this.state;
+    const { tableData, count, limit, headForm, params} = this.state;
     const rowSelection = {
       onChange: this.selectedRowKeys
     };
@@ -214,7 +220,7 @@ class List extends React.Component {
             </Col>
           </Row>
         </Card>
-        <Table
+        {/* <Table
           columns={tableData.columns}
           dataSource={tableData.data} 
           bordered
@@ -225,6 +231,13 @@ class List extends React.Component {
             onChange: this.onChangePage
            }}
           scroll={{ x: 1300 }}
+        /> */}
+        <Table2
+          tableData={tableData}
+          rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
+          // scroll={{ x: 1300 }}
         />
       </PageHeaderWrapper>
     )

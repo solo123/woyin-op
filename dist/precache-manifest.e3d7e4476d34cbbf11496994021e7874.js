@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "4e7259c44320234845dd",
+    "revision": "bafe522a83dd9c585593",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
-    "revision": "93cdb7911f4beb7bbaf8",
+    "revision": "06e9011e8a653358e8d8",
     "url": "/vendors.chunk.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/umi.css"
   },
   {
-    "revision": "93cdb7911f4beb7bbaf8",
+    "revision": "06e9011e8a653358e8d8",
     "url": "/vendors.async.js"
   },
   {
@@ -76,11 +76,11 @@ self.__precacheManifest = [
     "url": "/p__Exception__models__error.js.async.js"
   },
   {
-    "revision": "5f4748aa19b30f651517",
+    "revision": "4699174d5e6ecd4170ff",
     "url": "/p__Finance__MerchantWater.async.js"
   },
   {
-    "revision": "7dc23df2b6f8acf1e9a9",
+    "revision": "af16d321c8facf29313f",
     "url": "/p__Finance__UserWater.async.js"
   },
   {
@@ -88,15 +88,15 @@ self.__precacheManifest = [
     "url": "/p__Finance__WaterDetails.async.js"
   },
   {
-    "revision": "516d21dbbb41d9b11b83",
+    "revision": "94bbc38fa515a9127d47",
     "url": "/p__Finance__accountWater.async.js"
   },
   {
-    "revision": "38b05acabb64f105d226",
+    "revision": "763e40ea4685c011b9d1",
     "url": "/p__Merchant__BalanceInfo.chunk.css"
   },
   {
-    "revision": "38b05acabb64f105d226",
+    "revision": "763e40ea4685c011b9d1",
     "url": "/p__Merchant__BalanceInfo.async.js"
   },
   {
@@ -104,11 +104,11 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberInterApply.async.js"
   },
   {
-    "revision": "99b85ae5fa25978526ea",
+    "revision": "6cdb2cad3c4fe654dc63",
     "url": "/p__Merchant__MemberProduct.chunk.css"
   },
   {
-    "revision": "99b85ae5fa25978526ea",
+    "revision": "6cdb2cad3c4fe654dc63",
     "url": "/p__Merchant__MemberProduct.async.js"
   },
   {
@@ -128,11 +128,11 @@ self.__precacheManifest = [
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "f8fad86baca2b53110e9",
+    "revision": "999def510aef6973d13f",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "f8fad86baca2b53110e9",
+    "revision": "999def510aef6973d13f",
     "url": "/p__Merchant__list.async.js"
   },
   {
@@ -156,7 +156,7 @@ self.__precacheManifest = [
     "url": "/p__Order__FindreFundorder.async.js"
   },
   {
-    "revision": "4e7259c44320234845dd",
+    "revision": "bafe522a83dd9c585593",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
@@ -184,11 +184,11 @@ self.__precacheManifest = [
     "url": "/p__Order__TransferOrderList.async.js"
   },
   {
-    "revision": "a7f9d526517baa7e10da",
+    "revision": "4a4cb612ae2f78155600",
     "url": "/p__Product__ProductInfo.async.js"
   },
   {
-    "revision": "a5decb295b4b59dcf99a",
+    "revision": "7872e23b13cd93c1a07f",
     "url": "/p__Product__productclass.async.js"
   },
   {

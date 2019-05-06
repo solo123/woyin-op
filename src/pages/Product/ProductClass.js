@@ -15,6 +15,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {ProductAddAndUpdateClass, ProductEditClass} from '@/components/Product';
 import {ProductClassApi, ProductClassDeleApi} from '@/services/api';
+import {Table2} from '@/components/TableList/TableListPage';
 import {statuesRend, hreRend} from '@/utils/renderUtils';
 import styles from './ProductInfo.less';
 
@@ -39,14 +40,16 @@ class ProductList extends React.Component {
       {title: '分类名称', dataIndex: 'productCategoryName', key: 'productCategoryName'},
       {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',render:(texts, record)=>(hreRend(hre, texts, record)) },
     ],
-      datas:[]
+      data:[]
     };
     const params = {
       productName: '',
       cost: '',
       status: '',
       limit: 10,
-      page: 1
+      pageSize: 20,
+      page: 1,
+      totalCount: 0
     }
     this.state = {
       tableDatas,
@@ -103,7 +106,7 @@ class ProductList extends React.Component {
       if(!err){
         params = {
           ...values,
-          limit: 10,
+          pageSize: 20,
           page: 1
         }
         this.getData(params);
@@ -117,25 +120,14 @@ class ProductList extends React.Component {
       selectedRows
     })
   }
-
-  onChangePage = (page) => {
-    const {params} = this.state;
-    params.page = page;
-    this.getData(params);
-  }
-
-  Reset = () => {
-    const params = {
-      limit: 10,
-      page: 1
-    }
-    this.getData(params);
-  }
   
   getData = (params)=>{
     const {tableDatas} =  this.state;
-    tableDatas.datas = [];
-    const param = params;
+    tableDatas.data = [];
+    const param = {
+      ...params,
+      limit: params.pageSize
+    }
     if(typeof param.cost === 'undefined' || param.cost===null){
       delete param.columns;
     }
@@ -146,10 +138,14 @@ class ProductList extends React.Component {
           res.data.result.forEach(element => {
             const ne = element;
             ne.key = element.productCategoryId;
-            tableDatas.datas.push(ne);
+            tableDatas.data.push(ne);
           });
           this.setState({
-            tableDatas
+            tableDatas,
+            params: {
+              ...params,
+              totalCount: res.data.count
+            }
           })
         }
       } catch (error) {}
@@ -167,7 +163,13 @@ class ProductList extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearch formData={formData} Reset={this.Reset} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch 
+                formData={formData} 
+                getData={this.getData}
+                handleSubmit={this.handleSubmit} 
+                form={this.props.form} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
           </Row>
           <Row>
@@ -178,16 +180,12 @@ class ProductList extends React.Component {
             </Col>
           </Row>
         </Card>
-        <Table
-          columns={tableDatas.columns}
-          dataSource={tableDatas.datas}
-          bordered
+        <Table2
+          tableData={tableDatas}
           rowSelection={rowSelection}
-          pagination={{
-            pageSize: params.limit,
-            total: params.count,
-            onChange: this.onChangePage
-          }}
+          params={params}
+          getData={this.getData}
+          // scroll={{ x: 1300 }}
         />
         <ProductEditClass ref={c=>{ this.ProductEditClass =c}} />
         <ProductAddAndUpdateClass ref={c => { this.ProductAddAndUpdateClass = c}} Reset={this.Reset} />
