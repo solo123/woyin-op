@@ -6,7 +6,6 @@ import {
   Col,
   Card,
   Form,
-  Table
 } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch} from '@/components/HeadForm';
@@ -111,27 +110,22 @@ class List extends React.Component {
     })
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = (values) => {
     const {params} = this.state;
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        const p = {
-          ...params,
-          ...values,
-          type: 1,
-          page: 1
-        };
-        if(typeof values.rechargeTime !== 'undefined'){
-          p.startTime = timeChangData(values.rechargeTime[0].toDate());
-          p.endTime = timeChangData(values.rechargeTime[1].toDate());
-        }
-        delete p.rechargeTime;
-         this.setState({
-           params: p
-        }, this.getData(p))
+    const p = {
+        ...params,
+        ...values,
+        type: 1,
+        page: 1
+    };
+      if(typeof values.rechargeTime !== 'undefined'){
+        p.startTime = timeChangData(values.rechargeTime[0].toDate());
+        p.endTime = timeChangData(values.rechargeTime[1].toDate());
       }
-    })
+      delete p.rechargeTime;
+      this.setState({
+           params: p
+    }, this.getData(p))
   }
 
   render () {

@@ -52,7 +52,7 @@ export function authorityAccount() {
                 // '/order/shopcreateroll',
                 // '/order/lotteryorder',
                 '/order/intersubmit',
-                '/order/orderincrease',
+                '/order/transferorderlist',
                 '/product',
                 '/product/productinfo',
                 '/product/productclass',

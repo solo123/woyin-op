@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-script-url */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -22,6 +23,19 @@ class HeadFormTow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
+  }
+
+  /**
+   * 进行数据提交的部分处理
+   * 把数据清洗剥离出来，只返回表单数据
+   */
+  Submit = (e, resolve) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+        if(!err){
+          resolve(values);
+        }
+    })
   }
 
   Reset = (formData) => {
@@ -85,20 +99,21 @@ class HeadFormTow extends React.Component {
       }
     }
       
+  // 进行分行处理
   const one = formData.map( (value, index) => {
-        if(index <=3){
-          return rendComp(value, index);
-        }
-      });
+    if(index <=3){
+      return rendComp(value, index);
+    }
+  });
 
   const two = formData.map( (value, index) => {
-        if(index >3 && index <= 6){
-          return rendComp(value, index);
-        }
-      })
+    if(index >3 && index <= 6){
+      return rendComp(value, index);
+    }
+  })
       
   return (
-    <Form layout="inline" onSubmit={handleSubmit}>
+    <Form layout="inline" onSubmit={(e)=>(this.Submit(e, handleSubmit))}>
       <Row gutter={{ md: 6}}>
         {one}
       </Row>

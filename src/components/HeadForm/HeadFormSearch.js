@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-script-url */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -20,6 +21,19 @@ class HeadForm extends React.Component {
   constructor(props) {
         super(props);
         this.state = {}
+  }
+  
+  /**
+   * 进行数据提交的部分处理
+   * 把数据清洗剥离出来，只返回表单数据
+   */
+  Submit = (e, resolve) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+        if(!err){
+          resolve(values);
+        }
+    })
   }
 
   // 重置查询数据，返回重置后的字段值
@@ -57,25 +71,25 @@ class HeadForm extends React.Component {
             <React.Fragment key={value.label}>
               {InputIcon(value, getFieldDecorator)}
             </React.Fragment>
-          );
+          )
         case 'SelectCompone':
-            return (
-              <React.Fragment key={value.label}>
-                {SelectCompone(value, getFieldDecorator)}
-              </React.Fragment>
-            )
+          return (
+            <React.Fragment key={value.label}>
+              {SelectCompone(value, getFieldDecorator)}
+            </React.Fragment>
+          )
         case 'SelectDateRang':
-            return (
-              <React.Fragment key={value.label}>
-                {SelectDateRang(value, getFieldDecorator)}
-              </React.Fragment>
-            )
+          return (
+            <React.Fragment key={value.label}>
+              {SelectDateRang(value, getFieldDecorator)}
+            </React.Fragment>
+          )
         default:
       }
     })
       
     return (
-      <Form layout="inline" onSubmit={handleSubmit}>
+      <Form layout="inline" onSubmit={(e)=>(this.Submit(e, handleSubmit))}>
         {formInputRend}
         <Button type="primary" icon="search" htmlType="submit">查找</Button>
         <Button style={{"marginLeft": '10px'}} onClick={handleReset} icon="redo">重置</Button>

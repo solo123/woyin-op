@@ -93,44 +93,36 @@ class List extends React.Component {
           };
           tableData.data.push(p);
         });
-       
-        this.setState({
-          tableData,
-          params: {
-            ...params,
-            totalCount: res.data.totalCount
-          }
-        })
       }
+      this.setState({
+        tableData,
+        params: {
+          ...params,
+          totalCount: res.data.totalCount
+        }
+      })
     })
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const {params} = this.state;
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        const value = values;
-        if(typeof values.rechargeTime !== 'undefined'){
-          value.startTime = timeChangData(values.rechargeTime[0].toDate());
-          value.endTime = timeChangData(values.rechargeTime[1].toDate());
-        }
-        delete value.rechargeTime;
-        const param = {
-          ...params,
-          ...value,
-          state: this.getV(value.state)
-        }
-        this.setState({params: param});
-        this.getData(param)
-      }
+  handleSubmit = (values) => {
+    const params = values;
+
+    if(typeof params.rechargeTime !== 'undefined'){
+      params.startTime = timeChangData(values.rechargeTime[0].toDate());
+      params.endTime = timeChangData(values.rechargeTime[1].toDate());
+    }
+    delete params.rechargeTime;
+    
+    this.getData({
+      ...params,
+      state: this.getV(params.status)
     })
   }
 
   getV = (key) => {
     const {option} = this.state;
     for(let i = 0 ; i < option.length ; i+=1){
-       if(option[i].label === key){
+       if(option[i].value === key || option[i].label === key){
          return option[i].value
        }
     }

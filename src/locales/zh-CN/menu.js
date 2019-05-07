@@ -59,7 +59,7 @@ export default {
   'menu.order.InterSubmit': '积分转让审核',
   'menu.order.findrefundorder': '查询退款订单',
   'menu.order.findbuyorder': '购买订单',
-  'menu.order.orderincrease': '转赠订单',
+  'menu.order.TransferOrderList': '转赠订单',
   'menu.order.shopcreateroll': '商户生成电子券审核',
   'menu.order.lotteryorder': '查询彩票订单',
   'menu.product': '产品管理',

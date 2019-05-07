@@ -107,21 +107,10 @@ class List extends React.Component {
     })
   }
 
-  handleSubmit = (e) => {
-    const {params} = this.state;
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-          const p = {
-            ...params,
-            ...values,
-            page: 1
-          };
-          this.setState({
-            params: p
-          }, this.getData(p))
-      }
-    })
+  handleSubmit = (values) => {
+    const params = values;
+    this.getData(params)
+ 
   }
 
   render () {

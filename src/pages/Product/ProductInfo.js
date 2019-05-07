@@ -6,7 +6,6 @@ import {
   Col,
   Card,
   Form,
-  Table,
   message,
   Modal
 } from 'antd';
@@ -31,8 +30,8 @@ class ProductList extends React.Component {
       label: '正在销售'}];
     const headForm = {
       formData:  [
-        {type: 'SelectCompone' ,label: '产品类型',style:{width:'196px'}, placeholder: '退款编号', name: 'productCategoryId', ruless:[], options: productClass},
-        {type: 'SelectCompone', label: '状态：',style: {width: '193px'}, name: 'status', options: option},
+        {type: 'SelectCompone' ,label: '产品类型',name: 'productCategoryId', style:{width:'196px'}, placeholder: '退款编号', ruless:[], options: productClass},
+        {type: 'SelectCompone', label: '状态：',name: 'status' ,style: {width: '193px'}, options: option},
         {type: 'InputIcon', label:'产品名称', name:'productName',ruless:[], placeholder: '产品名称', typeIco: 'user'},
         {type: 'SelectDateRang' ,label: '创建时间', name: 'rechargeTime', ruless:[] , placeholder: '创建时间', typeIco: 'book'}
       ],
@@ -142,27 +141,14 @@ class ProductList extends React.Component {
     this.ProductUpdate.showModal();
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    let {params} = this.state;
-    let value = null;
-    this.props.form.validateFields((err, values) => {
-      value = values;
-      if(typeof values.rechargeTime !== 'undefined'){
-        value.startTime = timeChangData(values.rechargeTime[0].toDate());
-        value.endTime = timeChangData(values.rechargeTime[1].toDate());
-      }
-      delete value.rechargeTime;
-      if(!err){
-        params = {
-         ...values,
-         pageSize: 10,
-         page: 1
-        }
-       this.getData(params);
-       this.setState({params});
-      }
-    })
+  handleSubmit = (value) => {
+    const params = value;
+    if(typeof params.rechargeTime !== 'undefined'){
+      params.startTime = timeChangData(params.rechargeTime[0].toDate());
+      params.endTime = timeChangData(params.rechargeTime[1].toDate());
+    }
+    delete params.rechargeTime;
+    this.getData(params);
   }
 
   onHandSelectRow =  (selectedRowKeys, selectedRows) => {
@@ -182,7 +168,7 @@ class ProductList extends React.Component {
 
     ProductListApi(param).then(res => {
       try {
-        if(res.status===200){
+        if(res.status===200 && res.data.count){
           res.data.result.forEach(elem => {
            const data = {
              ...elem,
@@ -190,14 +176,15 @@ class ProductList extends React.Component {
            }
            tableDatas.data.push(data);
           })
-          this.setState({
-            tableDatas,
-            params: {
-              ...params,
-              totalCount: res.data.count
-            }
-          })
         }
+       
+        this.setState({
+          tableDatas,
+          params: {
+            ...params,
+            totalCount: res.data.count
+          }
+        })
       } catch (error) {}
     })
   }

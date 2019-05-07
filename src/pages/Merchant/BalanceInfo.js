@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { 
-  Table,
   Row,
   Col,
   Card,
@@ -63,18 +62,13 @@ class BalanceInfo extends Component {
     this.getData(this.state.params);
   }
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        const {params} = this.state;
-        params.userAccount = values.userAccount;
-        params.merchantName = values.merchantName;
-        params.userPhoneNo = values.userPhoneNo;
-        params.userName = values.userName;
-        this.getData(params);
-      }
-    })
+  handleSubmit = values => {
+    const {params} = this.state;
+    params.userAccount = values.userAccount;
+    params.merchantName = values.merchantName;
+    params.userPhoneNo = values.userPhoneNo;  
+    params.userName = values.userName;
+    this.getData(params);
   }
 
   getData = (params) => {

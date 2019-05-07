@@ -6,7 +6,6 @@ import {
   Col,
   Card,
   Form,
-  Table
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo} from '@/components/HeadForm';
@@ -92,25 +91,16 @@ class TransferOrderList extends React.Component {
     })
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const {params} = this.state;
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        const value = values;
-        if(typeof values.rechargeTime !== 'undefined'){
-          value.startTime = timeChangData(values.rechargeTime[0].toDate());
-          value.endTime = timeChangData(values.rechargeTime[1].toDate());
-        }
-        delete value.rechargeTime;
-        const param = {
-          ...params,
-          ...value,
-        }
-        this.setState({params: param});
-        this.getData(param)
-      }
-    })
+  handleSubmit = (values) => {
+    const params = values;
+
+    if(typeof values.rechargeTime !== 'undefined'){
+      params.startTime = timeChangData(values.rechargeTime[0].toDate());
+      params.endTime = timeChangData(values.rechargeTime[1].toDate());
+    }
+
+    delete params.rechargeTime;
+    this.getData(params)
   }
 
   render () {

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
@@ -6,13 +7,12 @@ import {
   Col,
   Card,
   Form,
-  Table,
   message,
   Modal
 } from 'antd'
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
 import {RechargMerchantRechargesPOST,findOrderInfo} from '@/services/api';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
 import {timeChangData} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
@@ -160,25 +160,14 @@ class List extends React.Component {
     });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    let startTime = null;
-    let endTime = null;
-    this.props.form.validateFields((err, values) => {
-      if(typeof values.rechargeTime !== 'undefined'){
-        startTime = timeChangData(values.rechargeTime[0].toDate());
-        endTime = timeChangData(values.rechargeTime[1].toDate());
-      }
-      const params = {
-        ...values,
-        endTime,
-        startTime,
-        rechargeTime: null
-      };
-      if(!err){
-        this.getData(params);
-      }
-    })
+  handleSubmit = (values) => {
+    const params = values;
+    if(typeof values.rechargeTime !== 'undefined'){
+      params.startTime = timeChangData(values.rechargeTime[0].toDate());
+      params.endTime = timeChangData(values.rechargeTime[1].toDate());
+    }
+    delete params.rechargeTime;
+    this.getData(params);
   }
 
   render () {

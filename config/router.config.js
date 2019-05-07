@@ -172,8 +172,8 @@ export default [
            component: './Order/FindBuyOrder',
          },
          {
-          path: '/order/orderincrease',
-          name: 'orderincrease',
+          path: '/order/transferorderlist',
+          name: 'TransferOrderList',
           component: './Order/TransferOrderList',
         },
          {

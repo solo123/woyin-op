@@ -7,7 +7,6 @@ import {
   Col,
   Card,
   Form,
-  Table,
   message,
   Modal
 } from 'antd';
@@ -71,7 +70,6 @@ class List extends React.Component {
       headForm,
       tableData,
       limit: 10,
-      count: 1,
       page: 1,
       withDrawList: [],
       params:{
@@ -85,11 +83,6 @@ class List extends React.Component {
   }
   
   componentWillMount () {
-    // const param = {
-    //   status: 10,
-    //   limit: this.state.limit,
-    //   page: this.state.page
-    // }
     const {params} = this.state;
     this.getData(params);
   }
@@ -165,36 +158,27 @@ class List extends React.Component {
     e.preventDefault();
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        const params = {
-          status: this.getV(values.state),
-          limit: this.state.limit,
-          page: this.state.page
-        };
-        this.getData(params);
-        this.setState({
-          params
-        })
-      }
-    })
+  handleSubmit = (values) => {
+    const params = {
+      status: this.getV(values.state),
+      limit: this.state.limit,
+      page: this.state.page
+    };
+    this.getData(params);
   }
 
   getV = (key) => {
    const {option} = this.state;
-   for(let i = 0 ; i < option.length ; i=+1){
-      if(option[i].label === key){
-        return option[i].value
+   for(let i = 0 ; i < option.length ; i+=1){
+      if(option[i].value === key || option[i].label === key){
+         return option[i].value
       }
    }
   }
-  
 
   render () {
     const { getFieldDecorator } = this.props.form;
-    const { tableData, count, limit, headForm, params} = this.state;
+    const { tableData ,headForm , params} = this.state;
     const rowSelection = {
       onChange: this.selectedRowKeys
     };

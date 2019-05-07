@@ -66,7 +66,7 @@ class Recharge extends React.Component {
   getData = (params) => {
     const param = {
       ...params,
-      count: params.pageSize,
+      pageSize: params.pageSize,
     }
     RechargeGetMerList(param).then(res => {
       if(res.status === 200) {
@@ -93,26 +93,8 @@ class Recharge extends React.Component {
     }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        this.setState({
-          params: values
-        })
-        RechargeGetMerList(values).then(res => {
-          if(res.status === 200){
-            this.dataRinse(res.data.data);
-          }
-        })
-      }
-    })
-  }
-
-  hangelRowChange = (selectedRowKeys, selectedRows) => {
-    this.setState({
-      cureeMerchId: selectedRows[0].key
-    })
+  handleSubmit = (values) => {
+    this.getData(values);
   }
 
   dataRinse = (data) => {

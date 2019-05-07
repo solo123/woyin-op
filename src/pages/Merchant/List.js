@@ -150,22 +150,14 @@ getCheckUser = (selectedRowKeys, selectedRows) => {
   this.setState({selectUserData: selectedRows});
 }
 
-handleSubmit = (e) => {
-  e.preventDefault();
-  this.props.form.validateFields((err, values) => {
-    if(!err){
-      const param = {
-        userAccount: values.userAccount,
-        merchantName: values.merchantName,
-        phoneNum: values.phoneNum,
-        status: values.status=== undefined ? '' : values.status[0],
-      }
-      this.getData(param);
-      this.setState({
-      param
-      })
-    }
-  })
+handleSubmit = (values) => {
+  const param = {
+    userAccount: values.userAccount,
+    merchantName: values.merchantName,
+    phoneNum: values.phoneNum,
+    status: values.status=== undefined ? '' : values.status[0]
+  }
+  this.getData(param);
 }
 
 getData = (params) => {
@@ -218,7 +210,13 @@ render () {
       <Card bordered={false}>
         <Row>
           <Col>
-            <HeadFormSearch getData={this.getData} formData={formData} handleSubmit={this.handleSubmit} form={this.props.form} getFieldDecorator={getFieldDecorator} />
+            <HeadFormSearch 
+              getData={this.getData} 
+              formData={formData} 
+              handleSubmit={this.handleSubmit} 
+              form={this.props.form} 
+              getFieldDecorator={getFieldDecorator} 
+            />
           </Col>
         </Row>
         <Row>
