@@ -6,6 +6,7 @@ import MemberApplayData from'./MemberApplayData';
 import MemberRecharges from './MemberRecharges';
 import MemberApplayInter from './MemberApplayInter';
 import MemberProducZ from './MemberProducZ';
+import MerchantAddRate from './MerchantAddRate';
 
 
 export {
@@ -16,6 +17,7 @@ export {
     MemberApplayData,
     MemberRecharges,
     MemberApplayInter,
-    MemberProducZ
+    MemberProducZ,
+    MerchantAddRate
 }
 export default MerchantAddOrUpdate

@@ -26,11 +26,12 @@ class ProductList extends React.Component {
       {value: '1',label: '正在销售'}, 
       {value: '2',label: '停止销售'}
     ];
-    const productClass = [
-      {value: '1',label: '正在销售'}]
+    const productClass = [];
     const headForm = {
       formData:  [
-        {type: 'SelectCompone' ,label: '产品类型',style:{width:'196px'}, placeholder: '产品类型', name: 'q_cc.productCategoryId_eq', ruless:[], options: productClass},
+        {type: 'SelectCompone' ,label: '一级分类',style:{width:'196px'}, handChang: this.handChang1 , name: 'q_cc.productCategoryId_eq', ruless:[], options: productClass},
+        {type: 'SelectCompone' ,label: '二级分类',style:{width:'196px'}, handChang: this.handChang2 , name: 'q_cc.productCategoryId_eq1', ruless:[], options: productClass},
+        {type: 'SelectCompone' ,label: '三级分类',style:{width:'196px'}, handChang: this.handChang3 , name: 'q_cc.productCategoryId_eq2', ruless:[], options: productClass},
         {type: 'SelectCompone', label: '状态：',style: {width: '193px'}, name: 'q_p.status_eq', options: option},
         {type: 'InputIcon', label:'产品名称', name:'q_productName_like',ruless:[], placeholder: '产品名称', typeIco: 'user'},
         {type: 'SelectDateRang' ,label: '创建时间', name: 'rechargeTime', ruless:[] , placeholder: '创建时间', typeIco: 'book'}
@@ -51,10 +52,11 @@ class ProductList extends React.Component {
 
     const tableDatas = {columns:
       [
+        {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '产品编号', dataIndex: 'productId', key: 'productId'},
         // {title: '', dataIndex: 'discountId', key: 'discountId'},
-        {title: '产品类型', dataIndex: 'fatherName', key: 'fatherName'},
-        {title: '运营商', dataIndex: 'childName', key: 'childName'},
+        // {title: '产品类型', dataIndex: 'fatherName', key: 'fatherName'},
+        // {title: '运营商', dataIndex: 'childName', key: 'childName'},
         {title: '产品名称', dataIndex: 'productName', key: 'productName'},
         {title: '价值', dataIndex: 'cost', key: 'cost'},
         {title: '进货价', dataIndex: 'purchasePrice', key: 'purchasePrice'},
@@ -100,10 +102,16 @@ class ProductList extends React.Component {
         merchantId: LocalStr.get("merchantId")
     };
    
+    this.getClassData(0, 0);
+    this.setState({params});
+    this.getData(param);
+  }
+
+  getClassData = (classId, index) => {
     const {headForm} = this.state;
     const productClass = [];
-    ProductClassApi(0, {}).then(res => {
-      if(res.status === 200){
+    ProductClassApi(classId, {}).then(res => {
+      if(res.status === 200  && res.data.productCategories){
         res.data.productCategories.forEach(element => {
           const po = {
             value: element.productCategoryId,
@@ -111,17 +119,18 @@ class ProductList extends React.Component {
           }
           productClass.push(po);
         });
-        headForm.formData[0].options = productClass;
+        headForm.formData[index].options = productClass;
         this.setState({
           headForm
         })
       }
     })
-    this.setState({
-        params,
-    })
-    this.getData(param);
   }
+
+  handChang1 = (v) => {this.getClassData(v, 1)}
+
+  handChang2 = (v) => {this.getClassData(v, 2)}
+
 
   handAdd = (texts, record) => {
     const {tableDatas, params} = this.state;
@@ -165,13 +174,15 @@ class ProductList extends React.Component {
 
   handleSubmit = (values) => {
     const params = values;
-    console.log(values);
     if(typeof params.rechargeTime !== 'undefined'){
         params['q_p.createdAt_gte'] = timeChangData(params.rechargeTime[0].toDate());
         params['q_p.createdAt_lte'] = timeChangData(params.rechargeTime[1].toDate());
     }
-    params['q_cc.productCategoryId_eq'] = values.q_cc.productCategoryId_eq;
+    // params['q_cc.productCategoryId_eq'] = values.q_cc.productCategoryId_eq;
     params['q_p.status_eq'] = values.q_p.status_eq;
+    
+    params['q_cc.productCategoryId'] = values.q_cc.productCategoryId_eq1 ? values.q_cc.productCategoryId_eq1 : values.q_cc.productCategoryId_eq;
+    params['q_cc.productCategoryId'] = values.q_cc.productCategoryId_eq2 ? values.q_cc.productCategoryId_eq2 : params['q_cc.productCategoryId'];
    
     delete params.rechargeTime;
     params.page_size = 20;
@@ -198,12 +209,16 @@ class ProductList extends React.Component {
       ...params,
       limit: params.page_size
     };
+    let  i = 0;
     MemberProductListApi(param).then(res => {
       try {
         if(res.status===200){
+
           res.data.merchantProductDiscounts.forEach(elem => {
+            i+=1;
            const data = {
              ...elem,
+             xh: i,
              key: elem.productId,
              salesOkPrice: elem.discount==="-" ? elem.salesPrice : (elem.salesPrice*elem.discount).toFixed(2)
            }

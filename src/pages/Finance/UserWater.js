@@ -32,6 +32,7 @@ class List extends React.Component {
   
     const tableData = {columns:
       [
+        {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '帐户编号', dataIndex: 'BalanceId', key: 'BalanceId'},
         {title: '用户名', dataIndex: 'UserName', key: 'UserName'},
         {title: '手机号码', dataIndex: 'UserPhoneNo', key: 'UserPhoneNo'},
@@ -88,11 +89,14 @@ class List extends React.Component {
   getData = (params) => {
     const {tableData} = this.state;
     tableData.data = [];
+    let i =0;
     GetUserWaterApi(params).then(res => {
       if(res.status ===200 && res.data.total){
         res.data.data.forEach(element => {
+          i+=1;
           const d = {
             ...element,
+            xh: i,
             key: element.BalanceId
           }
           tableData.data.push(d);

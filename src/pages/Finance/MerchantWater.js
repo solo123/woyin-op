@@ -37,7 +37,7 @@ class List extends React.Component {
         {title: '变动前账户可用余额', dataIndex: 'beforeAmount', key: 'beforeAmount'},
         {title: '余额变动数额', dataIndex: 'amount', key: 'amount'},
         {title: '变动后账户可用余额', dataIndex: 'afterAmount', key: 'afterAmount'},
-        {title: '变动前账户冻结余额', dataIndex: 'afterBlock', key: 'afterBlock'},
+        // {title: '变动前账户冻结余额', dataIndex: 'afterBlock', key: 'afterBlock'},
         {title: '冻结余额变动数额', dataIndex: 'blockAmount', key: 'blockAmount'},
         {title: '变动后账户冻结余额', dataIndex: 'afterBlock', key: 'afterBlock'},
         {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
@@ -92,6 +92,7 @@ class List extends React.Component {
     }
     tableData.data = [];
     if(!param.balance_id) return
+  
     GetvouchersListById(param).then(res => {
       if(res.status ===200 && res.data.count){
         res.data.histories.forEach(element => {

@@ -9,7 +9,8 @@ import {
 import {
     MerchantAddOrUpdate, 
     MemberApplayInter,
-    MemberApplayData} from '@/components/Merchant';
+    MemberApplayData,
+    MerchantAddRate} from '@/components/Merchant';
 import {routerRedux} from 'dva/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import LocalStr from '@/utils/LocalStr';
@@ -94,7 +95,8 @@ class MerchantInfo extends React.Component{
     }
 
     onHangRateMang = () => {
-
+      
+      this.MerchantAddRate.showModal();
     }
 
     int = () => {
@@ -110,8 +112,10 @@ class MerchantInfo extends React.Component{
       info[2][0].value = MeInfo.MerchantAddr;
       info[2][1].value = MeInfo.Mobile;
       info[2][2].value = MeInfo.Tel;
+
+       // 获取商户下的所有操作员
       getMerchantPlayApi({merchantId: MeInfo.key}).then((res) => {
-        if(res.status === 200){
+        if(res.status === 200 && res.data){
           for(let i = 0; i<res.data.data.length; i+=1){
             const paly = {};
             paly.key =  res.data.data[i].UserId;
@@ -130,6 +134,8 @@ class MerchantInfo extends React.Component{
         }
       })
 
+     
+      // 获取商户下的所有账户
       getMerchantAccApi({merchantId: MeInfo.key} ).then(ress => {
         if(ress.status === 200){
           merchanLogo.data = [];
@@ -199,6 +205,7 @@ class MerchantInfo extends React.Component{
                 </Col>
               </Row>
             </div>
+            <MerchantAddRate ref={c => {this.MerchantAddRate = c}} />
             <MemberApplayInter ref={c => {this.MemberApplayInter = c}} />
           </PageHeaderWrapper>
       )

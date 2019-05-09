@@ -7,59 +7,72 @@ import {
   Card,
   Form
 } from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import RoleSet from '@/components/System/Role-set';
+
 import {RoleAddOrUpdate, RoleUser, RoleAdd} from '@/components/System';
-import TabelList from '@/components/TableList/TableList';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {Table2} from '@/components/TableList/TableListPage';
+import RoleSet from '@/components/System/Role-set';
+import {GetRoleList} from '@/services/api';
 import styles from './Role.less';
 
 const component = {};
-let data = null;
-let ColumnData = null;
-let formData = null;
 let buttonData = null;
+let formData = null;
 @connect(({ ModalStatue}) => ({
   ModalStatue,
 }))
 class SearchList extends Component {
-  componentWillMount () {
-    ColumnData = {data: 
-      [
-        {title: '角色名称', dataIndex: 'firstName', key: 'firstName'},
-        {title: '创建时间', dataIndex: 'code', key: 'code'},
-        {title: '状态', dataIndex: 'tags',key: 'tags'},
-     ],
-    dataEnd: {title: '操作', dataIndex: 'actions', key: 'actions', onAction: [{label: '成员',onClick: this.handRoleUser},{label: '权限',onClick: this.handRoleSet}]
-    }};
-    data =  [
-      {key: '1', firstName: 'John', code: 32, describe: 'New York No. 1 Lake Park', tags: 'developer'}, 
-      {key: '2', firstName: 'Jim', code: 42, describe: 'London No. 1 Lake Park',tags: 'loser'}, 
-      {key: '3', firstName: 'Joe', code: 32, describe: 'Sidney No. 1 Lake Park', tags: 'teacher',}
+  constructor(props) {
+    super(props);
+    const tableData = {
+      columns: [
+        // {title: '商户登录帐户', dataIndex: 'MerchantId', key: 'MerchantId'},
+        {title: '角色编号', dataIndex: 'RoleId', key: 'RoleId'},
+        {title: '角色名称', dataIndex: 'RoleName', key: 'RoleName'},
+        {title: '创建日期', dataIndex: 'CreatedAt', key: 'CreatedAt'},
+      ],
+      data: []
+    }
+  
+    const option = [
+      {value: '1',label: '正常'}, 
+      {value: '0',label: '禁用'}
     ];
-    const option = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
     formData = [
-      {type: 'InputIcon' ,label: '角色名称', name: 'name', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '角色编码：', name: 'code', ruless:[] , placeholder: '角色编码', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：',style: {width: '198px'}, name: 'statue', options: option}
+      {type: 'InputIcon' ,label: '角色编号', name: 'ResourceId', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '角色名称', name: 'ResourceName', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '创建日期', name: 'CreatedAt', ruless:[] , placeholder: '创建日期', typeIco: 'book'}
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '添加'},
       // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
     ]
-   }
+    this.state = {
+      tableData,
+      param: {
+        page_size: 20,
+        totalCount: 0,
+        page: 1
+      }
+    }
+  }
+
+  componentWillMount (){
+    const {param} = this.state;
+    this.getData(param);
+  }
 
   componentDidMount() {
     // To disabled submit button at the beginning.
+   
     component.RoleSet  = this.RoleSet;
     component.RoleAddOrUpdate = this.RoleAddOrUpdate;
     component.RoleUser = this.RoleUser;
+  }
+
+  handRoleAdd = () =>{
+
   }
 
   handRoleSet = (texts, record) => {
@@ -81,6 +94,39 @@ class SearchList extends Component {
     });
   }
 
+  getData = (params) => {
+    const {tableData} = this.state;
+    const param = {
+      ...params,
+      page_size: params.page_size,
+    }
+    tableData.data = [];
+    GetRoleList(param).then(res=>{
+      
+        if(res.status === 200 && res.data){
+          const merchantList = [];
+          for(let i = 0; i <  res.data.length; i+=1){
+            const merch = {
+              ... res.data[i],
+              key: res.data[i].RoleId
+            };
+            merchantList.push(merch);
+          }
+          tableData.data = merchantList;
+        }
+    
+        this.setState({
+          tableData,
+          param: {
+            ...params,
+            totalCount: res.data.total
+          }
+        }
+        );
+     
+    });
+  }
+
   handEdit = (e) => {
     e.preventDefault();
   }
@@ -88,6 +134,8 @@ class SearchList extends Component {
   render() {
     // const { match, children, location } = this.props;
     const { getFieldDecorator } = this.props.form;
+    const {tableData, param} = this.state;
+
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -111,11 +159,11 @@ class SearchList extends Component {
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
-          <Row>
+          {/* <Row>
             <Col>
               <HeadFormSearch formData={formData} handleSubmit={handleSubmit} getFieldDecorator={getFieldDecorator} />
             </Col>
-          </Row>
+          </Row> */}
           <Row>
             <Col>
               <div className={styles.addButton}>
@@ -124,11 +172,17 @@ class SearchList extends Component {
             </Col>
           </Row>
         </Card>
-        <TabelList data={data} ColumnData={ColumnData} rowSelection={rowSelection} />
-        <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
+        <Table2
+          tableData={tableData}
+          // rowSelection={rowSelection}
+          params={param}
+          getData={this.getData}
+          // scroll={{ x: 1300 }}
+        />
+        {/* <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
-        <RoleUser ref={(c) => {this.RoleUser = c;}} />
-        <RoleAdd ref={(c) => {this.RoleAdd = c;}} />
+        <RoleUser ref={(c) => {this.RoleUser = c;}} /> */}
+        <RoleAdd ref={(c) => {this.RoleAdds = c;}} />
       </PageHeaderWrapper>
     );
   }

@@ -19,8 +19,8 @@ const getMerchantListApi = async function getMerchantListApi (params) {
   return request(`${serverApi}/api/op/merchants?${stringify(params)}`);
 }
 
-const getMerchantPlayApi = async function getMerchantPlayApi (params) {
-  return request(`${serverApi}/api/op/users?${stringify(params)}`);
+const getMerchantPlayApi = async function getMerchantPlayApi (merchantId) {
+  return request(`${serverApi}/api/op/merchants/${merchantId}/users`);
 }
 
 const getMerchantAccApi = async function getMerchantAccApi ({merchantId}) {
@@ -218,7 +218,7 @@ const GetUserWaterApi = async function GetUserWaterApi(params){
 }
 
 const GetvouchersListById = async function GetvouchersListById(params){
-  return request(`${serverApi}/api/op/balances/${params.balance_id}/history/merchant`);
+  return request(`${serverApi}/api/op/balances/${params.balance_id}/history/merchant?${stringify(params)}`);
 }
 
 const GetVouchersDetails = async function GetVouchersDetails(id){
@@ -227,6 +227,39 @@ const GetVouchersDetails = async function GetVouchersDetails(id){
 
 const BalanceDateList = async function BalanceDateList(params){
   return request(`${serverApi}/api/op/balanceDate?${stringify(params)}`);
+}
+
+const MecharAddRate = async function MecharAddRate(params, merchantId){
+  return request(`${serverApi}/api/op/merchants/${merchantId}/poundage`, {
+    method: 'POST',
+    body: params,
+  })
+}
+
+const RoleResources = async function RoleResources(params){
+  return request(`${serverApi}/api/op/permit/resources?${stringify(params)}`);
+}
+
+const GetRoleList = async function GetRoleList(params){
+  return request(`${serverApi}/api/op/permit/roles?${stringify(params)}`);
+}
+
+const AddRoles = async function AddRoles (params){
+  return request(`${serverApi}/api/op/permit/roles`, {
+    method: 'POST',
+    body: params,
+  })
+}
+
+const InactiveUserList = async function InactiveUserList(params){
+  return request(`${serverApi}/api/op/InactiveUserList?${stringify(params)}`);
+}
+
+const changeUserStatus = async function changeUserStatus(params){
+  return request(`${serverApi}/api/op/changeUserStatus`, {
+    method: 'PUT',
+    body: params,
+  })
 }
 
 export {
@@ -270,4 +303,10 @@ export {
   GetvouchersListById, // 获取流水
   GetVouchersDetails, // 流水详情
   BalanceDateList, // 凌晨余额成员额度
+  MecharAddRate, // 增加费率
+  GetRoleList, // 获取角色列表
+  RoleResources, // 获取角色权限列表
+  AddRoles, // 增加角色
+  InactiveUserList, // 获取非活跃用户
+  changeUserStatus, // 更改用户状态
 }

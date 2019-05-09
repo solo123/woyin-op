@@ -73,7 +73,7 @@ class TransferOrderList extends React.Component {
           const p = {
             ...element,
             createTime: timeChangData(element.createTime),
-            key: element.orderId
+            key: element.Id
           };
           tableData.data.push(p);
         });

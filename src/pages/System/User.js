@@ -14,10 +14,10 @@ import RoleSet from '@/components/System/Role-set';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import UserAddUpdate from '@/components/System/UserAddOrUpdate';
 import UserRole from '@/components/System/User-role';
-import {GetUserLogoListApi} from '@/services/api';
+import {GetUserLogoListApi, GetRoleList} from '@/services/api';
 import styles from './User.less';
 
-let formData = null;
+
 let buttonData = null;
 @connect()
 class UserList extends Component {
@@ -45,9 +45,10 @@ class UserList extends Component {
       value: '0',
       label: '禁用',
     }];
-    formData = [
+    const formData = [
       {type: 'InputIcon' ,label: '查询条件', name: 'condition', ruless:[] , placeholder: '帐户,角色,邮箱', typeIco: 'user'},
-      {type: 'SelectCompone', style:{width: '198px'}, label: '状态：', name: 'state', options: option}
+      {type: 'SelectCompone', style:{width: '198px'}, label: '状态：', name: 'state', options: option},
+      {type: 'SelectCompone', style:{width: '198px'}, label: '角色', name: 'rol', options: option}
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddUser, labe: '添加'},
@@ -57,6 +58,7 @@ class UserList extends Component {
     ]
     this.state = {
       tableData,
+      formData,
       params: {
         state: null,
         condition: null,
@@ -68,19 +70,28 @@ class UserList extends Component {
   }
 
   componentWillMount () {
-
+    const {formData} = this.state;
+    const options = [];
+    GetRoleList().then(res => {
+      res.data.forEach(elem => {
+        options.push({ value: elem.RoleId ,label: elem.RoleName})
+      })
+    })
+    formData[2].options = options;
+    console.log(formData);
+    this.setState({formData})
   }
 
   componentDidMount() {
     const {params} = this.state;
-    this.getData(params);
+    //this.getData(params);
   }
 
   getData(params) {
     const {tableData} = this.state;
     tableData.data = [];
     GetUserLogoListApi(params).then(res => {
-      if(res.status === 200){
+      if(res.status === 200 && res.data.totalCount){
         res.data.data.forEach(element => {
           const elem = {
             ...element,
@@ -157,7 +168,7 @@ class UserList extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {tableData, params} = this.state;
+    const {tableData, params, formData} = this.state;
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);

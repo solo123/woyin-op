@@ -195,23 +195,19 @@ export default [
           path: '/order/lotteryorder',
           name: 'lotteryorder',
           component: './Order/LotteryOrder',
-         }
-        ]
+         },
+        {
+          path: '/order/retuersmorder',
+          name: 'retuersmorder',
+          component: './Order/RetuerMOrder',
+        },
+        {
+          path: '/order/creditcardorder',
+          name: 'CreditCardOrder',
+          component: './Order/CreditCardOrder',
+        }
+      ]
       },
-      // 商户订单管理
-      {
-        path: '/merchantorder',
-        name: 'merchantorder',
-        icon: 'inbox',
-        routes: [
-          {
-            path: '/merchantorder/shoporder',
-            name: 'shoporder',
-            component: './Order/Shoporder',
-          }
-        ]
-      },
-     
       // 产品管理
       {
         path: '/product',

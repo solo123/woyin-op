@@ -24,13 +24,16 @@ class ProductList extends React.Component {
     super(props);
     const option = [
       {value: '1',label: '正在销售'}, 
-      {value: '2',label: '停止销售'}];
-    const productClass = [{
-      value: '1',
-      label: '正在销售'}];
+      {value: '2',label: '停止销售'}
+    ];
+    const productClass = [{value: '1',label: '正在销售'}];
+    const productClass1 = [];
+    const productClass2 = [];
     const headForm = {
       formData:  [
-        {type: 'SelectCompone' ,label: '产品类型',name: 'q_productCategoryId_eq', style:{width:'196px'}, placeholder: '退款编号', ruless:[], options: productClass},
+        {type: 'SelectCompone' ,label: '产品类型1',name: 'q_productCategoryId_eq', handChang: this.handChang1,  style:{width:'196px'}, ruless:[], options: productClass},
+        {type: 'SelectCompone' ,label: '产品类型2',name: 'q_productCategoryId_eq2',handChang: this.handChang2, style:{width:'196px'}, ruless:[], options: productClass1},
+        {type: 'SelectCompone' ,label: '产品类型3',name: 'q_productCategoryId_eq3',handChang: this.handChang3, style:{width:'196px'}, ruless:[], options: productClass2},
         {type: 'SelectCompone', label: '状态：',name: 'q_status_eq' ,style: {width: '193px'}, options: option},
         {type: 'InputIcon', label:'产品名称', name:'q_productName_like',ruless:[], placeholder: '产品名称', typeIco: 'user'},
         {type: 'SelectDateRang' ,label: '创建时间', name: 'rechargeTime', ruless:[] , placeholder: '创建时间', typeIco: 'book'}
@@ -49,6 +52,7 @@ class ProductList extends React.Component {
     ];
     const tableDatas = {columns:
       [
+        {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '产品编号', dataIndex: 'productId', key: 'productId'},
         {title: '产品类型', dataIndex: 'productCategoryName', key: 'productCategoryName'},
         {title: '产品名称', dataIndex: 'productName', key: 'productName'},
@@ -83,10 +87,16 @@ class ProductList extends React.Component {
   }
   
   componentWillMount () {
+    this.getClassData(0, 0)
+    const {params} = this.state;
+    this.getData(params);
+  }
+
+  getClassData = (classId, index) => {
     const {headForm} = this.state;
     const productClass = [];
-    ProductClassApi(0, {}).then(res => {
-      if(res.status === 200){
+    ProductClassApi(classId, {}).then(res => {
+      if(res.status === 200  && res.data.productCategories){
         res.data.productCategories.forEach(element => {
           const po = {
             value: element.productCategoryId,
@@ -94,15 +104,19 @@ class ProductList extends React.Component {
           }
           productClass.push(po);
         });
-        headForm.formData[0].options = productClass;
+        headForm.formData[index].options = productClass;
         this.setState({
           headForm
         })
       }
     })
-    const {params} = this.state;
-    this.getData(params);
   }
+
+  handChang1 = (v) => {this.getClassData(v, 1)}
+
+  handChang2 = (v) => {this.getClassData(v, 2)}
+
+  handChang3 = (v) => {}
 
   handAdd = (e) => {
     e.preventDefault();
@@ -148,6 +162,10 @@ class ProductList extends React.Component {
       params.q_createdAt_gte = timeChangData(params.rechargeTime[0].toDate());
       params.q_createdAt_lte = timeChangData(params.rechargeTime[1].toDate());
     }
+        
+    params['q_productCategoryId_eq'] = params.q_productCategoryId_eq2 ? params.q_productCategoryId_eq2 : params.q_productCategoryId_eq;
+    params['q_productCategoryId_eq'] = params.q_productCategoryId_eq3 ? params.q_productCategoryId_eq3 : params['q_productCategoryId_eq'];
+   
     delete params.rechargeTime;
     this.getData(params);
   }
@@ -169,6 +187,7 @@ class ProductList extends React.Component {
   getData = (params)=>{
     const {tableDatas} =  this.state;
     tableDatas.data = [];
+    let i = 0;
     const param = {
       ...params,
       limit: params.pageSize
@@ -178,11 +197,14 @@ class ProductList extends React.Component {
     }
 
     ProductListApi(param).then(res => {
+   
       try {
         if(res.status===200 && res.data.count){
           res.data.products.forEach(elem => {
+            i+=1;
            const data = {
              ...elem,
+             xh: i,
              key: elem.productId
            }
            tableDatas.data.push(data);
