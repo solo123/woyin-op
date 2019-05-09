@@ -7,7 +7,6 @@ import {
   Col,
   Card,
   Form,
-  Table,
   Modal,
 } from 'antd'
 import {
@@ -39,10 +38,10 @@ class List extends React.Component {
       {value: '2',label: '冻结'}
     ];
     const formDatas = [
-      {type: 'InputIcon',label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
-      {type: 'InputIcon',label: '商户名称', name: 'merchantName', ruless:[] , placeholder: '商户名称', typeIco: 'book'},
-      {type: 'InputIcon',label: '手机号', name: 'phoneNum', ruless:[], placeholder: '手机号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', style:{width: '198px'}, name: 'status', options: option}
+      // {type: 'InputIcon',label: '商户登录帐户', name: 'userAccount', ruless:[] , placeholder: '商户登录帐户', typeIco: 'user'},
+      {type: 'InputIcon',label: '商户名称', name: 'q_merchantName_like', ruless:[] , placeholder: '商户名称', typeIco: 'book'},
+      {type: 'InputIcon',label: '手机号', name: 'q_mobile_like', ruless:[], placeholder: '手机号', typeIco: 'book'},
+      {type: 'SelectCompone', label: '状态：', style:{width: '198px'}, name: 'q_status_eq', options: option}
     ];
     const buttonDatas = [
       {type: 'primary', ico: 'plus', hangClick: this.handAdd, labe: '添加'},
@@ -57,16 +56,16 @@ class List extends React.Component {
     ]
     const tableData = {
       columns: [
-        {title: '商户登录帐户', dataIndex: 'userAccount', key: 'userAccount'},
-        {title: '商户名称', dataIndex: 'merchantName', key: 'merchantName'},
-        {title: '商户地址', dataIndex: 'merchantAddr', key: 'merchantAddr'},
-        {title: '联系人', dataIndex: 'contactMan', key: 'contactMan'},
-        {title: '手机号', dataIndex: 'phoneNum', key: 'phoneNum'},
-        {title: '固定电话', dataIndex: 'telNum', key: 'telNum'},
-        {title: '状态', dataIndex: 'statue', key: 'statue', render: statue => {
+        // {title: '商户登录帐户', dataIndex: 'MerchantId', key: 'MerchantId'},
+        {title: '商户名称', dataIndex: 'MerchantName', key: 'MerchantName'},
+        {title: '商户地址', dataIndex: 'MerchantAddr', key: 'MerchantAddr'},
+        {title: '联系人', dataIndex: 'Contact', key: 'Contact'},
+        {title: '手机号', dataIndex: 'Mobile', key: 'Mobile'},
+        {title: '固定电话', dataIndex: 'Tel', key: 'Tel'},
+        {title: '状态', dataIndex: 'status', key: 'status', render: statue => {
           return statuesRend(statue, STATUSITEMS)
         }},
-        {title: '创建时间', dataIndex: 'creatertime', key: 'creatertime'},
+        {title: '创建时间', dataIndex: 'CreatedAt', key: 'CreatedAt'},
         // {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
         // {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
@@ -84,7 +83,7 @@ class List extends React.Component {
         merchantName: '',
         phoneNum: '',
         status: '',
-        pageSize: 20,
+        page_size: 20,
         totalCount: 0,
         page: 1
       }
@@ -152,10 +151,9 @@ getCheckUser = (selectedRowKeys, selectedRows) => {
 
 handleSubmit = (values) => {
   const param = {
-    userAccount: values.userAccount,
-    merchantName: values.merchantName,
-    phoneNum: values.phoneNum,
-    status: values.status=== undefined ? '' : values.status[0]
+    q_merchantName_like: values.q_merchantName_like,
+    q_mobile_like: values.q_mobile_like,
+    q_status_eq: values.q_status_eq === undefined ? '' : values.q_status_eq[0]
   }
   this.getData(param);
 }
@@ -163,7 +161,7 @@ handleSubmit = (values) => {
 getData = (params) => {
   const param = {
     ...params,
-    count: params.pageSize,
+    page_size: params.page_size,
   }
   getMerchantListApi(param).then(res=>{
     try {
@@ -174,9 +172,9 @@ getData = (params) => {
         for(let i = 0; i < data.length; i+=1){
           const merch = {
             ... data[i],
-            key: data[i].merchantId,
+            key: data[i].MerchantId,
             statue: data[i].status,
-            creatertime: timeChangData(data[i].createTime),
+            CreatedAt: data[i].CreatedAt.String,
             find: data[i].id
           };
           merchantList.push(merch);
@@ -186,7 +184,7 @@ getData = (params) => {
           tableData,
           param: {
             ...params,
-            totalCount: res.data.totalCount
+            totalCount: res.data.total
           }
         }
         );

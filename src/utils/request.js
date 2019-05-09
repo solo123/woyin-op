@@ -129,7 +129,7 @@ export default function request(url, option) {
         return response.text();
       }
       return response.json().then(res => {
-        if (res.data === 'op端请先登录'){
+        if (res.msg === 'op端请先登录'){
           Modal.error({
             title: '错误信息',
             content: '登陆失效，请重新登陆！',

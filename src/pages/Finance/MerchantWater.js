@@ -24,23 +24,23 @@ class List extends React.Component {
     const option = [];
     const formData = [
       // {type: 'InputIcon' ,label: '商户名', name: 'merchantName', ruless:[] , placeholder: '商户名', typeIco: 'user'},
-      {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'accountId', options: option},
+      {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'balance_id', options: option},
       {type: 'SelectDateRang' ,label: '时间', name: 'rechargeTime', ruless:[] , placeholder: '时间', typeIco: 'book'},
     ];
   
     const tableData = {columns:
       [
-        {title: '流水编号', dataIndex: 'id', key: 'id'},
-        {title: '凭证名称', dataIndex: 'title', key: 'title'},
-        {title: '操作名称', dataIndex: 'doc_type', key: 'doc_type'},
-        {title: '操作编号', dataIndex: 'doc_id', key: 'doc_id'},
-        {title: '变动前账户可用余额', dataIndex: 'before_amount', key: 'before_amount'},
+        // {title: '流水编号', dataIndex: 'id', key: 'id'},
+        {title: '凭证名称', dataIndex: 'Name', key: 'Name'},
+        {title: '操作名称', dataIndex: 'docType', key: 'docType'},
+        {title: '操作编号', dataIndex: 'docId', key: 'docId'},
+        {title: '变动前账户可用余额', dataIndex: 'beforeAmount', key: 'beforeAmount'},
         {title: '余额变动数额', dataIndex: 'amount', key: 'amount'},
-        {title: '变动后账户可用余额', dataIndex: 'after_amount', key: 'after_amount'},
-        {title: '变动前账户冻结余额', dataIndex: 'before_block', key: 'before_block'},
-        {title: '冻结余额变动数额', dataIndex: 'block_amount', key: 'block_amount'},
-        {title: '变动后账户冻结余额', dataIndex: 'after_block', key: 'after_block'},
-        {title: '创建时间', dataIndex: 'create_at', key: 'create_at'},
+        {title: '变动后账户可用余额', dataIndex: 'afterAmount', key: 'afterAmount'},
+        {title: '变动前账户冻结余额', dataIndex: 'afterBlock', key: 'afterBlock'},
+        {title: '冻结余额变动数额', dataIndex: 'blockAmount', key: 'blockAmount'},
+        {title: '变动后账户冻结余额', dataIndex: 'afterBlock', key: 'afterBlock'},
+        {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>查看</a>)},
       ],
       data:[]
@@ -54,7 +54,7 @@ class List extends React.Component {
         userPhoneNo: '',
         merchantId: '',
         page:1,
-        pageSize: 20,
+        page_size: 20,
         totalCount: 0,
       }
     }
@@ -67,9 +67,9 @@ class List extends React.Component {
       if(res.status===200 && res.data.data){
           res.data.data.forEach(elem => {
               option.push({
-                  value: elem.accountId,
-                  label: elem.merchantName,
-                  key: elem.accountId
+                  value: elem.MerchantId,
+                  label: elem.MerchantName,
+                  key: elem.MerchantId
               });
           })
           formData[0].options = option
@@ -88,13 +88,13 @@ class List extends React.Component {
     const {tableData} = this.state;
     const param = {
       ...params,
-      count: params.pageSize
+      count: params.page_size
     }
     tableData.data = [];
-    if(!param.accountId) return
+    if(!param.balance_id) return
     GetvouchersListById(param).then(res => {
-      if(res.status ===200 && res.data.voucher){
-        res.data.voucher.forEach(element => {
+      if(res.status ===200 && res.data.count){
+        res.data.histories.forEach(element => {
           const d = {
             ...element,
             key: element.id
@@ -111,21 +111,20 @@ class List extends React.Component {
   }
 
   handleSubmit = (values) => {
-    const {params} = this.state;
+   
+    const params = values;
     const p = {
         ...params,
-        ...values,
-        type: 1,
-        page: 1
+        page: 1,
+        page_size: 20,
     };
-      if(typeof values.rechargeTime !== 'undefined'){
-        p.startTime = timeChangData(values.rechargeTime[0].toDate());
-        p.endTime = timeChangData(values.rechargeTime[1].toDate());
-      }
-      delete p.rechargeTime;
-      this.setState({
-           params: p
-    }, this.getData(p))
+    if(typeof values.rechargeTime !== 'undefined'){
+      p['q_a.createdAt_gte'] = timeChangData(values.rechargeTime[0].toDate());
+      p['q_a.createdAt_lte'] = timeChangData(values.rechargeTime[1].toDate());
+    }
+    delete p.rechargeTime;
+    
+    this.getData(p);
   }
 
   render () {

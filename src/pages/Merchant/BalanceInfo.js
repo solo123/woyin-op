@@ -20,10 +20,10 @@ class BalanceInfo extends Component {
   constructor(props){
     super(props);
     const formDatas = [
-      {type: 'InputIcon', label: '商户登录帐户', name: 'userAccount', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
-      {type: 'InputIcon', label: '商户名称', name: 'merchantName', ruless:[], placeholder: '商户名称', typeIco: 'book'},
-      {type: 'InputIcon', label: '用户手机号码', name: 'userPhoneNo', ruless:[], placeholder: '用户手机号码', typeIco: 'book'},
-      {type: 'InputIcon', label: '用户名称', name: 'userName', ruless:[], placeholder: '用户名称', typeIco: 'book'},
+      {type: 'InputIcon', label: '商户登录帐户', name: 'q_userAccount_like', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
+      {type: 'InputIcon', label: '商户名称', name: 'q_merchantName_like', ruless:[], placeholder: '商户名称', typeIco: 'book'},
+      {type: 'InputIcon', label: '用户手机号码', name: 'q_userPhoneNo_like', ruless:[], placeholder: '用户手机号码', typeIco: 'book'},
+      {type: 'InputIcon', label: '用户名称', name: 'q_userName_like', ruless:[], placeholder: '用户名称', typeIco: 'book'},
     ];
     const STATUSITEMS = [
       {key: 0, describe: ['green', '未激活']},
@@ -33,13 +33,15 @@ class BalanceInfo extends Component {
     ];
     const tableData = {
       columns: [
-        {title: '用户名', dataIndex: 'userName', key: 'userName'},
-        {title: '用户手机号码', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        {title: '用户备注', dataIndex: 'remark', key: 'remark'},
+        {title: '商户登陆帐户', dataIndex: 'MerchantAccount', key: 'MerchantAccount'},
+        {title: '商户名', dataIndex: 'MerchantName', key: 'MerchantName'},
+        {title: '用户名', dataIndex: 'UserName', key: 'UserName'},
+        {title: '手机号码', dataIndex: 'UserPhoneNo', key: 'UserPhoneNo'},
+        // {title: '备注', dataIndex: 'remark', key: 'remark'},
         // {title: '用户冻结时间', dataIndex: 'freezeTime', key: 'freezeTime'},
         // {title: '用户更新时间', dataIndex: 'updateTime', key: 'updateTime'},
-        {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, STATUSITEMS))},
-        {title: '用户组创建时间', dataIndex: 'createTime', key: 'createTime'},
+        {title: '状态', dataIndex: 'Status', key: 'Status', render: status => (statuesRend(status, STATUSITEMS))},
+        {title: '创建时间', dataIndex: 'CreatedAt', key: 'CreatedAt'},
       ],
       data: []
     }
@@ -51,7 +53,7 @@ class BalanceInfo extends Component {
         merchantName: '' ,
         userPhoneNo: '' ,
         userName: '' ,
-        pageSize: 20 ,
+        page_size: 20 ,
         page: 1,
         totalCount: 10,
       }
@@ -64,40 +66,40 @@ class BalanceInfo extends Component {
 
   handleSubmit = values => {
     const {params} = this.state;
-    params.userAccount = values.userAccount;
-    params.merchantName = values.merchantName;
-    params.userPhoneNo = values.userPhoneNo;  
-    params.userName = values.userName;
+    params.q_userAccount_like = values.q_userAccount_like;
+    params.q_merchantName_like = values.q_merchantName_like;
+    params.q_userPhoneNo_like = values.q_userPhoneNo_like;  
+    params.q_userName_like = values.q_userName_like;
     this.getData(params);
   }
 
   getData = (params) => {
     const param = {
       ...params,
-      count: params.pageSize
+      page_size: params.page_size
     };
     const {tableData} = this.state;
-    
+    tableData.data = [];
     gerMerchantHuiInfo(param).then(res => {
-      if(res.status === 200){
-        tableData.data = [];
+      if(res.status === 200 && res.data.total){
+       
         res.data.data.forEach(element => {
           const d = {
             ...element,
-            createTime: timeChangData(element.createTime),
-            key: element.userId,
+            CreatedAt:element.CreatedAt,
+            key: element.UserId,
           }
           tableData.data.push(d);
         });
-        param.totalCount = res.data.totalCount;
-        this.setState({
-          tableData,
-          params:{
-            ...params,
-            totalCount: res.data.totalCount
-          }
-        })
+      
       }
+      this.setState({
+        tableData,
+        params:{
+          ...params,
+          totalCount: res.data.total
+        }
+      })
     })
   }
 

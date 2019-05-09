@@ -11,19 +11,15 @@ import {isNumber} from '@/utils/validate';
 class ProductAddAndUpdate extends React.Component {
   constructor(props) {
     super(props);
-    const option = [{
-      value: '1',
-      label: '可用',
-    }, {
-      value: '0',
-      label: '冻结',
-    }];
+    const option = [
+      {value: '1',label: '可用'}, 
+      {value: '0',label: '冻结'}];
     this.state = {
       visible: false,
       formData: [
         {type: 'InputIcon' ,label: '产品名称', name: 'productName', ruless:[{required: true, message: '请输入产品名称'}] , placeholder: '产品名称', typeIco: 'user'},
         {type: 'SelectCompone' ,label: '产品分类',handChang: this.handSelectChang,options: option, name: 'fatherId', ruless:[{required: true,  message: '请选择产品分类'}] , placeholder: '产品分类编号', typeIco: 'user'},
-        {type: 'SelectCompone' ,label: '运营商',handChang: this.handSelectChang,options: option, name: 'productCategoryId', ruless:[{required: true, message: '请选选择运营商'}] , placeholder: '产品分类编号', typeIco: 'user'},
+        {type: 'SelectCompone' ,label: '运营商',options: option, name: 'productCategoryId', ruless:[{required: true, message: '请选选择运营商'}] , placeholder: '产品分类编号', typeIco: 'user'},
         {type: 'InputIcon' ,label: '产品现价/分', name: 'cost', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品现价/分', typeIco: 'user'},
         {type: 'InputIcon' ,label: '产品售价/元', name: 'salesPrice', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品售价/元', typeIco: 'team'},
         {type: 'InputIcon' ,label: ' 产品进价/元', name: 'purchasePrice', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品进价/元', typeIco: 'team'},
@@ -48,7 +44,7 @@ class ProductAddAndUpdate extends React.Component {
     ProductClassApi(0, {}).then(res => {
       if(res.status === 200){
         const dataClass = [];
-        res.data.result.forEach(element => {
+        res.data.productCategories.forEach(element => {
           const po = {
             value: element.productCategoryId,
             label: element.productCategoryName,
@@ -66,9 +62,9 @@ class ProductAddAndUpdate extends React.Component {
   handSelectChang = (value) => {
     const {formData} = this.state;
     ProductClassApi(value, {}).then(res => {
-      if(res.status === 200 && res.data.result){
+      if(res.status === 200 && res.data.count){
         const dataClass = [];
-        res.data.result.forEach(element => {
+        res.data.productCategories.forEach(element => {
           const po = {
             value: element.productCategoryId,
             label: element.productCategoryName,
@@ -92,19 +88,18 @@ class ProductAddAndUpdate extends React.Component {
         const formData = new FormData();
         formData.append("productName", values.productName);
         formData.append("productCategoryId", values.productCategoryId);
-        formData.append("cost", values.cost);
+        formData.append("cost", parseInt(values.cost, 10));
+        formData.append("productCode", 0);
+        // formData.append("salesPrice", values.salesPrice);
+        formData.append("purchasePrice", parseInt(values.purchasePrice, 10));
         formData.append("salesPrice", values.salesPrice);
-        formData.append("purchasePrice", values.purchasePrice);
-        formData.append("userAccount", values.userAccount);
-        try {
-            ProductAddApi(formData).then(res => {
-                if(res.status === 200){
-                  message.info('添加产品成功');
-                  this.onClose();
-                  this.props.Reset();
-                }
-              })
-        } catch (error) {}
+        ProductAddApi(formData).then(res => {
+          if(res.status === 200){
+            message.info('添加产品成功');
+            this.onClose();
+            this.props.Reset();
+          }
+        })
       }
     });
   }

@@ -68,9 +68,9 @@ class List extends React.Component {
       if(res.status===200 && res.data.data){
         res.data.data.forEach(elem => {
           option.push({
-            value: elem.merchantId,
-              label: elem.merchantName,
-                key: elem.merchantId
+            value: elem.MerchantId,
+              label: elem.MerchantName,
+                key: elem.MerchantId
             });
         })
         formData[2].options = option
@@ -84,10 +84,10 @@ class List extends React.Component {
     }
     this.setState({tableData})
     this.getData({
-      accountId: LocalStr.get("wateruserid"),
+      balance_id: LocalStr.get("wateruserid"),
       type: LocalStr.get("waterusertype"),
       page:1,
-      count: 10,
+      page_size: 20,
       totalCount: 0,
     });
   }
@@ -101,11 +101,12 @@ class List extends React.Component {
   }
 
   getData = (params) => {
+    console.log(params);
     const {tableData} = this.state;
     tableData.data = [];
     GetvouchersListById(params).then(res => {
-      if(res.status ===200 && res.data.voucher){
-        res.data.voucher.forEach(element => {
+      if(res.status ===200 && res.data.data){
+        res.data.data.forEach(element => {
           const d = {
           ...element,
           key: element.id
@@ -116,7 +117,7 @@ class List extends React.Component {
         this.setState({
           params:{
             ...params,
-            totalCount: res.data.count
+            totalCount: res.data.total
           },
         tableData})
       }

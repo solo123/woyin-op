@@ -16,8 +16,8 @@ class MemberRecharges extends React.Component {
       mercharId: null,
       visible: false,
       formData: [
-        {type: 'LabelInput' ,label: '商户名称',value: '1111', name: 'merchantId', ruless:[] , placeholder: '1234', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '申请充值积分', name: 'Inter', ruless:[{required: true, message: '请输入你要充值的积分',pattern:isNumber}] , placeholder: '输入充值积分', typeIco: 'user'},
+        {type: 'LabelInput' ,label: '商户名称', name: 'merchantId', value: '1111', ruless:[] , placeholder: '1234', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '申请充值积分', name: 'balance', ruless:[{required: true, message: '请输入你要充值的积分',pattern:isNumber}] , placeholder: '输入充值积分', typeIco: 'user'},
       ]
     };
   }
@@ -29,7 +29,7 @@ class MemberRecharges extends React.Component {
       if (!err){
         const formData = new FormData();
         formData.append("merchantId", mercharId);
-        formData.append("balance", values.Inter);
+        formData.append("balance", values.balance);
         RechargMerchantRecharges(formData).then(res => {
             if(res.status === 200){
                 message.info('充值成功');
@@ -44,7 +44,6 @@ class MemberRecharges extends React.Component {
 
   
   showModal = (mercharId) => {
-    // e.preventDefault();
     const {formData} = this.state;
     formData[0].placeholder = mercharId;
     this.setState({

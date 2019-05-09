@@ -138,6 +138,16 @@ export default [
               component: './Merchant/BalanceInfo',
             },
             {
+              path: '/merchant/noactionuserList',
+              name: 'noActionUserList',
+              component: './Merchant/noActionUserList',
+            },
+            {
+              path: '/merchant/alluserupdatestate',
+              name: 'allUserUpdateState',
+              component: './Merchant/allUserUpdateState',
+            },
+            {
               path: '/merchant/balance-info',
               name: 'merchant-balance-info',
               component: './Merchant/merchantBalanceInfo',
@@ -145,7 +155,7 @@ export default [
             { path: '/Merchant/MemberProduct', name: 'MemberProduct', component: './Merchant/MemberProduct' },
       ]
       },
-      // 订单管理
+      // 用户订单管理
       {
         path: '/order',
         name: 'order',
@@ -188,6 +198,20 @@ export default [
          }
         ]
       },
+      // 商户订单管理
+      {
+        path: '/merchantorder',
+        name: 'merchantorder',
+        icon: 'inbox',
+        routes: [
+          {
+            path: '/merchantorder/shoporder',
+            name: 'shoporder',
+            component: './Order/Shoporder',
+          }
+        ]
+      },
+     
       // 产品管理
       {
         path: '/product',

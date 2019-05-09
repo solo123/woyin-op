@@ -15,13 +15,10 @@ import styles from './ShopCreateroll.less'
 class List extends React.Component {
   constructor(props){
     super(props);
-    const option = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
+    const option = [
+      {value: '1',label: '正常'}, 
+      {value: '0',label: '禁用'}
+    ];
     const formDatas = [
       {type: 'InputIcon' ,label: '购买订单编号', name: 'logo', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
       {type: 'InputIcon' ,label: '登录手机号', name: 'phone', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},

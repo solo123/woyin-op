@@ -34,14 +34,14 @@ class ProductAddAndUpdate extends React.Component {
   getData =(productClass) =>{
     const tags = [];
     ProductClassApi(productClass.productCategoryId,{}).then(res => {
-        if(res.status === 200 && res.data.result){
-            for(let i= 0; i < res.data.result.length; i+=1){
-                tags.push(res.data.result[i].productCategoryName);
+        if(res.status === 200 && res.data.productCategories){
+            for(let i= 0; i < res.data.productCategories.length; i+=1){
+                tags.push(res.data.productCategories[i].productCategoryName);
             }
             this.setState({
                 tags,
                 productClass,
-                data: res.data.result
+                data: res.data.productCategories
             })
         }
     })

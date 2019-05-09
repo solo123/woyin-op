@@ -48,7 +48,7 @@ class ProductAddAndUpdateClass extends React.Component {
     this.AddInfo.validateFields((err, values) => {
       if (!err){
         const formData = new FormData();
-        formData.append("name", values.name);
+        formData.append("productCategoryName", values.name);
         childs.push(values.child);
         for(let i = 1; i < childLeng; i+=1){
             childs.push(values[`child${i}`]);

@@ -24,7 +24,7 @@ export const Table2 = ({tableData ,rowSelection, params, getData, scroll}) =>{
     function onBlur(){
       getData({
         ...params,
-        pageSize
+        page_size: pageSize
       })
     }
 
@@ -33,10 +33,11 @@ export const Table2 = ({tableData ,rowSelection, params, getData, scroll}) =>{
         columns={tableData.columns}
         dataSource={tableData.data} 
         bordered
+        size="middle"
         rowSelection={rowSelection}
         scroll={scroll}
         pagination={{
-          pageSize: params.pageSize,
+          pageSize: params.page_size,
           total: params.totalCount,
           onChange: onChangePage,
           showTotal: (total, range) => (
@@ -47,7 +48,7 @@ export const Table2 = ({tableData ,rowSelection, params, getData, scroll}) =>{
                   min={0}
                   step={1}
                   size="small" 
-                  defaultValue={params.pageSize}
+                  defaultValue={params.page_size}
                   precision={0}
                   onChange={onChange}
                   onBlur={onBlur}

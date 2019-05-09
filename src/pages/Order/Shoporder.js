@@ -10,7 +10,7 @@ import {
   message,
   Modal
 } from 'antd'
-import {HeadFormSearchTwo, HeadFootButton} from '@/components/HeadForm';
+import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {RechargMerchantRechargesPOST,findOrderInfo} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
@@ -31,12 +31,12 @@ class List extends React.Component {
     ];
     const headForm = {
       formData: [
-        {type: 'InputIcon', label: '充值订单编号', name: 'orderId', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
-        {type: 'InputIcon', label: '商户登录账号', name: 'userAccount', ruless:[], placeholder: '商户登录账号', typeIco: 'book'},
+        {type: 'InputIcon', label: '充值订单编号', name: 'q_orderId_like', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
+        {type: 'InputIcon', label: '商户登录账号', name: 'q_userAccount_like', ruless:[], placeholder: '商户登录账号', typeIco: 'book'},
         // {type: 'SelectCompone', label: '充值人员类型', name: 'roleType',style:{width: '198px'}, options: option1},
-        {type: 'SelectCompone', label: '状态：', name: 'state',style:{width: '198px'}, options: option},
-        {type: 'InputIcon', label: '充值对象名称', name: 'merchantName',ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
-        {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[],placeholder: '批次号', typeIco: 'user'},
+        {type: 'SelectCompone', label: '状态：', name: 'q_state_eq',style:{width: '198px'}, options: option},
+        // {type: 'InputIcon', label: '充值对象名称', name: 'merchantName',ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
+        // {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[],placeholder: '批次号', typeIco: 'user'},
         {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime',ruless:[], placeholder: '充值时间', typeIco: 'book'},
       ],
       buttonData: [
@@ -57,7 +57,7 @@ class List extends React.Component {
         {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType', width: 150},
         {title: '订单积分', dataIndex: 'balance', key: 'balance', width: 150},
         {title: '状态', dataIndex: 'state', key: 'state' ,render: state => (statuesRend(state, STATUSITEMS))},
-        {title: '创建时间', dataIndex: 'createTime', key: 'createTime'},
+        {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
      ],
      data: []
     };
@@ -65,7 +65,7 @@ class List extends React.Component {
       tableData,
       headForm,
       params: {
-        pageSize: 20,
+        page_size: 20,
         totalCount: 0,
       }
     }
@@ -112,11 +112,12 @@ class List extends React.Component {
       return
     }
     withDrawList.forEach(item => {
-      const params = {
-        orderId: item.key,
-        state: 2
-      }
-      RechargMerchantRechargesPOST(params).then(res => {
+     
+
+      const formData = new FormData();
+      formData.append("operate", 2);
+    
+      RechargMerchantRechargesPOST(formData, item.key).then(res => {
         if(res.status === 200){
           message.info('操作成功');
         }else{
@@ -140,11 +141,11 @@ class List extends React.Component {
       return;
     }
     withDrawList.forEach(item => {
-      const params = {
-        orderId: item.key,
-        state: -1
-      }
-      RechargMerchantRechargesPOST(params).then(res => {
+
+      const formData = new FormData();
+      formData.append("operate", -1);
+
+      RechargMerchantRechargesPOST(formData, item.key).then(res => {
         if(res.status === 200){
           message.info('操作成功');
         }else{
@@ -163,8 +164,8 @@ class List extends React.Component {
   handleSubmit = (values) => {
     const params = values;
     if(typeof values.rechargeTime !== 'undefined'){
-      params.startTime = timeChangData(values.rechargeTime[0].toDate());
-      params.endTime = timeChangData(values.rechargeTime[1].toDate());
+      params.q_createTime_gt = timeChangData(values.rechargeTime[0].toDate());
+      params.q_createTime_lt = timeChangData(values.rechargeTime[1].toDate());
     }
     delete params.rechargeTime;
     this.getData(params);
@@ -181,7 +182,7 @@ class List extends React.Component {
         <Card bordered={false}>
           <Row>
             <Col>
-              <HeadFormSearchTwo 
+              <HeadFormSearch 
                 formData={headForm.formData} 
                 getData={this.getData} 
                 form={this.props.form} 

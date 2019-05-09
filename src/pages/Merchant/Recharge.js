@@ -6,14 +6,13 @@ import {
   Col,
   Card,
   Form,
-  Table,
   Modal,
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {Table2} from '@/components/TableList/TableListPage';
 import {MemberRecharges} from '@/components/Merchant';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {RechargeGetMerList} from '@/services/api';
-import {Table2} from '@/components/TableList/TableListPage';
 import {statuesRend} from '@/utils/renderUtils';
 import styles from './Recharge.less';
 
@@ -22,8 +21,8 @@ class Recharge extends React.Component {
   constructor(props){
     super(props);
     const formDatas = [
-      {type: 'InputIcon', label: '商户登录帐户', name: 'userAccount', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
-      {type: 'InputIcon', label: '商户名称', name: 'merchantName', ruless:[], placeholder: '商户名称', typeIco: 'book'},
+      // {type: 'InputIcon', label: '商户登录帐户', name: 'q_merchantName_like', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
+      {type: 'InputIcon', label: '商户名称', name: 'q_merchantName_like', ruless:[], placeholder: '商户名称', typeIco: 'book'},
     ];
     const STATUSITEMS = [
       {key: 1, describe: ['blue', '正常']},
@@ -31,14 +30,14 @@ class Recharge extends React.Component {
     ];
     const tableData = {
       columns:[
-        {title: '商户登录帐户', dataIndex: 'userAccount'},
-        {title: '商户名称', dataIndex: 'merchantName'},
-        {title: '商户地址', dataIndex: 'merchantAddr'},
-        {title: '联系人', dataIndex: 'contactMan'},
-        {title: '手机号', dataIndex: 'phoneNum'},
-        {title: '固定电话', dataIndex: 'telNum'},
+        // {title: '商户登录帐户', dataIndex: 'userAccount'},
+        {title: '商户名称', dataIndex: 'MerchantName'},
+        {title: '商户地址', dataIndex: 'MerchantAddr'},
+        {title: '联系人', dataIndex: 'Contact'},
+        {title: '手机号', dataIndex: 'Mobile'},
+        {title: '固定电话', dataIndex: 'Tel'},
         {title: '状态', dataIndex: 'status', render: status => (statuesRend(status, STATUSITEMS))},
-        {title: '创建时间', dataIndex: 'createTime'},
+        {title: '创建时间', dataIndex: 'CreatedAt'},
         {title: '操作', dataIndex: 'action', key: 'action' ,render:(texts, record)=>(<a href="javascript:void(0)" onClick={()=> { this.hangClick(texts, record)}}>充值</a>)}
      ],
      data :[]
@@ -52,7 +51,7 @@ class Recharge extends React.Component {
         merchantName: null,
         count: null,
         page: 1,
-        pageSize: 20,
+        page_size: 20,
         totalCount: 0,
       }
     }
@@ -66,7 +65,7 @@ class Recharge extends React.Component {
   getData = (params) => {
     const param = {
       ...params,
-      pageSize: params.pageSize,
+      page_size: params.page_size,
     }
     RechargeGetMerList(param).then(res => {
       if(res.status === 200) {
@@ -74,7 +73,7 @@ class Recharge extends React.Component {
         this.setState({
           params: {
             ...params,
-            totalCount: res.data.totalCount
+            totalCount: res.data.total
           }
         })
       }
@@ -103,7 +102,8 @@ class Recharge extends React.Component {
     for(let i = 0; i < data.length; i+=1){
       const mer = {
         ...data[i],
-        key: data[i].merchantId
+        key: data[i].MerchantId,
+        CreatedAt: data[i].CreatedAt.String,
       }
       tableData.data.push(mer);
     }
@@ -136,7 +136,7 @@ class Recharge extends React.Component {
         </Card>
         <Table2
           tableData={tableData}
-          rowSelection={rowSelection}
+          // rowSelection={rowSelection}
           params={params}
           getData={this.getData}
           scroll={{ x: 1200 }}

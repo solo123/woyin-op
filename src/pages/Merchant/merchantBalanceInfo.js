@@ -1,157 +1,157 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'dva';
-import { 
-  Table,
+import {
   Row,
   Col,
   Card,
   Form,
 } from 'antd';
-import {HeadFormSearch} from '@/components/HeadForm';
-import {gerMerchantHuiInfo} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {Table2} from '@/components/TableList/TableListPage';
+import {BalanceDateList} from '@/services/api';
+import {HeadFormSearch} from '@/components/HeadForm';
 import {statuesRend} from '@/utils/renderUtils';
 import {timeChangData} from '@/utils/utils';
-import styles from './merchantBalanceInfo.less';
+import styles from './MerchantInfo.less';
 
 @connect()
-class BalanceInfo extends Component {
+class List extends React.Component {
   constructor(props){
     super(props);
-    const formDatas = [
-      {type: 'InputIcon', label: '商户登录帐户', name: 'userAccount', ruless:[], placeholder: '商户登录帐户', typeIco: 'user'},
-      {type: 'InputIcon', label: '商户名称', name: 'merchantName', ruless:[], placeholder: '商户名称', typeIco: 'book'},
-      {type: 'SelectDateRang' ,label: '时间', name: 'rechargeTime', ruless:[] , placeholder: '时间', typeIco: 'book'},
+    const option = [
+      {value: '10',label: '待付款'}, 
+      {value: '11',label: '处理中'},
+      {value: '12',label: '成功'},
+      {value: '13',label: '失败'},
+      {value: '14',label: '取消'},
     ];
-    const STATUSITEMS = [
-      {key: 0, describe: ['green', '未激活']},
-      {key: 1, describe: ['blue', '正常']},
-      {key: 2, describe: ['red', '冻结']},
-      {key: 3, describe: ['red', '没激活']}
+    const formData = [
+      {type: 'InputIcon' ,label: '所属商户编号', name: 'q_merchantId_eq', ruless:[] , placeholder: '所属商户编号', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '用户编号', name: 'q_userId_eq', ruless:[] , placeholder: '用户编号', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '用户名称模糊查询', name: 'q_userName_like', ruless:[] , placeholder: '用户名称模糊查询', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '用户账号', name: 'q_userAccount_eq', ruless:[] , placeholder: '用户账号', typeIco: 'user'},
+      // {type: 'InputIcon' ,label: '登录手机号', name: 'logo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
     ];
-    const tableData = {
-      columns: [
-        {title: '成员ID', dataIndex: 'userName', key: 'userName'},
-        {title: '商户名称', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        {title: '成员名称', dataIndex: 'remark', key: 'remark'},
-        // {title: '用户冻结时间', dataIndex: 'freezeTime', key: 'freezeTime'},
-        // {title: '用户更新时间', dataIndex: 'updateTime', key: 'updateTime'},
-        // {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, STATUSITEMS))},
-        {title: '登录账号', dataIndex: 'createTime', key: 'createTime'},
-        {title: '账户当前积分', dataIndex: 'createTime', key: 'createTime'},
-        {title: '当前账户可用积分', dataIndex: 'createTime', key: 'createTime'},
-        {title: '当前账户冻结积分', dataIndex: 'createTime', key: 'createTime'}
+    const PRODUCTSTATUE = [
+      {key: 10, describe: ['green', '待付款']},
+      {key: 11, describe: ['green', '处理中']},
+      {key: 12, describe: ['green', '成功']},
+      {key: 13, describe: ['green', '失败']},
+      {key: 14, describe: ['green', '取消']},
+    ];
+    const tableData = {columns: [
+    
+      {title: '用户名', dataIndex: 'userName', key: 'userName'},
+      {title: '登陆帐户', dataIndex: 'userAccount', key: 'userAccount'},
+      {title: '所属商户', dataIndex: 'merchantId', key: 'merchantId'},
+      {title: '积分', dataIndex: 'amount', key: 'amount'},
+      {title: '冻结积分', dataIndex: 'blockAmount', key: 'blockAmount'},
+      {title: '可用金额', dataIndex: 'availableAmount', key: 'availableAmount'},
+      {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
       ],
-      data: []
-    }
+     data: []
+    };
+
     this.state = {
-      formData: formDatas,
+      option,
+      formData,
       tableData,
-      params: {
-        userAccount: '' ,
-        merchantName: '' ,
-        userPhoneNo: '' ,
-        userName: '' ,
-        count: 10 ,
+      // buttonData: buttonDatas, 
+      params:{
+        reqStreamId: null,
+        userName: null,
+        status: null,
+        startTime: null,
+        endTime: null,
         page: 1,
+        page_size: 20,
         totalCount: 10,
       }
     }
   }
-
+  
   componentWillMount () {
-    this.getData(this.state.params);
-  }
-
-  onChangePage = (page) => {
     const {params} = this.state;
-    params.page = page;
-    this.getData(params);
-  }
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        const {params} = this.state;
-        params.userAccount = values.userAccount;
-        params.merchantName = values.merchantName;
-        params.userPhoneNo = values.userPhoneNo;
-        params.userName = values.userName;
-        this.getData(params);
-      }
-    })
-  };
-
-  Reset = () => {
-    const params = {
-      userAccount: '',
-      merchantName: '',
-      userPhoneNo: '',
-      userName: '',
-      count: 10,
-      page: 1,
-      totalCount: 10,
-    }
     this.getData(params);
   }
 
   getData = (params) => {
-    const param = params;
     const {tableData} = this.state;
-    gerMerchantHuiInfo(params).then(res => {
-      if(res.status === 200){
-        tableData.data = [];
-        res.data.data.forEach(element => {
-          const d = {
+    tableData.data = [];
+    BalanceDateList(params).then(res=>{
+      if(res.status===200 && res.data.count){
+        res.data.balanceDates.forEach(element => {
+          const p = {
             ...element,
-            createTime: timeChangData(element.createTime),
-            key: element.userId,
-          }
-          tableData.data.push(d);
+           
+            key: element.userId
+          };
+          tableData.data.push(p);
         });
-        param.totalCount = res.data.totalCount;
-        this.setState({
-          tableData,
-          params
-        })
       }
+      this.setState({
+        tableData,
+        params: {
+          ...params,
+          totalCount: res.data.count
+        }
+      })
     })
   }
 
-  render() {
-    const { getFieldDecorator } = this.props.form; 
-    const { formData, tableData, params } = this.state;
+  handleSubmit = (values) => {
+    const params = values;
+
+    if(typeof params.rechargeTime !== 'undefined'){
+      params.q_startTime_gt = timeChangData(values.rechargeTime[0].toDate());
+      params.q_startTime_lt = timeChangData(values.rechargeTime[1].toDate());
+    }
+    delete params.rechargeTime;
+
+    this.getData({
+      ...params,
+      state: this.getV(params.status)
+    })
+  }
+
+  getV = (key) => {
+    const {option} = this.state;
+    for(let i = 0 ; i < option.length ; i+=1){
+       if(option[i].value === key || option[i].label === key){
+         return option[i].value
+       }
+    }
+  }
+
+  render () {
+    const { getFieldDecorator } = this.props.form;
+    const { formData, tableData, params} = this.state;
+   
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <Row>
             <Col>
               <HeadFormSearch 
-                Reset={this.Reset} 
                 formData={formData} 
-                handleSubmit={this.handleSubmit} 
+                getData={this.getData} 
                 form={this.props.form} 
-                getFieldDecorator={getFieldDecorator}
+                handleSubmit={this.handleSubmit} 
+                getFieldDecorator={getFieldDecorator} 
               />
             </Col>
           </Row>
         </Card>
-        <Table
-          columns={tableData.columns}
-          dataSource={tableData.data}
-          bordered
-          scroll={{ x: 1200 }}
-          pagination={{
-            pageSize: params.count,
-            total: params.totalCount,
-            onChange: this.onChangePage
-           }}
+        <Table2
+          tableData={tableData}
+          // rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
         />
       </PageHeaderWrapper>
-    );
+    )
   }
 }
-const BalanceInfos = Form.create({ name: 'list' })(BalanceInfo);
-export default BalanceInfos;
+const Lists = Form.create({ name: 'list' })(List);
+export default Lists;

@@ -7,7 +7,6 @@ import {
   Col,
   Card,
   Form,
-  Table,
   message,
   Modal
 } from 'antd';
@@ -24,7 +23,7 @@ class ProductList extends React.Component {
   constructor(props){
     super(props);
     const formData = [
-      {type: 'InputIcon' ,label: '产品类型名称', name: 'productCategoryName', ruless:[] , placeholder: '产品类型名称', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '产品类型名称', name: 'q_productCategoryName_like', ruless:[] , placeholder: '产品类型名称', typeIco: 'user'},
     ];
     const headForm = {
       buttonData: [
@@ -38,6 +37,7 @@ class ProductList extends React.Component {
     const tableDatas = {columns:[
       {title: '分类编号', dataIndex: 'productCategoryId', key: 'productCategoryId'},
       {title: '分类名称', dataIndex: 'productCategoryName', key: 'productCategoryName'},
+      {title: '创作时间', dataIndex: 'createdAt', key: 'createdAt'},
       {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',render:(texts, record)=>(hreRend(hre, texts, record)) },
     ],
       data:[]
@@ -47,7 +47,7 @@ class ProductList extends React.Component {
       cost: '',
       status: '',
       limit: 10,
-      pageSize: 20,
+      page_size: 20,
       page: 1,
       totalCount: 0
     }
@@ -84,8 +84,8 @@ class ProductList extends React.Component {
           ProductClassDeleApi(element.productCategoryId, {}).then(re => {
             const res = JSON.parse(re);
               if(res.status===200){
+                message.info('操作成功');
                 this.Reset();
-                  message.info('操作成功');
               }else{
                   message.error(res.data);
               }
@@ -99,20 +99,30 @@ class ProductList extends React.Component {
     }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    let {params} = this.state;
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        params = {
-          ...values,
-          pageSize: 20,
-          page: 1
-        }
-        this.getData(params);
-        this.setState({params});
-      }
-    })
+  handleSubmit = (value) => {
+  
+    const params = value;
+   
+
+      this.getData({
+        ...params,
+        page_size: 20,
+        page: 1
+      });
+  }
+
+  Reset = () =>{
+    const params = {
+      productName: '',
+      cost: '',
+      status: '',
+      limit: 10,
+      page_size: 20,
+      page: 1,
+      totalCount: 0
+    }
+
+    this.getData(params);
   }
 
   onHandSelectRow =  (selectedRowKeys, selectedRows) => {
@@ -126,7 +136,7 @@ class ProductList extends React.Component {
     tableDatas.data = [];
     const param = {
       ...params,
-      limit: params.pageSize
+      limit: params.page_size
     }
     if(typeof param.cost === 'undefined' || param.cost===null){
       delete param.columns;
@@ -134,8 +144,8 @@ class ProductList extends React.Component {
     ProductClassApi(0,param).then(res => {
       try {
         if(res.status===200){
-          res.data.result = res.data.result;
-          res.data.result.forEach(element => {
+         
+          res.data.productCategories.forEach(element => {
             const ne = element;
             ne.key = element.productCategoryId;
             tableDatas.data.push(ne);

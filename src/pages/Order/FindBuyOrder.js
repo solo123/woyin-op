@@ -6,14 +6,13 @@ import {
   Col,
   Card,
   Form,
-  Table
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {Table2} from '@/components/TableList/TableListPage';
+import {GetOrderForBuyLisApi} from '@/services/api';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {statuesRend} from '@/utils/renderUtils';
 import {timeChangData} from '@/utils/utils';
-import {Table2} from '@/components/TableList/TableListPage';
-import {GetOrderForBuyLisApi} from '@/services/api';
 import styles from './FindBuyOrder.less';
 
 @connect()
@@ -28,10 +27,10 @@ class List extends React.Component {
       {value: '14',label: '取消'},
     ];
     const formData = [
-      {type: 'InputIcon' ,label: '购买订单编号', name: 'reqStreamId', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '购买订单编号', name: 'q_reqStreamId_like', ruless:[] , placeholder: '购买订单编号', typeIco: 'user'},
       // {type: 'InputIcon' ,label: '登录手机号', name: 'logo', ruless:[] , placeholder: '登录手机号', typeIco: 'book'},
-      {type: 'SelectCompone', label: '状态：', name: 'status',style:{width:'196px'},  options: option},
-      {type: 'InputIcon', label: '购买对象名称',name: 'userName', ruless:[] , placeholder: '购买对象名称', typeIco: 'book'},
+      {type: 'SelectCompone', label: '状态：', name: 'q_status_eq',style:{width:'196px'},  options: option},
+      {type: 'InputIcon', label: '购买对象名称',name: 'q_userName_like', ruless:[] , placeholder: '购买对象名称', typeIco: 'book'},
       {type: 'SelectDateRang' ,label: '购买时间', name: 'rechargeTime', ruless:[] , placeholder: '购买时间', typeIco: 'book'},
     ];
     const PRODUCTSTATUE = [
@@ -52,7 +51,7 @@ class List extends React.Component {
       {title: '产品价值（折扣前）', dataIndex: 'productValue', key: 'productValue'},
       {title: '折扣率', dataIndex: 'discount', key: 'discount'},
       {title: '状态', dataIndex: 'status', key: 'status', render: status => (statuesRend(status, PRODUCTSTATUE))},
-      {title: '创建日期', dataIndex: 'startTime', key: 'startTime'},
+      {title: '创建日期', dataIndex: 'createdAt', key: 'createdAt'},
       ],
      data: []
     };
@@ -69,7 +68,7 @@ class List extends React.Component {
         startTime: null,
         endTime: null,
         page: 1,
-        pageSize: 20,
+        page_size: 20,
         totalCount: 10,
       }
     }
@@ -98,7 +97,7 @@ class List extends React.Component {
         tableData,
         params: {
           ...params,
-          totalCount: res.data.totalCount
+          totalCount: res.data.total
         }
       })
     })
@@ -108,11 +107,11 @@ class List extends React.Component {
     const params = values;
 
     if(typeof params.rechargeTime !== 'undefined'){
-      params.startTime = timeChangData(values.rechargeTime[0].toDate());
-      params.endTime = timeChangData(values.rechargeTime[1].toDate());
+      params.q_startTime_gt = timeChangData(values.rechargeTime[0].toDate());
+      params.q_startTime_lt = timeChangData(values.rechargeTime[1].toDate());
     }
     delete params.rechargeTime;
-    
+
     this.getData({
       ...params,
       state: this.getV(params.status)

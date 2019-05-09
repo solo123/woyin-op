@@ -16,26 +16,26 @@ export async function fakeAccountLogin(params) {
 }
 
 const getMerchantListApi = async function getMerchantListApi (params) {
-  return request(`${serverApi}/api/op/merInfos?${stringify(params)}`);
+  return request(`${serverApi}/api/op/merchants?${stringify(params)}`);
 }
 
 const getMerchantPlayApi = async function getMerchantPlayApi (params) {
-  return request(`${serverApi}/api/op/merUsers?${stringify(params)}`);
+  return request(`${serverApi}/api/op/users?${stringify(params)}`);
 }
 
-const getMerchantAccApi = async function getMerchantAccApi (params) {
-  return request(`${serverApi}/api/op/merAccounts?${stringify(params)}`);
+const getMerchantAccApi = async function getMerchantAccApi ({merchantId}) {
+  return request(`${serverApi}/api/op/merchants/${merchantId}/accounts`);
 }
 
 const addMerchantApi = async function addMerchantApi (params) {
-  return request(`${serverApi}/api/op/merchant_service`, {
+  return request(`${serverApi}/api/op/merchants`, {
     method: 'POST',
     body: params,
   })
 }
 
 const RechargeGetMerList = async function RechargeGetMerList (params) {
-  return request(`${serverApi}/api/op/merInfos?${stringify(params)}`);
+  return request(`${serverApi}/api/op/merchants?${stringify(params)}`);
 }
 
 const RechargMerchantRecharges = async function RechargMerchantRecharges (params){
@@ -45,8 +45,8 @@ const RechargMerchantRecharges = async function RechargMerchantRecharges (params
   })
 }
 
-const RechargMerchantRechargesPOST = async function RechargMerchantRechargesPOST (params){
-  return request(`${serverApi}/api/op/rechargeOrder`, {
+const RechargMerchantRechargesPOST = async function RechargMerchantRechargesPOST (params, orderId){
+  return request(`${serverApi}/api/op/rechargeOrder/${orderId}`, {
     method: 'PUT',
     body: params,
   })
@@ -132,18 +132,18 @@ const UploadInterCheckRate = async function UploadInterCheckRate(params){
 }
 
 const ProductListApi = async function ProductListApi(params){
-  return request(`${serverApi}/api/op/product?${stringify(params)}`);
+  return request(`${serverApi}/api/op/products?${stringify(params)}`);
 }
 
 const ProductAddApi = async function ProductAddApi(params) {
-  return request(`${serverApi}/api/op/product`, {
+  return request(`${serverApi}/api/op/products`, {
     method: 'POST',
     body: params,
   })
 }
 
 const ProductDeleApi = async function ProductDeleApi(params) {
-  return request(`${serverApi}/api/op/product/${params}`, {
+  return request(`${serverApi}/api/op/products/${params}`, {
     method: 'DELETE',
     body: params,
   })
@@ -154,7 +154,7 @@ const ProductClassApi = async function ProductClassApi(fatherId,params){
 }
 
 const ProductEditApi = async function ProductEditApi(productId,params){
-  return request(`${serverApi}/api/op/product/${productId}`, {
+  return request(`${serverApi}/api/op/products/${productId}`, {
     method: 'PUT',
     body: params,
   })
@@ -206,23 +206,27 @@ const GetUserLogoListApi = async function GetUserLogoListApi(params){
 }
 
 const GetOrderForBuyLisApi = async function GetOrderForBuyLisApi(params){
-  return request(`${serverApi}/api/op/buyOrder?${stringify(params)}`);
+  return request(`${serverApi}/api/op/buyOrders?${stringify(params)}`);
 }
 
 const GetTransferOrderApi = async function GetTransferOrderApi(params){
-  return request(`${serverApi}/api/op/transferOrder?${stringify(params)}`);
+  return request(`${serverApi}/api/op/transferOrders?${stringify(params)}`);
 }
 
 const GetUserWaterApi = async function GetUserWaterApi(params){
-  return request(`${serverApi}/api/op/userAccounts?${stringify(params)}`);
+  return request(`${serverApi}/api/op/users/accounts?${stringify(params)}`);
 }
 
 const GetvouchersListById = async function GetvouchersListById(params){
-  return request(`${serverApi}/api/op/vouchers?${stringify(params)}`);
+  return request(`${serverApi}/api/op/balances/${params.balance_id}/history/merchant`);
 }
 
 const GetVouchersDetails = async function GetVouchersDetails(id){
-  return request(`${serverApi}/api/op/vouchers/${id}`);
+  return request(`${serverApi}/api/op/balances_history/${id}`);
+}
+
+const BalanceDateList = async function BalanceDateList(params){
+  return request(`${serverApi}/api/op/balanceDate?${stringify(params)}`);
 }
 
 export {
@@ -265,4 +269,5 @@ export {
   GetUserWaterApi, // 获取商户流水
   GetvouchersListById, // 获取流水
   GetVouchersDetails, // 流水详情
+  BalanceDateList, // 凌晨余额成员额度
 }

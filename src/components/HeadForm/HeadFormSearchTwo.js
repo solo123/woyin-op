@@ -51,7 +51,7 @@ class HeadFormTow extends React.Component {
     params = {
       ...params,
       page: 1,
-      pageSize: 20,
+      page_size: 20,
       totalCount: 10
     }
    

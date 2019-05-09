@@ -7,7 +7,7 @@ import GridContent from './GridContent';
 import styles from './index.less';
 import MenuContext from '@/layouts/MenuContext';
 
-const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...restProps }) => (
+const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, headMenu, top, ...restProps }) => (
   <div style={{ margin: '-24px -24px 0' }} className={wrapperClassName}>
     {top}
     <MenuContext.Consumer>
@@ -18,6 +18,7 @@ const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...r
           {...value}
           key="pageheader"
           {...restProps}
+          headMenu={headMenu}
           linkElement={Link}
           itemRender={item => {
             if (item.locale) {
@@ -36,6 +37,7 @@ const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...r
   </div>
 );
 
-export default connect(({ setting }) => ({
+export default connect(({ setting, headMenu }) => ({
   contentWidth: setting.contentWidth,
+  headMenu: headMenu.list
 }))(PageHeaderWrapper);

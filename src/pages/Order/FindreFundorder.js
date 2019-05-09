@@ -15,13 +15,10 @@ import styles from './FindreFundorder.less'
 class List extends React.Component {
   constructor(props){
     super(props);
-    const option = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
+    const option = [
+      {value: '1',label: '正常'},
+      {value: '0',label: '禁用'}
+    ];
     const formDatas = [
       {type: 'InputIcon' ,label: '退款编号', name: 'ordercoder', ruless:[] , placeholder: '退款编号', typeIco: 'user'},
       {type: 'InputIcon' ,label: '产品编号', name: 'logo', ruless:[] , placeholder: '产品编号', typeIco: 'book'},

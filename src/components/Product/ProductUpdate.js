@@ -49,6 +49,7 @@ class ProductUpdate extends React.Component {
         status: product.status===1 ? '正在销售' : '停止销售',
         canRefund: product.canRefund===1 ? '支持' : '不支持',
        });
+       this.setState({product})
     }else{
         formData[0].initialValue = product.productName;
         formData[1].initialValue = product.cost;

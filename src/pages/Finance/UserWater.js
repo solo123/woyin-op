@@ -25,18 +25,18 @@ class List extends React.Component {
       {value: '0',label: '禁用',}
     ];
     const formData = [
-      {type: 'InputIcon' ,label: '用户名', name: 'userName', ruless:[] , placeholder: '用户名', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '手机号码', name: 'userPhoneNo', ruless:[] , placeholder: '手机号码', typeIco: 'book'},
-      {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'merchantId', options: option},
+      {type: 'InputIcon' ,label: '用户名', name: 'q_userName_like', ruless:[] , placeholder: '用户名', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '手机号码', name: 'q_userPhoneNo_like', ruless:[] , placeholder: '手机号码', typeIco: 'book'},
+      {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'q_merchantName_eq', options: option},
     ];
   
     const tableData = {columns:
       [
-        // {title: '帐户编号', dataIndex: 'accountId', key: 'accountId'},
-        {title: '用户名', dataIndex: 'userName', key: 'userName'},
-        {title: '手机号码', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
-        {title: '账户余额', dataIndex: 'balance', key: 'balance'},
-        {title: '所属商户', dataIndex: 'merchantName', key: 'merchantName'},
+        {title: '帐户编号', dataIndex: 'BalanceId', key: 'BalanceId'},
+        {title: '用户名', dataIndex: 'UserName', key: 'UserName'},
+        {title: '手机号码', dataIndex: 'UserPhoneNo', key: 'UserPhoneNo'},
+        {title: '账户余额', dataIndex: 'Amount', key: 'Amount'},
+        {title: '所属商户', dataIndex: 'MerchantName', key: 'MerchantName'},
         {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
       ],
       data:[]
@@ -50,7 +50,7 @@ class List extends React.Component {
         userPhoneNo: '',
         merchantId: '',
         page:1,
-        pageSize: 20,
+        page_size: 20,
         totalCount: 0,
       }
     }
@@ -63,9 +63,9 @@ class List extends React.Component {
       if(res.status===200 && res.data.data){
           res.data.data.forEach(elem => {
             option.push({
-              value: elem.merchantId,
-              label: elem.merchantName,
-              key: elem.merchantId
+              value: elem.MerchantName,
+              label: elem.MerchantName,
+              key: elem.MerchantId
             });
           })
           formData[2].options = option
@@ -78,7 +78,7 @@ class List extends React.Component {
   }
 
   onHangeDetails = (texts, record) => {
-    LocalStr.set("wateruserid",  record.accountId);
+    LocalStr.set("wateruserid",  record.BalanceId);
     LocalStr.set("waterusertype",  2);
     this.props.dispatch(routerRedux.push({
       pathname: '/finance/WaterDetails',
@@ -89,11 +89,11 @@ class List extends React.Component {
     const {tableData} = this.state;
     tableData.data = [];
     GetUserWaterApi(params).then(res => {
-      if(res.status ===200 && res.data.data){
+      if(res.status ===200 && res.data.total){
         res.data.data.forEach(element => {
           const d = {
             ...element,
-            key: element.userPhoneNo+element.balance
+            key: element.BalanceId
           }
           tableData.data.push(d);
         });
@@ -101,7 +101,7 @@ class List extends React.Component {
         this.setState({
           params:{
             ...params,
-            totalCount: res.data.totalCount
+            totalCount: res.data.total
           },tableData})
       }
     })

@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
-    "revision": "a22ff743039c8a241760",
+    "revision": "685ab844bfff6351cafe",
     "url": "/vendors.chunk.css"
   },
   {
@@ -20,19 +20,19 @@ self.__precacheManifest = [
     "url": "/static/logo.b02b1de2.png"
   },
   {
-    "revision": "1b389ede695b5ffddbba",
+    "revision": "267aeb5fd8d5a16cea41",
     "url": "/umi.js"
   },
   {
-    "revision": "1b389ede695b5ffddbba",
+    "revision": "267aeb5fd8d5a16cea41",
     "url": "/umi.css"
   },
   {
-    "revision": "a22ff743039c8a241760",
+    "revision": "685ab844bfff6351cafe",
     "url": "/vendors.async.js"
   },
   {
-    "revision": "74780011e2577fe1750c",
+    "revision": "99127da644f558a42b9f",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
@@ -76,15 +76,15 @@ self.__precacheManifest = [
     "url": "/p__Exception__models__error.js.async.js"
   },
   {
-    "revision": "86480ffae62e7ec1933b",
+    "revision": "e0edeecfbe9ea944bf9f",
     "url": "/p__Finance__MerchantWater.async.js"
   },
   {
-    "revision": "b2d39fa0ba53bc37bb36",
+    "revision": "4eec9a8310982d76027f",
     "url": "/p__Finance__UserWater.async.js"
   },
   {
-    "revision": "ced91e52938ae204a6fb",
+    "revision": "c138a4a264c2bbe33f15",
     "url": "/p__Finance__WaterDetails.async.js"
   },
   {
@@ -92,11 +92,11 @@ self.__precacheManifest = [
     "url": "/p__Finance__accountWater.async.js"
   },
   {
-    "revision": "4677c20e24e304bc02ae",
+    "revision": "c3813cb22ba3dca29e99",
     "url": "/p__Merchant__BalanceInfo.chunk.css"
   },
   {
-    "revision": "4677c20e24e304bc02ae",
+    "revision": "c3813cb22ba3dca29e99",
     "url": "/p__Merchant__BalanceInfo.async.js"
   },
   {
@@ -104,35 +104,35 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberInterApply.async.js"
   },
   {
-    "revision": "6cdb2cad3c4fe654dc63",
+    "revision": "3b50383930343c3d6379",
     "url": "/p__Merchant__MemberProduct.chunk.css"
   },
   {
-    "revision": "6cdb2cad3c4fe654dc63",
+    "revision": "3b50383930343c3d6379",
     "url": "/p__Merchant__MemberProduct.async.js"
   },
   {
-    "revision": "d0021da17803d46a3e27",
+    "revision": "b5de013892fce59bb338",
     "url": "/p__Merchant__MerchantInfo.chunk.css"
   },
   {
-    "revision": "d0021da17803d46a3e27",
+    "revision": "b5de013892fce59bb338",
     "url": "/p__Merchant__MerchantInfo.async.js"
   },
   {
-    "revision": "cc866898a4675ea3b8c9",
+    "revision": "c74d1d7e2d19f198a3b9",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "cc866898a4675ea3b8c9",
+    "revision": "c74d1d7e2d19f198a3b9",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "2a954a635b393bdda1ab",
+    "revision": "e8db78052fe5f188ff58",
     "url": "/p__Merchant__list.chunk.css"
   },
   {
-    "revision": "2a954a635b393bdda1ab",
+    "revision": "e8db78052fe5f188ff58",
     "url": "/p__Merchant__list.async.js"
   },
   {
@@ -144,7 +144,7 @@ self.__precacheManifest = [
     "url": "/p__Merchant__merchantBalanceInfo.async.js"
   },
   {
-    "revision": "235cd3083adc201c668a",
+    "revision": "02ba62548031fdd7c90a",
     "url": "/p__Order__FindBuyOrder.async.js"
   },
   {
@@ -172,7 +172,7 @@ self.__precacheManifest = [
     "url": "/p__Order__ShopCreateroll.async.js"
   },
   {
-    "revision": "74780011e2577fe1750c",
+    "revision": "99127da644f558a42b9f",
     "url": "/p__Order__Shoporder.chunk.css"
   },
   {
@@ -180,15 +180,15 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__models__geographic.js.async.js"
   },
   {
-    "revision": "44d795077365625d0a14",
+    "revision": "f1f3b84e38e66b1cfaa0",
     "url": "/p__Order__TransferOrderList.async.js"
   },
   {
-    "revision": "43c77c817e608e2d06c0",
+    "revision": "21ee1deae7087155dc24",
     "url": "/p__Product__ProductInfo.async.js"
   },
   {
-    "revision": "7872e23b13cd93c1a07f",
+    "revision": "a44f69a511585f80f67b",
     "url": "/p__Product__productclass.async.js"
   },
   {
@@ -276,7 +276,7 @@ self.__precacheManifest = [
     "url": "/index.html"
   },
   {
-    "revision": "00a062abd31b2222bffe",
+    "revision": "c9de92e9969325931aba",
     "url": "/layouts__BasicLayout.chunk.css"
   },
   {
@@ -296,7 +296,7 @@ self.__precacheManifest = [
     "url": "/layouts__UserLayout.chunk.css"
   },
   {
-    "revision": "00a062abd31b2222bffe",
+    "revision": "c9de92e9969325931aba",
     "url": "/layouts__BasicLayout.async.js"
   },
   {

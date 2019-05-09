@@ -46,6 +46,11 @@ export default class SiderMenu extends PureComponent {
     });
   };
 
+  hangOnClick = ({ item, key, keyPath }) => {
+    console.log(this.props);
+    console.log('hangOnClick');
+  }
+
   handleOpenChange = openKeys => {
     const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
     this.setState({
@@ -89,6 +94,7 @@ export default class SiderMenu extends PureComponent {
             mode="inline"
             handleOpenChange={this.handleOpenChange}
             onOpenChange={this.handleOpenChange}
+            hangOnClick={this.hangOnClick}
             style={{ padding: '16px 0', width: '100%' }}
             {...defaultProps}
           />

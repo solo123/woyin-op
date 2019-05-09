@@ -52,6 +52,8 @@ export default {
   'menu.merchant.merchant-member-inter-apply': '商户会员充值积分审核',
   'menu.merchant.merchant-info': '查询商户旗下人员信息',
   'menu.merchant.merchant-balance-info': '查询成员凌晨余额信息',
+  'menu.merchant.noActionUserList': '非活跃用户列表',
+  'menu.merchant.allUserUpdateState': '批量更改成员状态',
   'menu.system.menuSite': '菜单管理',
   'menu.system.parameter': '参数管理',
   'menu.order': '订单管理',
@@ -62,6 +64,9 @@ export default {
   'menu.order.TransferOrderList': '转赠订单',
   'menu.order.shopcreateroll': '商户生成电子券审核',
   'menu.order.lotteryorder': '查询彩票订单',
+  'menu.merchantorder': '商户订单',
+  'menu.merchantorder.shoporder': '商户打款审核/查询余额分配',
+  
   'menu.product': '产品管理',
   'menu.product.productinfo': '产品信息管理',
   'menu.product.productclass': '产品分类管理',

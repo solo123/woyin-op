@@ -51,12 +51,12 @@ class MemberProducZ extends React.Component {
       {title: '数值2',dataIndex: 'value2'}
     ];
     const data1 = [
-      {key: '1', label1: '状态', value1: '已完成', label2: '业务：', value2: data.Voucher.DocType},
-      {key: '2', label1: '应付金额：', value1: data.Voucher.Amount, label2: '实际金额：', value2: data.Voucher.BlockAmount},
-      {key: '3', label1: '支付时间：', value1: data.Voucher.CreateTime, label2: '帐户ID：', value2: data.Voucher.AccountId},
-      {key: '4', label1: '用户名：', value1: data.Voucher.AccountId, label2: '手机号：', value2: data.Merchant.phoneNum},
-      {key: '5', label1: '所属商户：', value1: data.Merchant.merchantName, label2: '业务订单号：', value2: data.Voucher.DocId},
-      {key: '6', label1: '支付方式：', value1: data.Voucher.DocType, label2: '支付流水号：', value2: data.Voucher.DocId}
+      {key: '1', label1: '状态', value1: '已完成', label2: '业务：', value2: data.title},
+      {key: '2', label1: '应付金额：', value1: data.amount, label2: '支付后金额：', value2: data.afterAmount},
+      {key: '3', label1: '创建时间', value1: data.createdAt, label2: '支付前金额：', value2: data.beforeAmount},
+      {key: '4', label1: '用户名：', value1: data.Name, label2: '业务订单号：', value2: data.balanceId},
+      // {key: '5', label1: '所属商户：', value1: data.Merchant.merchantName, label2: '业务订单号：', value2: data.balanceId},
+      {key: '5', label1: '支付方式：', value1: data.docType, label2: '支付流水号：', value2: data.balanceId}
     ];
     return (
       <Modal

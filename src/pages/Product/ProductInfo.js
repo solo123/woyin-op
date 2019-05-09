@@ -30,9 +30,9 @@ class ProductList extends React.Component {
       label: '正在销售'}];
     const headForm = {
       formData:  [
-        {type: 'SelectCompone' ,label: '产品类型',name: 'productCategoryId', style:{width:'196px'}, placeholder: '退款编号', ruless:[], options: productClass},
-        {type: 'SelectCompone', label: '状态：',name: 'status' ,style: {width: '193px'}, options: option},
-        {type: 'InputIcon', label:'产品名称', name:'productName',ruless:[], placeholder: '产品名称', typeIco: 'user'},
+        {type: 'SelectCompone' ,label: '产品类型',name: 'q_productCategoryId_eq', style:{width:'196px'}, placeholder: '退款编号', ruless:[], options: productClass},
+        {type: 'SelectCompone', label: '状态：',name: 'q_status_eq' ,style: {width: '193px'}, options: option},
+        {type: 'InputIcon', label:'产品名称', name:'q_productName_like',ruless:[], placeholder: '产品名称', typeIco: 'user'},
         {type: 'SelectDateRang' ,label: '创建时间', name: 'rechargeTime', ruless:[] , placeholder: '创建时间', typeIco: 'book'}
       ],
       buttonData: [
@@ -50,14 +50,14 @@ class ProductList extends React.Component {
     const tableDatas = {columns:
       [
         {title: '产品编号', dataIndex: 'productId', key: 'productId'},
-        {title: '产品类型', dataIndex: 'parentCategoryName', key: 'parentCategoryName'},
+        {title: '产品类型', dataIndex: 'productCategoryName', key: 'productCategoryName'},
         {title: '产品名称', dataIndex: 'productName', key: 'productName'},
         {title: '价值', dataIndex: 'cost', key: 'cost'},
         {title: '进货价', dataIndex: 'purchasePrice', key: 'purchasePrice'},
         {title: '销售价', dataIndex: 'salesPrice', key: 'salesPrice'},
         {title: '产品状态', dataIndex: 'status', key: 'status',render: status => (statuesRend(status, PRODUCTSTATUE))},
         {title: '是否支持退款', dataIndex: 'canRefund', key: 'canRefund',render: canRefund => (statuesRend(canRefund, PRODUCTCAN))},
-        {title: '创建日期', dataIndex: 'createTime', key: 'createTime', },
+        {title: '创建日期', dataIndex: 'createdAt', key: 'createdAt', },
         {title: '操作', dataIndex: 'action', key: 'action',
          render: (texts, record) => (
            <span>
@@ -67,11 +67,11 @@ class ProductList extends React.Component {
      data:[]
     };
     const params = {
-      productName: '',
-      status: '',
-      startTime: '',
-      endTime: '' ,
-      pageSize: 20,
+      // productName: '',
+      // status: '',
+      // startTime: '',
+      // endTime: '' ,
+      page_size: 20,
       page: 1
     }
     this.state = {
@@ -87,7 +87,7 @@ class ProductList extends React.Component {
     const productClass = [];
     ProductClassApi(0, {}).then(res => {
       if(res.status === 200){
-        res.data.result.forEach(element => {
+        res.data.productCategories.forEach(element => {
           const po = {
             value: element.productCategoryId,
             label: element.productCategoryName,
@@ -132,8 +132,9 @@ class ProductList extends React.Component {
         }
       })
     });
-    message.info(`删除成功`);
     this.Reset();
+    message.info(`删除成功`);
+    
   }
 
   handUpdate = (texts, record) => {
@@ -144,8 +145,8 @@ class ProductList extends React.Component {
   handleSubmit = (value) => {
     const params = value;
     if(typeof params.rechargeTime !== 'undefined'){
-      params.startTime = timeChangData(params.rechargeTime[0].toDate());
-      params.endTime = timeChangData(params.rechargeTime[1].toDate());
+      params.q_createdAt_gte = timeChangData(params.rechargeTime[0].toDate());
+      params.q_createdAt_lte = timeChangData(params.rechargeTime[1].toDate());
     }
     delete params.rechargeTime;
     this.getData(params);
@@ -154,6 +155,16 @@ class ProductList extends React.Component {
   onHandSelectRow =  (selectedRowKeys, selectedRows) => {
     this.setState({selectedRows})
   }
+
+  Reset = () => {
+    const params = {
+      page_size: 20,
+      page: 1
+    };
+
+    this.getData(params);
+    
+  };
 
   getData = (params)=>{
     const {tableDatas} =  this.state;
@@ -169,7 +180,7 @@ class ProductList extends React.Component {
     ProductListApi(param).then(res => {
       try {
         if(res.status===200 && res.data.count){
-          res.data.result.forEach(elem => {
+          res.data.products.forEach(elem => {
            const data = {
              ...elem,
              key: elem.productId
@@ -177,7 +188,7 @@ class ProductList extends React.Component {
            tableDatas.data.push(data);
           })
         }
-       
+        
         this.setState({
           tableDatas,
           params: {
