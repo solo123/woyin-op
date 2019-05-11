@@ -7,7 +7,7 @@ import {
 const {Option} = Select;
 const handChangs = (value) => (value);
 
-export default ({label ,name, options,style, ruless, handChang, initialValue=null},getFieldDecorator) => {
+export default ({label ,name, options,style, disabled, ruless, handChang, initialValue=null},getFieldDecorator) => {
   const option = options.map(d => <Option key={d.value}>{d.label}</Option>);
   return(
     <Form.Item
@@ -19,6 +19,7 @@ export default ({label ,name, options,style, ruless, handChang, initialValue=nul
             return (
               getFieldDecorator(name,{rules: ruless ,initialValue})(
                 <Select 
+                  disabled={disabled}
                   style={style} 
                   onChange={typeof(handChang) === 'function' ? handChang : handChangs} 
                   placeholder="请选择"
@@ -31,6 +32,7 @@ export default ({label ,name, options,style, ruless, handChang, initialValue=nul
             return (
               getFieldDecorator(name,{rules: ruless })(
                 <Select 
+                  disabled={disabled}
                   style={style} 
                   onChange={typeof(handChang) === 'function' ? handChang : handChangs} 
                   placeholder="请选择"

@@ -84,6 +84,7 @@ class ProductUpdate extends React.Component {
         value.cost = value.cost;
         value.purchasePrice =value.purchasePrice;
         value.salesPrice = value.salesPrice;
+        value.productCode = product.productCode;
         try {
             ProductEditApi(product.productId,value).then(res => {
                 if(res.status === 200){

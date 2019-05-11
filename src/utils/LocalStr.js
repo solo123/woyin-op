@@ -9,7 +9,8 @@ class LocalStr{
             merchantId: true,
             wateruserid: true,
             waterusertype: true,
-            merchantInfo: true
+            merchantInfo: true,
+            orderId: true
         }
     }
 

@@ -152,6 +152,21 @@ export default [
               name: 'merchant-balance-info',
               component: './Merchant/merchantBalanceInfo',
             },
+            {
+              path: '/merchant/createralluser',
+              name: 'createralluser',
+              component: './Merchant/CreaterAllUser',
+            },
+            {
+              path: '/merchant/allrectpoint',
+              name: 'allrectpoint',
+              component: './Merchant/AllRectPoint',
+            },
+            {
+              path: '/merchant/arecpointmerchantlist',
+              name: 'arecpointmerchantlist',
+              component: './Merchant/ARecPointMerchantList',
+            },
             { path: '/Merchant/MemberProduct', name: 'MemberProduct', component: './Merchant/MemberProduct' },
       ]
       },
@@ -318,7 +333,12 @@ export default [
             path: '/repayment/list',
             name: 'list',
             component: './Repayment/List',
-          }
+          },
+          {
+            path: '/repayment/repaymenthiston',
+            name: 'RepaymentHiston',
+            component: './Repayment/RepaymentHiston',
+          },
         ]
       },
       // 商城产品管理

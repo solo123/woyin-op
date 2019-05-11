@@ -7,7 +7,7 @@ import {
     Button 
 } from 'antd';
 
-import {InputIcon, SelectCompone, SelectDateRang} from '../FormTool';
+import {InputIcon, SelectCompone, SelectDateRang, CascaderComponents} from '../FormTool';
 
 class HeadForm extends React.Component {
   static propTypes = {
@@ -82,6 +82,12 @@ class HeadForm extends React.Component {
           return (
             <React.Fragment key={value.label}>
               {SelectDateRang(value, getFieldDecorator)}
+            </React.Fragment>
+          )
+        case 'CascaderComponents':
+          return(
+            <React.Fragment key={value.label}>
+              {CascaderComponents(value, getFieldDecorator)}
             </React.Fragment>
           )
         default:

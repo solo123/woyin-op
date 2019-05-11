@@ -1,106 +1,214 @@
-/* eslint-disable no-script-url */
-import React, { Component } from 'react';
+/* eslint-disable no-param-reassign */
+/* eslint-disable react/destructuring-assignment */
+import React from 'react';
 import { connect } from 'dva';
-import { 
-  Row, 
+import {
+  Row,
   Col,
   Card,
-  Form
-} from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+  Form,
+  message,
+  Modal
+} from 'antd'
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import {RechargMerchantRechargesPOST,repayOrdersList, repayOrdersAction} from '@/services/api';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {Table2} from '@/components/TableList/TableListPage';
+import {statuesRend} from '@/utils/renderUtils';
+import {timeChangData} from '@/utils/utils';
+import LocalStr from '@/utils/LocalStr';
+import {routerRedux} from 'dva/router';
 import styles from './List.less';
 
-const component = {};
-let formData = null;
-let buttonData = null;
 @connect()
-class SearchList extends Component {
-  componentWillMount () {
-
-
-    const option = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
-    formData = [
-      {type: 'InputIcon' ,label: '商户登录号', name: 'name', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '商户名称', name: 'code', ruless:[] , placeholder: '角色编码', typeIco: 'book'},
-      {type: 'SelectDateRang', label: '创建时间', name: 'statue', options: option}
+class List extends React.Component {
+  constructor(props){
+    super(props);
+    const option = [
+      {value: '1',label: '新建'}, 
+      {value: '-1',label: '拒绝'}
     ];
-    buttonData = [
-      {type: 'primary', ico: 'plus', hangClick: this.handAddUser, labe: '还款审核'},
-      {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '导出'},
+    const option1 = [
+      {value: '1',label: '商户'}
+    ];
+    const headForm = {
+      formData: [
+        {type: 'InputIcon', label: '充值订单编号', name: 'q_orderId_like', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
+        {type: 'InputIcon', label: '商户登录账号', name: 'q_userAccount_like', ruless:[], placeholder: '商户登录账号', typeIco: 'book'},
+        // {type: 'SelectCompone', label: '充值人员类型', name: 'roleType',style:{width: '198px'}, options: option1},
+        {type: 'SelectCompone', label: '状态：', name: 'q_state_eq',style:{width: '198px'}, options: option},
+        // {type: 'InputIcon', label: '充值对象名称', name: 'merchantName',ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
+        // {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[],placeholder: '批次号', typeIco: 'user'},
+        {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime',ruless:[], placeholder: '充值时间', typeIco: 'book'},
+      ],
+      buttonData: [
+        {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
+        {type: 'primary', ico: 'edit', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
+      ]
+    }
+    const STATUSITEMS = [
+      {key: 1, describe: ['green', '新建']},
+      {key: 2, describe: ['green', '同意']},
+      {key: -1, describe: ['red', '拒绝']},
     ]
-   }
-
-  componentDidMount() {
-    // To disabled submit button at the beginning.
-    component.RoleSet  = this.RoleSet;
-    component.UserAddUpdate = this.UserAddUpdate;
-    console.log(this.UserAddUpdate);
+    const tableData = {
+      columns:[
+        {title: '订单编号', dataIndex: 'orderId', key: 'orderId'},
+        {title: '登录号', dataIndex: 'userAccount', key: 'userAccount'},
+        {title: '对象名称', dataIndex: 'merchantName', key: 'merchantName'},
+        {title: '充值对象类型', dataIndex: 'roleType', key: 'roleType'},
+        {title: '积分', dataIndex: 'balance', key: 'balance'},
+        {title: '还款方式', dataIndex: 'rechargeType', key: 'rechargeType'},
+        {title: '状态', dataIndex: 'state', key: 'state' ,render: state => (statuesRend(state, STATUSITEMS))},
+        {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
+        {title: '操作', dataIndex: 'action', key: 'action', render: (texts, record) => (<a href="javascript:;" onClick={()=> {this.onClick(texts, record)}}>还款记录</a>)},
+     ],
+     data: []
+    };
+    this.state = {
+      tableData,
+      headForm,
+      params: {
+        page_size: 20,
+        totalCount: 0,
+      }
+    }
   }
-
-  handUserRole = (texts, record) => {
-    this.UserRole.onShow();
+  
+  componentWillMount () {
+    const {params} = this.state;
+    this.getData(params);
   }
-
-  handAddUser = (e) => {
-    e.preventDefault();
-    // eslint-disable-next-line react/no-string-refs ,no-shadow
-    this.UserAddUpdate.showModal(e);
-  }
-
-  handEdit = (e) => {
-    e.preventDefault();
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    // eslint-disable-next-line react/destructuring-assignment
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        console.log('Received values of form: ', values);
+  
+  getData = (param) => {
+    const {tableData} = this.state;
+    tableData.data = [];
+    repayOrdersList().then(res => {
+      if(res.status === 200){
+        res.data.data.forEach(item => {
+          const order = {
+            ...item,
+            key: item.orderId,
+          };
+          tableData.data.push(order);
+        });
+        const params = {
+          ...param,
+          totalCount: res.data.total
+        }
+       
+        this.setState({
+          params,
+          tableData
+        })
       }
     })
   }
 
-  render() {
-    // const { match, children, location } = this.props;
-    const { getFieldDecorator } = this.props.form;
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
-    };
+  onClick = (texts, record) => {
+    LocalStr.set("orderId", JSON.stringify(record));
+    this.props.dispatch(routerRedux.push({
+      pathname: '/repayment/repaymenthiston'
+    }));
+  }
 
+  // 同意
+  handMerchInterAppaly = (e) => {
+    const {withDrawList} = this.state;
+    if(typeof withDrawList === 'undefined') {
+      Modal.info({
+        title: '信息提醒',
+        content: '请选择要审核的订单！',
+      })
+      return
+    }
+    withDrawList.forEach(item => {
+      this.handRepayOrdersAction(item.key, 2); 
+    })
+  }
+
+  // 拒绝
+  handMerchInterAnace = (e) => {
+    const {withDrawList} = this.state;
+    if(typeof withDrawList === 'undefined') {
+      Modal.info({
+        title: '信息提醒',
+        content: '请选择要审核的订单',
+      })
+      return;
+    }
+    withDrawList.forEach(item => {
+      this.handRepayOrdersAction(item.key, -1); 
+    })
+  }
+
+  // 订单审核操作
+  handRepayOrdersAction = (orderId, operate) => {
+    const formData = new FormData();
+    formData.append("operate", operate);
+    repayOrdersAction(formData, orderId).then(res => {
+      if(res.status === 200){
+        message.info('操作成功');
+      }else{
+        message.error('操作失败');
+      }
+    });
+  }
+
+  onSelectedRows = (selectedRowKeys, selectedRows) => {
+    this.setState({
+      withDrawList: selectedRows
+    });
+  }
+
+  handleSubmit = (values) => {
+    const params = values;
+    if(typeof values.rechargeTime !== 'undefined'){
+      params.q_createTime_gt = timeChangData(values.rechargeTime[0].toDate());
+      params.q_createTime_lt = timeChangData(values.rechargeTime[1].toDate());
+    }
+    delete params.rechargeTime;
+    this.getData(params);
+  }
+
+  render () {
+    const { getFieldDecorator } = this.props.form;
+    const { tableData, headForm , params} = this.state;
+    const rowSelection = {
+      onChange: this.onSelectedRows
+    };
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
-          <Row>
+          {/* <Row>
             <Col>
-              <HeadFormSearch formData={formData} handleSubmit={this.handleSubmit} getFieldDecorator={getFieldDecorator} />
+              <HeadFormSearch 
+                formData={headForm.formData} 
+                getData={this.getData} 
+                form={this.props.form} 
+                handleSubmit={this.handleSubmit} 
+                getFieldDecorator={getFieldDecorator} 
+              />
             </Col>
-          </Row>
+          </Row> */}
           <Row>
             <Col>
-              <div className={styles.addButton}>
-                <HeadFootButton buttonData={buttonData} />
+              <div>
+                <HeadFootButton buttonData={headForm.buttonData} />
               </div>
             </Col>
           </Row>
         </Card>
-       
+        <Table2
+          tableData={tableData}
+          rowSelection={rowSelection}
+          params={params}
+          getData={this.getData}
+          // scroll={{ x: 1200 }}
+        />
       </PageHeaderWrapper>
-    );
+    )
   }
 }
-const SearchLists = Form.create({ name: 'SearchList' })(SearchList);
-export default SearchLists;
+const Lists = Form.create({ name: 'list' })(List);
+export default Lists;

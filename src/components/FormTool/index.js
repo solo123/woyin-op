@@ -5,6 +5,8 @@ import SelectDateRang from './SelectDateRangComponent';
 import ButtonComponents from './ButtonComponents';
 import CheckboxComponents from './CheckboxComponents';
 import RadioGroupComponent from './RadioGroupComponent';
+import CascaderComponents from './CascaderComponents';
+
 
 export {
     LabelInput,
@@ -15,7 +17,8 @@ export {
     ButtonComponents,
     CheckboxComponents,
     RadioGroupComponent,
-    InputNum
+    InputNum,
+    CascaderComponents
 }
 
 export default{

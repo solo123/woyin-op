@@ -11,6 +11,7 @@ import {
     InputNum,
     ButtonComponents,
     CheckboxComponents,
+    CascaderComponents,
     RadioGroupComponent} from '../FormTool';
 
 class AddInfo extends React.Component {
@@ -69,6 +70,12 @@ class AddInfo extends React.Component {
               return(
                 <React.Fragment key={value.label}>
                   {InputNum(value, getFieldDecorator)}
+                </React.Fragment>
+              )
+          case 'CascaderComponents':
+              return(
+                <React.Fragment key={value.label}>
+                  {CascaderComponents(value, getFieldDecorator)}
                 </React.Fragment>
               )
           default:

@@ -9,14 +9,13 @@ import {
   Form,
   Table
 } from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import RoleSet from '@/components/System/Role-set';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import UserAddUpdate from '@/components/System/UserAddOrUpdate';
+import {GetUserLogoListApi, GetRoleList, getUserByRole} from '@/services/api';
 import UserRole from '@/components/System/User-role';
-import {GetUserLogoListApi, GetRoleList} from '@/services/api';
+import RoleSet from '@/components/System/Role-set';
 import styles from './User.less';
-
 
 let buttonData = null;
 @connect()
@@ -30,25 +29,22 @@ class UserList extends Component {
         {title: '姓名', dataIndex: 'userName', key: 'userName'},
         {title: '角色', dataIndex: 'roleName', key: 'roleName'},
         // {title: '电话', dataIndex: 'phone', key: 'phone'},
-        {title: '邮箱', dataIndex: 'email', key: 'email'},
+        {title: '手机', dataIndex: 'mobile', key: 'mobile'},
         // {title: '创建日期', dataIndex: 'createrdata', key: 'createrdata'},
         // {title: '机构名称', dataIndex: 'describe', key: 'describe'},
-        {title: '操作', dataIndex: 'action', key: 'action', width: 80, render: (texts, record) => (<a href="javascript:;" onClick={()=> {this.onClick(texts, record)}}>操作</a>)},
+        // {title: '操作', dataIndex: 'action', key: 'action', width: 80, render: (texts, record) => (<a href="javascript:;" onClick={()=> {this.onClick(texts, record)}}>删除</a>)},
         // {title: '状态', dataIndex: 'statue', key: 'statue'},
      ],
      data:  []
     }
-    const option = [{
-      value: '1',
-      label: '正常',
-    }, {
-      value: '0',
-      label: '禁用',
-    }];
+    const option = [
+      {value: '1', label: '正常'}, 
+      {value: '0',label: '禁用'}
+    ];
     const formData = [
-      {type: 'InputIcon' ,label: '查询条件', name: 'condition', ruless:[] , placeholder: '帐户,角色,邮箱', typeIco: 'user'},
-      {type: 'SelectCompone', style:{width: '198px'}, label: '状态：', name: 'state', options: option},
-      {type: 'SelectCompone', style:{width: '198px'}, label: '角色', name: 'rol', options: option}
+      {type: 'SelectCompone', style:{width: '198px'}, label: '角色', name: 'rol', options: option},
+      // {type: 'InputIcon' ,label: '查询条件', name: 'condition', ruless:[] , placeholder: '帐户,角色,邮箱', typeIco: 'user'},
+      // {type: 'SelectCompone', style:{width: '198px'}, label: '状态：', name: 'state', options: option},
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddUser, labe: '添加'},
@@ -70,29 +66,31 @@ class UserList extends Component {
   }
 
   componentWillMount () {
-    const {formData} = this.state;
-    const options = [];
-    GetRoleList().then(res => {
-      res.data.forEach(elem => {
-        options.push({ value: elem.RoleId ,label: elem.RoleName})
-      })
-    })
-    formData[2].options = options;
-    console.log(formData);
-    this.setState({formData})
+    
   }
 
   componentDidMount() {
-    const {params} = this.state;
-    //this.getData(params);
+    const {formData, params} = this.state;
+    const options = [];
+    GetRoleList().then(res => {
+      if(res.data){
+        res.data.forEach(elem => {
+          options.push({ value: elem.RoleId ,label: elem.RoleName})
+        })
+        formData[0].options = options;
+        this.setState({formData})
+      }
+     
+    })
   }
 
   getData(params) {
     const {tableData} = this.state;
     tableData.data = [];
-    GetUserLogoListApi(params).then(res => {
-      if(res.status === 200 && res.data.totalCount){
-        res.data.data.forEach(element => {
+    getUserByRole(params.roleId).then(res => {
+      if(res.status === 200 && res.data){
+        console.log(params);
+        res.data.forEach(element => {
           const elem = {
             ...element,
             key: element.userId
@@ -101,7 +99,7 @@ class UserList extends Component {
         });
         const para = {
           ...params,
-          totalCount: res.data.totalCount
+          // totalCount: res.data.totalCount
         }
         this.setState({
           tableData,
@@ -124,22 +122,24 @@ class UserList extends Component {
     e.preventDefault();
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const {params} = this.state;
-    this.props.form.validateFields((err, values) => {
-      if(!err){
-        const d = {
-          condition: values.condition,
-          state: values.state,
-          totalCount: params.totalCount,
-          page: 1,
-        };
-        this.setState({
-          params: d
-        }, this.getData(d))
-      }
-    })
+  handleSubmit = (value) => {
+    console.log(value);
+    this.getData({roleId: value.rol})
+    // e.preventDefault();
+    // const {params} = this.state;
+    // this.props.form.validateFields((err, values) => {
+    //   if(!err){
+    //     const d = {
+    //       condition: values.condition,
+    //       state: values.state,
+    //       totalCount: params.totalCount,
+    //       page: 1,
+    //     };
+    //     // this.setState({
+    //     //   params: d
+    //     // }, this.getData(d))
+    //   }
+    // })
   }
 
   resData = () => {
@@ -200,7 +200,7 @@ class UserList extends Component {
           columns={tableData.Columns}
           dataSource={tableData.data} 
           bordered
-          rowSelection={rowSelection}
+          // rowSelection={rowSelection}
           pagination={{
             pageSize: params.count,
             total: params.totalCount,

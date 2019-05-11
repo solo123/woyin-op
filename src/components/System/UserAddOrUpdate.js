@@ -4,6 +4,7 @@ import {
     Modal,
   } from 'antd';
 import AddInfo from '../FormAdd/AddInfo';
+import {GetRoleList, AddUserByRole} from '@/services/api';
 
 class UserAddOrUpdate extends React.Component {
   constructor(props) {
@@ -22,21 +23,23 @@ class UserAddOrUpdate extends React.Component {
     ]
     this.state = {
       visible: false,
+      // {type: 'SelectCompone', style:{width: '198px'}, label: '角色', name: 'rol', options: option},
       formData: [
-        {type: 'InputIcon' ,label: '帐号', name: 'logo', ruless:[{required: true}] , placeholder: '登录帐号', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '帐号', name: 'userAccount', ruless:[{required: true}] , placeholder: '登录帐号', typeIco: 'user'},
         {type: 'InputIcon' ,label: '密码', name: 'password', ruless:[{required: true}] , placeholder: '用户密码', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '确认密码', name: 'logoname', ruless:[{required: true}] , placeholder: '用户名称', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '姓名', name: 'describe', ruless:[{required: true}] , placeholder: '描述信息', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '电话', name: 'describe', ruless:[{required: true}] , placeholder: '描述信息', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '邮箱', name: 'describe', ruless:[{required: true}] , placeholder: '描述信息', typeIco: 'user'},
-        {type: 'CheckboxComponents', label: '角色组：', name: 'statue', options: groupOp},
-        {type: 'RadioGroupComponent', label: '状态：', name: 'statue', value: option}
+        // {type: 'InputIcon' ,label: '确认密码', name: 'password', ruless:[{required: true}] , placeholder: '用户名称', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '姓名', name: 'userName', ruless:[{required: true}] , placeholder: '描述信息', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '电话', name: 'phoneNum', ruless:[{required: true}] , placeholder: '描述信息', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '邮箱', name: 'email', ruless:[{required: true}] , placeholder: '描述信息', typeIco: 'user'},
+        {type: 'SelectCompone',  style:{width: '198px'}, label: '角色', name: 'roleId', options: groupOp},
+        {type: 'RadioGroupComponent', label: '状态：', name: 'state', value: option}
         ]
     };
   }
 
   showModal = e => {
     e.preventDefault();
+    this.GetRoleList();
     this.setState({
       visible: true,
     });
@@ -52,12 +55,34 @@ class UserAddOrUpdate extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.AddInfo.validateFields((err, values) => {
-      console.log(values);
+      AddUserByRole(values).then(res => {
+        console.log(res);
+      })
     });
     this.setState({
       visible: false,
     });
   }
+
+  GetRoleList = () =>{
+    const {formData} = this.state;
+    const param = {
+      page_size: 100,
+    }
+    const groupOp = [];
+    GetRoleList(param).then(res=>{
+        if(res.status === 200 && res.data){
+          
+          for(let i = 0; i <  res.data.length; i+=1){
+            const temp = {value: res.data[i].RoleId, label: res.data[i].RoleName};
+            groupOp.push(temp);
+          }
+          formData[6].options = groupOp;
+        }
+        this.setState({formData});
+    });
+  }
+
 
   render() {
     const {visible, formData} = this.state;

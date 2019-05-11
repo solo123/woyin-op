@@ -48,6 +48,8 @@ export function authorityAccount() {
                 '/merchant/alluserupdatestate',
                 '/merchantorder/shoporder',
                 '/merchantorder/retuersmorder',
+                '/merchant/arecpointmerchantlist',
+                // '/merchant/allrectpoint',
                 '/order/shoporder',
                 // '/merchant/merchant-member-inter-apply',
                 '/order',
@@ -68,16 +70,15 @@ export function authorityAccount() {
                 // '/task',
                 // '/task/tasklist',
                 // '/task/taskdiary',
-                  /*
+                /*
                 '/transfer',
                 '/transfer/transferaudit',
                 '/transfer/transferorderlist',
                 '/transfer/trandsfercredit',
-              
-           
-                '/repayment',
-                '/repayment/list',
                 */
+               '/repayment',
+               '/repayment/list',
+                //  '/repayment/repaymenthiston',
                 '/finance',
                 // '/finance/accountwater',
                 '/finance/merchantwater',

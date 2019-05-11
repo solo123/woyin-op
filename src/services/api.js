@@ -262,6 +262,67 @@ const changeUserStatus = async function changeUserStatus(params){
   })
 }
 
+const getUserByRole = async function getUserByRole(roleId){
+  return request(`${serverApi}/api/op/permit/roles/${roleId}/users`);
+}
+
+const RoleDele = async function RoleDele(roleId) {
+  return request(`${serverApi}/api/op/permit/roles/${roleId}`, {
+    method: 'DELETE',
+  })
+}
+
+const uploadRecPointsFile = async function uploadRecPointsFile (params) {
+  return request(`${serverApi}/api/op/recover_points/upload`, {
+    method: 'POST',
+    body: params,
+  })
+}
+
+const GetUploadRecPointsLoing = async function GetUploadRecPointsLoing(params){
+  return request(`${serverApi}/api/op/recover_points/total?${stringify(params)}`);
+}
+
+const GetUploadRecPintData = async function GetUploadRecPintData(params){
+  return request(`${serverApi}/api/op/recover_points?${stringify(params)}`);
+}
+
+const DeleDataSubmitRecPoints = async function DeleDataSubmitRecPoints (params) {
+  return request(`${serverApi}/api/op/recover_points`, {
+    method: 'DELETE',
+    body: params,
+  })
+}
+
+const SubmitRecPoints = async function SubmitRecPoints (params) {
+  return request(`${serverApi}/api/op/recover_points`, {
+    method: 'PUT',
+    body: params,
+  })
+}
+
+const AddUserByRole = async function AddUserByRole(params){
+  return request(`${serverApi}/api/op/permit/user`, {
+    method: 'POST',
+    body: params,
+  })
+}
+
+const repayOrdersList = async function repayOrdersList (params) {
+  return request(`${serverApi}/api/op/repayOrders?${stringify(params)}`);
+}
+
+const repayOrdersAction = async function repayOrdersAction (params, orderId) {
+  return request(`${serverApi}/api/op/repayOrders/${orderId}`, {
+    method: 'PUT',
+    body: params,
+  })
+}
+
+const repayOrdersHistory = async function repayOrdersHistory (orderId) {
+  return request(`${serverApi}/api/op/rechargeOrders/${orderId}/repayOrders`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -309,4 +370,15 @@ export {
   AddRoles, // 增加角色
   InactiveUserList, // 获取非活跃用户
   changeUserStatus, // 更改用户状态
+  getUserByRole, // 获取角色列表
+  RoleDele, // 删除角色
+  uploadRecPointsFile, // 批量删除积分
+  GetUploadRecPointsLoing, // 上传扣除积分情况
+  GetUploadRecPintData, // 查看导入情况
+  DeleDataSubmitRecPoints, // 删除数据
+  SubmitRecPoints,  // 导入扣分的提交
+  AddUserByRole, // 添加系统用户
+  repayOrdersList, // 查看还款订单
+  repayOrdersAction, // 还款订单操作
+  repayOrdersHistory, // 还款订单
 }

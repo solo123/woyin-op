@@ -43,8 +43,10 @@ class List extends React.Component {
     const tableData = {columns:
       [
         // {title: '流水编号', dataIndex: 'id', key: 'id'},
+        {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '商户名', dataIndex: 'MerchantName', key: 'MerchantName'},
         {title: '用户ID', dataIndex: 'UserId', key: 'UserId'},
+        {title: '用户balanceId', dataIndex: 'balanceId', key: 'balanceId'},
         {title: '用户名', dataIndex: 'UserName', key: 'UserName'},
         {title: '手机号', dataIndex: 'Mobile', key: 'Mobile'},
         {title: '状态', dataIndex: 'Status', key: 'Status',render: statue => {
@@ -116,6 +118,7 @@ class List extends React.Component {
         res.data.data.forEach(element => {
           const d = {
             ...element,
+            balanceId: element.Balances[0].balanceId,
             key: element.UserId
           }
           tableData.data.push(d);
@@ -138,7 +141,7 @@ class List extends React.Component {
 
     if (selectUserData !== null){
         selectUserData.forEach(ele => {
-            params.list = `${params.list},${ele.UserId}`;
+            params.list = `${params.list},${ele.balanceId}`;
         })
        
        changeUserStatus(params).then(res => {

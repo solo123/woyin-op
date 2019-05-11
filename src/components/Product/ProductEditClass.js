@@ -23,40 +23,42 @@ class ProductAddAndUpdate extends React.Component {
     };
   }
 
-  init = (productClass) => {
+  init = (fatherId, productClass) => {
+    console.log(fatherId);
     this.setState({
         productClass
     });
-    this.getData(productClass);
+    this.getData(fatherId,productClass);
     // return typeof(userInfo.id) === 'undefined' ? this.setState({status: 'add'}) : this.setState({status: 'update'});
   }
 
-  getData =(productClass) =>{
+  getData =(fatherId,productClass) =>{
     const tags = [];
+    console.log(productClass.productCategoryId);
     ProductClassApi(productClass.productCategoryId,{}).then(res => {
         if(res.status === 200 && res.data.productCategories){
             for(let i= 0; i < res.data.productCategories.length; i+=1){
                 tags.push(res.data.productCategories[i].productCategoryName);
             }
-            this.setState({
-                tags,
-                productClass,
-                data: res.data.productCategories
-            })
         }
+        this.setState({
+          tags,
+          productClass,
+          data: res.data.productCategories
+      })
     })
   }
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
-    const {data, productClass} = this.state;
+    const {data, productClass, fatherId} = this.state;
     const c = this.getProundctClassId(data, removedTag);;
     ProductClassDeleApi(c.productCategoryId).then(res =>{
         const re = JSON.parse(res);
         if(re.status === 200){
             message.info('删除成功');
             this.setState({ tags });
-            this.getData(productClass);
+            this.getData(fatherId,productClass);
         }else{
             console.log(re.data);
             message.error(re.data);
@@ -99,11 +101,11 @@ class ProductAddAndUpdate extends React.Component {
   }
 
   handleInputConfirm = () => {
-    const { inputValue, productClass } = this.state;
+    const { inputValue, productClass, fatherId } = this.state;
     let { tags } = this.state;
     if (inputValue && tags.indexOf(inputValue) === -1) {
       const params = {
-        name: inputValue,
+        productCategoryName: inputValue,
         parentId: productClass.productCategoryId
       }
       ProductClassAddApi(params).then(res =>{
@@ -115,7 +117,7 @@ class ProductAddAndUpdate extends React.Component {
       })
       tags = [...tags, inputValue];
     }
-    this.getData(productClass);
+    this.getData(fatherId,productClass);
     this.setState({
       tags,
       inputVisible: false,
@@ -145,7 +147,7 @@ class ProductAddAndUpdate extends React.Component {
     return (
       <div>
         <Modal
-          title='运营商查看'
+          title='子类查看'
           transparent
           style={{ top: 100 }}
           maskClosable={false}
@@ -184,7 +186,7 @@ class ProductAddAndUpdate extends React.Component {
               onClick={this.showInput}
               style={{ background: '#fff', borderStyle: 'dashed' }}
             >
-              <Icon type="plus" /> 新建运营商
+              <Icon type="plus" /> 新建子类
             </Tag>
             )}
         </Modal>

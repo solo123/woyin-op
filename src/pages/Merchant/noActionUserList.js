@@ -48,10 +48,7 @@ class BalanceInfo extends Component {
       formData: formDatas,
       tableData,
       params: {
-        userAccount: '' ,
-        merchantName: '' ,
-        userPhoneNo: '' ,
-        userName: '' ,
+  
         page_size: 20 ,
         page: 1,
         totalCount: 10,

@@ -10,7 +10,8 @@ import {
     Col,
     Divider,
     Form,
-    Input
+    Input, 
+    message
   } from 'antd';
 import {RoleResources, AddRoles} from '@/services/api';
 
@@ -51,73 +52,19 @@ const rol = [
   //     }
   //   ]
   // },
-  // {
-  //   menu: '客户管理',
-  //   child: [
-  //     {
-  //       title: '企业客户',
-  //       child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
-  //       ]
-  //     },
-  //     {
-  //       title: 'APP客户',
-  //       child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
-  //       ]
-  //     },
-  //   ]
-  // },
-  // {
-  //   menu: '运营管理',
-  //   child: [
-  //     {
-  //       title: '机构套餐管理',
-  //       child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
-  //       ]
-  //     },
-  //     {
-  //       title: '设备套餐管理',
-  //       child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
-  //       ]
-  //     },
-  //     {
-  //       title: '视频通话套餐管理',
-  //       child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
-  //       ]
-  //     }
-  //   ]
-  // },
-  // {
-  //   menu: '财务管理',
-  //   child: [
-  //     {
-  //       title: '订单列表',
-  //       child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
-  //       ]
-  //     }
-  //   ]
-  // },
-  // {
-  //   menu: '系统管理',
-  //   child: [
-  //     {
-  //       title: '收款帐户管理',
-  //       child: [{ value: 1, label: '访问' }, { value: 1, label: '新增' }, { value: 1, label: '编辑' }, { value: 1, label: '删除' }, { value: 1, label: '保存' },
-  //       ]
-  //     }
-  //   ]
-  // }
+ 
 ]
-class RoleAdd extends React.Component {
+class RoleAddss extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rolList : rol
+      rolList: rol,
+      visible: false
     };
-    
   }
 
   componentWillMount (){
-    
+    this.getData();
   }
 
   getData = () => {
@@ -136,58 +83,78 @@ class RoleAdd extends React.Component {
             key[temp2[0]] = {
               title: temp[0],
               child: [
-                { value:  element.ResourceName, label: temp[1] }
+                { value:  element.ResourceId, label: temp[1] }
               ]
             }
           }else{
-            const child = {value: element.ResourceName, label: temp[1]}
+            const child = {value: element.ResourceId, label: temp[1]}
             key[temp2[0]].child.push(child);
           }
         }
-     
       });
       rol[0].child = [];
       k.forEach(ele => {
         rol[0].child.push(key[ele]);
       })
+      this.setState({res})
     })
   }
 
+  // onClose = () => {
+  //   const { dispatch } = this.props;
+  //     dispatch({
+  //       type: 'ModalAction/Open',
+  //        payload: {
+  //         SystemRole: false
+  //        },
+  //   });
+  // }
+
   onClose = () => {
-    const { dispatch } = this.props;
-      dispatch({
-        type: 'ModalAction/Open',
-         payload: {
-          SystemRole: false
-         },
+    this.setState({
+        visible: false
     });
-  }
+}
+
+onShow = () => {
+  
+    this.setState({
+        visible: true
+    })
+}
   
   handleOk = e => {
+    const {res} = this.state;
     this.props.form.validateFields((err, values) => {
       if(!err){
+        console.log(values);
         const formData = new FormData();
-        formData.append("role", values.rol);
+        formData.append("role", values.role);
         for(let i = 0; i < checkedValues.length; i+=1){
+         
           formData.append("resources", checkedValues[i])
         }
+        // console.log(res);
         AddRoles(formData).then(res => {
+          if(res.status===200){
+            message.info(res.data);
+            this.props.Reset();
+          }else{
+            message.info(res.data);
+          }
           console.log(res);
         })
         this.onClose();
       }
     });
-
-   
   }
 
   handChange = (checkedValue) => {
     checkedValues = checkedValue;
-    console.log('checked = ', checkedValues);
   }
-
+  
   render() {
-    this.getData();
+   
 
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -199,8 +166,8 @@ class RoleAdd extends React.Component {
           xs: { span: 8 },
           sm: { span: 8 },
         },
-      };
-    const {rolList} = this.state;
+    };
+    const {rolList, visible} = this.state;
     return (
       <div>
         <Modal
@@ -209,7 +176,7 @@ class RoleAdd extends React.Component {
           width={900}
           style={{ top: 20}}
           maskClosable={false}
-          visible={this.props.ModalVisi.SystemRole}
+          visible={visible}
           onCancel={this.onClose}
           onOk={this.handleOk}
         >
@@ -226,13 +193,13 @@ class RoleAdd extends React.Component {
                 )}
             </Form.Item>
             {rol.map(it => (
-              <React.Fragment>
+              <React.Fragment key={it.menu}>
                 <Checkbox.Group style={{ width: '100%' }} onChange={this.handChange}>
                   <Divider orientation="left">{it.menu}</Divider>
                   {it.child.map((items)=>(
-                    <Row key={items.title}>
+                    <Row key={items.value}>
                       <Col span={5}><h4>{items.title}:</h4></Col>
-                      {items.child.map((item)=>(<Col span={3} ><Checkbox value={item.value}>{item.label}</Checkbox></Col>))}
+                      {items.child.map((item)=>(<Col span={3}><Checkbox value={item.value}>{item.label}</Checkbox></Col>))}
                     </Row>
                   ))}
                 </Checkbox.Group>
@@ -246,9 +213,7 @@ class RoleAdd extends React.Component {
   }
 }
 
-const RoleAdds = Form.create({ name: 'register' })(RoleAdd);
+// const RoleAdds = Form.create({ name: 'register' })(RoleAdd);
 
-export default connect(({ModalAction})=>({
-    ModalVisi: ModalAction.ModalVisi,
-}))(RoleAdds);
+export default RoleAddss;
 

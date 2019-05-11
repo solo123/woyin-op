@@ -5,15 +5,17 @@ import {
   Row, 
   Col,
   Card,
-  Form
+  Form,
+  message
 } from 'antd';
 
-import {RoleAddOrUpdate, RoleUser, RoleAdd} from '@/components/System';
+
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
 import RoleSet from '@/components/System/Role-set';
-import {GetRoleList} from '@/services/api';
+import {GetRoleList, RoleDele} from '@/services/api';
+import RoleAdds from '@/components/System/RoleAdd';
 import styles from './Role.less';
 
 const component = {};
@@ -31,6 +33,7 @@ class SearchList extends Component {
         {title: '角色编号', dataIndex: 'RoleId', key: 'RoleId'},
         {title: '角色名称', dataIndex: 'RoleName', key: 'RoleName'},
         {title: '创建日期', dataIndex: 'CreatedAt', key: 'CreatedAt'},
+        {title: '操作', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDele(texts, record)}}>删除</a>)},
       ],
       data: []
     }
@@ -42,7 +45,8 @@ class SearchList extends Component {
     formData = [
       {type: 'InputIcon' ,label: '角色编号', name: 'ResourceId', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
       {type: 'InputIcon' ,label: '角色名称', name: 'ResourceName', ruless:[] , placeholder: '角色名称', typeIco: 'user'},
-      {type: 'InputIcon' ,label: '创建日期', name: 'CreatedAt', ruless:[] , placeholder: '创建日期', typeIco: 'book'}
+      {type: 'InputIcon' ,label: '创建日期', name: 'CreatedAt', ruless:[] , placeholder: '创建日期', typeIco: 'book'},
+     
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '添加'},
@@ -66,9 +70,9 @@ class SearchList extends Component {
   componentDidMount() {
     // To disabled submit button at the beginning.
    
-    component.RoleSet  = this.RoleSet;
-    component.RoleAddOrUpdate = this.RoleAddOrUpdate;
-    component.RoleUser = this.RoleUser;
+    // component.RoleSet  = this.RoleSet;
+    // component.RoleAddOrUpdate = this.RoleAddOrUpdate;
+    // component.RoleUser = this.RoleUser;
   }
 
   handRoleAdd = () =>{
@@ -79,19 +83,30 @@ class SearchList extends Component {
     this.RoleSet.onShow();
   }
 
+  onHangeDele = (texts, record) => {
+  
+    RoleDele(record.RoleId).then(res => {
+    
+      message.info('删除数据成功');
+      this.Reset();
+   
+    })
+  }
+
   handRoleUser = () => {
     this.RoleUser.onShow();
   }
 
   handAddRole = (e) => {
     e.preventDefault();
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'ModalAction/Open',
-       payload: {
-        SystemRole: true
-       },
-    });
+    this.roleAdds.onShow();
+    // const { dispatch } = this.props;
+    // dispatch({
+    //   type: 'ModalAction/Open',
+    //    payload: {
+    //     SystemRole: true
+    //    },
+    // });
   }
 
   getData = (params) => {
@@ -129,6 +144,11 @@ class SearchList extends Component {
 
   handEdit = (e) => {
     e.preventDefault();
+  }
+
+  Reset = () => {
+    const {param} = this.state;
+    this.getData(param);
   }
 
   render() {
@@ -179,11 +199,13 @@ class SearchList extends Component {
           getData={this.getData}
           // scroll={{ x: 1300 }}
         />
+        <RoleAdds ref={(c) => {this.roleAdds = c;}} Reset={this.Reset} form={this.props.form} />
         {/* <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
         <RoleUser ref={(c) => {this.RoleUser = c;}} /> */}
-        <RoleAdd ref={(c) => {this.RoleAdds = c;}} />
+
       </PageHeaderWrapper>
+      
     );
   }
 }

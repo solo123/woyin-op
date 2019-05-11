@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
@@ -9,13 +10,13 @@ import {
   message,
   Modal
 } from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import {ProductAddAndUpdate, ProductUpdate} from '@/components/Product';
 import {ProductListApi, ProductDeleApi, ProductClassApi} from '@/services/api';
+import {ProductAddAndUpdate, ProductUpdate} from '@/components/Product';
+import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
-import {timeChangData} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
+import {timeChangData} from '@/utils/utils';
 import styles from './ProductInfo.less';
 
 @connect()
@@ -31,9 +32,9 @@ class ProductList extends React.Component {
     const productClass2 = [];
     const headForm = {
       formData:  [
-        {type: 'SelectCompone' ,label: '产品类型1',name: 'q_productCategoryId_eq', handChang: this.handChang1,  style:{width:'196px'}, ruless:[], options: productClass},
-        {type: 'SelectCompone' ,label: '产品类型2',name: 'q_productCategoryId_eq2',handChang: this.handChang2, style:{width:'196px'}, ruless:[], options: productClass1},
-        {type: 'SelectCompone' ,label: '产品类型3',name: 'q_productCategoryId_eq3',handChang: this.handChang3, style:{width:'196px'}, ruless:[], options: productClass2},
+        {type: 'SelectCompone' ,label: '产品类型1',name: 'categoryId1', handChang: this.handChang1,  style:{width:'196px'}, ruless: [{required: true, message: '请选择产品类型',} ], options: productClass},
+        {type: 'SelectCompone' ,label: '产品类型2',name: 'categoryId2',disabled: true,handChang: this.handChang2, style:{width:'196px'}, ruless:[], options: productClass1},
+        {type: 'SelectCompone' ,label: '产品类型3',name: 'categoryId3',disabled: true,handChang: this.handChang3, style:{width:'196px'}, ruless:[], options: productClass2},
         {type: 'SelectCompone', label: '状态：',name: 'q_status_eq' ,style: {width: '193px'}, options: option},
         {type: 'InputIcon', label:'产品名称', name:'q_productName_like',ruless:[], placeholder: '产品名称', typeIco: 'user'},
         {type: 'SelectDateRang' ,label: '创建时间', name: 'rechargeTime', ruless:[] , placeholder: '创建时间', typeIco: 'book'}
@@ -54,7 +55,7 @@ class ProductList extends React.Component {
       [
         {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '产品编号', dataIndex: 'productId', key: 'productId'},
-        {title: '产品类型', dataIndex: 'productCategoryName', key: 'productCategoryName'},
+        {title: '产品编码', dataIndex: 'productCode', key: 'productCode'},
         {title: '产品名称', dataIndex: 'productName', key: 'productName'},
         {title: '价值', dataIndex: 'cost', key: 'cost'},
         {title: '进货价', dataIndex: 'purchasePrice', key: 'purchasePrice'},
@@ -64,9 +65,7 @@ class ProductList extends React.Component {
         {title: '创建日期', dataIndex: 'createdAt', key: 'createdAt', },
         {title: '操作', dataIndex: 'action', key: 'action',
          render: (texts, record) => (
-           <span>
-             <a href="javascript:void(0)" onClick={()=> {this.handUpdate(texts, record)}}>修改</a>
-           </span>)},
+           <span><a href="javascript:void(0)" onClick={()=> {this.handUpdate(texts, record)}}>修改</a></span>)},
      ],
      data:[]
     };
@@ -89,7 +88,6 @@ class ProductList extends React.Component {
   componentWillMount () {
     this.getClassData(0, 0)
     const {params} = this.state;
-    this.getData(params);
   }
 
   getClassData = (classId, index) => {
@@ -105,10 +103,13 @@ class ProductList extends React.Component {
           productClass.push(po);
         });
         headForm.formData[index].options = productClass;
-        this.setState({
-          headForm
-        })
+        headForm.formData[index].disabled = false;
+      }else{
+        headForm.formData[index].disabled = true;
       }
+      this.setState({
+        headForm
+      })
     })
   }
 
@@ -148,7 +149,6 @@ class ProductList extends React.Component {
     });
     this.Reset();
     message.info(`删除成功`);
-    
   }
 
   handUpdate = (texts, record) => {
@@ -163,10 +163,11 @@ class ProductList extends React.Component {
       params.q_createdAt_lte = timeChangData(params.rechargeTime[1].toDate());
     }
         
-    params['q_productCategoryId_eq'] = params.q_productCategoryId_eq2 ? params.q_productCategoryId_eq2 : params.q_productCategoryId_eq;
-    params['q_productCategoryId_eq'] = params.q_productCategoryId_eq3 ? params.q_productCategoryId_eq3 : params['q_productCategoryId_eq'];
+    params.categoryId = params.categoryId2 ? params.categoryId2 : params.categoryId1;
+    params.categoryId = params.categoryId3 ? params.categoryId3 : params.categoryId;
    
     delete params.rechargeTime;
+    params.page_size = 20;
     this.getData(params);
   }
 
@@ -175,13 +176,8 @@ class ProductList extends React.Component {
   }
 
   Reset = () => {
-    const params = {
-      page_size: 20,
-      page: 1
-    };
-
+    const {params} = this.state; 
     this.getData(params);
-    
   };
 
   getData = (params)=>{
@@ -198,14 +194,13 @@ class ProductList extends React.Component {
 
     ProductListApi(param).then(res => {
    
-      try {
         if(res.status===200 && res.data.count){
           res.data.products.forEach(elem => {
             i+=1;
            const data = {
              ...elem,
              xh: i,
-             key: elem.productId
+             key: i
            }
            tableDatas.data.push(data);
           })
@@ -218,7 +213,6 @@ class ProductList extends React.Component {
             totalCount: res.data.count
           }
         })
-      } catch (error) {}
     })
   }
 
