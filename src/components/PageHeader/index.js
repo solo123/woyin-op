@@ -3,6 +3,7 @@ import { Tabs, Skeleton } from 'antd';
 import classNames from 'classnames';
 import styles from './index.less';
 import BreadcrumbView from './breadcrumb';
+import BreadcrumbView2 from './breadcrumb2';
 
 const { TabPane } = Tabs;
 export default class PageHeader extends PureComponent {
@@ -49,6 +50,8 @@ export default class PageHeader extends PureComponent {
             avatar={{ size: 'large', shape: 'circle' }}
           >
             {hiddenBreadcrumb ? null : <BreadcrumbView {...this.props} />}
+            {hiddenBreadcrumb ? null : <BreadcrumbView2 {...this.props} />}
+
             <div className={styles.detail}>
               {logo && <div className={styles.logo}>{logo}</div>}
               <div className={styles.main}>

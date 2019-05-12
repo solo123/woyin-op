@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import { query as queryUsers } from '@/services/user';
 
 export default {
@@ -5,23 +7,29 @@ export default {
 
   state: {
     list: [
-        {name: 'xxxx', linke: 'xxxxxx'}
+      // {label: 'xxxx', href: 'xxxxxx'}
     ],
   },
 
   effects: {
-    *fetch({payload} , { call, put }) {
-    //    const response = yield call(queryUsers);
-       yield put({
-         type: 'save',
-         payload,
-       });
-    }
+    *fetch({ payload }, { call, put }) {
+      //    const response = yield call(queryUsers);
+      // console.log('转递过来一次');
+      // console.log(payload.menu);
+      yield put({
+        type: 'save',
+        menu: payload.menu,
+      });
+    },
+
+    // *dele({ payload }, { call, put }) {
+    //   console.log('删除成功');
+    // }
   },
 
   reducers: {
     save(state, action) {
-      state.list.push(action.payload);
+      state.list.push(action.menu);
       return {
         ...state,
       };

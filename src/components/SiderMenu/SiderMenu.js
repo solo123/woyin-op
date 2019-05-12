@@ -1,3 +1,7 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 import React, { PureComponent, Suspense } from 'react';
 import { Layout } from 'antd';
 import classNames from 'classnames';
@@ -46,10 +50,34 @@ export default class SiderMenu extends PureComponent {
     });
   };
 
+  // 菜单点后触发的方法
   hangOnClick = ({ item, key, keyPath }) => {
-    console.log(this.props);
-    console.log('hangOnClick');
-  }
+    const { dispatch, menuData } = this.props;
+    menuData.some(item => {
+      if (item.path === keyPath[1])
+        item.children.some(ite => {
+          if (ite.path === keyPath[0]) {
+            dispatch({
+              type: 'headMenu/fetch',
+              payload: {
+                menu: { label: ite.name, href: key },
+              },
+            });
+            return ite.name;
+          }
+        });
+    });
+  };
+
+  getMenuame = keyPath => {
+    const { menuData } = this.props;
+    menuData.some(item => {
+      if (item.path === keyPath[1])
+        item.children.some(ite => {
+          if (ite.path === keyPath[0]) return ite.name;
+        });
+    });
+  };
 
   handleOpenChange = openKeys => {
     const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
