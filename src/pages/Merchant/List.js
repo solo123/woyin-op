@@ -47,8 +47,8 @@ class List extends React.Component {
     ];
     const buttonDatas = [
       {type: 'primary', ico: 'plus', hangClick: this.handAdd, labe: '添加'},
-      {type: 'primary', hangClick: ()=>{this.handFeezeMerchant(1)}, labe: '冻结商户'},
-      {type: 'primary', hangClick: ()=>{this.handFeezeMerchant(2)}, labe: '解冻商户'}
+      {type: 'primary', hangClick: ()=>{this.handFeezeMerchant(2)}, labe: '冻结商户'},
+      {type: 'primary', hangClick: ()=>{this.handFeezeMerchant(1)}, labe: '解冻商户'}
     ];
     const STATUSITEMS = [
       {key: 1, describe: ['green', '可用']},
@@ -119,7 +119,6 @@ onHangMerchantWall = () => {
 }
 
 handFeezeMerchantApi = (params, merchantId) => {
-
   FeezeMerchant(params, merchantId).then(res => {
     message.info(res.msg);
   })

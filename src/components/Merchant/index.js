@@ -8,6 +8,7 @@ import MemberApplayInter from './MemberApplayInter';
 import MemberProducZ from './MemberProducZ';
 import MerchantAddRate from './MerchantAddRate';
 import MerchantWall from './MerchantWall';
+import MemberUpdateStatue from './MemberUpdateStatue';
 
 
 export {
@@ -20,6 +21,7 @@ export {
     MemberApplayInter,
     MemberProducZ,
     MerchantAddRate,
-    MerchantWall
+    MerchantWall,
+    MemberUpdateStatue
 }
 export default MerchantAddOrUpdate

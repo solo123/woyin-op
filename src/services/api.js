@@ -337,6 +337,10 @@ const MerchantAccountsWall = async function MerchantAccountsWall (params, mercha
   })
 }
 
+const OrderTotals = async function OrderTotals (params, type){
+  return request(`${serverApi}/api/op/orders/total/${type}?${stringify(params)}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -397,4 +401,5 @@ export {
   repayOrdersHistory, // 还款订单
   FeezeMerchant, // 商户冻结/解结
   MerchantAccountsWall, // 商户帐户钱包操作
+  OrderTotals, // 分数统计
 }

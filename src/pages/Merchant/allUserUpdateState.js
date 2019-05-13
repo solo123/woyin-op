@@ -15,6 +15,8 @@ import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import {Table2} from '@/components/TableList/TableListPage';
 import {WaterDetails} from '@/components/Finance';
 import {statuesRend, hreRend} from '@/utils/renderUtils';
+import {ModalInfo} from '@/components/ModalInfo';
+import {MemberUpdateStatue} from '@/components/Merchant';
 import {getMerchantListApi, changeUserStatus, gerMerchantHuiInfo} from '@/services/api';
 import {timeChangData} from '@/utils/utils';
 import styles from './Info.less';
@@ -35,29 +37,23 @@ class List extends React.Component {
       {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'q_merchantName_like', options: option},
       {type: 'InputIcon' ,label: '用户名称', name: 'q_userName_like', ruless:[] , placeholder: '用户名称', typeIco: 'user'},
       {type: 'InputIcon' ,label: '用户手机号码', name: 'q_userPhoneNo_like', ruless:[] , placeholder: '用户手机号码', typeIco: 'user'}
-    //   {type: 'SelectDateRang' ,label: '时间', name: 'rechargeTime', ruless:[] , placeholder: '时间', typeIco: 'book'},
     ];
     const buttonDatas = [
         {type: 'primary', ico: '', hangClick: this.updateStatue, labe: '更改状态'},
       ];
     const tableData = {columns:
       [
-        // {title: '流水编号', dataIndex: 'id', key: 'id'},
         {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '商户名', dataIndex: 'MerchantName', key: 'MerchantName'},
         {title: '用户ID', dataIndex: 'UserId', key: 'UserId'},
-        {title: '用户balanceId', dataIndex: 'balanceId', key: 'balanceId'},
+        // {title: '用户balanceId', dataIndex: 'balanceId', key: 'balanceId'},
         {title: '用户名', dataIndex: 'UserName', key: 'UserName'},
-        {title: '手机号', dataIndex: 'Mobile', key: 'Mobile'},
-        {title: '状态', dataIndex: 'Status', key: 'Status',render: statue => {
-            return statuesRend(statue, STATUSITEMS)
-          }},
+        {title: '手机号', dataIndex: 'UserPhoneNo', key: 'UserPhoneNo'},
+        {title: '状态', dataIndex: 'Status', key: 'Status',render: statue => {return statuesRend(statue, STATUSITEMS)}},
+        // {title: '帐户状态', dataIndex: 'balanceStatus', key: 'balanceStatus',render: statue => {return statuesRend(statue, STATUSITEMS)}},
         {title: '创建时间', dataIndex: 'CreatedAt', key: 'CreatedAt'},
-        // {title: '变动前账户冻结余额', dataIndex: 'afterBlock', key: 'afterBlock'},
-        // {title: '冻结余额变动数额', dataIndex: 'blockAmount', key: 'blockAmount'},
-        // {title: '变动后账户冻结余额', dataIndex: 'afterBlock', key: 'afterBlock'},
-        // {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
-        // {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>查看</a>)},
+        // {title: '查看帐户', dataIndex: 'UserName', key: 'UserName'},
+        {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeBallertDetails(texts, record)}}>查看帐户</a>)},
       ],
       data:[]
     };
@@ -66,6 +62,7 @@ class List extends React.Component {
       formData,
       buttonData: buttonDatas,
       tableData,
+      selectUserData: null,
       params:{
         username: '',
         userPhoneNo: '',
@@ -98,11 +95,14 @@ class List extends React.Component {
     })
   }
 
+  onHangeBallertDetails = (texts, record) => {
+    this.MemberUpdateStatue.showModal(record);
+    // record.Balances
+  }
+
   onHangeDetails = (texts, record) => {
     this.WaterDetails.showModal(record.id);
   }
-
-
 
   getData = (params) => {
     const {tableData} = this.state;
@@ -114,12 +114,15 @@ class List extends React.Component {
     if(!param.q_merchantName_like) return
   
     gerMerchantHuiInfo(param).then(res => {
+      let i = 0;
       if(res.status ===200 && res.data.total){
         res.data.data.forEach(element => {
+          i+=1;
           const d = {
             ...element,
             balanceId: element.Balances[0].balanceId,
-            key: element.UserId
+            key: element.UserId,
+            xh: i
           }
           tableData.data.push(d);
         });
@@ -133,23 +136,15 @@ class List extends React.Component {
   }
 
   updateStatue = () => {
-    const {RadioValue, selectUserData} = this.state;
-    const params = {
-        status: RadioValue,
-        list: '',
-    }
+    const {selectUserData} = this.state;
 
     if (selectUserData !== null){
-        selectUserData.forEach(ele => {
-            params.list = `${params.list},${ele.balanceId}`;
-        })
-       
-       changeUserStatus(params).then(res => {
-           if(res.status===200) {
-              message.info("修改成功")
-              this.ResSet();
-            }
-       })
+      const info = {};
+     
+      info.title = '你确认要修改以下成员状态为冻结？？';
+      info.content = selectUserData.map(item => (<p>{item.UserName}</p>))
+
+      this.ModalInfo.showModal(info);
 
       }else{
         Modal.error({
@@ -157,6 +152,34 @@ class List extends React.Component {
           content: '请先选择商户信息，再进行修改...',
         })
     }
+  }
+
+  updateStatueOk = () =>{
+    const {selectUserData, RadioValue} = this.state;
+    let list = "";
+    const params = new FormData();
+    params.append("status", RadioValue);
+
+
+    for(let i =0; i < selectUserData.length; i+=1){
+      if(i === 0)
+        list = `${selectUserData[i].balanceId}`;
+      else
+      list =  `${params.list},${selectUserData[i].balanceId}`;
+    }
+    console.log(params);
+    
+    // selectUserData.forEach(ele => {
+    //   params.list = `${params.list},${ele.balanceId}`;
+    // })
+    params.append("list", list);
+    
+    changeUserStatus(params).then(res => {
+           if(res.status===200) {
+              message.info("修改成功")
+              this.ResSet();
+            }
+    })
   }
 
   ResSet = () =>{
@@ -201,7 +224,7 @@ class List extends React.Component {
               />
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col>
               <div className={styles.addButton}>
                 <RadioGroup onChange={this.onRadioGroup} value={RadioValue}>
@@ -212,7 +235,7 @@ class List extends React.Component {
                 <HeadFootButton buttonData={buttonData} />
               </div>
             </Col>
-          </Row>
+          </Row> */}
         </Card>
         <Table2
           tableData={tableData}
@@ -222,6 +245,8 @@ class List extends React.Component {
           // scroll={{ x: 1200 }}
         />
         <WaterDetails ref={c => {this.WaterDetails = c}} />
+        <ModalInfo ref={c => {this.ModalInfo = c}} onOk={this.updateStatueOk} />
+        <MemberUpdateStatue ref={c => {this.MemberUpdateStatue = c}} />
       </PageHeaderWrapper>
     )
   }

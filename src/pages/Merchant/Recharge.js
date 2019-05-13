@@ -30,7 +30,7 @@ class Recharge extends React.Component {
     ];
     const tableData = {
       columns:[
-        // {title: '商户登录帐户', dataIndex: 'userAccount'},
+        {title: '序号', dataIndex: 'xh'},
         {title: '商户名称', dataIndex: 'MerchantName'},
         {title: '商户地址', dataIndex: 'MerchantAddr'},
         {title: '联系人', dataIndex: 'Contact'},
@@ -68,7 +68,7 @@ class Recharge extends React.Component {
       page_size: params.page_size,
     }
     RechargeGetMerList(param).then(res => {
-      if(res.status === 200) {
+      if(res.status === 200 && res.data.data) { 
         this.dataRinse(res.data.data);
         this.setState({
           params: {
@@ -104,6 +104,7 @@ class Recharge extends React.Component {
         ...data[i],
         key: data[i].MerchantId,
         CreatedAt: data[i].CreatedAt.String,
+        xh: i+1
       }
       tableData.data.push(mer);
     }
@@ -111,6 +112,8 @@ class Recharge extends React.Component {
       tableData
     })
   }
+
+ 
 
   render () {
     const { getFieldDecorator } = this.props.form;

@@ -33,6 +33,7 @@ class BalanceInfo extends Component {
     ];
     const tableData = {
       columns: [
+        {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '商户登陆帐户', dataIndex: 'MerchantAccount', key: 'MerchantAccount'},
         {title: '商户名', dataIndex: 'MerchantName', key: 'MerchantName'},
         {title: '用户名', dataIndex: 'UserName', key: 'UserName'},
@@ -82,16 +83,17 @@ class BalanceInfo extends Component {
     tableData.data = [];
     gerMerchantHuiInfo(param).then(res => {
       if(res.status === 200 && res.data.total){
-       
+        let i = 0;
         res.data.data.forEach(element => {
+          i+=1;
           const d = {
             ...element,
             CreatedAt:element.CreatedAt,
             key: element.UserId,
+            xh: i
           }
           tableData.data.push(d);
         });
-      
       }
       this.setState({
         tableData,
