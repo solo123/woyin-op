@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
@@ -7,9 +8,9 @@ import {
   Card,
   Form,
 } from 'antd';
+import {GetOrderForBuyLisApi, OrderTotals} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
-import {GetOrderForBuyLisApi} from '@/services/api';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {statuesRend} from '@/utils/renderUtils';
 import {timeChangData} from '@/utils/utils';
@@ -20,6 +21,7 @@ class List extends React.Component {
   constructor(props){
     super(props);
     const option = [
+      {value: 0 ,label: '全部'}, 
       {value: '10',label: '待付款'}, 
       {value: '11',label: '处理中'},
       {value: '12',label: '成功'},
@@ -41,6 +43,7 @@ class List extends React.Component {
       {key: 14, describe: ['green', '取消']},
     ];
     const tableData = {columns: [
+      {title: '序号', dataIndex: 'xh', key: 'xh'},
       {title: '订单编号', dataIndex: 'reqStreamId', key: 'reqStreamId'},
       {title: '登录手机号', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
       {title: '用户名', dataIndex: 'userName', key: 'userName'},
@@ -79,16 +82,26 @@ class List extends React.Component {
     this.getData(params);
   }
 
+  getOrderTotals = (params) => {
+    OrderTotals(params, 3).then(res => {
+      console.log(res);
+    })
+  }
+
   getData = (params) => {
     const {tableData} = this.state;
     tableData.data = [];
     GetOrderForBuyLisApi(params).then(res=>{
       if(res.status===200 && res.data.data){
+        this.getOrderTotals(params);
+        let i = 0;
         res.data.data.forEach(element => {
+          i +=1;
           const p = {
             ...element,
             startTime: timeChangData(element.startTime),
-            key: element.reqStreamId
+            key: element.reqStreamId,
+            xh: i
           };
           tableData.data.push(p);
         });
@@ -110,8 +123,8 @@ class List extends React.Component {
       params.q_startTime_gt = timeChangData(values.rechargeTime[0].toDate());
       params.q_startTime_lt = timeChangData(values.rechargeTime[1].toDate());
     }
-    delete params.rechargeTime;
 
+    delete params.rechargeTime;
     this.getData({
       ...params,
       state: this.getV(params.status)

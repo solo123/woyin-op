@@ -42,8 +42,8 @@ class List extends React.Component {
         {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime',ruless:[], placeholder: '充值时间', typeIco: 'book'},
       ],
       buttonData: [
-        {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
-        {type: 'primary', ico: 'edit', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
+        {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '还款审核'},
+        {type: 'primary', ico: 'edit', hangClick: this.handMerchInterAnace, labe: '还款拒绝 '}  
       ]
     }
     const STATUSITEMS = [

@@ -1,27 +1,27 @@
 import React from 'react';
-import { Modal } from 'antd';
-import { formatMessage } from 'umi/locale';
+import { Modal, Table } from 'antd';
 import TabelList from '@/components/TableList/TableList';
+import {getUserByRole} from '@/services/api';
 
 class RoleSet extends React.Component {
     constructor(props) {
         super(props);
-        const ColumnDatas = {data: 
-            [
-              {title: '用户信息', dataIndex: 'info', key: 'info'},
-              {title: '描述', dataIndex: 'describe', key: 'describe'}
-           ],  
-           dataEnd: {}
+        const tableData = {
+          Column: [
+            {title: '用户名', dataIndex: 'userName', key: 'userName'},
+            {title: '手机号', dataIndex: 'mobile', key: 'mobile'},
+            {title: '登陆帐户', dataIndex: 'userAccount', key: 'userAccount'}
+         ], 
+         data:  [
+            {userName: '1', mobile: 'John', userAccount: 'New York No. 1 Lake Park'}, 
+            {userName: '2', mobile: 'Jim', userAccount: 'London No. 1 Lake Park'}, 
+            {userName: '3', mobile: 'Joe', userAccount: 'Sidney No. 1 Lake Park'}
+         ]
         };
-        const datas =  [
-            {key: '1', info: 'John', describe: 'New York No. 1 Lake Park'}, 
-            {key: '2', info: 'Jim', describe: 'London No. 1 Lake Park'}, 
-            {key: '3', info: 'Joe', describe: 'Sidney No. 1 Lake Park'}
-          ];
+
         this.state = {
           visible: false,
-          ColumnData: ColumnDatas,
-          data: datas
+          tableData,
         }
     }
 
@@ -31,10 +31,34 @@ class RoleSet extends React.Component {
         });
     }
 
-    onShow = () => {
-        this.setState({
-            visible: true
-        })
+    onShow = (Role) => {
+      this.setState({
+        visible: true,
+      })
+    
+      this.getData({
+        roleId: Role.RoleId
+      })
+    }
+
+    getData = (params) =>{
+      const {tableData} = this.state;
+      tableData.data = [];
+      getUserByRole(params.roleId).then(res => {
+        if(res.status === 200 && res.data){
+          res.data.forEach(element => {
+            const elem = {
+              ...element,
+              key: element.userId
+            };
+            tableData.data.push(elem);
+          });
+          this.setState({
+            tableData,
+            params
+          })
+        }
+      })
     }
 
     handleOk = () => {
@@ -42,7 +66,7 @@ class RoleSet extends React.Component {
     }
 
     render () {
-        const {visible, ColumnData, data} = this.state
+        const {visible, tableData} = this.state
         const rowSelection = {
             onChange: (selectedRowKeys, selectedRows) => {
               console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -56,7 +80,7 @@ class RoleSet extends React.Component {
           };
         return (
           <Modal
-            title={`${formatMessage({ id : 'system.role-add-role'})}`}
+            title="成员列表"
             transparent
             width={800}
             style={{ top: 200 }}
@@ -65,7 +89,11 @@ class RoleSet extends React.Component {
             onCancel={this.onClose}
             onOk={this.handleOk}
           >
-            <TabelList ColumnData={ColumnData} data={data} rowSelection={rowSelection} />
+            <Table 
+              columns={tableData.Column} 
+              dataSource={tableData.data} 
+              // rowSelection={rowSelection} 
+            />
           </Modal>
         )
     }

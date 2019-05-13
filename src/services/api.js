@@ -323,6 +323,24 @@ const repayOrdersHistory = async function repayOrdersHistory (orderId) {
   return request(`${serverApi}/api/op/rechargeOrders/${orderId}/repayOrders`);
 }
 
+const FeezeMerchant  = async function FeezeMerchant (params, merchantId) {
+  return request(`${serverApi}/api/op/merchants/${merchantId}`, {
+    method: 'PUT',
+    body: params,
+  })
+}
+
+const MerchantAccountsWall = async function MerchantAccountsWall (params, merchantId) {
+  return request(`${serverApi}/api/op/merchants/${merchantId}/accounts`, {
+    method: 'PUT',
+    body: params,
+  })
+}
+
+const OrderTotals = async function OrderTotals (params, type){
+  return request(`${serverApi}/api/op/orders/total/${type}?${stringify(params)}`);
+}
+
 export {
   UploadInterView, // 上传积分查看
   findOrderInfo, // 订单管理/查看订单信息
@@ -381,4 +399,7 @@ export {
   repayOrdersList, // 查看还款订单
   repayOrdersAction, // 还款订单操作
   repayOrdersHistory, // 还款订单
+  FeezeMerchant, // 商户冻结/解结
+  MerchantAccountsWall, // 商户帐户钱包操作
+  OrderTotals, // 分数统计
 }

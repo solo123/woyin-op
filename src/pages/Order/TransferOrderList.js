@@ -12,7 +12,7 @@ import {HeadFormSearch} from '@/components/HeadForm';
 import {statuesRend} from '@/utils/renderUtils';
 import {Table2} from '@/components/TableList/TableListPage';
 import {timeChangData} from '@/utils/utils';
-import {GetTransferOrderApi} from '@/services/api';
+import {GetTransferOrderApi, OrderTotals} from '@/services/api';
 import styles from './FindBuyOrder.less';
 
 @connect()
@@ -31,6 +31,7 @@ class TransferOrderList extends React.Component {
     ];
     const tableData = {columns: 
       [
+        {total: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '订单ID', dataIndex: 'Id', key: 'Id'},
         {title: '转赠人姓名', dataIndex: 'fromName', key: 'fromName'},
         {title: '转赠账号', dataIndex: 'fromAccount', key: 'fromAccount'},
@@ -64,16 +65,26 @@ class TransferOrderList extends React.Component {
     this.getData(params);
   }
 
+  getOrderTotals = (params) => {
+    OrderTotals(params, 4).then(res => {
+      console.log(res);
+    })
+  }
+
   getData = (params) => {
     const {tableData} = this.state;
     tableData.data = [];
     GetTransferOrderApi(params).then(res=>{
       if(res.status===200 && res.data.data){
+        let i = 0;
+        this.getOrderTotals(params);
         res.data.data.forEach(element => {
+          i+=1;
           const p = {
             ...element,
             createTime: timeChangData(element.createTime),
-            key: element.Id
+            key: element.Id,
+            xh: i
           };
           tableData.data.push(p);
         });

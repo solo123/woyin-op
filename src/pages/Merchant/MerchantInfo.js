@@ -1,22 +1,21 @@
 import React from 'react';
 import { connect } from 'dva';
 import { 
-    Row, 
-    Col,
-    Table,
-    Card
-  } from 'antd';
-import {
-    MerchantAddOrUpdate, 
-    MemberApplayInter,
-    MemberApplayData,
-    MerchantAddRate} from '@/components/Merchant';
+  Row, 
+  Col,
+  Table,
+  Card
+} from 'antd';
+import { 
+  MemberApplayInter,
+  MerchantWall,
+  MerchantAddRate} from '@/components/Merchant';
 import {routerRedux} from 'dva/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import LocalStr from '@/utils/LocalStr';
 import {getMerchantPlayApi, getMerchantAccApi} from '@/services/api';
 import {HeadFootButton} from '@/components/HeadForm';
-import {statuesRend} from '@/utils/renderUtils';
+import {statuesRend, hreRend} from '@/utils/renderUtils';
 import styles from './MerchantInfo.less';
 
 @connect()
@@ -28,19 +27,21 @@ class MerchantInfo extends React.Component{
     const STATUSITEMS = [
       {key: 0, describe: ['green', '正常']},
       {key: 1, describe: ['red', '错误']}
+    ];
+    const hreReng = [
+      {onClick: this.onHangMerchantWall, label: '帐户钱包'}
     ]
     merchanLogo.columns = [
       {title: '账户编号',key: 'BalanceId',dataIndex:'BalanceId' }, 
-      {title: '对象编号',key: 'merchantId',dataIndex: 'MerchantId' }, 
-      {title: '对象类型',key: 'Status',dataIndex: 'Status'}, 
+      // {title: '对象编号',key: 'merchantId',dataIndex: 'MerchantId' }, 
+      {title: '帐户类型',key: 'Currency',dataIndex: 'Currency'}, 
       {title: '账户积分',key: 'Amount',dataIndex: 'Amount'}, 
-      {title: '可用积分',key: 'BlockAmount',dataIndex: 'BlockAmount'}, 
-      // {title: '冻结积分',key: 'freezeBalance',dataIndex: 'freezeBalance'}, 
-      {title: '状态',key: '',render: Status => (statuesRend(Status, STATUSITEMS))}
+      // {title: '可用积分',key: 'Amount',dataIndex: 'Amount'}, 
+      {title: '冻结积分',key: 'BlockAmount',dataIndex: 'BlockAmount'}, 
+      {title: '状态',key: '',render: Status => (statuesRend(Status, STATUSITEMS))},
+      {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right',width: 220, render:(texts, record)=>(hreRend(hreReng, texts, record)) },
     ];
     const buttonData = [
-      // {type: 'primary', hangClick: this.handAdd, labe: '添加'},
-      // {type: 'primary', hangClick: this.onHangApplayInter, labe: '会员发分审核'},
       {type: 'primary', hangClick: this.onHangGoPround, labe: '产品折扣管理'},
       {type: 'primary', hangClick: this.onHangRateMang, labe: '费率管理'},
     ];
@@ -80,6 +81,11 @@ class MerchantInfo extends React.Component{
       this.int();
     }
 
+    onHangMerchantWall = (texts, account) =>{
+      this.MerchantWall.showModal(account);
+    
+    }
+    
     onHangApplayInter = () => {
       const MeInfo = JSON.parse(LocalStr.get("merchantInfo"));
       this.MemberApplayInter.int(MeInfo); 
@@ -134,25 +140,22 @@ class MerchantInfo extends React.Component{
         }
       })
 
-     
       // 获取商户下的所有账户
       getMerchantAccApi({merchantId: MeInfo.key} ).then(ress => {
-        if(ress.status === 200){
+        if(ress.status === 200 && ress.data){
           merchanLogo.data = [];
           for(let j = 0; j<ress.data.length; j+=1){
-            const merchan = {};
-            merchan.key = ress.data[j].MerchantId;
-            merchan.MerchantId = MeInfo.key;
-            merchan.BalanceId = ress.data[j].BalanceId;
-            merchan.Amount = ress.data[j].Amount;
-            merchan.userBalance = parseInt(ress.data[j].Amount, 10) - parseInt(ress.data[j].BlockAmount, 10);
-            merchan.BlockAmount = ress.data[j].BlockAmount;
-            merchan.Status = ress.data[j].Status;
+            const merchan = {
+              ...ress.data[j],
+              MerchantId: MeInfo.key,
+              key:  ress.data[j].BalanceId,
+              userBalance: parseInt(ress.data[j].Amount, 10) - parseInt(ress.data[j].BlockAmount, 10),
+
+            };
             merchanLogo.data.push(merchan);
           }
         }
         this.setState({
-        //  info,
           merchanLogo
         });
       })
@@ -207,6 +210,7 @@ class MerchantInfo extends React.Component{
             </div>
             <MerchantAddRate ref={c => {this.MerchantAddRate = c}} />
             <MemberApplayInter ref={c => {this.MemberApplayInter = c}} />
+            <MerchantWall ref={c => {this.MerchantWall = c}} Reset={this.int} />
           </PageHeaderWrapper>
       )
     }

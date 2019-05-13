@@ -197,12 +197,10 @@ onShow = () => {
                 <Checkbox.Group style={{ width: '100%' }} onChange={this.handChange}>
                   <Divider orientation="left">{it.menu}</Divider>
                   {it.child.map((items)=>(
-                    <React.Fragment key={items.value}>
-                      <Row>
-                        <Col span={5}><h4>{items.title}:</h4></Col>
-                        {items.child.map((item)=>(<Col span={3}><Checkbox value={item.value}>{item.label}</Checkbox></Col>))}
-                      </Row>
-                    </React.Fragment>
+                    <Row key={items.value}>
+                      <Col span={5}><h4>{items.title}:</h4></Col>
+                      {items.child.map((item)=>(<Col span={3}><Checkbox value={item.value}>{item.label}</Checkbox></Col>))}
+                    </Row>
                   ))}
                 </Checkbox.Group>
               </React.Fragment>

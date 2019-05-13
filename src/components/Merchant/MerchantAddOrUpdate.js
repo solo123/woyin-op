@@ -20,7 +20,7 @@ class MerchantAddOrUpdate extends React.Component {
       formData: [
         {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[{required: true}] , placeholder: '商户名称', typeIco: 'user'},
         {type: 'InputIcon' ,label: '地址', name: 'merchantAddr', ruless:[{required: true}] , placeholder: '地址', typeIco: 'inbox'},
-        {type: 'InputIcon' ,label: '联系人', name: 'contact ', ruless:[{required: true}] , placeholder: '联系人', typeIco: 'team'},
+        {type: 'InputIcon' ,label: '联系人', name: 'contact', ruless:[{required: true}] , placeholder: '联系人', typeIco: 'team'},
         {type: 'InputIcon' ,label: '手机号码', name: 'mobile', ruless:[{required: true}] , placeholder: '手机号码', typeIco: 'phone'},
         {type: 'InputIcon' ,label: '固定电话', name: 'tel', ruless:[{required: true}] , placeholder: '固定电话', typeIco: 'pushpin'},
         {type: 'InputIcon' ,label: '登录账号', name: 'userAccount', ruless:[{required: true}] , placeholder: '登录账号', typeIco: 'user'},
@@ -54,6 +54,7 @@ class MerchantAddOrUpdate extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.AddInfo.validateFields((err, values) => {
+      console.log(values);
       if (!err){
         const formData = new FormData();
         formData.append("merchantName", values.merchantName);

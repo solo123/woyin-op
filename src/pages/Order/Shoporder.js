@@ -11,7 +11,7 @@ import {
   Modal
 } from 'antd'
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import {RechargMerchantRechargesPOST,findOrderInfo} from '@/services/api';
+import {RechargMerchantRechargesPOST,findOrderInfo, OrderTotals} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
 import {timeChangData} from '@/utils/utils';
@@ -23,7 +23,9 @@ class List extends React.Component {
   constructor(props){
     super(props);
     const option = [
+      {value: '0',label: '全部'},
       {value: '1',label: '新建'}, 
+      {value: '2',label: '同意'},
       {value: '-1',label: '拒绝'}
     ];
     const option1 = [
@@ -40,8 +42,8 @@ class List extends React.Component {
         {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime',ruless:[], placeholder: '充值时间', typeIco: 'book'},
       ],
       buttonData: [
-        {type: 'primary', ico: 'plus', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
-        {type: 'primary', ico: 'edit', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
+        {type: 'primary', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
+        {type: 'primary', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
       ]
     }
     const STATUSITEMS = [
@@ -51,11 +53,12 @@ class List extends React.Component {
     ]
     const tableData = {
       columns:[
-        {title: '充值订单编号', dataIndex: 'orderId', key: 'orderId', width: 250},
-        {title: '充值对象登录号', dataIndex: 'userAccount', key: 'userAccount', width: 200},
-        {title: '充值对象名称', dataIndex: 'merchantName', key: 'merchantName', width: 200},
-        {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType', width: 150},
-        {title: '订单积分', dataIndex: 'balance', key: 'balance', width: 150},
+        {title: '序号', dataIndex: 'xh', key: 'xh'},
+        {title: '充值订单编号', dataIndex: 'orderId', key: 'orderId'},
+        {title: '充值对象登录号', dataIndex: 'userAccount', key: 'userAccount'},
+        {title: '充值对象名称', dataIndex: 'merchantName', key: 'merchantName'},
+        {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType'},
+        {title: '订单积分', dataIndex: 'balance', key: 'balance'},
         {title: '状态', dataIndex: 'state', key: 'state' ,render: state => (statuesRend(state, STATUSITEMS))},
         {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
      ],
@@ -75,15 +78,26 @@ class List extends React.Component {
     const {params} = this.state;
     this.getData(params);
   }
+
+  getOrderTotals = (params) => {
+    OrderTotals(params, 1).then(res => {
+      console.log(res);
+    })
+  }
   
   getData = (param) => {
     const {tableData} = this.state;
     tableData.data = [];
+    if(param.q_state_eq==='0') delete param.q_state_eq;
     findOrderInfo(param).then(res => {
-      if(res.status === 200){
+      if(res.status === 200 && res.data.total){
+        this.getOrderTotals(param);
+        let i = 0;
         res.data.data.forEach(item => {
+          i +=1;
           const order = {
             ...item,
+            xh: i,
             key: item.orderId,
           };
           tableData.data.push(order);
@@ -112,7 +126,6 @@ class List extends React.Component {
       return
     }
     withDrawList.forEach(item => {
-     
 
       const formData = new FormData();
       formData.append("operate", 2);
@@ -167,6 +180,7 @@ class List extends React.Component {
       params.q_createTime_gt = timeChangData(values.rechargeTime[0].toDate());
       params.q_createTime_lt = timeChangData(values.rechargeTime[1].toDate());
     }
+    params.page_size = 20;
     delete params.rechargeTime;
     this.getData(params);
   }
@@ -204,7 +218,7 @@ class List extends React.Component {
           rowSelection={rowSelection}
           params={params}
           getData={this.getData}
-          scroll={{ x: 1200 }}
+          // scroll={{ x: 1200 }}
         />
       </PageHeaderWrapper>
     )

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
@@ -10,12 +11,13 @@ import {
   message,
   Modal
 } from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {withdrawList, withdrawApplay, OrderTotals} from '@/services/api';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import {withdrawList, withdrawApplay} from '@/services/api';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
-import {timeToYmdH} from '@/utils/utils';
+import {ModalInfo} from '@/components/ModalInfo';
 import {statuesRend} from '@/utils/renderUtils';
+import {timeToYmdH} from '@/utils/utils';
 import styles from './InterSubmit.less';
 
 @connect()
@@ -23,6 +25,7 @@ class List extends React.Component {
   constructor(props){
     super(props);
     const option = [
+      {value: '0',label: '全部'}, 
       {value: '10',label: '新建'}, 
       {value: '11',label: '受理成功'},
       {value: '12',label: '处理成功'},
@@ -34,10 +37,10 @@ class List extends React.Component {
     ];
     const headForm = {
       formData: [
-        {type: 'SelectCompone', label: '状态：',style: {width: '198px'}, name: 'state', options: option, defaultValue: '新建'}
+        {type: 'SelectCompone', label: '状态：',style: {width: '198px'}, name: 'q_status_eq', options: option, defaultValue: '新建'}
       ],
       buttonData: [
-        {type: 'primary', ico: 'plus', hangClick: this.handWithDrawAppaly, labe: '转让审核'}
+        {type: 'primary', hangClick: this.handWithDrawAppaly, labe: '批量转让审核'}
       ]
     }
 
@@ -52,15 +55,16 @@ class List extends React.Component {
       {key: 17, describe: ['green','确认']},
     ]
     const tableData = {columns: [
+      {title: '序号', dataIndex: 'xh', key: 'xh'},
       {title: '银行名称', dataIndex: 'bankName', key: 'bankName'},
       {title: '银行卡号', dataIndex: 'bankCard', key: 'bankCard'},
       {title: '持卡人姓名', dataIndex: 'cardHoldName', key: 'cardHoldName'},
       {title: '持卡人手机号', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
       {title: '提现渠道', dataIndex: 'channelId', key: 'channelId'},
-      {title: '提现金额', dataIndex: 'amount', key: 'amount'},
+      {title: '提现积分', dataIndex: 'amount', key: 'amount'},
       {title: '状态', dataIndex: 'status', key: 'status',render: status => (statuesRend(status, STATUSITEMS))},
       {title: '手续费', dataIndex: 'poundage', key: 'poundage'},  
-      {title: '更新时间', dataIndex: 'updateTime', key: 'updateTime'},
+      // {title: '更新时间', dataIndex: 'updateTime', key: 'updateTime'},
       {title: '创建时间', dataIndex: 'createTime', key: 'createTime'},
      ],
      data: []
@@ -69,14 +73,11 @@ class List extends React.Component {
       option,
       headForm,
       tableData,
-      limit: 10,
-      page: 1,
       withDrawList: [],
       params:{
         status: 10,
         page: 1,
-        limit: 10,
-        pageSize: 20,
+        page_size: 20,
         totalCount: 0
       }
     }
@@ -87,6 +88,12 @@ class List extends React.Component {
     this.getData(params);
   }
 
+  getOrderTotals = (params) => {
+    OrderTotals(params, 2).then(res => {
+      console.log(res);
+    })
+  }
+
   getData = (param) => {
     const {tableData} = this.state;
     tableData.data = [];
@@ -94,14 +101,20 @@ class List extends React.Component {
       ...param,
       limit: param.pageSize
     }
+    
+    if(params.q_status_eq==="0") delete params.q_status_eq;
     withdrawList(params).then(res => {
-      if(res.status === 200){
-        res.data.withdrawal.forEach(item => {
+      if(res.status === 200 && res.data.data){
+        this.getOrderTotals(params);
+        let i=0;
+        res.data.data.forEach(item => {
+          i+=1;
           const order = {
             ...item,
             key: item.orderId,
-            updateTime: timeToYmdH(item.updateTime),
-            createTime: timeToYmdH(item.createTime),    
+            // updateTime: item.createdAt,
+            createTime: item.createdAt,    
+            xh: i
           };    
           tableData.data.push(order);
         });
@@ -126,6 +139,16 @@ class List extends React.Component {
       })
       return;
     }
+
+    const info = {};
+    info.title = '你确认要修改以下成员状态为冻结？？';
+    info.content = withDrawList.map(item => (<p>【持卡人姓名】：{item.cardHoldName}  【积分】：{item.amount}</p>))
+
+    this.ModalInfo.showModal(info);
+  }
+
+  handWithDrawAppalyOk = () =>{
+    const {withDrawList} = this.state;
     withDrawList.forEach(item => {
       const params = {
         bankCard: item.bankCard,
@@ -160,9 +183,8 @@ class List extends React.Component {
 
   handleSubmit = (values) => {
     const params = {
-      status: this.getV(values.state),
-      limit: this.state.limit,
-      page: this.state.page
+      q_status_eq: this.getV(values.q_status_eq),
+      page_size: 20
     };
     this.getData(params);
   }
@@ -192,6 +214,7 @@ class List extends React.Component {
                 formData={headForm.formData} 
                 handleSubmit={this.handleSubmit} 
                 form={this.props.form} 
+                getData={this.getData} 
                 getFieldDecorator={getFieldDecorator} 
               />
             </Col>
@@ -223,6 +246,7 @@ class List extends React.Component {
           getData={this.getData}
           // scroll={{ x: 1300 }}
         />
+        <ModalInfo ref={(c) => {this.ModalInfo = c}} onOk={this.handWithDrawAppalyOk} />
       </PageHeaderWrapper>
     )
   }

@@ -6,16 +6,18 @@ import {
   Col,
   Card,
   Form,
-  message
+  message,
+  Modal
 } from 'antd';
-
 
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
 import RoleSet from '@/components/System/Role-set';
+import RoleUser from '@/components/System/Role-user';
 import {GetRoleList, RoleDele} from '@/services/api';
 import RoleAdds from '@/components/System/RoleAdd';
+import UserList from '@/components/System/UserList';
 import styles from './Role.less';
 
 const component = {};
@@ -33,11 +35,15 @@ class SearchList extends Component {
         {title: '角色编号', dataIndex: 'RoleId', key: 'RoleId'},
         {title: '角色名称', dataIndex: 'RoleName', key: 'RoleName'},
         {title: '创建日期', dataIndex: 'CreatedAt', key: 'CreatedAt'},
-        {title: '操作', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDele(texts, record)}}>删除</a>)},
+        {title: '操作', dataIndex: 'find', key: 'find', render: (texts, record) => (
+          <span>
+            <a href="javascript:void(0)" onClick={()=> {this.onHangRoleUser(texts, record)}}>成员</a>  ｜ 
+            <a href="javascript:void(0)" onClick={()=> {this.onHangeEdit(texts, record)}}>权限</a>
+          </span>
+          )},
       ],
       data: []
     }
-  
     const option = [
       {value: '1',label: '正常'}, 
       {value: '0',label: '禁用'}
@@ -50,7 +56,7 @@ class SearchList extends Component {
     ];
     buttonData = [
       {type: 'primary', ico: 'plus', hangClick: this.handAddRole, labe: '添加'},
-      // {type: 'primary', ico: 'edit', hangClick: this.handEdit, labe: '修改'},
+      {type: 'primary', ico: 'edit', hangClick: this.onHangeDele, labe: '删除'},
     ]
     this.state = {
       tableData,
@@ -68,29 +74,51 @@ class SearchList extends Component {
   }
 
   componentDidMount() {
-    // To disabled submit button at the beginning.
-   
-    // component.RoleSet  = this.RoleSet;
-    // component.RoleAddOrUpdate = this.RoleAddOrUpdate;
-    // component.RoleUser = this.RoleUser;
+
+  }
+
+  onHangeEdit = (e) =>{
+    this.RoleSet.onShow();
+    console.log('编辑');
   }
 
   handRoleAdd = () =>{
 
   }
 
+  onHangRoleUser = (texts, record) =>{
+    this.RoleUser.onShow(record);
+  }
+
+  handDele = (e) => {
+    
+  }
+
   handRoleSet = (texts, record) => {
     this.RoleSet.onShow();
   }
 
-  onHangeDele = (texts, record) => {
-  
-    RoleDele(record.RoleId).then(res => {
-    
-      message.info('删除数据成功');
-      this.Reset();
+  onHangeDele = () => {
+    const {selectUserData} = this.state;
    
-    })
+    if (selectUserData !== null){
+      selectUserData.forEach(item => {
+        RoleDele(item.RoleId).then(res => {
+          message.info('删除数据成功');
+          this.Reset();
+          })
+      })
+    }else{
+      Modal.error({
+        title: '错误',
+        content: '请先选择信息，再进行删除！',
+      })
+    }
+  }
+
+  Reset = ()=>{
+    const params = {};
+    this.getData(params);
   }
 
   handRoleUser = () => {
@@ -100,13 +128,6 @@ class SearchList extends Component {
   handAddRole = (e) => {
     e.preventDefault();
     this.roleAdds.onShow();
-    // const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'ModalAction/Open',
-    //    payload: {
-    //     SystemRole: true
-    //    },
-    // });
   }
 
   getData = (params) => {
@@ -138,7 +159,6 @@ class SearchList extends Component {
           }
         }
         );
-     
     });
   }
 
@@ -151,19 +171,17 @@ class SearchList extends Component {
     this.getData(param);
   }
 
+  getCheckUser = (selectedRowKeys, selectedRows) => {
+    this.setState({selectUserData: selectedRows});
+  }
+
   render() {
     // const { match, children, location } = this.props;
     const { getFieldDecorator } = this.props.form;
     const {tableData, param} = this.state;
 
     const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User',
-        name: record.name,
-      }),
+      onChange: this.getCheckUser,
     };
 
     const handleSubmit = (e) => {
@@ -186,7 +204,7 @@ class SearchList extends Component {
           </Row> */}
           <Row>
             <Col>
-              <div className={styles.addButton}>
+              <div>
                 <HeadFootButton buttonData={buttonData} />
               </div>
             </Col>
@@ -194,15 +212,15 @@ class SearchList extends Component {
         </Card>
         <Table2
           tableData={tableData}
-          // rowSelection={rowSelection}
+          rowSelection={rowSelection}
           params={param}
           getData={this.getData}
           // scroll={{ x: 1300 }}
         />
         <RoleAdds ref={(c) => {this.roleAdds = c;}} Reset={this.Reset} form={this.props.form} />
-        {/* <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} />
+        {/* <RoleAddOrUpdate ref={(c) => {this.RoleAddOrUpdate = c}} /> */}
         <RoleSet ref={(c) => { this.RoleSet = c; }} />
-        <RoleUser ref={(c) => {this.RoleUser = c;}} /> */}
+        <RoleUser ref={(c) => {this.RoleUser = c;}} />
 
       </PageHeaderWrapper>
       

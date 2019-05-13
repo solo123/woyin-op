@@ -70,7 +70,7 @@ class RoleSet extends React.Component {
         const {visible} = this.state
         return (
           <Modal
-            title={`${formatMessage({ id : 'system.role-add-role'})}`}
+            title='角色权限'
             transparent
             width={800}
             style={{ top: 200 }}

@@ -26,12 +26,12 @@ class ProductList extends React.Component {
     const productClass1 = [];
     const formData = [
       {type: 'SelectCompone' ,label: '产品类型1',name: 'categoryId1', handChang: this.handChang1,  style:{width:'196px'}, ruless: [], options: productClass},
-      // {type: 'SelectCompone' ,label: '产品类型2',name: 'categoryId2',disabled: true, style:{width:'196px'}, ruless:[], options: productClass1},
+      {type: 'SelectCompone' ,label: '产品类型2',name: 'categoryId2',disabled: true, style:{width:'196px'}, ruless:[], options: productClass1},
       {type: 'InputIcon' ,label: '产品类型名称', name: 'q_productCategoryName_like', ruless:[] , placeholder: '产品类型名称', typeIco: 'user'},
     ];
     const headForm = {
       buttonData: [
-        {type: 'primary', ico: 'edit', hangClick: this.handAdd, labe: '添加一级分类'},
+        {type: 'primary', ico: 'edit', hangClick: this.handAdd, labe: '添加分类'},
         {type: 'primary', ico: 'edit', hangClick: this.handDele, labe: '删除'}
       ]
     }
@@ -42,7 +42,7 @@ class ProductList extends React.Component {
       {title: '分类编号', dataIndex: 'productCategoryId', key: 'productCategoryId'},
       {title: '分类名称', dataIndex: 'productCategoryName', key: 'productCategoryName'},
       {title: '创作时间', dataIndex: 'createdAt', key: 'createdAt'},
-      {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',render:(texts, record)=>(hreRend(hre, texts, record)) },
+      // {title: '操作', dataIndex: 'productCategoryIndex', key: 'productCategoryIndex',render:(texts, record)=>(hreRend(hre, texts, record)) },
     ],
       data:[]
     };
@@ -134,10 +134,14 @@ class ProductList extends React.Component {
 
   handleSubmit = (value) => {
     const params = value;
+     
+      let categoryId = params.categoryId1 ? params.categoryId1 : 0;
+      categoryId = params.categoryId2 ? params.categoryId2 : categoryId;
+      console.log(categoryId);
       this.getData({
         ...params,
         page_size: 100,
-        categoryId: params.categoryId2 ? params.categoryId2 : params.categoryId1,
+        categoryId,
         page: 1
       });
   }
@@ -167,15 +171,15 @@ class ProductList extends React.Component {
     tableDatas.data = [];
     const param = {
       ...params,
-      limit: params.page_size
+      limit: params.page_size,
     }
     if(typeof param.cost === 'undefined' || param.cost===null){
       delete param.columns;
     }
    
-    const fatherId = params.categoryId1 ?  params.categoryId1 : 0;
+    // const fatherId = params.categoryId1 ?  params.categoryId1 : 0;
     delete param.categoryId;
-    ProductClassApi(fatherId ,param).then(res => {
+    ProductClassApi(params.categoryId ,param).then(res => {
       if(res.status===200 && res.data.productCategories){
         res.data.productCategories.forEach(element => {
           const ne = element;
