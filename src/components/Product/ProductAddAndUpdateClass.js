@@ -5,72 +5,33 @@ import {
     message
   } from 'antd';
 import AddInfo from '../FormAdd/AddInfo';
-import {ProductClassAddApi} from '@/services/api';
+import {ProductAddApi,ProductClassApi, ProductClassAddApi} from '@/services/api';
+import {isNumber} from '@/utils/validate';
 
-class ProductAddAndUpdateClass extends React.Component {
+class ProductAddAndUpdate extends React.Component {
   constructor(props) {
     super(props);
+    const option = [
+      {value: '1',label: '可用'}, 
+      {value: '0',label: '冻结'}];
     this.state = {
       visible: false,
-      childLeng: 0,
       formData: [
-        {type: 'InputIcon' ,label: '产品类型名称', name: 'name', ruless:[{required: true}] , placeholder: '产品类型名称', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '运营商', name: 'child', ruless:[{required: true}] , placeholder: '运营商', typeIco: 'user'},
-        {type: 'ButtonComponents' ,label: '+', placeholder: '新增', onClick: this.handAddInput}
+        {type: 'InputIcon' ,label: '分类名称', name: 'productCategoryName', ruless:[{required: true, message: '请输入分类名称'}] , placeholder: '分类名称', typeIco: 'user'},
+        {type: 'SelectCompone' ,label: '产品类型1',handChang: this.handSelectChang,options: option, name: 'productCategoryId', ruless:[{required: false}] , placeholder: '产品分类编号', typeIco: 'user'},
+        {type: 'SelectCompone' ,label: '产品类型2',options: option, disabled: true, name: 'productCategoryId2', ruless:[{required: false}]},
+        // {type: 'SelectCompone' ,label: '产品类型3',options: option, disabled: true, name: 'productCategoryId3', ruless:[{required: false}]},
+        // {type: 'InputIcon' ,label: '产品现价/分', name: 'cost', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品现价/分', typeIco: 'user'},
+        // {type: 'InputIcon' ,label: '产品售价/元', name: 'salesPrice', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品售价/元', typeIco: 'team'},
+        // {type: 'InputIcon' ,label: ' 产品进价/元', name: 'purchasePrice', ruless:[{required: true, pattern: isNumber,message: '请输入正确的数值'}] , placeholder: '产品进价/元', typeIco: 'team'},
       ]
     };
-  }
-
-  init = (productClass) => {
-    this.setState({
-        childLeng: 0
-    })
-    // return typeof(userInfo.id) === 'undefined' ? this.setState({status: 'add'}) : this.setState({status: 'update'});
-  }
-
-  handAddInput = (e) => {
-    e.preventDefault();
-    const {formData} = this.state;
-    let {childLeng} = this.state;
-    childLeng+=1;
-    const news = {type: 'InputIcon' ,label: `运营商${childLeng}`, name: `child${childLeng}`, ruless:[{required: true}] , placeholder: `运营商${childLeng}`, typeIco: 'user'};
-    formData.splice(formData.length-1,0,news)
-    this.setState({
-        formData, 
-        childLeng
-    });
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const {childLeng} = this.state;
-    const childs = [];
-    this.AddInfo.validateFields((err, values) => {
-      if (!err){
-        const formData = new FormData();
-        formData.append("productCategoryName", values.name);
-        childs.push(values.child);
-        for(let i = 1; i < childLeng; i+=1){
-            childs.push(values[`child${i}`]);
-        }
-        formData.append("child", childs.join());
-        try {
-            ProductClassAddApi(formData).then(res => {
-                if(res.status === 200){
-                 message.info('添加产品分类成功');
-                 this.onClose();
-                 this.props.Reset();
-                }
-              })
-        } catch (error) {}
-      }
-    });
   }
 
   showModal = () => {
     this.setState({
       visible: true,
-    });
+    }, this.getClass);
   }
 
   onClose = () => {
@@ -79,12 +40,93 @@ class ProductAddAndUpdateClass extends React.Component {
       });
   }
 
+  getClass = () => {
+    const {formData} = this.state;
+    ProductClassApi(0, {}).then(res => {
+      if(res.status === 200){
+        const dataClass = [];
+        res.data.productCategories.forEach(element => {
+          const po = {
+            value: element.productCategoryId,
+            label: element.productCategoryName,
+          }
+          dataClass.push(po);
+        });
+        formData[1].options = dataClass;
+        this.setState({
+          formData
+        })
+      }
+    })
+  }
+
+  handSelectChang = (value) => {
+   this.getClassData(value, 2);
+   
+  }
+
+  handSelectChang2 = (value) => {
+    this.getClassData(value, 3);
+  }
+
+  getClassData = (classId, index) => {
+    const {formData} = this.state;
+    ProductClassApi(classId, {}).then(res => {
+      if(res.status === 200 && res.data.count){
+        const dataClass = [];
+        res.data.productCategories.forEach(element => {
+          const po = {
+            value: element.productCategoryId,
+            label: element.productCategoryName,
+          }
+          dataClass.push(po);
+        });
+        formData[index].options = dataClass;
+        formData[index].disabled = false;
+      }else{
+        formData[index].disabled = true;
+        formData[index].options = [];
+      }
+      this.setState({
+        formData
+      })
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.AddInfo.validateFields((err, values) => {
+      const value = values;
+      if (!err){
+        // console.log(values);
+        const formData = new FormData();
+        value.productCategoryId = values.productCategoryId2 ? values.productCategoryId2 : values.productCategoryId;
+        
+        formData.append("productCategoryName", values.productCategoryName);
+        if(values.productCategoryId){
+          formData.append("parentId", values.productCategoryId);
+        }else{
+          formData.append("parentId", '');
+        }
+        
+       
+        ProductClassAddApi(formData).then(res => {
+          if(res.status === 200){
+            message.info('添加产品分类成功');
+            this.onClose();
+            // this.props.Reset();
+          }
+        })
+      }
+    });
+  }
+
   render() {
     const {formData, visible} = this.state;
     return (
       <div>
         <Modal
-          title='新增'
+          title='添加产品'
           transparent
           style={{ top: 100 }}
           maskClosable={false}
@@ -99,5 +141,5 @@ class ProductAddAndUpdateClass extends React.Component {
   }
 }
 
-export default ProductAddAndUpdateClass;
+export default ProductAddAndUpdate;
 

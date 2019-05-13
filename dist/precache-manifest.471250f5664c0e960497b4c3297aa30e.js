@@ -1,14 +1,14 @@
 self.__precacheManifest = [
   {
-    "revision": "0ce61dd65dc7b871ac61",
+    "revision": "b9412b5cc099b8dc7a07",
     "url": "/p__Order__InterSubmit.chunk.css"
   },
   {
-    "revision": "f833f3a12e1923465832",
+    "revision": "561ed713b21bad1044ac",
     "url": "/vendors.chunk.css"
   },
   {
-    "revision": "0ce61dd65dc7b871ac61",
+    "revision": "b9412b5cc099b8dc7a07",
     "url": "/p__Order__InterSubmit.async.js"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/umi.css"
   },
   {
-    "revision": "f833f3a12e1923465832",
+    "revision": "561ed713b21bad1044ac",
     "url": "/vendors.async.js"
   },
   {
@@ -92,19 +92,19 @@ self.__precacheManifest = [
     "url": "/p__Finance__accountWater.async.js"
   },
   {
-    "revision": "3fc0511f30e94e9158ba",
+    "revision": "5b7dc9314739788cfa1e",
     "url": "/p__Merchant__ARecPointMerchantList.async.js"
   },
   {
-    "revision": "f605595d9aff98abf1ad",
+    "revision": "aeeb4d778c1b215e5d98",
     "url": "/p__Merchant__AllRectPoint.chunk.css"
   },
   {
-    "revision": "f605595d9aff98abf1ad",
+    "revision": "aeeb4d778c1b215e5d98",
     "url": "/p__Merchant__AllRectPoint.async.js"
   },
   {
-    "revision": "947fa72275930a7cbf04",
+    "revision": "3aa479f5d0798a23d1cf",
     "url": "/p__Merchant__BalanceInfo.async.js"
   },
   {
@@ -116,31 +116,31 @@ self.__precacheManifest = [
     "url": "/p__Merchant__MemberInterApply.async.js"
   },
   {
-    "revision": "402573cc1f79467b9de5",
+    "revision": "6558065d658a409ab573",
     "url": "/p__Merchant__MemberProduct.chunk.css"
   },
   {
-    "revision": "402573cc1f79467b9de5",
+    "revision": "6558065d658a409ab573",
     "url": "/p__Merchant__MemberProduct.async.js"
   },
   {
-    "revision": "3b1812466cbf7887bfb7",
+    "revision": "c2b63ad71c8aa2b5c6fe",
     "url": "/p__Merchant__MerchantInfo.async.js"
   },
   {
-    "revision": "6ca02f3b140a81da3bd9",
+    "revision": "3d6e2447587fcbb417e8",
     "url": "/p__Merchant__Recharge.chunk.css"
   },
   {
-    "revision": "6ca02f3b140a81da3bd9",
+    "revision": "3d6e2447587fcbb417e8",
     "url": "/p__Merchant__Recharge.async.js"
   },
   {
-    "revision": "039849b47932bd514942",
+    "revision": "bd87ea7f79a93deec0d1",
     "url": "/p__Merchant__allUserUpdateState.async.js"
   },
   {
-    "revision": "6082a2a501c16393d125",
+    "revision": "443e2c98a144491d08ea",
     "url": "/p__Merchant__list.async.js"
   },
   {
@@ -148,15 +148,15 @@ self.__precacheManifest = [
     "url": "/p__Merchant__merchantBalanceInfo.async.js"
   },
   {
-    "revision": "3a18c526fb2831e09592",
+    "revision": "8c10d1bbad73f9a658db",
     "url": "/p__Merchant__noActionUserList.async.js"
   },
   {
-    "revision": "25c7f423aff34efa2013",
+    "revision": "266e0817722aa42ab8a7",
     "url": "/p__Order__CreditCardOrder.async.js"
   },
   {
-    "revision": "fd1d8d4a94ccb09ef021",
+    "revision": "21bf9bacfdc2524def8d",
     "url": "/p__Order__FindBuyOrder.async.js"
   },
   {
@@ -180,7 +180,7 @@ self.__precacheManifest = [
     "url": "/p__Order__LotteryOrder.async.js"
   },
   {
-    "revision": "25b6394b711b11f3c720",
+    "revision": "13a627608f7237b0b3e5",
     "url": "/p__Order__RetuerMOrder.async.js"
   },
   {
@@ -188,7 +188,7 @@ self.__precacheManifest = [
     "url": "/p__Account__Settings__models__geographic.js.async.js"
   },
   {
-    "revision": "e61427b346d9dc2156fb",
+    "revision": "1d306b18fe9060768541",
     "url": "/p__Order__Shoporder.async.js"
   },
   {
@@ -196,23 +196,23 @@ self.__precacheManifest = [
     "url": "/p__Order__TransferOrderList.async.js"
   },
   {
-    "revision": "3254837f414aeb8ed256",
+    "revision": "bfb976ac14734a448f04",
     "url": "/p__Product__ProductInfo.async.js"
   },
   {
-    "revision": "f5a31c0e6f07188054db",
+    "revision": "2e49e5e0e83f745a1318",
     "url": "/p__Product__productclass.async.js"
   },
   {
-    "revision": "bd367bb875a8510a5dbb",
+    "revision": "7ecbc1ce33cb0bce2238",
     "url": "/p__Repayment__List.chunk.css"
   },
   {
-    "revision": "bd367bb875a8510a5dbb",
+    "revision": "7ecbc1ce33cb0bce2238",
     "url": "/p__Repayment__List.async.js"
   },
   {
-    "revision": "5f91b3f25a4bd4b4010e",
+    "revision": "6a7f3c0acca05109af90",
     "url": "/p__Repayment__RepaymentHiston.async.js"
   },
   {
