@@ -145,11 +145,17 @@ export default class BreadcrumbView extends PureComponent {
         pathname: href,
       })
     );
-    console.log('产品多多');
   };
 
   onClose = (e, href) => {
-    const { dispatch } = this.state;
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'headMenu/fetch',
+      payload: {
+        action: 'delete',
+        menu: { href },
+      },
+    });
   };
 
   /**
@@ -198,13 +204,13 @@ export default class BreadcrumbView extends PureComponent {
             >
               {elem.label}
             </Button>
-            <Button
-              onClose={e => {
+            {/* <Button
+              onClick={e => {
                 this.onClose(e, elem.href);
               }}
               type="primary"
               icon="close"
-            />
+            /> */}
           </ButtonGroup>
         ))}
       </React.Fragment>

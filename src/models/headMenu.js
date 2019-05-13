@@ -13,27 +13,36 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      //    const response = yield call(queryUsers);
-      // console.log('转递过来一次');
-      // console.log(payload.menu);
       yield put({
         type: 'save',
-        menu: payload.menu,
+        payload,
       });
     },
-
-    // *dele({ payload }, { call, put }) {
-    //   console.log('删除成功');
-    // }
   },
 
   reducers: {
     save(state, action) {
-      state.list.push(action.menu);
+      for (let i = 0; i < state.list.length; i += 1) {
+        if (state.list[i].href === action.payload.menu.href) {
+          state.list.splice(i, 1);
+          if (action.payload.action === 'delete') {
+            return {
+              ...state,
+            };
+          }
+
+          state.list.push(action.payload.menu);
+          return {
+            ...state,
+          };
+        }
+      }
+      state.list.push(action.payload.menu);
       return {
         ...state,
       };
     },
+
     saveCurrentUser(state, action) {
       return {
         ...state,
