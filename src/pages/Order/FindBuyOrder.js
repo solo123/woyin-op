@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { connect } from 'dva';
@@ -9,8 +10,9 @@ import {
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
-import {GetOrderForBuyLisApi} from '@/services/api';
 import {HeadFormSearch} from '@/components/HeadForm';
+import {GetOrderForBuyLisApi} from '@/services/api';
+
 import {statuesRend} from '@/utils/renderUtils';
 import {timeChangData} from '@/utils/utils';
 import styles from './FindBuyOrder.less';
@@ -20,6 +22,7 @@ class List extends React.Component {
   constructor(props){
     super(props);
     const option = [
+      {value: 0 ,label: '全部'}, 
       {value: '10',label: '待付款'}, 
       {value: '11',label: '处理中'},
       {value: '12',label: '成功'},
@@ -110,8 +113,8 @@ class List extends React.Component {
       params.q_startTime_gt = timeChangData(values.rechargeTime[0].toDate());
       params.q_startTime_lt = timeChangData(values.rechargeTime[1].toDate());
     }
-    delete params.rechargeTime;
 
+    delete params.rechargeTime;
     this.getData({
       ...params,
       state: this.getV(params.status)

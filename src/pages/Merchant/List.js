@@ -8,6 +8,7 @@ import {
   Card,
   Form,
   Modal,
+  message
 } from 'antd'
 import {
   MerchantAddOrUpdate, 
@@ -15,11 +16,12 @@ import {
   InterUpload,
   MerchantInfo, 
   MemberApplayInter,
-  MemberApplayData} from '@/components/Merchant';
+  MemberApplayData, 
+  MerchantWall} from '@/components/Merchant';
 import {routerRedux} from 'dva/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import {getMerchantListApi} from '@/services/api';
+import {getMerchantListApi, FeezeMerchant} from '@/services/api';
 import {statuesRend, hreRend} from '@/utils/renderUtils';
 import {Table2} from '@/components/TableList/TableListPage';
 import {timeChangData} from '@/utils/utils';
@@ -45,14 +47,15 @@ class List extends React.Component {
     ];
     const buttonDatas = [
       {type: 'primary', ico: 'plus', hangClick: this.handAdd, labe: '添加'},
+      {type: 'primary', hangClick: ()=>{this.handFeezeMerchant(1)}, labe: '冻结商户'},
+      {type: 'primary', hangClick: ()=>{this.handFeezeMerchant(2)}, labe: '解冻商户'}
     ];
     const STATUSITEMS = [
       {key: 1, describe: ['green', '可用']},
       {key: 2, describe: ['red', '冻结']}
     ]
     const hreReng = [
-      {onClick: this.onHangApplayInter, label: '会员发分审核 | '},
-      {onClick: this.onHangGoPround, label: '商户产品管理'},
+      {onClick: this.onHangMerchantWall, label: '商户钱包'}
     ]
     const tableData = {
       columns: [
@@ -93,6 +96,37 @@ class List extends React.Component {
 componentWillMount (){
   const {param} = this.state;
   this.getData(param);
+}
+
+handFeezeMerchant = (operate) => {
+  const {selectUserData} = this.state;
+  const params = new FormData();
+  if(selectUserData){
+    selectUserData.forEach(item => {
+      params.append("operate", operate);
+      this.handFeezeMerchantApi(params, item.key);
+    });
+  }else{
+    Modal.error({
+      title: '错误',
+      content: '请先选择商户信息，再进行操作...',
+    })
+  }
+}
+
+onHangMerchantWall = () => {
+  this.MerchantWall.showModal();
+}
+
+handFeezeMerchantApi = (params, merchantId) => {
+
+  FeezeMerchant(params, merchantId).then(res => {
+    message.info(res.msg);
+  })
+}
+
+handFeezeMerchantWallet = (texts, record) => {
+ 
 }
 
 onHangeDetails = (texts, record) => {
@@ -227,7 +261,7 @@ render () {
       </Card>
       <Table2
         tableData={tableData}
-        // rowSelection={rowSelection}
+        rowSelection={rowSelection}
         params={param}
         getData={this.getData}
         scroll={{ x: 1300 }}
@@ -238,6 +272,7 @@ render () {
       <MerchantInfo ref={c => {this.MerchantInfo = c}} />
       <MemberApplayData ref={c => {this.MemberApplayData = c}} />
       <MemberApplayInter ref={c => {this.MemberApplayInter = c}} />
+      <MerchantWall ref={c => {this.MerchantWall = c}} />
     </PageHeaderWrapper>
   )
 }}
