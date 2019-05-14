@@ -120,16 +120,17 @@ class MerchantInfo extends React.Component{
       info[2][2].value = MeInfo.Tel;
 
        // 获取商户下的所有操作员
-      getMerchantPlayApi({merchantId: MeInfo.key}).then((res) => {
+       
+      getMerchantPlayApi(MeInfo.key).then((res) => {
         if(res.status === 200 && res.data){
-          for(let i = 0; i<res.data.data.length; i+=1){
+          for(let i = 0; i<res.data.length; i+=1){
             const paly = {};
-            paly.key =  res.data.data[i].UserId;
-            paly.MerchantId =  res.data.data[i].MerchantId;
-            paly.UserId =  res.data.data[i].UserId;
-            paly.UserName =  res.data.data[i].UserName;
-            paly.CreatedAt =  res.data.data[i].CreatedAt;
-            paly.Status =  res.data.data[i].Status;
+            paly.key =  res.data[i].UserId;
+            paly.MerchantId =  res.data[i].MerchantId;
+            paly.UserId =  res.data[i].UserId;
+            paly.UserName =  res.data[i].UserName;
+            paly.CreatedAt =  res.data[i].CreatedAt;
+            paly.Status =  res.data[i].Status;
             palyInfo.data.push(paly);
            
             this.setState({
