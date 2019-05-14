@@ -59,7 +59,7 @@ class List extends React.Component {
     ]
     const tableData = {
       columns: [
-        // {title: '商户登录帐户', dataIndex: 'MerchantId', key: 'MerchantId'},
+        {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '商户名称', dataIndex: 'MerchantName', key: 'MerchantName'},
         {title: '商户地址', dataIndex: 'MerchantAddr', key: 'MerchantAddr'},
         {title: '联系人', dataIndex: 'Contact', key: 'Contact'},
@@ -71,7 +71,13 @@ class List extends React.Component {
         {title: '创建时间', dataIndex: 'CreatedAt', key: 'CreatedAt'},
         // {title: '冻结时间', dataIndex: 'freezing', key: 'freezing'},
         // {title: '解冻时间', dataIndex: 'unfreezing', key: 'unfreezing'},
-        {title: '详情', dataIndex: 'find', key: 'find', render: (texts, record) => (<a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a>)},
+        {title: '操作', dataIndex: 'find', key: 'find', 
+            render: (texts, record) => (
+              <span>
+                <a href="javascript:void(0)" onClick={()=> {this.onHangeDetails(texts, record)}}>详情</a> ｜ 
+                <a href="javascript:void(0)" onClick={()=> {this.handUpdate(texts, record)}}>修改</a>
+              </span>
+        )},
         // {title: '操作', dataIndex: 'action', key: 'action',fixed: 'right',width: 220, render:(texts, record)=>(hreRend(hreReng, texts, record)) },
       ],
       data: []
@@ -105,6 +111,7 @@ handFeezeMerchant = (operate) => {
     selectUserData.forEach(item => {
       params.append("operate", operate);
       this.handFeezeMerchantApi(params, item.key);
+      this.React()
     });
   }else{
     Modal.error({
@@ -112,6 +119,11 @@ handFeezeMerchant = (operate) => {
       content: '请先选择商户信息，再进行操作...',
     })
   }
+}
+
+React = () => {
+  const {param} = this.state;
+  this.getData(param);
 }
 
 onHangMerchantWall = () => {
@@ -126,6 +138,13 @@ handFeezeMerchantApi = (params, merchantId) => {
 
 handFeezeMerchantWallet = (texts, record) => {
  
+}
+
+handUpdate = (texts, record) => {
+  const {tableData} = this.state;
+  
+  this.MerchantAddOrUpdate.updateData(tableData.data[parseInt(record.xh, 10)-1]);
+
 }
 
 onHangeDetails = (texts, record) => {
@@ -155,7 +174,7 @@ onHangInter = (texts, record) => {
 
 handAdd = (e) => {
   e.preventDefault();
-  this.MerchantAddOrUpdate.showModal();
+  this.MerchantAddOrUpdate.addData();
 }
 
 onHangGoPround = (texts, record) =>{
@@ -207,6 +226,7 @@ getData = (params) => {
             ... data[i],
             key: data[i].MerchantId,
             statue: data[i].status,
+            xh: i+1,
             CreatedAt: data[i].CreatedAt.String,
             find: data[i].id
           };

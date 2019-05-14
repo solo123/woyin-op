@@ -7,6 +7,24 @@ import {
 import AddInfo from '../FormAdd/AddInfo';
 import {addMerchantApi} from '@/services/api';
 
+
+const formDataAdd = [
+        {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[{required: true}] , placeholder: '商户名称', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '地址', name: 'merchantAddr', ruless:[{required: true}] , placeholder: '地址', typeIco: 'inbox'},
+        {type: 'InputIcon' ,label: '联系人', name: 'contact', ruless:[{required: true}] , placeholder: '联系人', typeIco: 'team'},
+        {type: 'InputIcon' ,label: '手机号码', name: 'mobile', ruless:[{required: true}] , placeholder: '手机号码', typeIco: 'phone'},
+        {type: 'InputIcon' ,label: '固定电话', name: 'tel', ruless:[{required: true}] , placeholder: '固定电话', typeIco: 'pushpin'},
+        {type: 'InputIcon' ,label: '登录账号', name: 'userAccount', ruless:[{required: true}] , placeholder: '登录账号', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '登录账号用户名', name: 'userName', ruless:[{required: true}] , placeholder: '登录账号用户名', typeIco: 'user'},
+        {type: 'InputIcon' ,label: '登陆密码', name: 'password', ruless:[{required: true}] , placeholder: '登陆密码', typeIco: 'team'},
+    ]
+const formDataUpdate = [
+      {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[{required: true}] , placeholder: '商户名称', typeIco: 'user'},
+      {type: 'InputIcon' ,label: '地址', name: 'merchantAddr', ruless:[{required: true}] , placeholder: '地址', typeIco: 'inbox'},
+      {type: 'InputIcon' ,label: '联系人', name: 'contact', ruless:[{required: true}] , placeholder: '联系人', typeIco: 'team'},
+      {type: 'InputIcon' ,label: '手机号码', name: 'mobile', ruless:[{required: true}] , placeholder: '手机号码', typeIco: 'phone'},
+      {type: 'InputIcon' ,label: '固定电话', name: 'tel', ruless:[{required: true}] , placeholder: '固定电话', typeIco: 'pushpin'},
+  ]
 class MerchantAddOrUpdate extends React.Component {
   constructor(props) {
     super(props);
@@ -17,26 +35,50 @@ class MerchantAddOrUpdate extends React.Component {
     this.state = {
       status: 'add',
       visible: false,
-      formData: [
-        {type: 'InputIcon' ,label: '商户名称', name: 'merchantName', ruless:[{required: true}] , placeholder: '商户名称', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '地址', name: 'merchantAddr', ruless:[{required: true}] , placeholder: '地址', typeIco: 'inbox'},
-        {type: 'InputIcon' ,label: '联系人', name: 'contact', ruless:[{required: true}] , placeholder: '联系人', typeIco: 'team'},
-        {type: 'InputIcon' ,label: '手机号码', name: 'mobile', ruless:[{required: true}] , placeholder: '手机号码', typeIco: 'phone'},
-        {type: 'InputIcon' ,label: '固定电话', name: 'tel', ruless:[{required: true}] , placeholder: '固定电话', typeIco: 'pushpin'},
-        {type: 'InputIcon' ,label: '登录账号', name: 'userAccount', ruless:[{required: true}] , placeholder: '登录账号', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '登录账号用户名', name: 'userName', ruless:[{required: true}] , placeholder: '登录账号用户名', typeIco: 'user'},
-        {type: 'InputIcon' ,label: '登陆密码', name: 'password', ruless:[{required: true}] , placeholder: '登陆密码', typeIco: 'team'},
-        // {type: 'InputIcon' ,label: '转让费率', name: 'redemptionRate', ruless:[{required: true}] , placeholder: '转让服务费', typeIco: 'inbox'},
-        // {type: 'InputIcon' ,label: '转让服务费', name: 'redemptionFee', ruless:[{required: true}] , placeholder: '转让服务费', typeIco: 'inbox'},
-        // {type: 'InputIcon' ,label: '转赠费率', name: 'presentRate', ruless:[{required: true}] , placeholder: '转赠费率', typeIco: 'inbox'},
-        // {type: 'InputIcon' ,label: '信用卡还款费率', name: 'creditRate', ruless:[{required: true}] , placeholder: '信用卡还款费率', typeIco: 'inbox'},
-        // {type: 'SelectCompone', label: '状态：', name: 'status', options: option}
-      ]
+      formData: []
     };
+  }
+
+  componentDidMount(){
+
   }
 
   init = (userInfo) => {
     return typeof(userInfo.id) === 'undefined' ? this.setState({status: 'add'}) : this.setState({status: 'update'});
+  }
+
+  updateData = (data) => {
+    const formDatas = formDataUpdate;
+    this.setState({formData: formDatas});
+    this.setState({status: 'update'})
+    if(!this.AddInfo){
+      formDatas[0].initialValue = data.MerchantName;
+      formDatas[1].initialValue = data.MerchantAddr;
+      formDatas[2].initialValue = data.Contact;
+      formDatas[3].initialValue = data.Mobile;
+      formDatas[4].initialValue = data.Tel;
+      this.setState({formData: formDataUpdate})
+
+
+    }else{
+
+      this.AddInfo.setFieldsValue(
+        {merchantName: data.MerchantName, 
+        merchantAddr: data.MerchantAddr,
+        contact: data.Contact,
+        mobile: data.Mobile,
+        tel:  data.Tel
+      }
+      );
+
+    }
+    this.showModal();
+  }
+
+  addData = () => {
+    const formDatas = formDataAdd;
+    this.setState({formData: formDatas})
+    this.showModal();
   }
 
   showModal = () => {
@@ -46,15 +88,17 @@ class MerchantAddOrUpdate extends React.Component {
  }
 
   onClose = () => {
-      this.setState({
+    this.setState({
         visible: false,
-      });
+    });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  hangUpdateInfo = () => {
+    this.onClose();
+  }
+
+  hangAddInfo = ()=>{
     this.AddInfo.validateFields((err, values) => {
-      console.log(values);
       if (!err){
         const formData = new FormData();
         formData.append("merchantName", values.merchantName);
@@ -64,12 +108,6 @@ class MerchantAddOrUpdate extends React.Component {
         formData.append("tel", values.tel);
         formData.append("password", values.password);
         formData.append("userName", values.userName);
-        // formData.append("redemptionRate", values.redemptionRate);
-        // formData.append("redemptionFee", values.redemptionFee);
-        // formData.append("presentRate", values.presentRate);
-        // formData.append("creditRate", values.creditRate);
-        // formData.append("authority", 1);
-        // formData.append("status", values.status);
         formData.append("userAccount", values.userAccount);
         addMerchantApi(formData).then(res => {
          if(res.status === 200){
@@ -83,8 +121,18 @@ class MerchantAddOrUpdate extends React.Component {
     });
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const {status} = this.state;
+    if(status === 'update'){
+      this.hangUpdateInfo();
+    }else{
+      this.hangAddInfo();
+    }
+  }
+
   render() {
-    const {formData, visible} = this.state;
+    const {formData, visible, childRang} = this.state;
     return (
       <div>
         <Modal

@@ -43,7 +43,7 @@ class MerchantInfo extends React.Component{
     ];
     const buttonData = [
       {type: 'primary', hangClick: this.onHangGoPround, labe: '产品折扣管理'},
-      {type: 'primary', hangClick: this.onHangRateMang, labe: '费率管理'},
+      {type: 'primary', hangClick: this.onHangRateMang, labe: '增加新费率'},
     ];
     merchanLogo.data = [];
     palyInfo.columns = [

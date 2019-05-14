@@ -77,7 +77,7 @@ class List extends React.Component {
   componentWillMount () {
     const {formData} = this.state;
     const option = [];
-    getMerchantListApi().then(res => {
+    getMerchantListApi({page_size: 1000}).then(res => {
       if(res.status===200 && res.data.data){
           res.data.data.forEach(elem => {
               option.push({

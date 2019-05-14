@@ -114,6 +114,8 @@ class ProductAddAndUpdate extends React.Component {
             message.info('添加产品成功');
             this.onClose();
             // this.props.Reset();
+          }else{
+            message.error("添加产品失败，可能名称重复")
           }
         })
       }

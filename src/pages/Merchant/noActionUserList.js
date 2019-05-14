@@ -51,7 +51,7 @@ class BalanceInfo extends Component {
   
         page_size: 20 ,
         page: 1,
-        totalCount: 10,
+        totalCount: 0,
       }
     }
   }

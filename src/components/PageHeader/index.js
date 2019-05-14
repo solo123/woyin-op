@@ -50,7 +50,7 @@ export default class PageHeader extends PureComponent {
             avatar={{ size: 'large', shape: 'circle' }}
           >
             {hiddenBreadcrumb ? null : <BreadcrumbView {...this.props} />}
-            {hiddenBreadcrumb ? null : <BreadcrumbView2 {...this.props} />}
+            {/* {hiddenBreadcrumb ? null : <BreadcrumbView2 {...this.props} />} */}
 
             <div className={styles.detail}>
               {logo && <div className={styles.logo}>{logo}</div>}

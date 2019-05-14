@@ -56,7 +56,7 @@ class List extends React.Component {
     ]
     const tableData = {
       columns: [
-        // {title: '商户登录帐户', dataIndex: 'MerchantId', key: 'MerchantId'},
+        {title: '序号', dataIndex: 'xh', key: 'xh'},
         {title: '商户名称', dataIndex: 'MerchantName', key: 'MerchantName'},
         {title: '商户地址', dataIndex: 'MerchantAddr', key: 'MerchantAddr'},
         {title: '联系人', dataIndex: 'Contact', key: 'Contact'},
@@ -174,6 +174,7 @@ getData = (params) => {
             ... data[i],
             key: data[i].MerchantId,
             statue: data[i].status,
+            xh: i+1,
             CreatedAt: data[i].CreatedAt.String,
             find: data[i].id
           };

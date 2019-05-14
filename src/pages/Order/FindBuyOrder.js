@@ -91,6 +91,7 @@ class List extends React.Component {
   getData = (params) => {
     const {tableData} = this.state;
     tableData.data = [];
+    if(params.q_status_eq==="0") delete params.q_status_eq;
     GetOrderForBuyLisApi(params).then(res=>{
       if(res.status===200 && res.data.data){
         this.getOrderTotals(params);

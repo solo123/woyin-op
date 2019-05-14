@@ -61,6 +61,12 @@ export function timeChangData(time){
   return data.getFullYear()+'-'+(data.getMonth()+1)+'-'+data.getDate();
 }
 
+// 日期时间格式转换
+export function timeChangDataTime(time){
+  const data = new Date(time);
+  return data.getFullYear()+'-'+(data.getMonth()+1)+'-'+data.getDate() + " "+ data.getHours()+':'+data.getMinutes()+':'+data.getSeconds();
+}
+
 export function getPlainNode(nodeList, parentPath = '') {
   const arr = [];
   nodeList.forEach(node => {

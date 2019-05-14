@@ -63,6 +63,10 @@ const uploadIntegralFile = async function uploadIntegralFile (params) {
   })
 }
 
+const GetMerchInterGetExel = async function GetMerchInterGetExel (params) {
+  return request(`${serverApi}/api/op/excels/rechargeOrders?${stringify(params)}`);
+}
+
 const SubmintExcekData = async function SubmintExcekData (params) {
   return request(`${serverApi}/api/op/batch_points`, {
     method: 'PUT',
@@ -337,6 +341,8 @@ const MerchantAccountsWall = async function MerchantAccountsWall (params, mercha
   })
 }
 
+
+
 const OrderTotals = async function OrderTotals (params, type){
   return request(`${serverApi}/api/op/orders/total/${type}?${stringify(params)}`);
 }
@@ -402,4 +408,5 @@ export {
   FeezeMerchant, // 商户冻结/解结
   MerchantAccountsWall, // 商户帐户钱包操作
   OrderTotals, // 分数统计
+  GetMerchInterGetExel, // exel文件导出
 }

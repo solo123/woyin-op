@@ -113,8 +113,7 @@ class List extends React.Component {
 
   handleSubmit = (values) => {
     const params = values;
-    this.getData(params)
- 
+    this.getData(params);
   }
 
   render () {
@@ -147,5 +146,6 @@ class List extends React.Component {
     )
   }
 }
+
 const Lists = Form.create({ name: 'list' })(List);
 export default Lists;

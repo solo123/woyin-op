@@ -41,6 +41,7 @@ class List extends React.Component {
       {key: 14, describe: ['green', '取消']},
     ];
     const tableData = {columns: [
+      {title: '序号', dataIndex: 'xh', key: 'xh'},
       {title: '订单编号', dataIndex: 'reqStreamId', key: 'reqStreamId'},
       {title: '登录手机号', dataIndex: 'userPhoneNo', key: 'userPhoneNo'},
       {title: '用户名', dataIndex: 'userName', key: 'userName'},
@@ -84,11 +85,14 @@ class List extends React.Component {
     tableData.data = [];
     GetOrderForBuyLisApi(params).then(res=>{
       if(res.status===200 && res.data.data){
+        let i = 0;
         res.data.data.forEach(element => {
+          i+=1;
           const p = {
             ...element,
             startTime: timeChangData(element.startTime),
-            key: element.reqStreamId
+            key: element.reqStreamId, 
+            xh: i
           };
           tableData.data.push(p);
         });
@@ -111,7 +115,8 @@ class List extends React.Component {
       params.q_startTime_lt = timeChangData(values.rechargeTime[1].toDate());
     }
     delete params.rechargeTime;
-
+    params.page_size = 20;
+    console.log('正在查询信息');
     this.getData({
       ...params,
       state: this.getV(params.status)

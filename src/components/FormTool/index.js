@@ -6,6 +6,7 @@ import ButtonComponents from './ButtonComponents';
 import CheckboxComponents from './CheckboxComponents';
 import RadioGroupComponent from './RadioGroupComponent';
 import CascaderComponents from './CascaderComponents';
+import DatePickerTime from './DatePickerTime';
 
 
 export {
@@ -18,7 +19,8 @@ export {
     CheckboxComponents,
     RadioGroupComponent,
     InputNum,
-    CascaderComponents
+    CascaderComponents,
+    DatePickerTime
 }
 
 export default{

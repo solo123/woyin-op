@@ -11,7 +11,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {HeadFormSearch} from '@/components/HeadForm';
 import {Table2} from '@/components/TableList/TableListPage';
 import {WaterDetails} from '@/components/Finance';
-import {getMerchantListApi, GetvouchersListById} from '@/services/api';
+import {getMerchantListApi, GetvouchersListById, getMerchantAccApi} from '@/services/api';
 import LocalStr from '@/utils/LocalStr';
 import {routerRedux} from 'dva/router';
 import {timeChangData} from '@/utils/utils';
@@ -24,7 +24,8 @@ class List extends React.Component {
     const option = [];
     const formData = [
       // {type: 'InputIcon' ,label: '商户名', name: 'merchantName', ruless:[] , placeholder: '商户名', typeIco: 'user'},
-      {type: 'SelectCompone', label: '商户：', style:{width: '198px'},name: 'balance_id', options: option},
+      {type: 'SelectCompone', label: '商户：', handChang: this.handChang1, style:{width: '198px'},ruless:[{required: true}], name: 'MerchantId', options: option},
+      {type: 'SelectCompone', label: '商户帐户：',disabled: true, style:{width: '198px'}, ruless:[{required: true}], name: 'balance_id', options: option},
       {type: 'SelectDateRang' ,label: '时间', name: 'rechargeTime', ruless:[] , placeholder: '时间', typeIco: 'book'},
     ];
   
@@ -80,6 +81,32 @@ class List extends React.Component {
     })
   }
 
+  handChang1 = (value) => {
+    const {formData} = this.state;
+    const options = [];
+    getMerchantAccApi({merchantId: value}).then(res => {
+      if(res.status === 200 && res.data){
+        res.data.forEach(elem => {
+          options.push({
+              value: elem.BalanceId,
+              label: elem.Currency,
+              key: elem.BalanceId
+          });
+      })
+
+      if(options.length>0){
+        formData[1].options = options;
+        formData[1].disabled = false;
+      }else{
+        formData[1].disabled = true;
+      }
+      }else{
+        formData[1].disabled = true;
+      }
+      this.setState({formData})
+    })
+  }
+
   onHangeDetails = (texts, record) => {
     this.WaterDetails.showModal(record.id);
   }
@@ -123,8 +150,10 @@ class List extends React.Component {
       p['q_a.createdAt_gte'] = timeChangData(values.rechargeTime[0].toDate());
       p['q_a.createdAt_lte'] = timeChangData(values.rechargeTime[1].toDate());
     }
-    delete p.rechargeTime;
     
+    delete p.rechargeTime;
+    delete p.MerchantId;
+
     this.getData(p);
   }
 

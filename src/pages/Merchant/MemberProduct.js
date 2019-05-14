@@ -184,7 +184,11 @@ class ProductList extends React.Component {
     params['q_cc.productCategoryId'] = values.q_cc.productCategoryId_eq1 ? values.q_cc.productCategoryId_eq1 : values.q_cc.productCategoryId_eq;
     params['q_cc.productCategoryId'] = values.q_cc.productCategoryId_eq2 ? values.q_cc.productCategoryId_eq2 : params['q_cc.productCategoryId'];
    
+    params.merchantId =  LocalStr.get("merchantId");
+ 
     delete params.rechargeTime;
+    delete params.q_cc;
+
     params.page_size = 20;
     this.getData(params);
       
@@ -268,7 +272,7 @@ class ProductList extends React.Component {
         </Card>
         <Table2
           tableData={tableDatas}
-          // rowSelection={rowSelection}
+          rowSelection={rowSelection}
           params={params}
           getData={this.getData}
           scroll={{ x: 1300 }}

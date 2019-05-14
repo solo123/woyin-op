@@ -9,13 +9,13 @@ import {
   Form,
   message,
   Modal
-} from 'antd'
+} from 'antd';
+import {RechargMerchantRechargesPOST,findOrderInfo, OrderTotals, GetMerchInterGetExel} from '@/services/api';
 import {HeadFormSearch, HeadFootButton} from '@/components/HeadForm';
-import {RechargMerchantRechargesPOST,findOrderInfo, OrderTotals} from '@/services/api';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import {Table2} from '@/components/TableList/TableListPage';
-import {timeChangData} from '@/utils/utils';
 import {statuesRend} from '@/utils/renderUtils';
+import {timeChangData} from '@/utils/utils';
 import styles from './Shoporder.less';
 
 @connect()
@@ -35,15 +35,13 @@ class List extends React.Component {
       formData: [
         {type: 'InputIcon', label: '充值订单编号', name: 'q_orderId_like', ruless:[], placeholder: '充值订单编号', typeIco: 'user'},
         {type: 'InputIcon', label: '商户登录账号', name: 'q_userAccount_like', ruless:[], placeholder: '商户登录账号', typeIco: 'book'},
-        // {type: 'SelectCompone', label: '充值人员类型', name: 'roleType',style:{width: '198px'}, options: option1},
         {type: 'SelectCompone', label: '状态：', name: 'q_state_eq',style:{width: '198px'}, options: option},
-        // {type: 'InputIcon', label: '充值对象名称', name: 'merchantName',ruless:[], placeholder: '充值对象名称', typeIco: 'user'},
-        // {type: 'InputIcon', label: '批次号', name: 'batchNum', ruless:[],placeholder: '批次号', typeIco: 'user'},
         {type: 'SelectDateRang', label: '充值时间', name: 'rechargeTime',ruless:[], placeholder: '充值时间', typeIco: 'book'},
       ],
       buttonData: [
         {type: 'primary', hangClick: this.handMerchInterAppaly, labe: '充值审核'},
-        {type: 'primary', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '}  
+        {type: 'primary', hangClick: this.handMerchInterAnace, labe: '充值拒绝 '},
+        {type: 'primary', hangClick: this.handMerchInterGetExel, labe: '导出 '}    
       ]
     }
     const STATUSITEMS = [
@@ -54,13 +52,13 @@ class List extends React.Component {
     const tableData = {
       columns:[
         {title: '序号', dataIndex: 'xh', key: 'xh'},
-        {title: '充值订单编号', dataIndex: 'orderId', key: 'orderId'},
-        {title: '充值对象登录号', dataIndex: 'userAccount', key: 'userAccount'},
-        {title: '充值对象名称', dataIndex: 'merchantName', key: 'merchantName'},
-        {title: '充值对象类型', dataIndex: 'roleType', key: 'rechargeType'},
-        {title: '订单积分', dataIndex: 'balance', key: 'balance'},
-        {title: '状态', dataIndex: 'state', key: 'state' ,render: state => (statuesRend(state, STATUSITEMS))},
-        {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
+        {title: '充值订单编号', dataIndex: 'OrderId', key: 'OrderId'},
+        {title: '充值对象登录号', dataIndex: 'ProposerId', key: 'ProposerId'},
+        {title: '充值对象名称', dataIndex: 'MerchantName', key: 'MerchantName'},
+        {title: '充值对象类型', dataIndex: 'RoleType', key: 'RoleType'},
+        {title: '订单积分', dataIndex: 'Balance', key: 'Balance'},
+        {title: '状态', dataIndex: 'State', key: 'State' ,render: State => (statuesRend(State, STATUSITEMS))},
+        {title: '创建时间', dataIndex: 'CreatedAt', key: 'CreatedAt'},
      ],
      data: []
     };
@@ -85,13 +83,21 @@ class List extends React.Component {
     })
   }
   
+
+  handMerchInterGetExel = () => {
+    const {params} = this.state;
+    GetMerchInterGetExel(params).then(res => {
+      console.log(res);
+    })
+  }
+
   getData = (param) => {
     const {tableData} = this.state;
     tableData.data = [];
     if(param.q_state_eq==='0') delete param.q_state_eq;
+    this.getOrderTotals(param);
     findOrderInfo(param).then(res => {
       if(res.status === 200 && res.data.total){
-        this.getOrderTotals(param);
         let i = 0;
         res.data.data.forEach(item => {
           i +=1;
@@ -177,8 +183,8 @@ class List extends React.Component {
   handleSubmit = (values) => {
     const params = values;
     if(typeof values.rechargeTime !== 'undefined'){
-      params.q_createTime_gt = timeChangData(values.rechargeTime[0].toDate());
-      params.q_createTime_lt = timeChangData(values.rechargeTime[1].toDate());
+      params.q_createdAt_gt = timeChangData(values.rechargeTime[0].toDate());
+      params.q_createdAt_lt = timeChangData(values.rechargeTime[1].toDate());
     }
     params.page_size = 20;
     delete params.rechargeTime;
