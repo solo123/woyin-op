@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import { query as queryUsers } from '@/services/user';
 
 export default {
@@ -5,27 +7,42 @@ export default {
 
   state: {
     list: [
-        {name: 'xxxx', linke: 'xxxxxx'}
+      // {label: 'xxxx', href: 'xxxxxx'}
     ],
   },
 
   effects: {
-    *fetch({payload} , { call, put }) {
-    //    const response = yield call(queryUsers);
-       yield put({
-         type: 'save',
-         payload,
-       });
-    }
+    *fetch({ payload }, { call, put }) {
+      yield put({
+        type: 'save',
+        payload,
+      });
+    },
   },
 
   reducers: {
     save(state, action) {
-      state.list.push(action.payload);
+      for (let i = 0; i < state.list.length; i += 1) {
+        if (state.list[i].href === action.payload.menu.href) {
+          state.list.splice(i, 1);
+          if (action.payload.action === 'delete') {
+            return {
+              ...state,
+            };
+          }
+
+          state.list.push(action.payload.menu);
+          return {
+            ...state,
+          };
+        }
+      }
+      state.list.push(action.payload.menu);
       return {
         ...state,
       };
     },
+
     saveCurrentUser(state, action) {
       return {
         ...state,
